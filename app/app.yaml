@@ -1,0 +1,6 @@
+mode: debug
+bind: :8080
+log:
+    out: stdout
+    level: debug
+    formatter: text
