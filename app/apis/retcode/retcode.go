@@ -1,3 +1,4 @@
+// retcode package define all api return code at here
 package retcode
 
 const (
@@ -11,6 +12,7 @@ type RetCode struct {
 	Message string
 }
 
+// define your return code at here
 var (
 	SUCCESS      = &RetCode{Code: success, Message: "success"}
 	FAILURE      = &RetCode{Code: failure, Message: "failure"}
