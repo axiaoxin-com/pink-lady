@@ -11,4 +11,6 @@ func RegisterRoutes(app *gin.Engine) {
 	{
 		x.GET("/ping", Ping)
 	}
+
+	// register your api below
 }
