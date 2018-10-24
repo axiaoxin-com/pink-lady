@@ -11,6 +11,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 
 ### dependencies
 
+- **[[fvbock/endless]](https://github.com/fvbock/endless)**  Zero downtime restarts for go servers (Drop in replacement for http.ListenAndServe)
 - **[[jinzhu/gorm]](https://github.com/jinzhu/gorm)**  The fantastic ORM library for Golang, aims to be developer friendly <http://gorm.io>
 - **[[json-iterator/go]](https://github.com/json-iterator/go)**  A high-performance 100% compatible drop-in replacement of "encoding/json" <http://jsoniter.com/migrate-from-go-std.html>
 - **[[spf13/viper]](https://github.com/spf13/viper)**  Go configuration with fangs
@@ -20,7 +21,6 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 
 ### todo
 
-- [ ] graceful restart server
 - [ ] CLI tool
 - [ ] redis
 - [ ] rabbitmq

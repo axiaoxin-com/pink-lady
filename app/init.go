@@ -1,3 +1,4 @@
+// main init in proper order at here
 package main
 
 import (

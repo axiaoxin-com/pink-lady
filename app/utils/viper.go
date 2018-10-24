@@ -59,7 +59,7 @@ func InitViper(options []Option) {
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	if err != nil {
-		logrus.Fatal(err)
+		logrus.Warning(err)
 	}
 
 	viper.WatchConfig()

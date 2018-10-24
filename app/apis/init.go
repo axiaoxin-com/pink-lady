@@ -6,8 +6,7 @@
 package apis
 
 import (
-	"net/http"
-
+	"github.com/axiaoxin/gin-skeleton/app/apis/retcode"
 	"github.com/axiaoxin/gin-skeleton/app/common"
 	"github.com/gin-gonic/gin"
 )
@@ -19,11 +18,6 @@ func init() {
 
 // response current api version for ping request
 func Ping(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"data": gin.H{
-			"version": common.VERSION,
-		},
-		"message": "success",
-		"code":    0,
-	})
+	data := gin.H{"version": common.VERSION}
+	Respond(c, retcode.SUCCESS, data)
 }
