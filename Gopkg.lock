@@ -223,9 +223,11 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/fsnotify/fsnotify",
     "github.com/fvbock/endless",
     "github.com/gin-gonic/gin",
     "github.com/sirupsen/logrus",
+    "github.com/spf13/pflag",
     "github.com/spf13/viper",
   ]
   solver-name = "gps-cdcl"

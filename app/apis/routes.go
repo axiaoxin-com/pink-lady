@@ -6,5 +6,9 @@ import (
 )
 
 func RegisterRoutes(app *gin.Engine) {
-	app.GET("/ping", Ping)
+	// group x registered gin-skeleton default api
+	x := app.Group("/x")
+	{
+		x.GET("/ping", Ping)
+	}
 }
