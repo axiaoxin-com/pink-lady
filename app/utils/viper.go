@@ -1,10 +1,11 @@
-package main
+package utils
 
 import (
 	"fmt"
 	"os"
+	"strings"
 
-	"github.com/axiaoxin/gin-skeleton/app/handlers"
+	"github.com/axiaoxin/gin-skeleton/app/common"
 	"github.com/fsnotify/fsnotify"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
@@ -17,15 +18,8 @@ type Option struct {
 	Desc    string
 }
 
-func initViper() {
-	options := []Option{
-		Option{"mode", "debug", "server mode: debug|test|release"},
-		Option{"bind", ":8080", "server bind address"},
-		Option{"log.out", "stdout", "log output: stdout|stderr"},
-		Option{"log.level", "info", "log level: debug|info|warning|error|fatal|panic"},
-		Option{"log.formatter", "text", "log formatter: text|json"},
-	}
-
+// init viper for configs
+func InitViper(options []Option) {
 	viper.SetEnvPrefix("GIN")
 	for _, option := range options {
 		// set default value
@@ -33,6 +27,7 @@ func initViper() {
 
 		// bind ENV
 		viper.BindEnv(option.Name)
+		viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
 		// cmd
 		switch option.Default.(type) {
@@ -51,7 +46,7 @@ func initViper() {
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
 	if *version {
-		fmt.Println(handlers.VERSION)
+		fmt.Println(common.VERSION)
 		os.Exit(0)
 	}
 	if *check {
@@ -69,6 +64,6 @@ func initViper() {
 
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		initAPP()
+		logrus.Debug("TODO: reload gin server when config changed")
 	})
 }
