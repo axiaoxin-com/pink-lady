@@ -1,32 +1,19 @@
 package main
 
 import (
-	"strings"
-
 	"github.com/axiaoxin/gin-skeleton/app/utils"
-	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
-func initAPP() *gin.Engine {
-	initViper()
+func init() {
+	utils.InitViper([]utils.Option{
+		utils.Option{"server.mode", "debug", "server mode: debug|test|release"},
+		utils.Option{"server.bind", ":8080", "server bind address"},
+		utils.Option{"log.out", "stdout", "log output: stdout|stderr"},
+		utils.Option{"log.level", "info", "log level: debug|info|warning|error|fatal|panic"},
+		utils.Option{"log.formatter", "text", "log formatter: text|json"},
+	})
 
-	utils.InitLogrus(viper.GetString("log_level"), viper.GetString("log_formatter"), viper.GetString("log_out"))
+	utils.InitLogrus(viper.GetString("log.level"), viper.GetString("log.formatter"), viper.GetString("log.out"))
 
-	// init gin
-	mode := strings.ToLower(viper.GetString("mode"))
-	if mode == "release" {
-		gin.SetMode(gin.ReleaseMode)
-	} else if mode == "test" {
-		gin.SetMode(gin.TestMode)
-	} else {
-		gin.SetMode(gin.DebugMode)
-	}
-
-	// init api server
-	// app := gin.New()
-	//app.Use(logger, gin.Recovery())
-	app := gin.Default()
-	registerRoutes(app)
-	return app
 }
