@@ -32,5 +32,6 @@ func init() {
 // response current api version for ping request
 func Ping(c *gin.Context) {
 	data := gin.H{"version": common.VERSION}
+	retcode.SUCCESS.Message = "pong"
 	Respond(c, retcode.SUCCESS, data)
 }
