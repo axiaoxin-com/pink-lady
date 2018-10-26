@@ -9,14 +9,6 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - **[[golang/dep]](https://github.com/golang/dep)**  Go dependency management tool <https://golang.github.io/dep/>
 
 
-### development
-
-    cd gin-skeleton
-    dep ensure
-    cd app
-    go run *.go
-
-
 ### dependencies
 
 - **[[spf13/viper]](https://github.com/spf13/viper)**  Go configuration with fangs
@@ -26,6 +18,14 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 
 ### organizational structure
 
+
+### develop
+
+    cd gin-skeleton
+    dep ensure
+    cd app
+    go run *.go
+
 ### todo
 
 - [ ] requestid
@@ -33,4 +33,3 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - [ ] redis
 - [ ] rabbitmq
 - [ ] swagger
-- [ ] validator
