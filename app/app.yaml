@@ -5,3 +5,9 @@ log:
     out: stdout
     level: debug
     formatter: text
+database:
+    engine: sqlite3
+    address: ''
+    name: /tmp/gin-skeleton.db
+    username: ''
+    password: ''

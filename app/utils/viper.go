@@ -1,11 +1,8 @@
 package utils
 
 import (
-	"fmt"
-	"os"
 	"strings"
 
-	"github.com/axiaoxin/gin-skeleton/app/common"
 	"github.com/fsnotify/fsnotify"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
@@ -40,19 +37,6 @@ func InitViper(options []Option) {
 
 		}
 	}
-	// TODO: imp in cli
-	version := pflag.Bool("version", false, "show version")
-	check := pflag.Bool("check", false, "check everything need to be checked")
-	pflag.Parse()
-	viper.BindPFlags(pflag.CommandLine)
-	if *version {
-		fmt.Println(common.VERSION)
-		os.Exit(0)
-	}
-	if *check {
-		fmt.Println("I'm fine :)")
-		os.Exit(0)
-	}
 
 	// load conf file
 	viper.SetConfigName("app")
@@ -64,6 +48,7 @@ func InitViper(options []Option) {
 
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
+		// TODO
 		logrus.Debug("TODO: reload gin server when config changed")
 	})
 }
