@@ -35,9 +35,13 @@ func main() {
 	mode := strings.ToLower(viper.GetString("server.mode"))
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
+		utils.DB.LogMode(true)
 	} else if mode == "test" {
+		utils.DB.LogMode(true)
 		gin.SetMode(gin.TestMode)
 	} else {
+		utils.DB.LogMode(false)
+		gin.DisableConsoleColor()
 		gin.SetMode(gin.ReleaseMode)
 	}
 
