@@ -9,13 +9,20 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - **[[golang/dep]](https://github.com/golang/dep)**  Go dependency management tool <https://golang.github.io/dep/>
 
 
+### development
+
+    cd gin-skeleton
+    dep ensure
+    cd app
+    go run *.go
+
+
 ### dependencies
 
-- **[[fvbock/endless]](https://github.com/fvbock/endless)**  Zero downtime restarts for go servers (Drop in replacement for http.ListenAndServe)
-- **[[jinzhu/gorm]](https://github.com/jinzhu/gorm)**  The fantastic ORM library for Golang, aims to be developer friendly <http://gorm.io>
-- **[[json-iterator/go]](https://github.com/json-iterator/go)**  A high-performance 100% compatible drop-in replacement of "encoding/json" <http://jsoniter.com/migrate-from-go-std.html>
 - **[[spf13/viper]](https://github.com/spf13/viper)**  Go configuration with fangs
 - **[[sirupsen/logrus]](https://github.com/sirupsen/logrus)**  Structured, pluggable logging for Go.
+- **[[fvbock/endless]](https://github.com/fvbock/endless)**  Zero downtime restarts for go servers (Drop in replacement for http.ListenAndServe)
+- **[[jinzhu/gorm]](https://github.com/jinzhu/gorm)**  The fantastic ORM library for Golang, aims to be developer friendly <http://gorm.io>
 
 ### organizational structure
 
