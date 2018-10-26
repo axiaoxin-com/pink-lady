@@ -28,6 +28,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 
 ### todo
 
+- [ ] requestid
 - [ ] CLI tool
 - [ ] redis
 - [ ] rabbitmq

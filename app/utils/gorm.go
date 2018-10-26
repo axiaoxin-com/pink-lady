@@ -12,8 +12,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type BaseModel gorm.Model
-
 var DB *gorm.DB
 
 func InitGormDB(engine, addr, name, username, password string) {

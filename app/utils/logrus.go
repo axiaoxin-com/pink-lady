@@ -10,8 +10,7 @@ import (
 // init logrus
 // logLevel set level which will be logged, values: debug, info(default), warning, error, fatal, panic
 // logFormatter set log format, values: text(default), json
-// out set where the log will be output, values: stderr, stdout(default)
-func InitLogrus(logLevel string, logFormatter string, out string) {
+func InitLogrus(logLevel string, logFormatter string) {
 	level, err := logrus.ParseLevel(logLevel)
 	if err == nil {
 		logrus.SetLevel(level)
@@ -24,8 +23,5 @@ func InitLogrus(logLevel string, logFormatter string, out string) {
 	}
 
 	logrus.SetOutput(os.Stdout)
-	if strings.ToLower(out) == "stderr" {
-		logrus.SetOutput(os.Stderr)
-	}
 
 }
