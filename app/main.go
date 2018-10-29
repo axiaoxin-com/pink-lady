@@ -33,6 +33,7 @@ func main() {
 		fmt.Println("I'm fine :)")
 		os.Exit(0)
 	}
+
 	mode := strings.ToLower(viper.GetString("server.mode"))
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
@@ -46,8 +47,10 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	app := gin.Default()
+	app := gin.New()
+	app.Use(gin.Recovery())
 	app.Use(middleware.RequestID())
+	app.Use(middleware.GinLogrus())
 
 	apis.RegisterRoutes(app)
 

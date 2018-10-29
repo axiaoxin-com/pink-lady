@@ -23,5 +23,4 @@ func InitLogrus(logLevel string, logFormatter string) {
 	}
 
 	logrus.SetOutput(os.Stdout)
-
 }
