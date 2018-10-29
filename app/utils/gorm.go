@@ -14,6 +14,17 @@ import (
 
 var DB *gorm.DB
 
+type GormLogger struct{}
+
+func (*GormLogger) Print(v ...interface{}) {
+	if v[0] == "sql" {
+		logrus.WithFields(logrus.Fields{"module": "gorm", "type": "sql"}).Print(v[3])
+	}
+	if v[0] == "log" {
+		logrus.WithFields(logrus.Fields{"module": "gorm", "type": "log"}).Print(v[2])
+	}
+}
+
 func InitGormDB(engine, addr, name, username, password string) {
 
 	var dsn string
@@ -35,4 +46,5 @@ func InitGormDB(engine, addr, name, username, password string) {
 	if err != nil {
 		logrus.Fatal(err)
 	}
+	DB.SetLogger(&GormLogger{})
 }
