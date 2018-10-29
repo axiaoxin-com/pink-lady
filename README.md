@@ -15,6 +15,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - **[[sirupsen/logrus]](https://github.com/sirupsen/logrus)**  Structured, pluggable logging for Go.
 - **[[fvbock/endless]](https://github.com/fvbock/endless)**  Zero downtime restarts for go servers (Drop in replacement for http.ListenAndServe)
 - **[[jinzhu/gorm]](https://github.com/jinzhu/gorm)**  The fantastic ORM library for Golang, aims to be developer friendly <http://gorm.io>
+- **[[satori/go.uuid]](https://github.com/satori/go.uuid)** UUID package for Go
 
 ### organizational structure
 
@@ -28,7 +29,6 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 
 ### todo
 
-- [ ] requestid
 - [ ] CLI tool
 - [ ] redis
 - [ ] rabbitmq
