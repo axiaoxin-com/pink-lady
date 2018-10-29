@@ -9,6 +9,7 @@ import (
 
 	"github.com/axiaoxin/gin-skeleton/app/apis"
 	"github.com/axiaoxin/gin-skeleton/app/common"
+	"github.com/axiaoxin/gin-skeleton/app/middleware"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -46,6 +47,8 @@ func main() {
 	}
 
 	app := gin.Default()
+	app.Use(middleware.RequestID())
+
 	apis.RegisterRoutes(app)
 
 	server := endless.NewServer(viper.GetString("server.bind"), app)
