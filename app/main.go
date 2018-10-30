@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime"
 	"strings"
 	"syscall"
 
@@ -77,9 +78,14 @@ func main() {
 
 	apis.RegisterRoutes(app)
 
-	server := endless.NewServer(viper.GetString("server.bind"), app)
-	server.BeforeBegin = func(addr string) {
-		logrus.Infof("Gin server is listening and serving HTTP on %s (pids: %d)", addr, syscall.Getpid())
+	bind := viper.GetString("server.bind")
+	if runtime.GOOS == "windows" {
+		app.Run(bind)
+	} else {
+		server := endless.NewServer(bind, app)
+		server.BeforeBegin = func(addr string) {
+			logrus.Infof("Gin server is listening and serving HTTP on %s (pids: %d)", addr, syscall.Getpid())
+		}
+		server.ListenAndServe()
 	}
-	server.ListenAndServe()
 }
