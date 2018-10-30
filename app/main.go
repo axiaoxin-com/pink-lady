@@ -29,10 +29,16 @@ func init() {
 		utils.Option{"database.name", "/tmp/gin-skeleton.db", "database name"},
 		utils.Option{"database.username", "", "database username"},
 		utils.Option{"database.password", "", "database password"},
+		utils.Option{"redis.mode", "single-instance", "redis mode: single-instance|sentinel|cluster"},
+		utils.Option{"redis.address", "localhost:6379", "redis address, multiple sentinel/cluster addresses are separated by commas"},
+		utils.Option{"redis.password", "", "redis password"},
+		utils.Option{"redis.db", 0, "redis default db"},
+		utils.Option{"redis.master", "", "redis sentinel master name"},
 	})
 
 	utils.InitLogrus(viper.GetString("log.level"), viper.GetString("log.formatter"))
 	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"))
+	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
 }
 
 func main() {
