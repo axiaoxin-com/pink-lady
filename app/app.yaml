@@ -10,3 +10,9 @@ database:
     name: /tmp/gin-skeleton.db
     username: ''
     password: ''
+redis:
+    mode: single-instance
+    address: localhost:6379
+    password: ''
+    db: 0
+    master: ''
