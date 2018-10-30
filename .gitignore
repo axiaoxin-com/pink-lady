@@ -13,5 +13,5 @@
 
 
 # custom
-vendor/
+# vendor/
 app/app

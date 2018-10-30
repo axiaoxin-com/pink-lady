@@ -7,6 +7,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 
 - **[[Go >= 1.9]](https://golang.org/doc/devel/release.html)**  dep is a dependency management tool for Go. It requires Go 1.9 or newer to compile.
 - **[[golang/dep]](https://github.com/golang/dep)**  Go dependency management tool <https://golang.github.io/dep/>
+- **[[swaggo/swag]](https://github.com/swaggo/swag)**  Automatically generate RESTful API documentation with Swagger 2.0 for Go.
 
 
 ### dependencies
@@ -17,6 +18,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - **[[jinzhu/gorm]](https://github.com/jinzhu/gorm)**  The fantastic ORM library for Golang, aims to be developer friendly <http://gorm.io>
 - **[[satori/go.uuid]](https://github.com/satori/go.uuid)** UUID package for Go
 - **[[go-redis/redis]](https://github.com/go-redis/redis)**  Type-safe Redis client for Golang <https://godoc.org/github.com/go-redis/redis>
+- **[[swaggo/gin-swagger]](https://github.com/swaggo/gin-swagger)**  gin middleware to automatically generate RESTful API documentation with Swagger 2.0.
 
 ### organizational structure
 
@@ -31,4 +33,5 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 ### todo
 
 - [ ] CLI tool
-- [ ] swagger
+- [ ] sentry
+- [ ] cron
