@@ -5,7 +5,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-// use uuid as request id
+// RequestID is middleware using uuid as request id save in header
 func RequestID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		requestID := c.Request.Header.Get(RequestIDkey)

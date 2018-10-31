@@ -19,6 +19,13 @@ var (
 	RedisCluster *redis.ClusterClient
 )
 
+// InitRedis init redis client by different mode
+// `mode` is the redis running mode, single-instance, sentinel or cluster
+// single-instance and sentinel mode init the global var which named `Redis`, cluster mode init the gloabel var which named `RedisCluster`
+// `addr` is redis address. when mode is sentinel or cluster, the addr is a mutilple address separated by comman
+// `password` is redis auth password
+// `db` is redis db number, cluster mode don't use it
+// `master` is redis sentinel master name, only need to be set on sentinel mode, others dont't use it
 func InitRedis(mode string, addr string, password string, db int, master string) {
 	mode = strings.ToLower(mode)
 	if mode == REDIS_SINGLE_INSTANCE_MODE {
@@ -32,6 +39,7 @@ func InitRedis(mode string, addr string, password string, db int, master string)
 	}
 }
 
+// InitRedisClient init a single instance redis client named `Redis`
 func InitRedisClient(addr string, password string, db int) {
 	Redis = redis.NewClient(&redis.Options{
 		Addr:     addr,
@@ -43,6 +51,7 @@ func InitRedisClient(addr string, password string, db int) {
 	}
 }
 
+// InitRedisSentinel init redis sentinel client also named `Redis`
 func InitRedisSentinel(master string, addrs []string, password string, db int) {
 	Redis = redis.NewFailoverClient(&redis.FailoverOptions{
 		MasterName:    master,
@@ -52,6 +61,7 @@ func InitRedisSentinel(master string, addrs []string, password string, db int) {
 	})
 }
 
+// InitRedisCluster init redis cluster client named `RedisCluster`
 func InitRedisCluster(addrs []string, password string) {
 	RedisCluster = redis.NewClusterClient(&redis.ClusterOptions{
 		Addrs:    addrs,

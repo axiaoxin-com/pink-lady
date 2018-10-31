@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Logger use the logrus replace gin default logger
+// GinLogrus is a logger middleware, which use the logrus replace gin default logger
 func GinLogrus() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()

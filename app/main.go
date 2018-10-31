@@ -79,6 +79,7 @@ func main() {
 
 	app.Use(middleware.RequestID())
 	app.Use(middleware.GinLogrus())
+	app.Use(middleware.ErrorHandler())
 
 	apis.RegisterRoutes(app)
 

@@ -15,7 +15,8 @@ type Option struct {
 	Desc    string
 }
 
-// init viper for configs
+// InitViper init viper by default value, ENV, cmd flag and config file
+// you can use switch to reload server when config file changed
 func InitViper(options []Option) {
 	viper.SetEnvPrefix("GIN")
 	for _, option := range options {
@@ -49,6 +50,6 @@ func InitViper(options []Option) {
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		// TODO
-		logrus.Debug("TODO: reload gin server when config changed")
+		logrus.Debug("TODO: reload gin server when config changed by swicther")
 	})
 }

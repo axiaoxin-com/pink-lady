@@ -8,16 +8,13 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
+// RegisterRoutes add handlers on urls at there
 func RegisterRoutes(app *gin.Engine) {
-	// docs url
-	docs := app.Group("/docs")
-	{
-		docs.GET("/apis/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	}
 
 	// group x registered gin-skeleton default api
 	x := app.Group("/x")
 	{
+		x.GET("/apidocs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 		x.GET("/ping", Ping)
 	}
 

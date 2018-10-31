@@ -3,7 +3,7 @@ package apis
 import (
 	"net/http"
 
-	"github.com/axiaoxin/gin-skeleton/app/apis/retcode"
+	"github.com/axiaoxin/gin-skeleton/app/common/retcode"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,19 +13,20 @@ type Response struct {
 	Data    interface{} `json:"data"`
 }
 
-// encapsulates c.JSON
+// Respond encapsulates c.JSON
 // debug mode respond indented json
 func Respond(c *gin.Context, rc *retcode.RetCode, data interface{}) {
+	code, msg := rc.Decode()
 	if gin.Mode() == gin.ReleaseMode {
 		c.JSON(http.StatusOK, Response{
-			Code:    rc.Code,
-			Message: rc.Message,
+			Code:    code,
+			Message: msg,
 			Data:    data,
 		})
 	} else {
 		c.IndentedJSON(http.StatusOK, Response{
-			Code:    rc.Code,
-			Message: rc.Message,
+			Code:    code,
+			Message: msg,
 			Data:    data,
 		})
 	}

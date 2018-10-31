@@ -25,6 +25,12 @@ func (*GormLogger) Print(v ...interface{}) {
 	}
 }
 
+// InitGormDB init the grom DB
+// engine is database type, such as mysql, sqlite3, etc.
+// addr is database's address
+// name is database dbname
+// usename is database username
+// password is dabase password
 func InitGormDB(engine, addr, name, username, password string) {
 
 	var dsn string
