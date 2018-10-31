@@ -30,8 +30,13 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
     cd app
     go run *.go
 
+    # update API docs
+    cd apis
+    swag init -g *.go
+
 ### todo
 
 - [ ] CLI tool
 - [ ] sentry
 - [ ] cron
+- [ ] markdown flatpage

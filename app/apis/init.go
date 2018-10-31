@@ -16,6 +16,20 @@
 // when you finish the handlerFunc you need to register it on a url in routes.go
 // that's all.
 
+// @title Gin-Skeleton Web API Sever
+// @version 1.0
+// @description This is a web api server skeleton based on gin.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://axiaoxin.com
+// @contact.email ashinchen@tencent.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host gin-skeleton:8080
+// @BasePath /
 package apis
 
 import (
@@ -29,7 +43,12 @@ func init() {
 
 }
 
-// response current api version for ping request
+// @Summary Ping
+// @Description response current api version
+// @ID Ping
+// @Produce  json
+// @Router /x/ping [get]
+// @Success 200 {object} apis.Response
 func Ping(c *gin.Context) {
 	data := gin.H{"version": common.VERSION}
 	retcode.SUCCESS.Message = "pong"

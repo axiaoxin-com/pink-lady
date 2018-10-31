@@ -1,0 +1,39 @@
+basePath: /
+definitions:
+  apis.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      message:
+        type: string
+    type: object
+host: dev.zns:8080
+info:
+  contact:
+    email: ashinchen@tencent.com
+    name: API Support
+    url: http://axiaoxin.com
+  description: response current api version
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Gin-Skeleton Web API Sever
+  version: "1.0"
+paths:
+  /x/ping:
+    get:
+      description: response current api version
+      operationId: Ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apis.Response'
+            type: object
+      summary: Ping
+swagger: "2.0"
