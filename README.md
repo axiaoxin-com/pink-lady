@@ -19,6 +19,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - **[[satori/go.uuid]](https://github.com/satori/go.uuid)** UUID package for Go
 - **[[go-redis/redis]](https://github.com/go-redis/redis)**  Type-safe Redis client for Golang <https://godoc.org/github.com/go-redis/redis>
 - **[[swaggo/gin-swagger]](https://github.com/swaggo/gin-swagger)**  gin middleware to automatically generate RESTful API documentation with Swagger 2.0.
+- **[[gin-contrib/cors]](https://github.com/gin-contrib/cors)**  Official CORS gin's middleware
 
 ### organizational structure
 
@@ -31,6 +32,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
     go run *.go
 
     # update API docs
+    # localhost:8080/docs/apis/index.html
     cd apis
     swag init -g *.go
 

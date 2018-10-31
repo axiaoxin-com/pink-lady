@@ -13,6 +13,7 @@ import (
 	"github.com/axiaoxin/gin-skeleton/app/middleware"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/fvbock/endless"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
@@ -73,6 +74,9 @@ func main() {
 
 	app := gin.New()
 	app.Use(gin.Recovery())
+
+	app.Use(cors.Default())
+
 	app.Use(middleware.RequestID())
 	app.Use(middleware.GinLogrus())
 
