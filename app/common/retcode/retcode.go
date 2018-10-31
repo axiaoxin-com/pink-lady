@@ -1,6 +1,7 @@
 // retcode package define all api return code at here
 package retcode
 
+// 删除已有的iota常量时记得用_占位
 const (
 	success = iota
 	unknownError
@@ -24,6 +25,6 @@ var (
 	Success       = &RetCode{code: success, message: "success"}
 	UnknownError  = &RetCode{code: unknownError, message: "unknown error"}
 	InvalidParams = &RetCode{code: invalidParams, message: "invalid params"}
-	APINotFound   = &RetCode{code: notFound, message: "api not found"}
+	RouteNotFound = &RetCode{code: notFound, message: "route not found"}
 	InternalError = &RetCode{code: internalError, message: "internal error"}
 )
