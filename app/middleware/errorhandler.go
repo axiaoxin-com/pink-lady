@@ -14,7 +14,7 @@ func ErrorHandler() gin.HandlerFunc {
 		status := c.Writer.Status()
 		switch status {
 		case http.StatusNotFound:
-			apis.Respond(c, retcode.APINotFound, c.Errors.String())
+			apis.Respond(c, retcode.RouteNotFound, c.Errors.String())
 		case http.StatusInternalServerError:
 			apis.Respond(c, retcode.InternalError, c.Errors.String())
 		default:
