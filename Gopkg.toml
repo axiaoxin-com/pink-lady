@@ -60,3 +60,7 @@
 [[constraint]]
   name = "github.com/swaggo/gin-swagger"
   version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/gin-contrib/cors"
+  version = "1.2.0"
