@@ -9,24 +9,22 @@ definitions:
       message:
         type: string
     type: object
-host: dev.zns:8080
+host: gin-skeleton:8080
 info:
   contact:
     email: ashinchen@tencent.com
     name: API Support
-    url: http://axiaoxin.com
+    url: http://km.oa.com/user/ashinchen
   description: response current api version
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Gin-Skeleton Web API Sever
-  version: "1.0"
+  title: Gin-Skeleton Web API
+  version: 0.0.1
 paths:
   /x/ping:
     get:
       description: response current api version
-      operationId: Ping
       produces:
       - application/json
       responses:
@@ -35,5 +33,7 @@ paths:
           schema:
             $ref: '#/definitions/apis.Response'
             type: object
-      summary: Ping
+      summary: Ping for server is living
+      tags:
+      - x
 swagger: "2.0"

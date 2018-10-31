@@ -31,8 +31,10 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
     cd app
     go run *.go
 
+    curl localhost:8080/x/ping
+
     # update API docs
-    # localhost:8080/docs/apis/index.html
+    # localhost:8080/x/apidocs/index.html
     cd apis
     swag init -g *.go
 
