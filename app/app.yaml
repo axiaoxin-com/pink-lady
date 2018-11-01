@@ -16,3 +16,6 @@ redis:
     password: ''
     db: 0
     master: ''
+sentry:
+    dsn: ''
+    onlycrashes: false
