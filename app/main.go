@@ -13,7 +13,9 @@ import (
 	"github.com/axiaoxin/gin-skeleton/app/middleware"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/fvbock/endless"
+	raven "github.com/getsentry/raven-go"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/sentry"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
@@ -36,6 +38,8 @@ func init() {
 		utils.Option{"redis.password", "", "redis password"},
 		utils.Option{"redis.db", 0, "redis default db"},
 		utils.Option{"redis.master", "", "redis sentinel master name"},
+		utils.Option{"sentry.dsn", "", "sentry dsn"},
+		utils.Option{"sentry.onlycrashes", "", "sentry only send crash reporting"},
 	})
 
 	utils.InitLogrus(viper.GetString("log.level"), viper.GetString("log.formatter"))
@@ -75,6 +79,11 @@ func main() {
 	app := gin.New()
 	app.Use(gin.Recovery())
 
+	sentryDSN := viper.GetString("sentry.dsn")
+	if sentryDSN != "" {
+		raven.SetDSN(sentryDSN)
+		app.Use(sentry.Recovery(raven.DefaultClient, viper.GetBool("sentry.onlycrashes")))
+	}
 	app.Use(cors.Default())
 
 	app.Use(middleware.RequestID())

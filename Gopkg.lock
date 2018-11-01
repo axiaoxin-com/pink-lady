@@ -37,6 +37,14 @@
   revision = "a0175ee3bccc567396460bf5acd36800cb10c49c"
 
 [[projects]]
+  digest = "1:fed1f537c2f1269fe475a8556c393fe466641682d73ef8fd0491cd3aa1e47bad"
+  name = "github.com/certifi/gocertifi"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "deb3ae2ef2610fde3330947281941c562861188b"
+  version = "2018.01.18"
+
+[[projects]]
   branch = "master"
   digest = "1:0fd9da444782c2defb1352dc098f55b8b42c538787e29e45677a1dc40ff0ab11"
   name = "github.com/denisenkom/go-mssqldb"
@@ -64,12 +72,28 @@
   revision = "447134032cb6a86814f570257390a379982dfc61"
 
 [[projects]]
+  digest = "1:e51147e761aa8b6769e05e586c7012eb221c8be72fbc68a4340a53b974e67b9f"
+  name = "github.com/getsentry/raven-go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "3033899c76deb3fb6570d9c4074d00443aeab88f"
+  version = "v0.1.0"
+
+[[projects]]
   digest = "1:2b59aca2665ff804f6606c8829eaee133ddd3aefbc841014660d961b0034f888"
   name = "github.com/gin-contrib/cors"
   packages = ["."]
   pruneopts = "UT"
   revision = "cf4846e6a636a76237a28d9286f163c132e841bc"
   version = "v1.2"
+
+[[projects]]
+  branch = "master"
+  digest = "1:0022b32fd2bb6fce540647f0a9d0afb7c00ca2405e6b85e08b71b4a6e9bffd85"
+  name = "github.com/gin-contrib/sentry"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "aa42345b40e5fb25475ffbba357eaf8f7d1297a1"
 
 [[projects]]
   branch = "master"
@@ -295,6 +319,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
   name = "github.com/satori/go.uuid"
   packages = ["."]
@@ -470,7 +502,9 @@
     "github.com/alecthomas/template",
     "github.com/fsnotify/fsnotify",
     "github.com/fvbock/endless",
+    "github.com/getsentry/raven-go",
     "github.com/gin-contrib/cors",
+    "github.com/gin-contrib/sentry",
     "github.com/gin-gonic/gin",
     "github.com/go-redis/redis",
     "github.com/jinzhu/gorm",
