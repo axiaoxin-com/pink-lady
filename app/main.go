@@ -77,18 +77,15 @@ func main() {
 	}
 
 	app := gin.New()
-	app.Use(gin.Recovery())
-
+	app.Use(middleware.ErrorHandler())
+	app.Use(cors.Default())
+	app.Use(middleware.RequestID())
+	app.Use(middleware.GinLogrus())
 	sentryDSN := viper.GetString("sentry.dsn")
 	if sentryDSN != "" {
 		raven.SetDSN(sentryDSN)
 		app.Use(sentry.Recovery(raven.DefaultClient, viper.GetBool("sentry.onlycrashes")))
 	}
-	app.Use(cors.Default())
-
-	app.Use(middleware.RequestID())
-	app.Use(middleware.GinLogrus())
-	app.Use(middleware.ErrorHandler())
 
 	apis.RegisterRoutes(app)
 

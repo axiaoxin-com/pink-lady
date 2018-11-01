@@ -42,6 +42,5 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 ### todo
 
 - [ ] CLI tool
-- [ ] sentry
 - [ ] cron
 - [ ] markdown flatpage

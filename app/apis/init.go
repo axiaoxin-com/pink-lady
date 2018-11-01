@@ -50,5 +50,5 @@ func init() {
 // @Success 200 {object} apis.Response
 func Ping(c *gin.Context) {
 	data := gin.H{"version": common.VERSION}
-	Respond(c, retcode.Success, data)
+	JSON(c, retcode.Success, data)
 }
