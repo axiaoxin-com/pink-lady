@@ -10,14 +10,14 @@ import (
 
 type BaseModel gorm.Model
 
+// Models save your models like &MODEL{} at there which will be auto migrate when server starting
+var Models = []interface{}{}
+
 // Migrate run AutoMigrate to create database tables by models
-// add your models &MODEL{} in AutoMigrate()
+// add your models
 // running after InitGormDB
 func Migrate() {
-	if err := utils.DB.AutoMigrate(
-	// add your models which need to migrate at here
-
-	).Error; err != nil {
+	if err := utils.DB.AutoMigrate(Models...).Error; err != nil {
 		logrus.Error(err)
 	}
 }
