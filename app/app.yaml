@@ -1,6 +1,6 @@
 server:
     mode: debug
-    bind: :8080
+    bind: :9090
 log:
     level: debug
     formatter: text

@@ -11,6 +11,7 @@ import (
 	"github.com/axiaoxin/gin-skeleton/app/apis"
 	"github.com/axiaoxin/gin-skeleton/app/common"
 	"github.com/axiaoxin/gin-skeleton/app/middleware"
+	"github.com/axiaoxin/gin-skeleton/app/models"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/fvbock/endless"
 	raven "github.com/getsentry/raven-go"
@@ -25,7 +26,7 @@ import (
 func init() {
 	utils.InitViper([]utils.Option{
 		utils.Option{"server.mode", "debug", "server mode: debug|test|release"},
-		utils.Option{"server.bind", ":8080", "server bind address"},
+		utils.Option{"server.bind", ":9090", "server bind address"},
 		utils.Option{"log.level", "info", "log level: debug|info|warning|error|fatal|panic"},
 		utils.Option{"log.formatter", "text", "log formatter: text|json"},
 		utils.Option{"database.engine", "sqlite3", "database engine: mysql|postgres|sqlite3|mssql"},
@@ -48,6 +49,7 @@ func init() {
 
 	utils.InitLogrus(viper.GetString("log.level"), viper.GetString("log.formatter"))
 	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.max_idle_conns"), viper.GetInt("database.max_open_conns"), viper.GetInt("database.conn_max_life_minutes"), viper.GetBool("log_mode"))
+	models.Migrate()
 	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
 }
 
