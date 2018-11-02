@@ -54,6 +54,9 @@ func InitGormDB(engine, addr, name, username, password string, max_idle_conns, m
 		logrus.Fatal(err)
 	}
 	DB.SetLogger(&GormLogger{})
+	if engine == "mysql" {
+		DB.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8 auto_increment=1")
+	}
 	DB.DB().SetMaxIdleConns(max_idle_conns)
 	DB.DB().SetMaxOpenConns(max_open_conns)
 	DB.DB().SetConnMaxLifetime(time.Duration(conn_max_life_minutes) * time.Minute)
