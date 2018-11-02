@@ -44,3 +44,4 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - [ ] CLI tool
 - [ ] cron
 - [ ] markdown flatpage
+- [ ] deal gopath of import self package
