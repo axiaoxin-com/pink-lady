@@ -32,7 +32,11 @@ func (*GormLogger) Print(v ...interface{}) {
 // name is database dbname
 // usename is database username
 // password is dabase password
-func InitGormDB(engine, addr, name, username, password string, max_idle_conns, max_open_conns, conn_max_life_minutes int) {
+// maxIdleConns sets the maximum number of connections in the idle connection pool
+// maxOpenConns sets the maximum number of open connections to the database.
+// connMaxLifeMinutes sets the maximum amount of time(minutes) a connection may be reused
+// logMode show detailed log
+func InitGormDB(engine, addr, name, username, password string, maxIdleConns, maxOpenConns, connMaxLifeMinutes int, logMode bool) {
 
 	var dsn string
 	var err error
@@ -54,10 +58,11 @@ func InitGormDB(engine, addr, name, username, password string, max_idle_conns, m
 		logrus.Fatal(err)
 	}
 	DB.SetLogger(&GormLogger{})
+	DB.LogMode(logMode)
 	if engine == "mysql" {
 		DB.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8 auto_increment=1")
 	}
-	DB.DB().SetMaxIdleConns(max_idle_conns)
-	DB.DB().SetMaxOpenConns(max_open_conns)
-	DB.DB().SetConnMaxLifetime(time.Duration(conn_max_life_minutes) * time.Minute)
+	DB.DB().SetMaxIdleConns(maxIdleConns)
+	DB.DB().SetMaxOpenConns(maxOpenConns)
+	DB.DB().SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute)
 }
