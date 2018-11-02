@@ -36,6 +36,7 @@ func init() {
 		utils.Option{"database.max_idle_conns", 2, "sets the maximum number of connections in the idle connection pool."},
 		utils.Option{"database.max_open_conns", 0, "sets the maximum number of open connections to the database."},
 		utils.Option{"database.conn_max_life_minutes", 0, "sets the maximum amount of time(minutes) a connection may be reused."},
+		utils.Option{"database.log_mode", true, "show detailed sql log"},
 		utils.Option{"redis.mode", "single-instance", "redis mode: single-instance|sentinel|cluster"},
 		utils.Option{"redis.address", "localhost:6379", "redis address, multiple sentinel/cluster addresses are separated by commas"},
 		utils.Option{"redis.password", "", "redis password"},
@@ -46,7 +47,7 @@ func init() {
 	})
 
 	utils.InitLogrus(viper.GetString("log.level"), viper.GetString("log.formatter"))
-	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.max_idle_conns"), viper.GetInt("database.max_open_conns"), viper.GetInt("database.conn_max_life_minutes"))
+	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.max_idle_conns"), viper.GetInt("database.max_open_conns"), viper.GetInt("database.conn_max_life_minutes"), viper.GetBool("log_mode"))
 	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
 }
 
@@ -69,12 +70,9 @@ func main() {
 	mode := strings.ToLower(viper.GetString("server.mode"))
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
-		utils.DB.LogMode(true)
 	} else if mode == "test" {
-		utils.DB.LogMode(true)
 		gin.SetMode(gin.TestMode)
 	} else {
-		utils.DB.LogMode(false)
 		gin.DisableConsoleColor()
 		gin.SetMode(gin.ReleaseMode)
 	}
