@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mssql"
@@ -31,7 +32,7 @@ func (*GormLogger) Print(v ...interface{}) {
 // name is database dbname
 // usename is database username
 // password is dabase password
-func InitGormDB(engine, addr, name, username, password string) {
+func InitGormDB(engine, addr, name, username, password string, max_idle_conns, max_open_conns, conn_max_life_minutes int) {
 
 	var dsn string
 	var err error
@@ -53,4 +54,7 @@ func InitGormDB(engine, addr, name, username, password string) {
 		logrus.Fatal(err)
 	}
 	DB.SetLogger(&GormLogger{})
+	DB.DB().SetMaxIdleConns(max_idle_conns)
+	DB.DB().SetMaxOpenConns(max_open_conns)
+	DB.DB().SetConnMaxLifetime(time.Duration(conn_max_life_minutes) * time.Minute)
 }
