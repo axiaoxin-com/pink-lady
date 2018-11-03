@@ -10,11 +10,11 @@ database:
     name: /tmp/gin-skeleton.db
     username: ''
     password: ''
-    max_idle_conns: 2
-    max_open_conns: 0
-    conn_max_life_minutes: 60
-    log_mode: true
-    auto_migrate: true
+    maxIdleConns: 2
+    maxOpenConns: 0
+    connMaxLifeMinutes: 60
+    logMode: true
+    autoMigrate: true
 redis:
     mode: single-instance
     address: localhost:6379
@@ -23,4 +23,4 @@ redis:
     master: ''
 sentry:
     dsn: ''
-    onlycrashes: false
+    onlyCrashes: false
