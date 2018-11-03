@@ -34,23 +34,23 @@ func init() {
 		utils.Option{"database.name", "/tmp/gin-skeleton.db", "database name"},
 		utils.Option{"database.username", "", "database username"},
 		utils.Option{"database.password", "", "database password"},
-		utils.Option{"database.max_idle_conns", 2, "sets the maximum number of connections in the idle connection pool."},
-		utils.Option{"database.max_open_conns", 0, "sets the maximum number of open connections to the database."},
-		utils.Option{"database.conn_max_life_minutes", 0, "sets the maximum amount of time(minutes) a connection may be reused."},
-		utils.Option{"database.log_mode", true, "show detailed sql log"},
-		utils.Option{"database.auto_migrate", true, "auto migrate database when server starting"},
+		utils.Option{"database.maxIdleConns", 2, "sets the maximum number of connections in the idle connection pool."},
+		utils.Option{"database.maxOpenConns", 0, "sets the maximum number of open connections to the database."},
+		utils.Option{"database.connMaxLifeMinutes", 0, "sets the maximum amount of time(minutes) a connection may be reused."},
+		utils.Option{"database.logMode", true, "show detailed sql log"},
+		utils.Option{"database.autoMigrate", true, "auto migrate database when server starting"},
 		utils.Option{"redis.mode", "single-instance", "redis mode: single-instance|sentinel|cluster"},
 		utils.Option{"redis.address", "localhost:6379", "redis address, multiple sentinel/cluster addresses are separated by commas"},
 		utils.Option{"redis.password", "", "redis password"},
 		utils.Option{"redis.db", 0, "redis default db"},
 		utils.Option{"redis.master", "", "redis sentinel master name"},
 		utils.Option{"sentry.dsn", "", "sentry dsn"},
-		utils.Option{"sentry.onlycrashes", "", "sentry only send crash reporting"},
+		utils.Option{"sentry.onlyCrashes", "", "sentry only send crash reporting"},
 	})
 
 	utils.InitLogrus(viper.GetString("log.level"), viper.GetString("log.formatter"))
-	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.max_idle_conns"), viper.GetInt("database.max_open_conns"), viper.GetInt("database.conn_max_life_minutes"), viper.GetBool("log_mode"))
-	if viper.GetBool("database.auto_migrate") {
+	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.maxIdleConns"), viper.GetInt("database.maxOpenConns"), viper.GetInt("database.connMaxLifeMinutes"), viper.GetBool("database.logMode"))
+	if viper.GetBool("database.autoMigrate") {
 		models.Migrate()
 	}
 	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
