@@ -3,17 +3,15 @@
 package models
 
 import (
-	"time"
-
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/sirupsen/logrus"
 )
 
 type BaseModel struct {
-	ID        uint       `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:createdAt`
-	UpdatedAt time.Time  `json:updatedAt`
-	DeletedAt *time.Time `json:-`
+	ID        uint            `gorm:"primary_key" json:"id"`
+	CreatedAt utils.JSONTime  `json:"createdAt"`
+	UpdatedAt utils.JSONTime  `json:"updatedAt"`
+	DeletedAt *utils.JSONTime `json:"-"`
 }
 
 // Models save your models like &MODEL{} at there which will be auto migrate when server starting
