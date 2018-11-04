@@ -36,8 +36,8 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 
     # update API docs
     # localhost:8080/x/apidocs/index.html
-    cd apis
-    swag init -g *.go
+    cd app
+    swag init -g api/init.go
 
 ### todo
 
