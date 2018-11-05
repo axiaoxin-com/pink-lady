@@ -11,7 +11,7 @@ type BaseModel struct {
 	ID        uint            `gorm:"primary_key" json:"id"`
 	CreatedAt utils.JSONTime  `json:"createdAt"`
 	UpdatedAt utils.JSONTime  `json:"updatedAt"`
-	DeletedAt *utils.JSONTime `json:"-"`
+	DeletedAt *utils.JSONTime `sql:"index" json:"-"`
 }
 
 // Models save your models like &MODEL{} at there which will be auto migrate when server starting
