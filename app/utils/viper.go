@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Option struct {
+type ViperOption struct {
 	Name    string
 	Default interface{}
 	Desc    string
@@ -17,7 +17,7 @@ type Option struct {
 
 // InitViper init viper by default value, ENV, cmd flag and config file
 // you can use switch to reload server when config file changed
-func InitViper(options []Option) {
+func InitViper(options []ViperOption) {
 	viper.SetEnvPrefix("GIN")
 	for _, option := range options {
 		// set default value
