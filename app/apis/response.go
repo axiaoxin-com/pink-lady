@@ -3,7 +3,7 @@ package apis
 import (
 	"net/http"
 
-	"github.com/axiaoxin/gin-skeleton/app/common/retcode"
+	"github.com/axiaoxin/gin-skeleton/app/services/retcode"
 	"github.com/gin-gonic/gin"
 )
 

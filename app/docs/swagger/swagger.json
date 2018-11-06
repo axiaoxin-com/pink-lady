@@ -14,7 +14,7 @@
         },
         "version": "0.0.1"
     },
-    "host": "gin-skeleton:8080",
+    "host": "localhost:8080",
     "basePath": "/",
     "paths": {
         "/x/ping": {
