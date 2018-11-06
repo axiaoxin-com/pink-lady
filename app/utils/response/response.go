@@ -1,4 +1,4 @@
-package apis
+package response
 
 import (
 	"net/http"

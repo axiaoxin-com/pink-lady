@@ -32,7 +32,7 @@
                         "description": "OK",
                         "schema": {
                             "type": "object",
-                            "$ref": "#/definitions/apis.Response"
+                            "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
@@ -40,7 +40,7 @@
         }
     },
     "definitions": {
-        "apis.Response": {
+        "response.Response": {
             "type": "object",
             "properties": {
                 "code": {

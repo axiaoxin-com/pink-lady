@@ -1,6 +1,6 @@
 // package apis save the web api code
 // init.go define init() function and default system api
-// response.go define Respond() function for respond JSON with fields of code, message and data
+// handlers save you handle functions
 // routes.go register handle function on url
 //
 // WAY TO ADD YOUR NEW API:
@@ -9,8 +9,8 @@
 // you should extract the common business logic handle functions into services package
 // database model should be defined in models package by modularized
 // general tool functions should be defined in utils package by modularized
-// in handlerFunc you can use Respond() function to return to a unified JSON structure conveniently
 // you can record log by logrus and get config by viper
+// you can return unified json struct by utils/response package
 // the new return code should be defined in services/retcode package
 // when you finish the handlerFunc you need to register it on a url in routes.go
 // that's all.
@@ -33,6 +33,7 @@ package apis
 import (
 	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/services/retcode"
+	"github.com/axiaoxin/gin-skeleton/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -47,8 +48,8 @@ func init() {
 // @Tags x
 // @Produce  json
 // @Router /x/ping [get]
-// @Success 200 {object} apis.Response
+// @Success 200 {object} response.Response
 func Ping(c *gin.Context) {
 	data := gin.H{"version": services.VERSION}
-	JSON(c, retcode.Success, data)
+	response.JSON(c, retcode.Success, data)
 }
