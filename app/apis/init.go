@@ -6,12 +6,12 @@
 // WAY TO ADD YOUR NEW API:
 // create code file or package according to you business logic, let structure be modularized
 // write the gin handlerFunc code like the Ping() in the file
-// you should extract the common business logic handle functions into common package
+// you should extract the common business logic handle functions into services package
 // database model should be defined in models package by modularized
 // general tool functions should be defined in utils package by modularized
 // in handlerFunc you can use Respond() function to return to a unified JSON structure conveniently
 // you can record log by logrus and get config by viper
-// the new return code should be defined in common/retcode package
+// the new return code should be defined in services/retcode package
 // when you finish the handlerFunc you need to register it on a url in routes.go
 // that's all.
 
@@ -31,8 +31,8 @@
 package apis
 
 import (
-	"github.com/axiaoxin/gin-skeleton/app/common"
-	"github.com/axiaoxin/gin-skeleton/app/common/retcode"
+	"github.com/axiaoxin/gin-skeleton/app/services"
+	"github.com/axiaoxin/gin-skeleton/app/services/retcode"
 	"github.com/gin-gonic/gin"
 )
 
@@ -49,6 +49,6 @@ func init() {
 // @Router /x/ping [get]
 // @Success 200 {object} apis.Response
 func Ping(c *gin.Context) {
-	data := gin.H{"version": common.VERSION}
+	data := gin.H{"version": services.VERSION}
 	JSON(c, retcode.Success, data)
 }

@@ -9,9 +9,9 @@ import (
 	"syscall"
 
 	"github.com/axiaoxin/gin-skeleton/app/apis"
-	"github.com/axiaoxin/gin-skeleton/app/common"
 	"github.com/axiaoxin/gin-skeleton/app/middleware"
 	"github.com/axiaoxin/gin-skeleton/app/models"
+	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/fvbock/endless"
 	raven "github.com/getsentry/raven-go"
@@ -64,7 +64,7 @@ func main() {
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
 	if *version {
-		fmt.Println(common.VERSION)
+		fmt.Println(services.VERSION)
 		os.Exit(0)
 	}
 	if *check {

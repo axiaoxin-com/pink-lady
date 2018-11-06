@@ -9,7 +9,7 @@ definitions:
       message:
         type: string
     type: object
-host: gin-skeleton:8080
+host: localhost:8080
 info:
   contact:
     email: ashinchen@tencent.com
