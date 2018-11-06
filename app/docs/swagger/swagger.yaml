@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  apis.Response:
+  response.Response:
     properties:
       code:
         type: integer
@@ -31,7 +31,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/apis.Response'
+            $ref: '#/definitions/response.Response'
             type: object
       summary: Ping for server is living
       tags:

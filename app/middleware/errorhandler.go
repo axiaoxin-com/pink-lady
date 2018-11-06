@@ -3,8 +3,8 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/axiaoxin/gin-skeleton/app/apis"
 	"github.com/axiaoxin/gin-skeleton/app/services/retcode"
+	"github.com/axiaoxin/gin-skeleton/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,12 +14,12 @@ func ErrorHandler() gin.HandlerFunc {
 		status := c.Writer.Status()
 		switch status {
 		case http.StatusNotFound:
-			apis.JSON404(c, retcode.RouteNotFound, c.Errors.String())
+			response.JSON404(c, retcode.RouteNotFound, c.Errors.String())
 		case http.StatusInternalServerError:
-			apis.JSON500(c, retcode.InternalError, c.Errors.String())
+			response.JSON500(c, retcode.InternalError, c.Errors.String())
 		default:
 			if status > http.StatusBadRequest {
-				apis.Respond(c, status, retcode.UnknownError, c.Errors.String())
+				response.Respond(c, status, retcode.UnknownError, c.Errors.String())
 			}
 
 		}
