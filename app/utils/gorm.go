@@ -1,7 +1,10 @@
 package utils
 
 import (
+	"database/sql/driver"
 	"fmt"
+	"reflect"
+	"regexp"
 	"strings"
 	"time"
 
@@ -17,12 +20,44 @@ var DB *gorm.DB
 
 type GormLogger struct{}
 
-func (*GormLogger) Print(v ...interface{}) {
-	if v[0] == "sql" {
-		logrus.WithFields(logrus.Fields{"module": "gorm", "type": "sql"}).Print(v[3])
-	}
-	if v[0] == "log" {
-		logrus.WithFields(logrus.Fields{"module": "gorm", "type": "log"}).Print(v[2])
+var sqlRegexp = regexp.MustCompile(`(\$\d+)|\?`)
+
+func (*GormLogger) Print(values ...interface{}) {
+	if len(values) > 1 {
+		level := values[0]
+		source := values[1]
+		entry := logrus.WithField("source", source)
+		if level == "sql" {
+			duration := values[2]
+			// sql
+			var formattedValues []interface{}
+			for _, value := range values[4].([]interface{}) {
+				indirectValue := reflect.Indirect(reflect.ValueOf(value))
+				if indirectValue.IsValid() {
+					value = indirectValue.Interface()
+					if t, ok := value.(time.Time); ok {
+						formattedValues = append(formattedValues, fmt.Sprintf("'%v'", t.Format(time.RFC3339)))
+					} else if b, ok := value.([]byte); ok {
+						formattedValues = append(formattedValues, fmt.Sprintf("'%v'", string(b)))
+					} else if r, ok := value.(driver.Valuer); ok {
+						if value, err := r.Value(); err == nil && value != nil {
+							formattedValues = append(formattedValues, fmt.Sprintf("'%v'", value))
+						} else {
+							formattedValues = append(formattedValues, "NULL")
+						}
+					} else {
+						formattedValues = append(formattedValues, fmt.Sprintf("'%v'", value))
+					}
+				} else {
+					formattedValues = append(formattedValues, fmt.Sprintf("'%v'", value))
+				}
+			}
+			entry.WithField("took", duration).Debug(fmt.Sprintf(sqlRegexp.ReplaceAllString(values[3].(string), "%v"), formattedValues...))
+		} else {
+			entry.Error(values[2:]...)
+		}
+	} else {
+		logrus.Error(values...)
 	}
 }
 
