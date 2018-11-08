@@ -15,3 +15,4 @@
 # custom
 # vendor/
 app/app
+app/tmp/
