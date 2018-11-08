@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	utils.InitViper([]utils.ViperOption{
+	utils.InitViper("app", "GIN", []utils.ViperOption{
 		utils.ViperOption{"server.mode", "debug", "server mode: debug|test|release"},
 		utils.ViperOption{"server.bind", ":9090", "server bind address"},
 		utils.ViperOption{"log.level", "info", "log level: debug|info|warning|error|fatal|panic"},
