@@ -3,6 +3,7 @@ package utils
 import (
 	"strings"
 
+	"github.com/alicebob/miniredis"
 	"github.com/go-redis/redis"
 	"github.com/sirupsen/logrus"
 )
@@ -26,48 +27,67 @@ var (
 // `password` is redis auth password
 // `db` is redis db number, cluster mode don't use it
 // `master` is redis sentinel master name, only need to be set on sentinel mode, others dont't use it
-func InitRedis(mode string, addr string, password string, db int, master string) {
+func InitRedis(mode string, addr string, password string, db int, master string) error {
 	mode = strings.ToLower(mode)
+	var err error
 	if mode == REDIS_SINGLE_INSTANCE_MODE {
-		InitRedisClient(addr, password, db)
+		err = InitRedisClient(addr, password, db)
 	} else if mode == REDIS_SENTINEL_MODE {
 		addrs := strings.Split(addr, REDIS_ADDRS_SEPARATOR)
-		InitRedisSentinel(master, addrs, password, db)
+		err = InitRedisSentinel(master, addrs, password, db)
 	} else if mode == REDIS_CLUSTER_MODE {
 		addrs := strings.Split(addr, REDIS_ADDRS_SEPARATOR)
-		InitRedisCluster(addrs, password)
+		err = InitRedisCluster(addrs, password)
 	}
+	return err
 }
 
 // InitRedisClient init a single instance redis client named `Redis`
-func InitRedisClient(addr string, password string, db int) {
+func InitRedisClient(addr string, password string, db int) error {
 	Redis = redis.NewClient(&redis.Options{
 		Addr:     addr,
 		Password: password,
 		DB:       db,
 	})
-	if _, err := Redis.Ping().Result(); err != nil {
+	_, err := Redis.Ping().Result()
+	if err != nil {
 		logrus.Error(err)
 	}
+	return err
 }
 
 // InitRedisSentinel init redis sentinel client also named `Redis`
-func InitRedisSentinel(master string, addrs []string, password string, db int) {
+func InitRedisSentinel(master string, addrs []string, password string, db int) error {
 	Redis = redis.NewFailoverClient(&redis.FailoverOptions{
 		MasterName:    master,
 		SentinelAddrs: addrs,
 		Password:      password,
 		DB:            db,
 	})
+	_, err := Redis.Ping().Result()
+	if err != nil {
+		logrus.Error(err)
+	}
+	return err
 }
 
 // InitRedisCluster init redis cluster client named `RedisCluster`
-func InitRedisCluster(addrs []string, password string) {
+func InitRedisCluster(addrs []string, password string) error {
 	RedisCluster = redis.NewClusterClient(&redis.ClusterOptions{
 		Addrs:    addrs,
 		Password: password,
 	})
-	if _, err := RedisCluster.Ping().Result(); err != nil {
+	_, err := RedisCluster.Ping().Result()
+	if err != nil {
 		logrus.Error(err)
 	}
+	return err
+}
+
+func MockRedis() (*miniredis.Miniredis, error) {
+	s, err := miniredis.Run()
+	if err != nil {
+		logrus.Error(err)
+	}
+	return s, err
 }

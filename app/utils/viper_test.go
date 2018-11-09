@@ -54,7 +54,7 @@ func TestInitViper(t *testing.T) {
 	}
 
 	// 测试加载配置文件
-	if viper.GetString("server.bind") != ":6000" {
+	if viper.GetString("server.bind") != ":9090" {
 		t.Error("read conf file error")
 	}
 }

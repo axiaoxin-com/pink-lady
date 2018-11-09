@@ -68,3 +68,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/gin-contrib/sentry"
+
+[[constraint]]
+  name = "github.com/alicebob/miniredis"
+  version = "2.4.5"

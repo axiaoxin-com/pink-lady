@@ -21,6 +21,7 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - **[[swaggo/gin-swagger]](https://github.com/swaggo/gin-swagger)**  gin middleware to automatically generate RESTful API documentation with Swagger 2.0.
 - **[[gin-contrib/cors]](https://github.com/gin-contrib/cors)**  Official CORS gin's middleware
 - **[[gin-contrib/sentry]](https://github.com/gin-contrib/sentry)**  Middleware to integrate with sentry crash reporting.
+- **[[alicebob/miniredis]](https://github.com/alicebob/miniredis)**  Pure Go Redis server for Go unittests
 
 ### organizational structure
 
