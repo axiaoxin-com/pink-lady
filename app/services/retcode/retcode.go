@@ -4,6 +4,7 @@ package retcode
 // 删除已有的iota常量时记得用_占位
 const (
 	success = iota
+	failure
 	unknownError
 	invalidParams
 	notFound
@@ -23,6 +24,7 @@ func (rc *RetCode) Decode() (int, string) {
 // define your return code at here
 var (
 	Success       = &RetCode{code: success, message: "success"}
+	Failure       = &RetCode{code: failure, message: "failure"}
 	UnknownError  = &RetCode{code: unknownError, message: "unknown error"}
 	InvalidParams = &RetCode{code: invalidParams, message: "invalid params"}
 	RouteNotFound = &RetCode{code: notFound, message: "route not found"}

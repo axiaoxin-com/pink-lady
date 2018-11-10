@@ -13,7 +13,7 @@ type S struct {
 
 func TestJSONTime(t *testing.T) {
 	s := S{}
-	now, _ := time.Parse(timeFormat, "2018-11-10 18:52:25.123")
+	now, _ := time.Parse(TimeFormat, "2018-11-10 18:52:25.123")
 	s.DT = now
 	s.JT = JSONTime{Time: now}
 	j, _ := json.Marshal(s)
