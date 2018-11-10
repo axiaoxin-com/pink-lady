@@ -71,7 +71,7 @@ func (*GormLogger) Print(values ...interface{}) {
 // maxOpenConns sets the maximum number of open connections to the database.
 // connMaxLifeMinutes sets the maximum amount of time(minutes) a connection may be reused
 // logMode show detailed log
-func InitGormDB(engine, addr, name, username, password string, maxIdleConns, maxOpenConns, connMaxLifeMinutes int, logMode bool) {
+func InitGormDB(engine, addr, name, username, password string, maxIdleConns, maxOpenConns, connMaxLifeMinutes int, logMode bool) error {
 
 	var dsn string
 	var err error
@@ -100,4 +100,5 @@ func InitGormDB(engine, addr, name, username, password string, maxIdleConns, max
 	DB.DB().SetMaxIdleConns(maxIdleConns)
 	DB.DB().SetMaxOpenConns(maxOpenConns)
 	DB.DB().SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute)
+	return err
 }
