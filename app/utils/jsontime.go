@@ -6,15 +6,30 @@ import (
 	"time"
 )
 
-// JSONTime format json time field by myself
 type JSONTime struct {
 	time.Time
 }
 
+const (
+	timeFormat = "2006-01-02 15:04:05"
+)
+
+// UnmarshalJSON on JSONTime format Time field with %Y-%m-%d %H:%M:%S
+func (t *JSONTime) UnmarshalJSON(data []byte) error {
+	now, err := time.ParseInLocation(`"`+timeFormat+`"`, string(data), time.Local)
+	t.Time = now
+	return err
+}
+
 // MarshalJSON on JSONTime format Time field with %Y-%m-%d %H:%M:%S
 func (t JSONTime) MarshalJSON() ([]byte, error) {
-	formatted := fmt.Sprintf("\"%s\"", t.Format("2006-01-02 15:04:05"))
+	formatted := fmt.Sprintf("\"%s\"", t.Format(timeFormat))
 	return []byte(formatted), nil
+}
+
+// String return  %Y-%m-%d %H:%M:%S
+func (t JSONTime) String() string {
+	return t.Time.Format(timeFormat)
 }
 
 // Value insert timestamp into mysql need this function.
