@@ -37,7 +37,7 @@ func Paginate(itemsCount, pageNum, pageSize int) Pagination {
 	prevPageNum := pageNum
 	if pageNum-1 > 0 {
 		hasPrev = true
-		nextPageNum = pageNum - 1
+		prevPageNum = pageNum - 1
 	}
 	return Pagination{
 		ItemsCount:  itemsCount,
