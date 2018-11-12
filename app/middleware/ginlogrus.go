@@ -24,7 +24,7 @@ func GinLogrus() gin.HandlerFunc {
 			"method":    c.Request.Method,
 			"clientIP":  c.ClientIP(),
 			"userAgent": c.Request.UserAgent(),
-			"requestID": c.MustGet(RequestIDkey),
+			"requestID": c.MustGet(RequestIDKey),
 			"status":    status,
 			"size":      c.Writer.Size(),
 			"latency":   fmt.Sprintf("%fms", float64(end.Seconds())*1000.0),
