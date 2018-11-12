@@ -10,8 +10,7 @@ import (
 )
 
 func init() {
-	// 避免打印那些个debuglog
-	gin.SetMode("release")
+	gin.SetMode(gin.TestMode)
 }
 
 func TestJSON(t *testing.T) {

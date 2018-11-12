@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	gin.SetMode("release")
+	gin.SetMode(gin.TestMode)
 }
 
 func TestErrorHandler404(t *testing.T) {
