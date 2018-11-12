@@ -55,22 +55,7 @@ func init() {
 	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
 }
 
-func main() {
-	defer utils.DB.Close()
-	// TODO: imp in cli
-	version := pflag.Bool("version", false, "show version")
-	check := pflag.Bool("check", false, "check everything need to be checked")
-	pflag.Parse()
-	viper.BindPFlags(pflag.CommandLine)
-	if *version {
-		fmt.Println(services.VERSION)
-		os.Exit(0)
-	}
-	if *check {
-		fmt.Println("I'm fine :)")
-		os.Exit(0)
-	}
-
+func SetupAPP() *gin.Engine {
 	mode := strings.ToLower(viper.GetString("server.mode"))
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
@@ -93,7 +78,25 @@ func main() {
 	}
 
 	apis.RegisterRoutes(app)
+	return app
+}
 
+func main() {
+	defer utils.DB.Close()
+	// TODO: imp in cli
+	version := pflag.Bool("version", false, "show version")
+	check := pflag.Bool("check", false, "check everything need to be checked")
+	pflag.Parse()
+	viper.BindPFlags(pflag.CommandLine)
+	if *version {
+		fmt.Println(services.VERSION)
+		os.Exit(0)
+	}
+	if *check {
+		fmt.Println("I'm fine :)")
+		os.Exit(0)
+	}
+	app := SetupAPP()
 	bind := viper.GetString("server.bind")
 	server := endless.NewServer(bind, app)
 	server.BeforeBegin = func(addr string) {
