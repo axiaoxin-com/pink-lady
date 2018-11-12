@@ -26,7 +26,15 @@ func Paginate(itemsCount, pageNum, pageSize int) Pagination {
 	if itemsCount <= 0 {
 		return Pagination{}
 	}
-	pagesCount := int(math.Ceil(float64(itemsCount) / float64(pageSize)))
+	if pageNum <= 0 {
+		pageNum = 1
+	}
+	pagesCount := 1
+	if pageSize <= 0 {
+		pageSize = -1
+	} else {
+		pagesCount = int(math.Ceil(float64(itemsCount) / float64(pageSize)))
+	}
 	hasNext := false
 	nextPageNum := pageNum
 	if pageNum+1 <= pagesCount {

@@ -19,4 +19,8 @@ func TestPaginate(t *testing.T) {
 	if p.PagesCount != 8 || p.HasNext != true || p.NextPageNum != 4 || p.HasPrev != true || p.PrevPageNum != 2 {
 		t.Errorf("paginate error %v", p)
 	}
+	p = Paginate(100, -1, -1)
+	if p.PagesCount != 1 || p.HasNext != false || p.NextPageNum != 1 || p.HasPrev != false || p.PrevPageNum != 1 {
+		t.Errorf("paginate error %v", p)
+	}
 }
