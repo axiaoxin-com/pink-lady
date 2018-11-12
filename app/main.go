@@ -47,7 +47,7 @@ func init() {
 		utils.ViperOption{"sentry.onlyCrashes", "", "sentry only send crash reporting"},
 	})
 
-	utils.InitLogrus(viper.GetString("log.level"), viper.GetString("log.formatter"))
+	utils.InitLogrus(os.Stdout, viper.GetString("log.level"), viper.GetString("log.formatter"))
 	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.maxIdleConns"), viper.GetInt("database.maxOpenConns"), viper.GetInt("database.connMaxLifeMinutes"), viper.GetBool("database.logMode"))
 	if viper.GetBool("database.autoMigrate") {
 		models.Migrate()
