@@ -5,14 +5,11 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"syscall"
 
 	"github.com/axiaoxin/gin-skeleton/app/apis"
 	"github.com/axiaoxin/gin-skeleton/app/models"
 	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
-	"github.com/fvbock/endless"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -65,14 +62,11 @@ func main() {
 		fmt.Println("I'm fine :)")
 		os.Exit(0)
 	}
+
 	mode := strings.ToLower(viper.GetString("server.mode"))
 	sentryDSN := viper.GetString("sentry.dsn")
 	sentryOnlyCrashes := viper.GetBool("sentry.onlycrashes")
 	app := apis.SetupRouter(mode, sentryDSN, sentryOnlyCrashes)
 	bind := viper.GetString("server.bind")
-	server := endless.NewServer(bind, app)
-	server.BeforeBegin = func(addr string) {
-		logrus.Infof("Gin server is listening and serving HTTP on %s (pids: %d)", addr, syscall.Getpid())
-	}
-	server.ListenAndServe()
+	utils.EndlessServe(bind, app)
 }

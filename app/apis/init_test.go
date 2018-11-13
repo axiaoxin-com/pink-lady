@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/axiaoxin/gin-skeleton/app/services"
+	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
 )
@@ -21,5 +22,13 @@ func TestPing(t *testing.T) {
 	version := body.Get("data", "version").ToString()
 	if version != services.VERSION {
 		t.Error("version error")
+	}
+}
+
+func TestSetupRouter(t *testing.T) {
+	app := SetupRouter("test", "", false)
+	w := utils.PerformTestingRequest(app, "GET", "/x/ping")
+	if w.Result().StatusCode != 200 {
+		t.Error("Setup router fail")
 	}
 }
