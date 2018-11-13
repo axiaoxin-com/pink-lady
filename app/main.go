@@ -8,15 +8,10 @@ import (
 	"syscall"
 
 	"github.com/axiaoxin/gin-skeleton/app/apis"
-	"github.com/axiaoxin/gin-skeleton/app/middleware"
 	"github.com/axiaoxin/gin-skeleton/app/models"
 	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/fvbock/endless"
-	raven "github.com/getsentry/raven-go"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/sentry"
-	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -55,32 +50,6 @@ func init() {
 	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
 }
 
-func SetupAPP() *gin.Engine {
-	mode := strings.ToLower(viper.GetString("server.mode"))
-	if mode == "debug" {
-		gin.SetMode(gin.DebugMode)
-	} else if mode == "test" {
-		gin.SetMode(gin.TestMode)
-	} else {
-		gin.DisableConsoleColor()
-		gin.SetMode(gin.ReleaseMode)
-	}
-
-	app := gin.New()
-	app.Use(middleware.ErrorHandler())
-	app.Use(cors.Default())
-	app.Use(middleware.RequestID())
-	app.Use(middleware.GinLogrus())
-	sentryDSN := viper.GetString("sentry.dsn")
-	if sentryDSN != "" {
-		raven.SetDSN(sentryDSN)
-		app.Use(sentry.Recovery(raven.DefaultClient, viper.GetBool("sentry.onlycrashes")))
-	}
-
-	apis.RegisterRoutes(app)
-	return app
-}
-
 func main() {
 	defer utils.DB.Close()
 	// TODO: imp in cli
@@ -96,7 +65,10 @@ func main() {
 		fmt.Println("I'm fine :)")
 		os.Exit(0)
 	}
-	app := SetupAPP()
+	mode := strings.ToLower(viper.GetString("server.mode"))
+	sentryDSN := viper.GetString("sentry.dsn")
+	sentryOnlyCrashes := viper.GetBool("sentry.onlycrashes")
+	app := apis.SetupRouter(mode, sentryDSN, sentryOnlyCrashes)
 	bind := viper.GetString("server.bind")
 	server := endless.NewServer(bind, app)
 	server.BeforeBegin = func(addr string) {
