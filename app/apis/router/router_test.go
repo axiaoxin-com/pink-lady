@@ -14,7 +14,7 @@ func init() {
 func TestSetupRouter(t *testing.T) {
 	r := SetupRouter("test", "", false)
 	r.GET("/xyz", func(c *gin.Context) {})
-	w := utils.PerformTestingRequest(r, "GET", "/xyz")
+	w := utils.TestingGETRequest(r, "/xyz")
 	if w.Result().StatusCode != 200 {
 		t.Error("Setup router fail")
 	}

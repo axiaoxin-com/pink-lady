@@ -11,7 +11,7 @@ func TestRequestID(t *testing.T) {
 	r := gin.New()
 	r.Use(RequestID())
 	r.GET("/", func(c *gin.Context) {})
-	w := utils.PerformTestingRequest(r, "GET", "/")
+	w := utils.TestingGETRequest(r, "/")
 	if w.Header().Get(RequestIDKey) == "" {
 		t.Error("no request id")
 	}
