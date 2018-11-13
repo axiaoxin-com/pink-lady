@@ -27,7 +27,7 @@ func TestGinLogrus(t *testing.T) {
 	r.Use(RequestID()) // must get request id
 	r.Use(GinLogrus())
 	r.GET("/", func(c *gin.Context) {})
-	utils.PerformTestingRequest(r, "GET", "/")
+	utils.TestingGETRequest(r, "/")
 	err := json.Unmarshal(buf.Bytes(), &ls)
 	if err != nil {
 		t.Error(err)

@@ -17,7 +17,7 @@ func init() {
 func TestPing(t *testing.T) {
 	r := router.SetupRouter("test", "", false)
 	RegisterRoutes(r)
-	w := utils.PerformTestingRequest(r, "GET", "/x/ping")
+	w := utils.TestingGETRequest(r, "/x/ping")
 	body := jsoniter.Get(w.Body.Bytes())
 	version := body.Get("data", "version").ToString()
 	if version != services.VERSION {

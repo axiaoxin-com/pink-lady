@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"git.code.oa.com/TencentZhiYun/zls/app/utils/response"
+	"github.com/axiaoxin/gin-skeleton/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 
