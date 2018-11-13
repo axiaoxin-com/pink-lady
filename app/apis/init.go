@@ -31,44 +31,15 @@
 package apis
 
 import (
-	"github.com/axiaoxin/gin-skeleton/app/middleware"
 	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/services/retcode"
 	"github.com/axiaoxin/gin-skeleton/app/utils/response"
-	raven "github.com/getsentry/raven-go"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/sentry"
 	"github.com/gin-gonic/gin"
 )
 
 // package init function
 func init() {
 
-}
-
-// SetupRouter init gin register routes and return a router app
-func SetupRouter(mode string, sentryDSN string, sentryOnlyCrashes bool) *gin.Engine {
-	if mode == "debug" {
-		gin.SetMode(gin.DebugMode)
-	} else if mode == "test" {
-		gin.SetMode(gin.TestMode)
-	} else {
-		gin.DisableConsoleColor()
-		gin.SetMode(gin.ReleaseMode)
-	}
-
-	app := gin.New()
-	app.Use(middleware.ErrorHandler())
-	app.Use(cors.Default())
-	app.Use(middleware.RequestID())
-	app.Use(middleware.GinLogrus())
-	if sentryDSN != "" {
-		raven.SetDSN(sentryDSN)
-		app.Use(sentry.Recovery(raven.DefaultClient, sentryOnlyCrashes))
-	}
-
-	RegisterRoutes(app)
-	return app
 }
 
 // Ping godoc
