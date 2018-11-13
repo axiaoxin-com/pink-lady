@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/axiaoxin/gin-skeleton/app/apis"
+	"github.com/axiaoxin/gin-skeleton/app/apis/router"
 	"github.com/axiaoxin/gin-skeleton/app/models"
 	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
@@ -66,7 +67,8 @@ func main() {
 	mode := strings.ToLower(viper.GetString("server.mode"))
 	sentryDSN := viper.GetString("sentry.dsn")
 	sentryOnlyCrashes := viper.GetBool("sentry.onlycrashes")
-	app := apis.SetupRouter(mode, sentryDSN, sentryOnlyCrashes)
+	app := router.SetupRouter(mode, sentryDSN, sentryOnlyCrashes)
+	apis.RegisterRoutes(app)
 	bind := viper.GetString("server.bind")
 	utils.EndlessServe(bind, app)
 }
