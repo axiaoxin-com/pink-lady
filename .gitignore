@@ -16,3 +16,4 @@
 # vendor/
 app/app
 app/tmp/
+build/
