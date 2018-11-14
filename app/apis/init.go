@@ -31,15 +31,16 @@
 package apis
 
 import (
-	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/services/retcode"
 	"github.com/axiaoxin/gin-skeleton/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 
+// API version
+const VERSION = "0.0.1"
+
 // package init function
 func init() {
-
 }
 
 // Ping godoc
@@ -50,6 +51,6 @@ func init() {
 // @Router /x/ping [get]
 // @Success 200 {object} response.Response
 func Ping(c *gin.Context) {
-	data := gin.H{"version": services.VERSION}
+	data := gin.H{"version": VERSION}
 	response.JSON(c, retcode.Success, data)
 }

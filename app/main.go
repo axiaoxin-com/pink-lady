@@ -9,7 +9,6 @@ import (
 	"github.com/axiaoxin/gin-skeleton/app/apis"
 	"github.com/axiaoxin/gin-skeleton/app/apis/router"
 	"github.com/axiaoxin/gin-skeleton/app/models"
-	"github.com/axiaoxin/gin-skeleton/app/services"
 	"github.com/axiaoxin/gin-skeleton/app/utils"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -56,7 +55,7 @@ func main() {
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
 	if *version {
-		fmt.Println(services.VERSION)
+		fmt.Println(apis.VERSION)
 		os.Exit(0)
 	}
 	if *check {
