@@ -130,7 +130,7 @@ If you wrote swag style comments you can generate the API docs in `app` director
 
 You can test your API by curl or swagger API docs:<http://localhost:8080/x/apidocs/index.html>
 
-### Delevop suggestions
+### Develop suggestions
 
 - You should put your API handler functions in `app/apis` as a single file or a package, then register the handlers in `app/apis/routes.go`
 - Add your middleware in `app/middleware`, use it by adding to `app/apis/router/router.go`
