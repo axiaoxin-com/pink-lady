@@ -3,8 +3,8 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/axiaoxin/gin-skeleton/app/services/retcode"
-	"github.com/axiaoxin/gin-skeleton/app/utils/response"
+	"gin-skeleton/app/services/retcode"
+	"gin-skeleton/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 

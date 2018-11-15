@@ -3,7 +3,7 @@
 package models
 
 import (
-	"github.com/axiaoxin/gin-skeleton/app/utils"
+	"gin-skeleton/app/utils"
 	"github.com/sirupsen/logrus"
 )
 

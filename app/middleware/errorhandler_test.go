@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/axiaoxin/gin-skeleton/app/utils/response"
+	"gin-skeleton/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 
