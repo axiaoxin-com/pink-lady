@@ -3,8 +3,8 @@ package apis
 import (
 	"testing"
 
-	"gin-skeleton/app/apis/router"
-	"gin-skeleton/app/utils"
+	"pink-lady/app/apis/router"
+	"pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
 )

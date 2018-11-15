@@ -2,7 +2,7 @@
 package router
 
 import (
-	"gin-skeleton/app/middleware"
+	"pink-lady/app/middleware"
 	raven "github.com/getsentry/raven-go"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sentry"

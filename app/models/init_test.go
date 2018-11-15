@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"gin-skeleton/app/utils"
+	"pink-lady/app/utils"
 )
 
 func TestModelMigrate(t *testing.T) {
@@ -13,7 +13,7 @@ func TestModelMigrate(t *testing.T) {
 		X int
 	}
 	Models = append(Models, &S{})
-	err := utils.InitGormDB("sqlite3", "", "/tmp/gin-skeleton-unit-test.db", "", "", 0, 0, 0, true)
+	err := utils.InitGormDB("sqlite3", "", "/tmp/pink-lady-unit-test.db", "", "", 0, 0, 0, true)
 	if err != nil {
 		t.Error("init gorm db error:", err)
 	}

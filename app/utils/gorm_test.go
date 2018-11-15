@@ -6,7 +6,7 @@ import (
 )
 
 func TestInitGormDB(t *testing.T) {
-	db := "/tmp/gin-skeleton-unit-test.db"
+	db := "/tmp/pink-lady-unit-test.db"
 	err := InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)
 	if DB == nil || err != nil {
 		t.Error("init DB fail ", err)

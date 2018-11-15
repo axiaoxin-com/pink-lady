@@ -1,6 +1,8 @@
-# gin-skeleton
+# pink-lady
 
-Typically [gin](https://github.com/gin-gonic/gin)-based web application's organizational structure which in my mind.
+The typically [gin](https://github.com/gin-gonic/gin)-based web application's organizational structure -> pink-lady.
+
+The name comes from the Pink Lady which is a national standard cocktail with Gin as Base.
 
 ### Skeleton code organization structure
 
@@ -93,34 +95,40 @@ Typically [gin](https://github.com/gin-gonic/gin)-based web application's organi
 - **[[parnurzeal/gorequest]](https://github.com/parnurzeal/gorequest)**  GoRequest -- Simplified HTTP client ( inspired by nodejs SuperAgent ) http://parnurzeal.github.io/gorequest/
 
 
-### How to build web API server with gin-skeleton
+### How to build web API server with pink-lady
 
-1. Clone the gin-skeleton into your gopath and install dependebcies:
+1. Clone the pink-lady into your gopath and install dependebcies:
 
-    cd $(go env GOPATH)/src
-    git clone git@github.com:axiaoxin/gin-skeleton.git
-    cd gin-skeleton
-    dep ensure
+        cd $(go env GOPATH)/src
+        git clone git@github.com:axiaoxin/pink-lady.git
+        cd pink-lady
+        dep ensure
+
+    if you want to change the project path, you must change the import path too:
+
+        mv pink-lady GOPATH/src/XXX/YYY/ZZZ
+        cd GOPATH/src/XXX/YYY/ZZZ/app
+        sed -i  "s|pink-lady|XXX/YYY/ZZZ|g"  `grep "pink-lady" . -rl`
 
 2. Write your API in `apis` directory, you can create a file or a subdirectory as a package to save your gin API handler function, then register the handlers on url in `apis/routes.go` like the default `ping` API
 
 3. Run develop server in `app` directory: (a convinent way to dynamic reload the server when code changing, you can use `fresh` to run server)
 
-    cd app
-    go test ./...
-    go run main.go
+        cd app
+        go test ./...
+        go run main.go
 
 4. Release your API server, run `misc/release.sh` will build a binary app in `build` directory if your tests all pass, and bump version, update api docs and make a git commit and add a tag with the version
 
-    cd misc
-    ./release.sh
+        cd misc
+        ./release.sh
 
 If you wrote swag style comments you can generate the API docs in `app` directory manually:
 
     cd app
     swag init -g apis/init.go
 
-You can test your API by curl or swagger API docs:<localhost:8080/x/apidocs/index.html>
+You can test your API by curl or swagger API docs:<http://localhost:8080/x/apidocs/index.html>
 
 ### Delevop suggestions
 

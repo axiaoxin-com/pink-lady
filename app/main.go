@@ -1,4 +1,4 @@
-// gin-skeleton: Typically gin-based web application's organizational structure
+// pink-lady: Typically gin-based web application's organizational structure
 package main
 
 import (
@@ -6,10 +6,10 @@ import (
 	"os"
 	"strings"
 
-	"gin-skeleton/app/apis"
-	"gin-skeleton/app/apis/router"
-	"gin-skeleton/app/models"
-	"gin-skeleton/app/utils"
+	"pink-lady/app/apis"
+	"pink-lady/app/apis/router"
+	"pink-lady/app/models"
+	"pink-lady/app/utils"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -22,7 +22,7 @@ func init() {
 		utils.ViperOption{"log.formatter", "text", "log formatter: text|json"},
 		utils.ViperOption{"database.engine", "sqlite3", "database engine: mysql|postgres|sqlite3|mssql"},
 		utils.ViperOption{"database.address", "", "database address: host:port"},
-		utils.ViperOption{"database.name", "/tmp/gin-skeleton.db", "database name"},
+		utils.ViperOption{"database.name", "/tmp/pink-lady.db", "database name"},
 		utils.ViperOption{"database.username", "", "database username"},
 		utils.ViperOption{"database.password", "", "database password"},
 		utils.ViperOption{"database.maxIdleConns", 2, "sets the maximum number of connections in the idle connection pool."},

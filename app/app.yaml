@@ -7,7 +7,7 @@ log:
 database:
     engine: sqlite3
     address: ''
-    name: /tmp/gin-skeleton.db
+    name: /tmp/pink-lady.db
     username: ''
     password: ''
     maxIdleConns: 2

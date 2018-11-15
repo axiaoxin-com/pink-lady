@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"gin-skeleton/app/utils/response"
+	"pink-lady/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 

@@ -3,7 +3,7 @@
 package models
 
 import (
-	"gin-skeleton/app/utils"
+	"pink-lady/app/utils"
 	"github.com/sirupsen/logrus"
 )
 
