@@ -17,7 +17,7 @@
 
 // @title Gin-Skeleton Web API
 // @version 0.0.1
-// @description These are web APIs based on gin-skeleton.
+// @description These are web APIs based on pink-lady.
 
 // @contact.name API Support
 // @contact.url http://km.oa.com/user/ashinchen
@@ -31,8 +31,8 @@
 package apis
 
 import (
-	"gin-skeleton/app/services/retcode"
-	"gin-skeleton/app/utils/response"
+	"pink-lady/app/services/retcode"
+	"pink-lady/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"gin-skeleton/app/utils"
+	"pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
 )
 

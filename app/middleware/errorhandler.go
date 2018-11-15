@@ -3,8 +3,8 @@ package middleware
 import (
 	"net/http"
 
-	"gin-skeleton/app/services/retcode"
-	"gin-skeleton/app/utils/response"
+	"pink-lady/app/services/retcode"
+	"pink-lady/app/utils/response"
 	"github.com/gin-gonic/gin"
 )
 

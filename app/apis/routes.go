@@ -2,7 +2,7 @@
 package apis
 
 import (
-	_ "gin-skeleton/app/docs"
+	_ "pink-lady/app/docs"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
@@ -11,7 +11,7 @@ import (
 // RegisterRoutes add handlers on urls at there
 func RegisterRoutes(app *gin.Engine) {
 
-	// group x registered gin-skeleton default api
+	// group x registered pink-lady default api
 	x := app.Group("/x")
 	{
 		x.GET("/apidocs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
