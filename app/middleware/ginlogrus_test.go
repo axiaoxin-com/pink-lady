@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/axiaoxin/gin-skeleton/app/utils"
+	"gin-skeleton/app/utils"
 	"github.com/gin-gonic/gin"
 )
 

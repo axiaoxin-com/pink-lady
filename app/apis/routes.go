@@ -2,7 +2,7 @@
 package apis
 
 import (
-	_ "github.com/axiaoxin/gin-skeleton/app/docs"
+	_ "gin-skeleton/app/docs"
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"

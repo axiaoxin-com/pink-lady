@@ -6,10 +6,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/axiaoxin/gin-skeleton/app/apis"
-	"github.com/axiaoxin/gin-skeleton/app/apis/router"
-	"github.com/axiaoxin/gin-skeleton/app/models"
-	"github.com/axiaoxin/gin-skeleton/app/utils"
+	"gin-skeleton/app/apis"
+	"gin-skeleton/app/apis/router"
+	"gin-skeleton/app/models"
+	"gin-skeleton/app/utils"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )

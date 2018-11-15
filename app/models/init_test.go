@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/axiaoxin/gin-skeleton/app/utils"
+	"gin-skeleton/app/utils"
 )
 
 func TestModelMigrate(t *testing.T) {
