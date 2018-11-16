@@ -1,5 +1,16 @@
 # pink-lady
 
+![proj-icon](https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/pinklady.png)
+
+
+[![Build Status](https://travis-ci.org/axiaoxin/pink-lady.svg?branch=master)](https://travis-ci.org/axiaoxin/pink-lady)
+![version-badge](https://img.shields.io/github/release/axiaoxin/pink-lady.svg)
+![downloads](https://img.shields.io/github/downloads/axiaoxin/pink-lady/total.svg)
+![license](https://img.shields.io/github/license/axiaoxin/pink-lady.svg)
+![issues](https://img.shields.io/github/issues/axiaoxin/pink-lady.svg)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/axiaoxin)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/axiaoxin/pink-lady/pulls)
+
 The typically [gin](https://github.com/gin-gonic/gin)-based web application's organizational structure -> pink-lady.
 
 The name comes from the Pink Lady which is a national standard cocktail with Gin as Base.
@@ -93,6 +104,24 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
 - **[[gin-contrib/sentry]](https://github.com/gin-contrib/sentry)**  Middleware to integrate with sentry crash reporting.
 - **[[alicebob/miniredis]](https://github.com/alicebob/miniredis)**  Pure Go Redis server for Go unittests
 - **[[parnurzeal/gorequest]](https://github.com/parnurzeal/gorequest)**  GoRequest -- Simplified HTTP client ( inspired by nodejs SuperAgent ) http://parnurzeal.github.io/gorequest/
+
+
+### Feature
+
+- Clear code organization.
+- Validation of production environment.
+- Flexible and rich configuration, easy to configure for server, log, database, redis and sentry.
+- Detailed and leveled log, easy to log gin request log with requestid and orm sql log.
+- Support multiple database ORM such as sqlite3, mysql, postgresql and sqlserver.
+- Support redis single client, sentinel client and cluster client.
+- Support sentry for collecting panic logs.
+- Provide a graceful restart/stop server.
+- Integration of gorequest, pagination, functions for testing and other common tools.
+- Provide functions to respond unified JSON structrue with `code`, `message`, `data` fields.
+- Provide easy-to-use business return code.
+- Gin router support handle 404/500 requests as a unified JSON structure.
+- Support auto generating the swagger API docs by comments
+- Provide a `release.sh` tool for releasing binary in `misc` directory.
 
 
 ### How to build web API server with pink-lady
