@@ -5,9 +5,11 @@ import (
 
 	"pink-lady/app/services/retcode"
 	"pink-lady/app/utils/response"
+
 	"github.com/gin-gonic/gin"
 )
 
+// ErrorHandler return json on 404 or 500
 func ErrorHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()

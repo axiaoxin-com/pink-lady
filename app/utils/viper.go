@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// ViperOption the InitViper option type
 type ViperOption struct {
 	Name    string
 	Default interface{}

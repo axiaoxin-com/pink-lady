@@ -1,5 +1,58 @@
 basePath: /
 definitions:
+  demo.AddLabelBody:
+    properties:
+      name:
+        description: label name
+        example: label name
+        type: string
+      remark:
+        description: label remark
+        example: label remark
+        type: string
+    required:
+    - name
+    type: object
+  demo.AddLabelingBody:
+    properties:
+      labelIDs:
+        description: which label ids need to be labling with the object ids
+        items:
+          type: uint
+        type: array
+      objectIDs:
+        description: which object ids need to be labling with the label ids
+        items:
+          type: uint
+        type: array
+    required:
+    - labelIDs
+    - objectIDs
+    type: object
+  demo.AddObjectBody:
+    properties:
+      appID:
+        description: APP ID
+        example: "1"
+        type: string
+      entity:
+        description: entity name
+        example: server
+        type: string
+      identity:
+        description: identity
+        example: "1"
+        type: string
+      system:
+        description: system name
+        example: cmdb
+        type: string
+    required:
+    - appID
+    - entity
+    - identity
+    - system
+    type: object
   response.Response:
     properties:
       code:
@@ -9,19 +62,276 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:8080
+host: pink-lady
 info:
   contact:
-    email: ashinchen@tencent.com
+    email: 254606826@qq.com
     name: API Support
-    url: http://km.oa.com/user/ashinchen
+    url: http://axiaoxin.com
   description: response current api version
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  title: Gin-Skeleton Web API
+  title: pink-lady Web API
   version: 0.0.1
 paths:
+  /demo/label:
+    get:
+      consumes:
+      - application/json
+      description: query label by id or name, or paging query
+      parameters:
+      - description: query by ID, other conditions do not enter into force.
+        in: query
+        name: id
+        type: integer
+      - description: query by name, other conditions do not enter into force.
+        in: query
+        name: name
+        type: string
+      - description: fuzzy query by remark
+        in: query
+        name: remark
+        type: string
+      - default: 1
+        description: page number
+        in: query
+        name: pageNum
+        type: integer
+      - default: 10
+        description: page size
+        in: query
+        name: pageSize
+        type: integer
+      - default: id asc
+        description: order field and order type
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Query label by query params
+      tags:
+      - label
+    post:
+      consumes:
+      - application/json
+      description: give name and remark to add new label, return label ID, if label
+        exist, update then remark field
+      parameters:
+      - description: label info
+        in: body
+        name: label
+        required: true
+        schema:
+          $ref: '#/definitions/demo.AddLabelBody'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Add new label
+      tags:
+      - label
+  /demo/labeling:
+    delete:
+      consumes:
+      - application/json
+      description: delete association for a given object ID list and tag ID list.
+      parameters:
+      - description: labeling association info
+        in: body
+        name: labeling
+        required: true
+        schema:
+          $ref: '#/definitions/demo.AddLabelingBody'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Delete labeling
+      tags:
+      - labeling
+    post:
+      consumes:
+      - application/json
+      description: create association for a given object ID list and tag ID list.
+      parameters:
+      - description: labeling association info
+        in: body
+        name: labeling
+        required: true
+        schema:
+          $ref: '#/definitions/demo.AddLabelingBody'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Labeling for object
+      tags:
+      - labeling
+    put:
+      consumes:
+      - application/json
+      description: replace association for a given object ID list and tag ID list.
+      parameters:
+      - description: labeling association info
+        in: body
+        name: labeling
+        required: true
+        schema:
+          $ref: '#/definitions/demo.AddLabelingBody'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Update labeling by replace way
+      tags:
+      - labeling
+  /demo/labeling/label/{id}:
+    get:
+      consumes:
+      - application/json
+      description: return labeling object list
+      parameters:
+      - description: label id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Query labeling object list by label ID
+      tags:
+      - labeling
+  /demo/labeling/object/{id}:
+    get:
+      consumes:
+      - application/json
+      description: return labeling label list
+      parameters:
+      - description: object id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Query labeling label list by object ID
+      tags:
+      - labeling
+  /demo/object:
+    get:
+      consumes:
+      - application/json
+      description: query object by params
+      parameters:
+      - description: query by object ID, other conditions do not enter into force.
+        in: query
+        name: id
+        type: integer
+      - description: filter result list by appid
+        in: query
+        name: appID
+        type: string
+      - description: filter result list by system
+        in: query
+        name: system
+        type: string
+      - description: filter result list by entity
+        in: query
+        name: entity
+        type: string
+      - description: filter result list by identity
+        in: query
+        name: identity
+        type: string
+      - default: 1
+        description: page number
+        in: query
+        name: pageNum
+        type: integer
+      - default: 10
+        description: page size
+        in: query
+        name: pageSize
+        type: integer
+      - default: id asc
+        description: order field and way
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Query object by params
+      tags:
+      - object
+    post:
+      consumes:
+      - application/json
+      description: add new object return object ID
+      parameters:
+      - description: object info
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/demo.AddObjectBody'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+            type: object
+      summary: Add new object
+      tags:
+      - object
   /x/ping:
     get:
       description: response current api version

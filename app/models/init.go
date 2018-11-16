@@ -1,12 +1,14 @@
-// package models save database models
+// Package models save database models
 // define your database models in the package
 package models
 
 import (
 	"pink-lady/app/utils"
+
 	"github.com/sirupsen/logrus"
 )
 
+// BaseModel you should define you model with BaseModel
 type BaseModel struct {
 	ID        uint            `gorm:"primary_key" json:"id"`
 	CreatedAt utils.JSONTime  `json:"createdAt"`
@@ -14,13 +16,14 @@ type BaseModel struct {
 	DeletedAt *utils.JSONTime `sql:"index" json:"-"`
 }
 
-// Models save your models like &MODEL{} at there which will be auto migrate when server starting
-var Models = []interface{}{}
+// MigrationModels save models like &MODEL{} for auto migrate when server starting
+// when you write your model you can append to it
+var MigrationModels = []interface{}{}
 
-// Migrate run AutoMigrate to create database tables which in Models array
+// Migrate run AutoMigrate to create database tables which in MigrationModels
 // running after InitGormDB
 func Migrate() {
-	if err := utils.DB.AutoMigrate(Models...).Error; err != nil {
+	if err := utils.DB.AutoMigrate(MigrationModels...).Error; err != nil {
 		logrus.Error(err)
 	}
 }

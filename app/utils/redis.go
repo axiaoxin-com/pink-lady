@@ -3,20 +3,23 @@ package utils
 import (
 	"strings"
 
-	"github.com/alicebob/miniredis"
 	"github.com/go-redis/redis"
 	"github.com/sirupsen/logrus"
 )
 
+// redis connection modes
 const (
-	REDIS_SINGLE_INSTANCE_MODE = "single-instance"
-	REDIS_SENTINEL_MODE        = "sentinel"
-	REDIS_CLUSTER_MODE         = "cluster"
-	REDIS_ADDRS_SEPARATOR      = ","
+	RedisSingleInstanceMode = "single-instance"
+	RedisSentinelMode       = "sentinel"
+	RedisClusterMode        = "cluster"
+	RedisAddrsSeparator     = ","
 )
 
+// redis clients
 var (
-	Redis        *redis.Client
+	// Redis single instance and sentinel client
+	Redis *redis.Client
+	// RedisCluster redis cluster client
 	RedisCluster *redis.ClusterClient
 )
 
@@ -30,13 +33,13 @@ var (
 func InitRedis(mode string, addr string, password string, db int, master string) error {
 	mode = strings.ToLower(mode)
 	var err error
-	if mode == REDIS_SINGLE_INSTANCE_MODE {
+	if mode == RedisSingleInstanceMode {
 		err = InitRedisClient(addr, password, db)
-	} else if mode == REDIS_SENTINEL_MODE {
-		addrs := strings.Split(addr, REDIS_ADDRS_SEPARATOR)
+	} else if mode == RedisSentinelMode {
+		addrs := strings.Split(addr, RedisAddrsSeparator)
 		err = InitRedisSentinel(master, addrs, password, db)
-	} else if mode == REDIS_CLUSTER_MODE {
-		addrs := strings.Split(addr, REDIS_ADDRS_SEPARATOR)
+	} else if mode == RedisClusterMode {
+		addrs := strings.Split(addr, RedisAddrsSeparator)
 		err = InitRedisCluster(addrs, password)
 	}
 	return err
@@ -82,12 +85,4 @@ func InitRedisCluster(addrs []string, password string) error {
 		logrus.Error(err)
 	}
 	return err
-}
-
-func MockRedis() (*miniredis.Miniredis, error) {
-	s, err := miniredis.Run()
-	if err != nil {
-		logrus.Error(err)
-	}
-	return s, err
 }

@@ -4,9 +4,11 @@ import (
 	"net/http"
 
 	"pink-lady/app/services/retcode"
+
 	"github.com/gin-gonic/gin"
 )
 
+// Response the unified json structure
 type Response struct {
 	Code    int         `json:"code"`
 	Message string      `json:"message"`

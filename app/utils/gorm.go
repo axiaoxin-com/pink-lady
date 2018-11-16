@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	// need by gorm
 	_ "github.com/jinzhu/gorm/dialects/mssql"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -16,12 +17,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// DB is *gorm.DB, use it to do orm
 var DB *gorm.DB
 
+// GormLogger custom gorm logger
 type GormLogger struct{}
 
 var sqlRegexp = regexp.MustCompile(`(\$\d+)|\?`)
 
+// Print define how to log
 func (*GormLogger) Print(values ...interface{}) {
 	if len(values) > 1 {
 		level := values[0]
@@ -80,8 +84,8 @@ func InitGormDB(engine, addr, name, username, password string, maxIdleConns, max
 	case "mysql":
 		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", username, password, addr, name)
 	case "postgres":
-		addr_ := strings.Split(addr, ":")
-		dsn = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s", addr_[0], addr_[1], username, name, password)
+		addrSlice := strings.Split(addr, ":")
+		dsn = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s", addrSlice[0], addrSlice[1], username, name, password)
 	case "sqlite3":
 		dsn = name
 	case "mssql":

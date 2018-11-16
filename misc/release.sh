@@ -3,11 +3,12 @@
 RED="\033[1;31m"
 GREEN="\033[0;32m"
 YELLOW="\033[1;33m"
-BLUE="\033[1;34m"
-PURPLE="\033[1;35m"
 CYAN="\033[1;36m"
 WHITE="\033[1;37m"
-RESET="\033[0m"
+# BLUE="\033[1;34m"
+# PURPLE="\033[1;35m"
+# RESET="\033[0m"
+
 QUESTION_FLAG="${GREEN}?"
 WARNING_FLAG="${YELLOW}!"
 ERROR_FLAG="${RED}!!"
@@ -20,10 +21,9 @@ BUILD_PATH=${PROJECT_PATH}/build
 NOW=$(date "+%Y%m%d-%H%M%S")
 
 # ERROR CODE
-BUMPVERSION_FAILED=-1
+BUMPVERSION_ERROR=-1
 TESTING_FAILED=-2
 BUILDING_FAILED=-3
-VERSION_ERROR=-4
 
 APIDOC_VERSION_PATTERN='// @version [0-9]+\.[0-9]+\.[0-9]+'
 CONST_VERSION_PATTERN='const VERSION = "[0-9]+\.[0-9]+\.[0-9]+"'
@@ -38,7 +38,7 @@ bumpVersion() {
     current_const_version=$(echo "${current_const_version_line}" | grep -o '".*"' | sed 's/"//g')
     if [ "${current_apidoc_version}" != "${current_const_version}" ]; then
         echo -e "${ERROR_FLAG} ${RED}apidoc version ${current_apidoc_version} is not match with const version ${current_const_version}"
-        exit $VERSION_ERROR
+        exit $BUMPVERSION_ERROR
     fi
     current_version=${current_apidoc_version}
     echo -e "${NOTICE_FLAG} Current version: ${WHITE}${current_version}"
