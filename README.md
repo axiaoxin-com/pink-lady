@@ -157,7 +157,7 @@ If you wrote swag style comments you can generate the API docs in `app` director
     cd app
     swag init -g apis/init.go
 
-You can test your API by curl or swagger API docs:<http://localhost:8080/x/apidocs/index.html>
+You can test your API by curl or swagger API docs:<http://localhost:4869/x/apidocs/index.html>
 
 ### Develop suggestions
 
