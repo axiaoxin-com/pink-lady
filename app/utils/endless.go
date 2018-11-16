@@ -8,6 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// EndlessServe running a graceful (re)start server
 func EndlessServe(bind string, handler http.Handler) {
 	server := endless.NewServer(bind, handler)
 	server.BeforeBegin = func(bind string) {

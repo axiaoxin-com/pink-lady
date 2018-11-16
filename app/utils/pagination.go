@@ -2,6 +2,7 @@ package utils
 
 import "math"
 
+// Pagination Paginate return it
 type Pagination struct {
 	// 数据总数
 	ItemsCount int `json:"itemsCount"`

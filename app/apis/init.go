@@ -1,8 +1,7 @@
-// package apis save the web api code
+// Package apis save the web api code
 // init.go define init() function and default system api
 // handlers save you handle functions
 // routes.go register handle function on url
-//
 // WAY TO ADD YOUR NEW API:
 // create code file or package according to you business logic, let structure be modularized
 // write the gin handlerFunc code like the Ping() in the file
@@ -14,29 +13,27 @@
 // the new return code should be defined in services/retcode package
 // when you finish the handlerFunc you need to register it on a url in routes.go
 // that's all.
-
-// @title Gin-Skeleton Web API
-// @version 0.0.1
-// @description These are web APIs based on pink-lady.
-
-// @contact.name API Support
-// @contact.url http://km.oa.com/user/ashinchen
-// @contact.email ashinchen@tencent.com
-
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-
-// @host localhost:8080
-// @BasePath /
 package apis
 
 import (
 	"pink-lady/app/services/retcode"
 	"pink-lady/app/utils/response"
+
 	"github.com/gin-gonic/gin"
 )
 
-// API version
+// @title pink-lady Web API
+// @version 0.0.1
+// @description These are web APIs based on pink-lady.
+// @contact.name API Support
+// @contact.url http://axiaoxin.com
+// @contact.email 254606826@qq.com
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host pink-lady
+// @BasePath /
+
+// VERSION your API version, don't change the code style
 const VERSION = "0.0.1"
 
 // package init function

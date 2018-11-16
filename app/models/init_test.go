@@ -12,7 +12,7 @@ func TestModelMigrate(t *testing.T) {
 		BaseModel
 		X int
 	}
-	Models = append(Models, &S{})
+	MigrationModels = append(MigrationModels, &S{})
 	err := utils.InitGormDB("sqlite3", "", "/tmp/pink-lady-unit-test.db", "", "", 0, 0, 0, true)
 	if err != nil {
 		t.Error("init gorm db error:", err)

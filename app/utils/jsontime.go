@@ -6,10 +6,12 @@ import (
 	"time"
 )
 
+// JSONTime custom format for json time field
 type JSONTime struct {
 	time.Time
 }
 
+// TimeFormat define the json time filed format
 const (
 	TimeFormat = "2006-01-02 15:04:05"
 )

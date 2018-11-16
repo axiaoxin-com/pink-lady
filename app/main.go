@@ -1,4 +1,4 @@
-// pink-lady: Typically gin-based web application's organizational structure
+// Package main pink-lady: Typically gin-based web application's organizational structure
 package main
 
 import (
