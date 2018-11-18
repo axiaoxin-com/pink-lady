@@ -12,7 +12,7 @@ func TestInitLogrus(t *testing.T) {
 	if logrus.GetLevel().String() != "debug" {
 		t.Error("set level failure")
 	}
-	InitLogrus(os.Stdout, "error", "text")
+	InitLogrus(os.Stdout, "error", "json")
 	if logrus.GetLevel().String() != "error" {
 		t.Error("set level failure")
 	}

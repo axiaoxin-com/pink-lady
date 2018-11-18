@@ -6,6 +6,7 @@ import (
 )
 
 func TestInitGormDB(t *testing.T) {
+	// test sqlite3
 	db := "/tmp/pink-lady-unit-test.db"
 	err := InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)
 	if DB == nil || err != nil {
@@ -13,4 +14,6 @@ func TestInitGormDB(t *testing.T) {
 	}
 	defer DB.Close()
 	defer os.Remove(db)
+
+	// TODO: mock mysql, postgres, mssql
 }
