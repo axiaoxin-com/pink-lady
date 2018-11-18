@@ -7,7 +7,7 @@ import (
 	"pink-lady/app/utils"
 )
 
-func TestModelMigrate(t *testing.T) {
+func TestMigrate(t *testing.T) {
 	type S struct {
 		BaseModel
 		X int
