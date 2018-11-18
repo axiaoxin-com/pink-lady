@@ -18,7 +18,9 @@ func TestMigrate(t *testing.T) {
 		t.Error("init gorm db error:", err)
 	}
 	defer utils.DB.Close()
-	Migrate()
+	if err := Migrate(); err != nil {
+		t.Error(err)
+	}
 	if err := utils.DB.Exec("select * from s").Error; err != nil {
 		t.Error(err)
 	}
