@@ -4,8 +4,6 @@ package models
 
 import (
 	"pink-lady/app/utils"
-
-	"github.com/sirupsen/logrus"
 )
 
 // BaseModel you should define you model with BaseModel
@@ -22,8 +20,6 @@ var MigrationModels = []interface{}{}
 
 // Migrate run AutoMigrate to create database tables which in MigrationModels
 // running after InitGormDB
-func Migrate() {
-	if err := utils.DB.AutoMigrate(MigrationModels...).Error; err != nil {
-		logrus.Error(err)
-	}
+func Migrate() error {
+	return utils.DB.AutoMigrate(MigrationModels...).Error
 }

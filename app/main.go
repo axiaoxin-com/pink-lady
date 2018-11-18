@@ -11,6 +11,7 @@ import (
 	"pink-lady/app/models"
 	"pink-lady/app/utils"
 
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -43,7 +44,9 @@ func init() {
 	utils.InitLogrus(os.Stdout, viper.GetString("log.level"), viper.GetString("log.formatter"))
 	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.maxIdleConns"), viper.GetInt("database.maxOpenConns"), viper.GetInt("database.connMaxLifeMinutes"), viper.GetBool("database.logMode"))
 	if viper.GetBool("database.autoMigrate") {
-		models.Migrate()
+		if err := models.Migrate(); err != nil {
+			logrus.Warning(err)
+		}
 	}
 	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
 }
