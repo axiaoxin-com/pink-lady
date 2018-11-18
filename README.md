@@ -3,14 +3,15 @@
 ![proj-icon](https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/pinklady.png)
 
 [![Build Status](https://travis-ci.org/axiaoxin/pink-lady.svg?branch=master)](https://travis-ci.org/axiaoxin/pink-lady)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b906dd1655074f60bf93a7c592d29204)](https://www.codacy.com/app/axiaoxin/pink-lady?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=axiaoxin/pink-lady&amp;utm_campaign=Badge_Grade)
 [![go report card](https://goreportcard.com/badge/github.com/axiaoxin/pink-lady)](https://goreportcard.com/report/github.com/axiaoxin/pink-lady)
+[![codecov](https://codecov.io/gh/axiaoxin/pink-lady/branch/master/graph/badge.svg)](https://codecov.io/gh/axiaoxin/pink-lady)
 ![version-badge](https://img.shields.io/github/release/axiaoxin/pink-lady.svg)
 ![downloads](https://img.shields.io/github/downloads/axiaoxin/pink-lady/total.svg)
 ![license](https://img.shields.io/github/license/axiaoxin/pink-lady.svg)
 ![issues](https://img.shields.io/github/issues/axiaoxin/pink-lady.svg)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/axiaoxin)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/axiaoxin/pink-lady/pulls)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b906dd1655074f60bf93a7c592d29204)](https://www.codacy.com/app/axiaoxin/pink-lady?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=axiaoxin/pink-lady&amp;utm_campaign=Badge_Grade)
 
 The typically [gin](https://github.com/gin-gonic/gin)-based web application's organizational structure -> pink-lady.
 
@@ -84,7 +85,7 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
 
 ## Develop requirements
 
-- **[[Go >= 1.9]](https://golang.org/doc/devel/release.html)** dep is a dependency management tool for Go. It requires Go 1.9 or newer to compile.
+- **[[Go >= 1.10]](https://golang.org/doc/devel/release.html)** It requires Go 1.10 or newer to use dep and run testing coverage.
 - **[[golang/dep]](https://github.com/golang/dep)** Go dependency management tool <https://golang.github.io/dep/>
 - **[[swaggo/swag]](https://github.com/swaggo/swag)** Automatically generate RESTful API documentation with Swagger 2.0 for Go.
 - **[[pilu/fresh]](https://github.com/pilu/fresh)** Build and (re)start go web apps after saving/creating/deleting source files.
