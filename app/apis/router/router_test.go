@@ -19,4 +19,15 @@ func TestSetupRouter(t *testing.T) {
 	if w.Result().StatusCode != 200 {
 		t.Error("Setup router fail")
 	}
+	if gin.Mode() != gin.TestMode {
+		t.Error("Set mode fail")
+	}
+	r = SetupRouter("debug", "", false)
+	if gin.Mode() != gin.DebugMode {
+		t.Error("Set mode fail")
+	}
+	r = SetupRouter("release", "no-sentry", false)
+	if gin.Mode() != gin.ReleaseMode {
+		t.Error("Set mode fail")
+	}
 }

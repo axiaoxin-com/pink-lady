@@ -18,7 +18,7 @@ type ViperOption struct {
 
 // InitViper init viper by default value, ENV, cmd flag and config file
 // you can use switch to reload server when config file changed
-func InitViper(configName string, envPrefix string, options []ViperOption) {
+func InitViper(configName string, envPrefix string, options []ViperOption) error {
 	viper.SetEnvPrefix(envPrefix)
 	for _, option := range options {
 		// set default value
@@ -46,13 +46,11 @@ func InitViper(configName string, envPrefix string, options []ViperOption) {
 	viper.AddConfigPath("$HOME")
 	viper.AddConfigPath("/etc")
 	err := viper.ReadInConfig()
-	if err != nil {
-		logrus.Warning(err)
-	}
 
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		// TODO
 		logrus.Debug("TODO: reload gin server when config changed by swicther")
 	})
+	return err
 }

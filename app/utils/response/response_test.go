@@ -10,11 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func init() {
-	gin.SetMode(gin.TestMode)
-}
-
 func TestJSON(t *testing.T) {
+	gin.SetMode(gin.ReleaseMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 	JSON(c, retcode.Success, gin.H{"k": "v"})
@@ -36,6 +33,7 @@ func TestJSON(t *testing.T) {
 }
 
 func TestJSON400(t *testing.T) {
+	gin.SetMode(gin.DebugMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 	JSON400(c, retcode.InvalidParams, gin.H{"k": "v"})

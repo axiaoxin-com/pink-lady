@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/go-redis/redis"
-	"github.com/sirupsen/logrus"
 )
 
 // redis connection modes
@@ -53,9 +52,6 @@ func InitRedisClient(addr string, password string, db int) error {
 		DB:       db,
 	})
 	_, err := Redis.Ping().Result()
-	if err != nil {
-		logrus.Error(err)
-	}
 	return err
 }
 
@@ -68,9 +64,6 @@ func InitRedisSentinel(master string, addrs []string, password string, db int) e
 		DB:            db,
 	})
 	_, err := Redis.Ping().Result()
-	if err != nil {
-		logrus.Error(err)
-	}
 	return err
 }
 
@@ -81,8 +74,5 @@ func InitRedisCluster(addrs []string, password string) error {
 		Password: password,
 	})
 	_, err := RedisCluster.Ping().Result()
-	if err != nil {
-		logrus.Error(err)
-	}
 	return err
 }

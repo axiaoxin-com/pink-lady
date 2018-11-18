@@ -17,7 +17,7 @@ import (
 )
 
 func init() {
-	utils.InitViper("app", "GIN", []utils.ViperOption{
+	if err := utils.InitViper("app", "GIN", []utils.ViperOption{
 		utils.ViperOption{"server.mode", "debug", "server mode: debug|test|release"},
 		utils.ViperOption{"server.bind", ":4869", "server bind address"},
 		utils.ViperOption{"log.level", "info", "log level: debug|info|warning|error|fatal|panic"},
@@ -39,7 +39,9 @@ func init() {
 		utils.ViperOption{"redis.master", "", "redis sentinel master name"},
 		utils.ViperOption{"sentry.dsn", "", "sentry dsn"},
 		utils.ViperOption{"sentry.onlyCrashes", "", "sentry only send crash reporting"},
-	})
+	}); err != nil {
+		logrus.Error(err)
+	}
 
 	utils.InitLogrus(os.Stdout, viper.GetString("log.level"), viper.GetString("log.formatter"))
 	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.maxIdleConns"), viper.GetInt("database.maxOpenConns"), viper.GetInt("database.connMaxLifeMinutes"), viper.GetBool("database.logMode"))
@@ -48,7 +50,9 @@ func init() {
 			logrus.Warning(err)
 		}
 	}
-	utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master"))
+	if err := utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master")); err != nil {
+		logrus.Error(err)
+	}
 }
 
 func main() {
