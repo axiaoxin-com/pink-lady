@@ -1,9 +1,9 @@
 package demo
 
 import (
-	demoService "pink-lady/app/services/demo"
-	"pink-lady/app/services/retcode"
-	"pink-lady/app/utils/response"
+	demoService "github.com/axiaoxin/pink-lady/app/services/demo"
+	"github.com/axiaoxin/pink-lady/app/services/retcode"
+	"github.com/axiaoxin/pink-lady/app/utils/response"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

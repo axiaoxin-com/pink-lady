@@ -3,7 +3,7 @@
 package models
 
 import (
-	"pink-lady/app/utils"
+	"github.com/axiaoxin/pink-lady/app/utils"
 )
 
 // BaseModel you should define you model with BaseModel

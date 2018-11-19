@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"pink-lady/app/utils/response"
+	"github.com/axiaoxin/pink-lady/app/utils/response"
 
 	"github.com/gin-gonic/gin"
 )

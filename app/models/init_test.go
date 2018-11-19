@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"pink-lady/app/utils"
+	"github.com/axiaoxin/pink-lady/app/utils"
 )
 
 func TestMigrate(t *testing.T) {

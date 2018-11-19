@@ -1,6 +1,6 @@
 package demo
 
-import "pink-lady/app/models"
+import "github.com/axiaoxin/pink-lady/app/models"
 
 // Label model of label
 type Label struct {

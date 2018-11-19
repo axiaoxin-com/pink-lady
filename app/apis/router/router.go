@@ -2,7 +2,7 @@
 package router
 
 import (
-	"pink-lady/app/middleware"
+	"github.com/axiaoxin/pink-lady/app/middleware"
 
 	raven "github.com/getsentry/raven-go"
 	"github.com/gin-contrib/cors"
