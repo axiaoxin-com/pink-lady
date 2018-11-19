@@ -28,9 +28,9 @@ BUILDING_FAILED=-3
 APIDOC_VERSION_PATTERN='// @version [0-9]+\.[0-9]+\.[0-9]+'
 CONST_VERSION_PATTERN='const VERSION = "[0-9]+\.[0-9]+\.[0-9]+"'
 
-
 # Bump version
 bumpVersion() {
+    lastest_commit=$(git log --pretty=format:"%h %cd %d %s" -1)
     # check version
     current_apidoc_version_line=($(grep -oE "${APIDOC_VERSION_PATTERN}" ${APP_PATH}/apis/init.go))
     current_apidoc_version=${current_apidoc_version_line[2]}
@@ -42,6 +42,7 @@ bumpVersion() {
     fi
     current_version=${current_apidoc_version}
     echo -e "${NOTICE_FLAG} Current version: ${WHITE}${current_version}"
+    echo -e "${NOTICE_FLAG} Latest commit: ${WHITE}${lastest_commit}"
 
     # get new version
     num_list=($(echo ${current_version} | tr '.' ' '))
@@ -140,6 +141,7 @@ commit() {
 }
 
 main() {
+    echo -e "${NOTICE_FLAG} This tool will help you to release your binary app.\n It will bump the version in your code, run tests then update apidocs and build the binary app and tar it as tar.gz file.\n Last do an optional commit the changed code and tag it with then version name"
     bumpVersion
     tests
     build
