@@ -3,7 +3,7 @@ package apis
 import (
 	"testing"
 
-	"pink-lady/app/utils"
+	"github.com/axiaoxin/pink-lady/app/utils"
 
 	"github.com/gin-gonic/gin"
 )

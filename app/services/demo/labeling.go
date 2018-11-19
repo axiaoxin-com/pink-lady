@@ -1,8 +1,8 @@
 package demo
 
 import (
-	demoModels "pink-lady/app/models/demo"
-	"pink-lady/app/utils"
+	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
+	"github.com/axiaoxin/pink-lady/app/utils"
 
 	"github.com/sirupsen/logrus"
 )

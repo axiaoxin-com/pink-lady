@@ -128,6 +128,8 @@ You maybe need to install them. For installation, please refer to their home pag
 First, Clone the pink-lady into your gopath and install dependebcies:
 
     cd $(go env GOPATH)/src
+    mkdir -p github.com/axiaoxin
+    cd github.com/axiaoxin
     git clone git@github.com:axiaoxin/pink-lady.git
     cd pink-lady
 
@@ -141,9 +143,9 @@ if you need use new dependencies, you should run the cmd before write code:
 
 if you want to change the project path or name, you must change the import path too:
 
-    mv pink-lady GOPATH/src/XXX/YYY/ZZZ
-    cd GOPATH/src/XXX/YYY/ZZZ/app
-    sed -i  "s|pink-lady|XXX/YYY/ZZZ|g"  `grep "pink-lady" . -rl`
+    mv github.com/axiaoxin/pink-lady XXX/YYY/ZZZ
+    cd XXX/YYY/ZZZ/app
+    sed -i  "s|github.com/axiaoxin/pink-lady|XXX/YYY/ZZZ|g"  `grep "github.com/axiaoxin/pink-lady" . -rl`
 
 Second, Write your API in `apis` directory, you can create a file or a subdirectory as a package to save your gin API handler function, then register the handlers on url in `apis/routes.go` like the default `ping` API
 
@@ -175,6 +177,6 @@ You can test your API by curl or swagger API docs:<http://pink-lady:4869/x/apido
 - Add generic business independent tool type code in `app/utils`
 - Add tool scripts etc in `misc`
 - Write unit tests and doc for functions
-- Integrate Travis and goreport
+- Integrate Travis, code quality, goreport and codecov
 - A convinent way to dynamic reload the server when code changing, you can use `fresh` to run server in `app` directory
 - There is a demo in pink-lady, a api service for labeling object with label, you can delete it in `apis/demo` `services/demo` `models/demo`

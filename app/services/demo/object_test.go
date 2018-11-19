@@ -4,9 +4,9 @@ import (
 	"os"
 	"testing"
 
-	"pink-lady/app/models"
-	demoModels "pink-lady/app/models/demo"
-	"pink-lady/app/utils"
+	"github.com/axiaoxin/pink-lady/app/models"
+	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
+	"github.com/axiaoxin/pink-lady/app/utils"
 )
 
 func TestAddObject(t *testing.T) {

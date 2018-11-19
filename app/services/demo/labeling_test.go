@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"pink-lady/app/models"
-	"pink-lady/app/utils"
+	"github.com/axiaoxin/pink-lady/app/models"
+	"github.com/axiaoxin/pink-lady/app/utils"
 )
 
 func TestAddLabeling(t *testing.T) {

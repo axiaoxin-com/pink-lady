@@ -1,6 +1,6 @@
 package demo
 
-import "pink-lady/app/models"
+import "github.com/axiaoxin/pink-lady/app/models"
 
 // Object model of object
 type Object struct {

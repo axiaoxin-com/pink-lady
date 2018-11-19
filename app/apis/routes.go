@@ -2,9 +2,9 @@
 package apis
 
 import (
-	"pink-lady/app/apis/demo"
+	"github.com/axiaoxin/pink-lady/app/apis/demo"
 	// need by swag
-	_ "pink-lady/app/docs"
+	_ "github.com/axiaoxin/pink-lady/app/docs"
 
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"

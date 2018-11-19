@@ -1,4 +1,4 @@
-// Package main pink-lady: Typically gin-based web application's organizational structure
+// pink-lady: Typically gin-based web application's organizational structure
 package main
 
 import (
@@ -6,10 +6,10 @@ import (
 	"os"
 	"strings"
 
-	"pink-lady/app/apis"
-	"pink-lady/app/apis/router"
-	"pink-lady/app/models"
-	"pink-lady/app/utils"
+	"github.com/axiaoxin/pink-lady/app/apis"
+	"github.com/axiaoxin/pink-lady/app/apis/router"
+	"github.com/axiaoxin/pink-lady/app/models"
+	"github.com/axiaoxin/pink-lady/app/utils"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
