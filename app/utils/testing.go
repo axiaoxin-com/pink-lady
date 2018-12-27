@@ -34,3 +34,10 @@ func MockRedis() (*miniredis.Miniredis, error) {
 	}
 	return s, err
 }
+
+
+// MockHTTPServer provide a mock http server for testing
+// Usage: https://gist.github.com/axiaoxin/aa8014738c6a02ce4e66eb01168d24fe
+func MockHTTPServer(f http.HandlerFunc) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(f))
+}
