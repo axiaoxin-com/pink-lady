@@ -125,27 +125,49 @@ You maybe need to install them. For installation, please refer to their home pag
 
 ## How to build web API server with pink-lady
 
-First, Clone the pink-lady into your gopath and install dependebcies:
+First, Run the script to create your new project:
 
-    cd $(go env GOPATH)/src
-    mkdir -p github.com/axiaoxin
-    cd github.com/axiaoxin
-    git clone git@github.com:axiaoxin/pink-lady.git
-    cd pink-lady
+    source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.sh)
 
-the vendor directory contain the dependencies, if not, install them by:
+You will get the project skeleton, then you can do coding.
 
-    dep ensure
+You also can create project skeleton manually:
 
-if you need use new dependencies, you should run the cmd before write code:
-
-    dep ensure --add xxxxxxxx
-
-if you want to change the project path or name, you must change the import path too:
-
-    mv github.com/axiaoxin/pink-lady XXX/YYY/ZZZ
-    cd XXX/YYY/ZZZ/app
-    sed -i  "s|github.com/axiaoxin/pink-lady|XXX/YYY/ZZZ|g"  `grep "github.com/axiaoxin/pink-lady" . -rl`
+> Clone the pink-lady into your gopath and install dependebcies:
+>
+>     cd $(go env GOPATH)/src
+>     mkdir -p github.com/axiaoxin
+>     cd github.com/axiaoxin
+>     git clone git@github.com:axiaoxin/pink-lady.git
+>     cd pink-lady
+>
+> the vendor directory contain the dependencies, if not, install them by:
+>
+>     dep ensure
+>
+> if you need use new dependencies, you should run the cmd before write code:
+>
+>     dep ensure --add xxxxxxxx
+>
+> if you want to change the project path or name, you must change the import path too:
+>
+>     # replace project name
+>     mv github.com/axiaoxin/pink-lady XXX/YYY/ZZZ
+>     cd XXX/YYY/ZZZ/
+>     sed -i "s|pink-lady|LegoWebService|g"  `grep "git.code.oa.com/basic-services/pink-lady" --include *.go -rl .`
+>
+>     # init git
+>     rm -rf .git
+>     git init
+>     git add .
+>     git commit -m "init project from pink-lady"
+>
+>     # remove demo
+>     rm -rf app/docs
+>     rm -rf app/apis/demo
+>     rm -rf app/services/demo
+>     rm -rf app/models/demo
+>     sed -i "/demo routes start/,/demo routes end/d" app/apis/routes.go
 
 Second, Write your API in `apis` directory, you can create a file or a subdirectory as a package to save your gin API handler function, then register the handlers on url in `apis/routes.go` like the default `ping` API
 
@@ -166,6 +188,7 @@ If you wrote swag style comments you can generate the API docs in `app` director
     swag init -g apis/init.go
 
 You can test your API by curl or swagger API docs:<http://pink-lady:4869/x/apidocs/index.html>, sure, you need to configure a host of pink-lady for your server
+
 
 ## Develop suggestions
 

@@ -21,7 +21,7 @@ func RegisterRoutes(app *gin.Engine) {
 		x.GET("/ping", Ping)
 	}
 
-	// group demo registered a demo, you can delete it
+	// demo routes start
 	demoGroup := app.Group("/demo")
 	{
 		demoGroup.POST("/label", demo.AddLabel)
@@ -36,6 +36,6 @@ func RegisterRoutes(app *gin.Engine) {
 		demoGroup.PUT("/labeling", demo.ReplaceLabeling)
 		demoGroup.DELETE("/labeling", demo.DeleteLabeling)
 	}
-
+	// demo routes end
 	// register your api below
 }
