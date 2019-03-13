@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/go-redis/redis"
+	"github.com/pkg/errors"
 )
 
 // redis connection modes
@@ -52,7 +53,7 @@ func InitRedisClient(addr string, password string, db int) error {
 		DB:       db,
 	})
 	_, err := Redis.Ping().Result()
-	return err
+	return errors.Wrap(err, "init redis client error")
 }
 
 // InitRedisSentinel init redis sentinel client also named `Redis`
@@ -64,7 +65,7 @@ func InitRedisSentinel(master string, addrs []string, password string, db int) e
 		DB:            db,
 	})
 	_, err := Redis.Ping().Result()
-	return err
+	return errors.Wrap(err, "init redis sentinel error")
 }
 
 // InitRedisCluster init redis cluster client named `RedisCluster`
@@ -74,5 +75,5 @@ func InitRedisCluster(addrs []string, password string) error {
 		Password: password,
 	})
 	_, err := RedisCluster.Ping().Result()
-	return err
+	return errors.Wrap(err, "init redis cluster error")
 }

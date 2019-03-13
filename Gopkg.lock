@@ -597,6 +597,7 @@
     "github.com/jinzhu/gorm/dialects/sqlite",
     "github.com/json-iterator/go",
     "github.com/parnurzeal/gorequest",
+    "github.com/pkg/errors",
     "github.com/satori/go.uuid",
     "github.com/sirupsen/logrus",
     "github.com/spf13/pflag",

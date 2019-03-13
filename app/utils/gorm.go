@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 	// need by gorm
 	_ "github.com/jinzhu/gorm/dialects/mssql"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -104,5 +105,5 @@ func InitGormDB(engine, addr, name, username, password string, maxIdleConns, max
 	DB.DB().SetMaxIdleConns(maxIdleConns)
 	DB.DB().SetMaxOpenConns(maxOpenConns)
 	DB.DB().SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute)
-	return err
+	return errors.Wrap(err, "init gormdb error")
 }
