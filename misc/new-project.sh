@@ -18,7 +18,7 @@ main() {
 
     # get skeleton
     echo -e "${NOTICE_FLAG} Downloading the skeleton..."
-    go get -u github.com/axiaoxin/pink-lady/app
+    go get -u -d github.com/axiaoxin/pink-lady/app
     # replace project name
     echo -e "${NOTICE_FLAG} Generating the project..."
     cp -r ${gopath}/src/github.com/axiaoxin/pink-lady ${gopath}/src/${projname}
