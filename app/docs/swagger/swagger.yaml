@@ -18,12 +18,12 @@ definitions:
       labelIDs:
         description: which label ids need to be labling with the object ids
         items:
-          type: uint
+          type: integer
         type: array
       objectIDs:
         description: which object ids need to be labling with the label ids
         items:
-          type: uint
+          type: integer
         type: array
     required:
     - labelIDs
@@ -68,7 +68,9 @@ info:
     email: 254606826@qq.com
     name: API Support
     url: http://axiaoxin.com
-  description: response current api version
+  description: |-
+    These are web APIs based on pink-lady.
+    response current api version
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
