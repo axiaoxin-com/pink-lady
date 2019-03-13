@@ -220,7 +220,7 @@ You can test your API by curl or swagger API docs:<http://pink-lady:4869/x/apido
 ## Develop suggestions
 
 - You should put your API handler functions in `app/apis` as a single file or a package, then register the handlers in `app/apis/routes.go`
-- Add your middleware in `app/middleware`, use it by adding to `app/apis/router/router.go`
+- Add your middleware in `app/middleware`, use it by adding to `app/router/router.go`
 - Define the database model in `app/models` by embed `BaseModel` in `app/models/init.go`
 - Write reusable business code in `app/services` as single file or a package
 - Define the return codes in `app/services/retcode/retcode.go`
