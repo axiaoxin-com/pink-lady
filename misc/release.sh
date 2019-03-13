@@ -117,8 +117,8 @@ tarball() {
     if [ -e ${APP_PATH}/${BINARY_NAME}.yaml ]; then
         cp ${APP_PATH}/${BINARY_NAME}.yaml ${tardir}
     fi
-    if [ -e ${APP_PATH}/app.yaml ]; then
-        cp ${APP_PATH}/app.yaml ${tardir}
+    if [ -e ${APP_PATH}/config.yaml ]; then
+        cp ${APP_PATH}/config.yaml ${tardir}
     fi
     tar czvf ${tardir}.tar.gz -C ${BUILD_PATH} ${tarname} && rm -rf ${tardir}
 }

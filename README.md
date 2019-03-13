@@ -30,7 +30,7 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
     │   │   │   └── router_test.go
     │   │   ├── routes.go                          // register your handler function on url in here
     │   │   └── routes_test.go
-    │   ├── app.yaml                                // configuration file
+    │   ├── config.yaml                                // configuration file
     │   ├── docs                                    // api docs generate by swag
     │   │   ├── docs.go
     │   │   └── swagger

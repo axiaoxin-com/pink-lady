@@ -17,3 +17,4 @@
 app/app
 app/tmp/
 build/
+config.yaml
