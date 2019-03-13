@@ -45,6 +45,7 @@ func AddLabel(c *gin.Context) {
 	body := AddLabelBody{}
 	if err := c.ShouldBindJSON(&body); err != nil {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
+		return
 	}
 	labelID, err := demoService.AddLabel(body.Name, body.Remark)
 	if err != nil {
@@ -76,6 +77,7 @@ func Label(c *gin.Context) {
 	}
 	if err := c.ShouldBindQuery(&query); err != nil {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
+		return
 	}
 
 	result, err := demoService.QueryLabel(query.ID, query.Name, query.Remark, query.PageNum, query.PageSize, query.Order)
