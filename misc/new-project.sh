@@ -13,7 +13,7 @@ main() {
     read projname
     projname_dir=`dirname ${projname}`
     mkdir -p ${gopath}/src/${projname_dir}
-    echo -ne "${QUESTION_FLAG} ${CYAN}Do you want to the demo code[${WHITE}N/y${CYAN}]: "
+    echo -ne "${QUESTION_FLAG} ${CYAN}Do you want to the demo code[${WHITE}Y/n${CYAN}]: "
     read rmdemo
 
     # get skeleton
@@ -34,5 +34,14 @@ main() {
         sed -i "/demo routes start/,/demo routes end/d" app/apis/routes.go
     fi
     echo -e "${NOTICE_FLAG} Create ${projname} succeed."
+
+    # init a git repo
+    echo -ne "${QUESTION_FLAG} ${CYAN}Do you want to init a git repo[${WHITE}N/y${CYAN}]: "
+    read initgit
+    if [ "${initgit}" == "y" ] || [ "${rmdemo}" == "Y" ]; then
+        cd ${gopath}/src/${projname} && git init && git add . && git commit -m "init project with pink-lady"
+        cp ${gopath}/src/${projname}/misc/pre-commit.githook ${gopath}/src/${projname}/.git/hooks/pre-commit
+        chmod +x ${gopath}/src/${projname}/.git/hooks/pre-commit
+    fi
 }
 main
