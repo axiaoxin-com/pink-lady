@@ -24,7 +24,7 @@ import (
 
 // @title pink-lady Web API
 // @version 0.0.1
-// @description These are web APIs based on pink-lady.
+// @description pink-lady web API list.
 // @contact.name API Support
 // @contact.url http://axiaoxin.com
 // @contact.email 254606826@qq.com
@@ -41,8 +41,7 @@ func init() {
 }
 
 // Ping godoc
-// @Summary Ping for server is living
-// @Description response current api version
+// @Summary Ping for server is living will respond API version
 // @Tags x
 // @Produce  json
 // @Router /x/ping [get]
