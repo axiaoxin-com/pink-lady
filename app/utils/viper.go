@@ -3,8 +3,7 @@ package utils
 import (
 	"strings"
 
-	"github.com/fsnotify/fsnotify"
-	"github.com/sirupsen/logrus"
+	"github.com/pkg/errors"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -46,11 +45,5 @@ func InitViper(configName string, envPrefix string, options []ViperOption) error
 	viper.AddConfigPath("$HOME")
 	viper.AddConfigPath("/etc")
 	err := viper.ReadInConfig()
-
-	viper.WatchConfig()
-	viper.OnConfigChange(func(e fsnotify.Event) {
-		// TODO
-		logrus.Debug("TODO: reload gin server when config changed by swicther")
-	})
-	return err
+	return errors.Wrap(err, "init viper error")
 }
