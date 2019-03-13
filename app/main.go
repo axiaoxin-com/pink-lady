@@ -42,7 +42,7 @@ func init() {
 		logrus.Error(err)
 	}
 
-	utils.InitLogrus(os.Stdout, viper.GetString("log.level"), viper.GetString("log.formatter"))
+	utils.InitLogger(os.Stdout, viper.GetString("log.level"), viper.GetString("log.formatter"))
 	utils.InitGormDB(viper.GetString("database.engine"), viper.GetString("database.address"), viper.GetString("database.name"), viper.GetString("database.username"), viper.GetString("database.password"), viper.GetInt("database.maxIdleConns"), viper.GetInt("database.maxOpenConns"), viper.GetInt("database.connMaxLifeMinutes"), viper.GetBool("database.logMode"))
 	if viper.GetBool("database.autoMigrate") {
 		if err := models.Migrate(); err != nil {

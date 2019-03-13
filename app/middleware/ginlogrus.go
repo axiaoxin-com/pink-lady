@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/axiaoxin/pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -19,12 +20,11 @@ func GinLogrus() gin.HandlerFunc {
 		end := time.Since(start)
 		status := c.Writer.Status()
 
-		entry := logrus.WithFields(logrus.Fields{
+		entry := utils.Logger.WithFields(logrus.Fields{
 			"path":      path,
 			"method":    c.Request.Method,
 			"clientIP":  c.ClientIP(),
 			"userAgent": c.Request.UserAgent(),
-			"requestID": c.MustGet(RequestIDKey),
 			"status":    status,
 			"size":      c.Writer.Size(),
 			"latency":   fmt.Sprintf("%fms", float64(end.Seconds())*1000.0),

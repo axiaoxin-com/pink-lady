@@ -11,6 +11,10 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
+func init() {
+	utils.InitLogger(os.Stdout, "debug", "text")
+}
+
 func TestAddLabel(t *testing.T) {
 	db := "/tmp/pink-lady-unit-test.db"
 	err := utils.InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)

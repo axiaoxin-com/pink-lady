@@ -27,7 +27,7 @@ type logStruct struct {
 func TestGinLogrus(t *testing.T) {
 	buf := &bytes.Buffer{}
 	ls := logStruct{}
-	utils.InitLogrus(buf, "debug", "json")
+	utils.InitLogger(buf, "debug", "json")
 	r := gin.New()
 	r.Use(RequestID()) // must get request id
 	r.Use(GinLogrus())
@@ -45,7 +45,7 @@ func TestGinLogrus(t *testing.T) {
 func TestGinLogrus500(t *testing.T) {
 	buf := &bytes.Buffer{}
 	ls := logStruct{}
-	utils.InitLogrus(buf, "debug", "json")
+	utils.InitLogger(buf, "debug", "json")
 	r := gin.New()
 	r.Use(RequestID()) // must get request id
 	r.Use(GinLogrus())

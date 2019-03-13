@@ -7,20 +7,25 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// InitLogrus set logrus options
+// Logger logrus entry
+var Logger *logrus.Entry
+
+// InitLogger set logrus logger options
 // logLevel set level which will be logged, values: debug, info(default), warning, error, fatal, panic
 // logFormatter set log format, values: text(default), json
-func InitLogrus(output io.Writer, logLevel string, logFormatter string) {
+func InitLogger(output io.Writer, logLevel string, logFormatter string) {
 	level, err := logrus.ParseLevel(logLevel)
 	if err == nil {
 		logrus.SetLevel(level)
 	}
 
+	logger := logrus.New()
 	if strings.ToLower(logFormatter) == "json" {
-		logrus.SetFormatter(&logrus.JSONFormatter{})
+		logger.Formatter = &logrus.JSONFormatter{}
 	} else {
-		logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+		logger.Formatter = &logrus.TextFormatter{FullTimestamp: true}
 	}
 
-	logrus.SetOutput(output)
+	logger.Out = output
+	Logger = logrus.NewEntry(logger)
 }

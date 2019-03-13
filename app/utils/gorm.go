@@ -10,6 +10,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+
 	// need by gorm
 	_ "github.com/jinzhu/gorm/dialects/mssql"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -31,7 +32,7 @@ func (*GormLogger) Print(values ...interface{}) {
 	if len(values) > 1 {
 		level := values[0]
 		source := values[1]
-		entry := logrus.WithField("source", source)
+		entry := Logger.WithField("source", source)
 		if level == "sql" {
 			duration := values[2]
 			// sql
@@ -62,7 +63,7 @@ func (*GormLogger) Print(values ...interface{}) {
 			entry.Error(values[2:]...)
 		}
 	} else {
-		logrus.Error(values...)
+		Logger.Error(values...)
 	}
 }
 

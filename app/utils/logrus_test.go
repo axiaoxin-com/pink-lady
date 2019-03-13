@@ -7,12 +7,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func TestInitLogrus(t *testing.T) {
-	InitLogrus(os.Stdout, "debug", "text")
+func TestInitLogger(t *testing.T) {
+	InitLogger(os.Stdout, "debug", "text")
 	if logrus.GetLevel().String() != "debug" {
 		t.Error("set level failure")
 	}
-	InitLogrus(os.Stdout, "error", "json")
+	if Logger == nil {
+		t.Error("Logger init failed")
+	}
+	InitLogger(os.Stdout, "error", "json")
 	if logrus.GetLevel().String() != "error" {
 		t.Error("set level failure")
 	}

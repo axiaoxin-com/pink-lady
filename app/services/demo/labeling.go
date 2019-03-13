@@ -3,20 +3,18 @@ package demo
 import (
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
-
-	"github.com/sirupsen/logrus"
 )
 
 // AddLabeling add associations for the objectIDs and LabelIDs
 func AddLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 	objects, err := GetObjectsByIDs(objectIDs)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	labels, err := GetLabelsByIDs(labelIDs)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -30,7 +28,7 @@ func AddLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 			}
 			err := utils.DB.Model(&object).Association("Labels").Append(label).Error
 			if err != nil {
-				logrus.Error(err)
+				utils.Logger.Warn(err)
 				result["result"] = err
 			}
 			results = append(results, result)
@@ -43,12 +41,12 @@ func AddLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 func ReplaceLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 	objects, err := GetObjectsByIDs(objectIDs)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	labels, err := GetLabelsByIDs(labelIDs)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -59,7 +57,7 @@ func ReplaceLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, erro
 		}
 		err := utils.DB.Model(&object).Association("Labels").Replace(labels).Error
 		if err != nil {
-			logrus.Error(err)
+			utils.Logger.Warn(err)
 			result["result"] = err
 		}
 		results = append(results, result)
@@ -71,12 +69,12 @@ func ReplaceLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, erro
 func DeleteLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 	objects, err := GetObjectsByIDs(objectIDs)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	labels, err := GetLabelsByIDs(labelIDs)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -90,7 +88,7 @@ func DeleteLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error
 			}
 			err := utils.DB.Model(&object).Association("Labels").Delete(label).Error
 			if err != nil {
-				logrus.Error(err)
+				utils.Logger.Warn(err)
 				result["result"] = err
 			}
 			results = append(results, result)
@@ -104,7 +102,7 @@ func GetLabelingByLabelID(labelID uint) ([]demoModels.Object, error) {
 	objects := []demoModels.Object{}
 	label, err := GetLabelByID(labelID)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	scopedb := utils.DB.Model(&label).Association("Objects")
@@ -118,7 +116,7 @@ func GetLabelingByObjectID(objectID uint) ([]demoModels.Label, error) {
 	labels := []demoModels.Label{}
 	object, err := GetObjectByID(objectID)
 	if err != nil {
-		logrus.Error(err)
+		utils.Logger.Warn(err)
 		return nil, err
 	}
 	scopedb := utils.DB.Model(&object).Association("Labels")
