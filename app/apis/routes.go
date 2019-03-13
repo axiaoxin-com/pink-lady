@@ -7,7 +7,7 @@ import (
 	_ "github.com/axiaoxin/pink-lady/app/docs"
 
 	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
