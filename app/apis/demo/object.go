@@ -53,6 +53,7 @@ func AddObject(c *gin.Context) {
 	body := AddObjectBody{}
 	if err := c.ShouldBindJSON(&body); err != nil {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
+		return
 	}
 	objectID, err := demoService.AddObject(body.AppID, body.System, body.Entity, body.Identity)
 	if err != nil {
@@ -86,6 +87,7 @@ func Object(c *gin.Context) {
 	}
 	if err := c.ShouldBindQuery(&query); err != nil {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
+		return
 	}
 	result, err := demoService.QueryObject(query.ID, query.AppID, query.System, query.Entity, query.Identity, query.PageNum, query.PageSize, query.Order)
 	if err != nil {
