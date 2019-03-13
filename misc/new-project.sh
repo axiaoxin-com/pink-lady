@@ -22,7 +22,7 @@ main() {
     # replace project name
     echo -e "${NOTICE_FLAG} Generating the project..."
     cp -r ${gopath}/src/github.com/axiaoxin/pink-lady ${gopath}/src/${projname}
-    cd ${gopath}/src/${projname} && rm -rf .git
+    cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.yaml.example ${gopath}/src/${projname}/app/config.yaml
     sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go -rl .`
 
     # remove demo
