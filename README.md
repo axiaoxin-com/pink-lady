@@ -19,68 +19,93 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
 
 ## Skeleton code organization structure
 
-    > tree -I "vendor"
+    > tree -I vendor
     .
-    ├── app                                          // source code directory
-    │   ├── apis                                    // write your apis at this directory
-    │   │   ├── init.go                            // skeleton default api
+    ├── app                                  // source code directory
+    │   ├── apis                            // write your apis at this directory
+    │   │   ├── demo                       // the demo apis
+    │   │   │   ├── label.go
+    │   │   │   ├── labeling.go
+    │   │   │   ├── labeling_test.go
+    │   │   │   ├── label_test.go
+    │   │   │   ├── object.go
+    │   │   │   └── object_test.go
+    │   │   ├── init.go                    // skeleton default api
     │   │   ├── init_test.go
-    │   │   ├── router                             // gin router
-    │   │   │   ├── router.go
-    │   │   │   └── router_test.go
-    │   │   ├── routes.go                          // register your handler function on url in here
+    │   │   ├── routes.go                  // register your handler function on url in here
     │   │   └── routes_test.go
-    │   ├── config.yaml                                // configuration file
-    │   ├── docs                                    // api docs generate by swag
+    │   ├── config.yaml                     // your custom configuration file
+    │   ├── config.yaml.example             // example configuration file
+    │   ├── docs                            // api docs generate by swag
     │   │   ├── docs.go
     │   │   └── swagger
     │   │       ├── swagger.json
     │   │       └── swagger.yaml
-    │   ├── main.go                                 // main run a endless api server
-    │   ├── middleware                              // skeleton default middlewares
-    │   │   ├── errorhandler.go                    // handle 404 500 to return JSON
+    │   ├── main.go                         // main run a endless api server
+    │   ├── middleware                      // skeleton default middlewares
+    │   │   ├── errorhandler.go            // handle 404 500 to return JSON
     │   │   ├── errorhandler_test.go
-    │   │   ├── ginlogrus.go                       // logs use logrus
+    │   │   ├── ginlogrus.go               // logs use logrus and add custom fields
     │   │   ├── ginlogrus_test.go
     │   │   ├── init.go
-    │   │   ├── requestid.go                       // log request id
+    │   │   ├── requestid.go               // set request id in header and logger
     │   │   └── requestid_test.go
-    │   ├── models                                  // write your models at here
-    │   │   ├── init.go                            // provide a base model
+    │   ├── models                          // write your models at here
+    │   │   ├── demo                       // the demo models
+    │   │   │   ├── label.go
+    │   │   │   └── object.go
+    │   │   ├── init.go                    // provide a base model
     │   │   └── init_test.go
-    │   ├── services                                // write your business handler at here
+    │   ├── router                          // gin router
+    │   │   ├── router.go                  // return router with middlewares
+    │   │   └── router_test.go
+    │   ├── services                        // write your business handler at here
+    │   │   ├── demo                       // the demo services
+    │   │   │   ├── label.go
+    │   │   │   ├── labeling.go
+    │   │   │   ├── labeling_test.go
+    │   │   │   ├── label_test.go
+    │   │   │   ├── object.go
+    │   │   │   └── object_test.go
     │   │   ├── init.go
     │   │   ├── init_test.go
-    │   │   └── retcode                            // write your business return code at here
+    │   │   └── retcode                    // write your business return code at here
     │   │       ├── retcode.go
     │   │       └── retcode_test.go
-    │   └── utils                                   // add common utils at here
-    │       ├── endless.go                          // provide a graceful stop server
-    │       ├── gorequest.go                        // provide a http client
-    │       ├── gorm.go                             // provide gorm db client
+    │   └── utils                           // add common utils at here
+    │       ├── endless.go                  // provide a graceful stop server
+    │       ├── gorequest.go                // provide a http client
+    │       ├── gorm.go                     // provide gorm db client
     │       ├── gorm_test.go
     │       ├── init.go
-    │       ├── jsontime.go                         // provide a custom format time field for json
+    │       ├── jsontime.go                 // provide a custom format time field for json
     │       ├── jsontime_test.go
-    │       ├── logrus.go                           // provide a log
+    │       ├── logrus.go                   // provide a logger
     │       ├── logrus_test.go
-    │       ├── pagination.go                       // provide a pagination function
+    │       ├── pagination.go               // provide a pagination function
     │       ├── pagination_test.go
-    │       ├── redis.go                            // provide a redis client
+    │       ├── redis.go                    // provide a redis client
     │       ├── redis_test.go
-    │       ├── response                            // provide united json response functions
+    │       ├── response                    // provide united json response functions
     │       │   ├── response.go
     │       │   └── response_test.go
-    │       ├── testing.go                          // provide GET/POST request function for testing
-    │       ├── viper.go                            // provide configuration parser
+    │       ├── testing.go                  // provide GET/POST request function for testing
+    │       ├── viper.go                    // provide configuration parser
     │       └── viper_test.go
-    ├── Gopkg.lock                                   // dep file
-    ├── Gopkg.toml                                   // dep file
-    ├── misc                                         // write your tool scripts at here
-    │   ├── pre-push.githook                        // a git pe-push hook for run test when push
+    ├── CODE_OF_CONDUCT.md
+    ├── Gopkg.lock                           // dep file
+    ├── Gopkg.toml                           // dep file
+    ├── LICENSE
+    ├── misc                                 // write your tool scripts at here
+    │   ├── gen_apidoc.sh                   // gen api docs
+    │   ├── new-project.sh                  // create new project using pink-lady
+    │   ├── pinklady.png                    // logo
+    │   ├── pre-push.githook                // a git pe-push hook for run test when push
     │   ├── README.md
-    │   ├── release.sh                              // a tool for release the binary app
-    │   └── supervisor.conf                         // a supervisor configure file demo
+    │   ├── release.sh                      // a tool for release the binary app
+    │   ├── sql                             // save your sqls at there
+    │   │   └── README.md
+    │   └── supervisor.conf
     └── README.md
 
 ## Develop requirements
@@ -105,6 +130,8 @@ You maybe need to install them. For installation, please refer to their home pag
 - **[[gin-contrib/sentry]](https://github.com/gin-contrib/sentry)** Middleware to integrate with sentry crash reporting.
 - **[[alicebob/miniredis]](https://github.com/alicebob/miniredis)** Pure Go Redis server for Go unittests
 - **[[parnurzeal/gorequest]](https://github.com/parnurzeal/gorequest)** GoRequest -- Simplified HTTP client ( inspired by nodejs SuperAgent ) <http://parnurzeal.github.io/gorequest/>
+- **[[pkg/errors]](https://github.com/pkg/errors)** Simple error handling primitives <https://godoc.org/github.com/pkg/errors>
+- **[[json-iterator/go]](https://github.com/json-iterator/go)** A high-performance 100% compatible drop-in replacement of "encoding/json"
 
 ## Feature
 
