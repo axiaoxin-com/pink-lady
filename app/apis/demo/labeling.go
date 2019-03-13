@@ -1,13 +1,13 @@
 package demo
 
 import (
+	"strconv"
+
 	demoService "github.com/axiaoxin/pink-lady/app/services/demo"
 	"github.com/axiaoxin/pink-lady/app/services/retcode"
 	"github.com/axiaoxin/pink-lady/app/utils/response"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 )
 
 // AddLabelingBody bind for validator
@@ -97,7 +97,6 @@ func DeleteLabeling(c *gin.Context) {
 // @Router /demo/labeling/label/{id} [get]
 // @Success 200 {object} response.Response
 func GetLabelingByLabelID(c *gin.Context) {
-	logrus.Debug(c.Param("id"))
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		response.JSON400(c, retcode.InvalidParams, err.Error())

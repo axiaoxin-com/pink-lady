@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"os"
 	"testing"
 
 	"github.com/axiaoxin/pink-lady/app/apis/router"
@@ -11,6 +12,7 @@ import (
 
 func init() {
 	gin.SetMode(gin.TestMode)
+	utils.InitLogger(os.Stdout, "debug", "text")
 }
 
 func TestPing(t *testing.T) {

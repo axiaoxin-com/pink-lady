@@ -9,6 +9,10 @@ import (
 	"github.com/axiaoxin/pink-lady/app/utils"
 )
 
+func init() {
+	utils.InitLogger(os.Stdout, "debug", "text")
+}
+
 func TestAddLabel(t *testing.T) {
 	db := "/tmp/pink-lady-unit-test.db"
 	err := utils.InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)

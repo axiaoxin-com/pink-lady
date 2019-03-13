@@ -1,6 +1,7 @@
 package router
 
 import (
+	"os"
 	"testing"
 
 	"github.com/axiaoxin/pink-lady/app/utils"
@@ -10,6 +11,7 @@ import (
 
 func init() {
 	gin.SetMode(gin.TestMode)
+	utils.InitLogger(os.Stdout, "debug", "text")
 }
 
 func TestSetupRouter(t *testing.T) {

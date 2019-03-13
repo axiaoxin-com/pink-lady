@@ -1,11 +1,16 @@
 package models
 
 import (
+	"os"
 	"testing"
 	"time"
 
 	"github.com/axiaoxin/pink-lady/app/utils"
 )
+
+func init() {
+	utils.InitLogger(os.Stdout, "debug", "text")
+}
 
 func TestMigrate(t *testing.T) {
 	type S struct {
