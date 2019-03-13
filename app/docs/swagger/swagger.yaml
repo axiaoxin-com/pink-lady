@@ -68,9 +68,7 @@ info:
     email: 254606826@qq.com
     name: API Support
     url: http://axiaoxin.com
-  description: |-
-    These are web APIs based on pink-lady.
-    response current api version
+  description: pink-lady web API list.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -336,7 +334,6 @@ paths:
       - object
   /x/ping:
     get:
-      description: response current api version
       produces:
       - application/json
       responses:
@@ -345,7 +342,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
             type: object
-      summary: Ping for server is living
+      summary: Ping for server is living will respond API version
       tags:
       - x
 swagger: "2.0"

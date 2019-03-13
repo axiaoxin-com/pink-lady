@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "These are web APIs based on pink-lady.\nresponse current api version",
+        "description": "pink-lady web API list.",
         "title": "pink-lady Web API",
         "contact": {
             "name": "API Support",
@@ -399,14 +399,13 @@
         },
         "/x/ping": {
             "get": {
-                "description": "response current api version",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "x"
                 ],
-                "summary": "Ping for server is living",
+                "summary": "Ping for server is living will respond API version",
                 "responses": {
                     "200": {
                         "description": "OK",
