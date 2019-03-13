@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "response current api version",
+        "description": "These are web APIs based on pink-lady.\nresponse current api version",
         "title": "pink-lady Web API",
         "contact": {
             "name": "API Support",
@@ -449,14 +449,14 @@
                     "description": "which label ids need to be labling with the object ids",
                     "type": "array",
                     "items": {
-                        "type": "uint"
+                        "type": "integer"
                     }
                 },
                 "objectIDs": {
                     "description": "which object ids need to be labling with the label ids",
                     "type": "array",
                     "items": {
-                        "type": "uint"
+                        "type": "integer"
                     }
                 }
             }
