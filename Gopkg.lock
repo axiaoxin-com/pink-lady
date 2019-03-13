@@ -583,7 +583,6 @@
   input-imports = [
     "github.com/alecthomas/template",
     "github.com/alicebob/miniredis",
-    "github.com/fsnotify/fsnotify",
     "github.com/fvbock/endless",
     "github.com/getsentry/raven-go",
     "github.com/gin-contrib/cors",
