@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/axiaoxin/pink-lady/app/apis"
-	"github.com/axiaoxin/pink-lady/app/apis/router"
 	"github.com/axiaoxin/pink-lady/app/models"
+	"github.com/axiaoxin/pink-lady/app/router"
 	"github.com/axiaoxin/pink-lady/app/utils"
 
 	"github.com/sirupsen/logrus"

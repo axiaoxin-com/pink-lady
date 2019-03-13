@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/axiaoxin/pink-lady/app/apis/router"
 	"github.com/axiaoxin/pink-lady/app/models"
+	"github.com/axiaoxin/pink-lady/app/router"
 	"github.com/axiaoxin/pink-lady/app/utils"
 
 	jsoniter "github.com/json-iterator/go"
