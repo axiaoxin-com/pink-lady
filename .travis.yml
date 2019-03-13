@@ -8,6 +8,7 @@ go:
 go_import_path: github.com/axiaoxin/pink-lady
 
 script:
+  - cp app/config.yaml.example app/config.yaml
   - go test -race -coverprofile=coverage.txt -covermode=atomic -v ./...
 
 after_success:
