@@ -179,9 +179,9 @@ You also can create project skeleton manually:
 > if you want to change the project path or name, you must change the import path too:
 >
 >     # replace project name
->     mv github.com/axiaoxin/pink-lady XXX/YYY/ZZZ
->     cd XXX/YYY/ZZZ/
->     sed -i "s|pink-lady|LegoWebService|g"  `grep "git.code.oa.com/basic-services/pink-lady" --include *.go -rl .`
+>     mv github.com/axiaoxin/pink-lady ${projname}
+>     cd ${projname}
+>     sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go -rl .`
 >
 >     # init git
 >     rm -rf .git
@@ -201,6 +201,7 @@ Second, Write your API in `apis` directory, you can create a file or a subdirect
 Third, Run develop server in `app` directory:
 
     cd app
+    cp config.yaml.example config.yaml
     go test ./...
     go run main.go
 
