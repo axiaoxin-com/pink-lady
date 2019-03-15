@@ -12,7 +12,7 @@ import (
 func EndlessServe(bind string, handler http.Handler) {
 	server := endless.NewServer(bind, handler)
 	server.BeforeBegin = func(bind string) {
-		logrus.Infof("Server is listening and serving HTTP on %s (pids: %d)", bind, syscall.Getpid())
+		logrus.Infof("Server is listening and serving HTTP on %s (pid: %d)", bind, syscall.Getpid())
 	}
 	server.ListenAndServe()
 }
