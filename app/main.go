@@ -55,6 +55,7 @@ func init() {
 }
 
 func main() {
+	logrus.Info("===================================== pink-lady =====================================")
 	defer utils.DB.Close()
 	// TODO: imp in cli
 	version := pflag.Bool("version", false, "show version")
