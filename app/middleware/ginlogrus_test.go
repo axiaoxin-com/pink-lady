@@ -11,7 +11,7 @@ import (
 )
 
 type logStruct struct {
-	Path      string `json:"path"`
+	Url       string `json:"url"`
 	Method    string `json:"method"`
 	ClientIP  string `json:"clientIP"`
 	UserAgent string `json:"userAgent"`
@@ -37,7 +37,7 @@ func TestGinLogrus(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if ls.Path != "/" || ls.Method != "GET" || ls.RequestID == "" || ls.Status != 200 {
+	if ls.Url != "/" || ls.Method != "GET" || ls.RequestID == "" || ls.Status != 200 {
 		t.Error("log field error ", ls)
 	}
 }
@@ -55,7 +55,7 @@ func TestGinLogrus500(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if ls.Path != "/500" || ls.Method != "GET" || ls.RequestID == "" || ls.Status != 500 {
+	if ls.Url != "/500" || ls.Method != "GET" || ls.RequestID == "" || ls.Status != 500 {
 		t.Error("log field error ", ls)
 	}
 }

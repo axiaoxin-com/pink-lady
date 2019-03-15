@@ -26,11 +26,14 @@ func GinLogrus() gin.HandlerFunc {
 		start := time.Now()
 
 		url := c.Request.URL.String()
-		buf, _ := ioutil.ReadAll(c.Request.Body)
-		rdr1 := ioutil.NopCloser(bytes.NewBuffer(buf))
-		rdr2 := ioutil.NopCloser(bytes.NewBuffer(buf)) //We have to create a new Buffer, because rdr1 will be read.
-		body := readBody(rdr1)
-		c.Request.Body = rdr2
+		body := ""
+		if c.Request.Body != nil {
+			buf, _ := ioutil.ReadAll(c.Request.Body)
+			rdr1 := ioutil.NopCloser(bytes.NewBuffer(buf))
+			rdr2 := ioutil.NopCloser(bytes.NewBuffer(buf)) //We have to create a new Buffer, because rdr1 will be read.
+			body = readBody(rdr1)
+			c.Request.Body = rdr2
+		}
 		c.Next()
 
 		end := time.Since(start)
