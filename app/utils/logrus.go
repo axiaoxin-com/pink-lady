@@ -3,6 +3,7 @@ package utils
 import (
 	"io"
 	"strings"
+	"syscall"
 
 	"github.com/sirupsen/logrus"
 )
@@ -28,4 +29,7 @@ func InitLogger(output io.Writer, logLevel string, logFormatter string) {
 
 	logger.Out = output
 	Logger = logrus.NewEntry(logger)
+	Logger = Logger.WithFields(logrus.Fields{
+		"PID": syscall.Getpid(),
+	})
 }
