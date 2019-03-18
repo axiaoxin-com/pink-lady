@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"time"
@@ -47,7 +46,7 @@ func GinLogrus() gin.HandlerFunc {
 			"userAgent": c.Request.UserAgent(),
 			"status":    status,
 			"size":      c.Writer.Size(),
-			"latency":   fmt.Sprintf("%fms", float64(end.Seconds())*1000.0),
+			"latency":   float64(end.Seconds()) * 1000.0,
 		})
 
 		if len(c.Errors) > 0 {

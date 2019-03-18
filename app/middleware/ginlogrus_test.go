@@ -11,17 +11,17 @@ import (
 )
 
 type logStruct struct {
-	Url       string `json:"url"`
-	Method    string `json:"method"`
-	ClientIP  string `json:"clientIP"`
-	UserAgent string `json:"userAgent"`
-	RequestID string `json:"requestID"`
-	Status    int    `json:"status"`
-	Size      int    `json:"size"`
-	Latency   string `json:"latency"`
-	Level     string `json:"level"`
-	Msg       string `json:"msg"`
-	Time      string `json:"time"`
+	Url       string  `json:"url"`
+	Method    string  `json:"method"`
+	ClientIP  string  `json:"clientIP"`
+	UserAgent string  `json:"userAgent"`
+	RequestID string  `json:"requestID"`
+	Status    int     `json:"status"`
+	Size      int     `json:"size"`
+	Latency   float64 `json:"latency"`
+	Level     string  `json:"level"`
+	Msg       string  `json:"msg"`
+	Time      string  `json:"time"`
 }
 
 func TestGinLogrus(t *testing.T) {
