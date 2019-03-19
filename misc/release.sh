@@ -85,8 +85,18 @@ build() {
     if [ "${binary_name}" != "" ]; then
         BINARY_NAME=${binary_name}
     fi
+    APIDOC_HOST=pink-lady
+    echo -ne "${QUESTION_FLAG} ${CYAN}Enter apidocs host[${WHITE}${APIDOC_HOST}${CYAN}]: "
+    read apidoc_host
+    if [ "${apidoc_host}" != "" ]; then
+        APIDOC_HOST=${apidoc_host}
+    fi
 
-    echo -e "${NOTICE_FLAG} Will build binary name to be ${WHITE}${BINARY_NAME}"
+    # replace apidoc host
+    sed -i -r "s|// @host .+?|// @host ${APIDOC_HOST}|" ${APP_PATH}/apis/init.go
+
+    echo -e "${NOTICE_FLAG} Will build binary name to be ${WHITE}${BINARY_NAME} ${CYAN}with apidoc host ${WHITE}${APIDOC_HOST}"
+
     # Update docs
     echo "Updating swag docs"
     # check swag
