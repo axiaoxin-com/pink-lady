@@ -110,8 +110,8 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
 
 ## Develop requirements
 
-- **[[Go >= 1.10]](https://golang.org/doc/devel/release.html)** It requires Go 1.10 or newer to use dep and run testing coverage.
-- **[[golang/dep]](https://github.com/golang/dep)** Go dependency management tool <https://golang.github.io/dep/>
+- **[[Go >= 1.10]](https://golang.org/doc/devel/release.html)** It requires Go 1.10 or newer to use ~~dep~~ and run testing coverage.
+- ~~**[[golang/dep]](https://github.com/golang/dep)** Go dependency management tool <https://golang.github.io/dep/>~~
 - **[[swaggo/swag]](https://github.com/swaggo/swag)** Automatically generate RESTful API documentation with Swagger 2.0 for Go.
 - **[[pilu/fresh]](https://github.com/pilu/fresh)** Build and (re)start go web apps after saving/creating/deleting source files.
 

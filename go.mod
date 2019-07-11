@@ -1,0 +1,65 @@
+module github.com/axiaoxin/pink-lady
+
+go 1.12
+
+require (
+	cloud.google.com/go v0.0.0-20181023202548-debcad196469
+	github.com/PuerkitoBio/purell v1.1.0
+	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578
+	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
+	github.com/alicebob/gopher-json v0.0.0-20180125190556-5a6b3ba71ee6
+	github.com/alicebob/miniredis v0.0.0-20180911162847-3657542c8629
+	github.com/certifi/gocertifi v0.0.0-20180118203423-deb3ae2ef261
+	github.com/denisenkom/go-mssqldb v0.0.0-20181014144952-4e0d7dc8888f
+	github.com/fsnotify/fsnotify v1.4.7
+	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
+	github.com/getsentry/raven-go v0.0.0-20181023154854-3033899c76de
+	github.com/gin-contrib/cors v0.0.0-20170318125340-cf4846e6a636
+	github.com/gin-contrib/sentry v0.0.0-20180827025903-aa42345b40e5
+	github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7
+	github.com/gin-gonic/gin v0.0.0-20180814085852-b869fe1415e4
+	github.com/go-openapi/jsonpointer v0.17.0
+	github.com/go-openapi/jsonreference v0.17.0
+	github.com/go-openapi/spec v0.0.0-20181007002015-5bae59e25b21
+	github.com/go-openapi/swag v0.17.0
+	github.com/go-redis/redis v0.0.0-20181025065140-b3d9bf10f666
+	github.com/go-sql-driver/mysql v0.0.0-20180603124554-d523deb1b23d
+	github.com/golang/protobuf v1.2.0
+	github.com/gomodule/redigo v0.0.0-20180314223443-9c11da706d9b
+	github.com/hashicorp/hcl v1.0.0
+	github.com/jinzhu/gorm v0.0.0-20180227234356-6ed508ec6a4e
+	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a
+	github.com/json-iterator/go v0.0.0-20180806060727-1624edc4454b
+	github.com/konsorten/go-windows-terminal-sequences v0.0.0-20181004224146-5c8c8bd35d38
+	github.com/lib/pq v0.0.0-20180823062944-4ded0e9383f7
+	github.com/magiconair/properties v1.8.0
+	github.com/mailru/easyjson v0.0.0-20180823135443-60711f1a8329
+	github.com/mattn/go-isatty v0.0.0-20171107050531-6ca4dbf54d38
+	github.com/mattn/go-sqlite3 v0.0.0-20181024024035-c7c4067b79cc
+	github.com/mitchellh/mapstructure v1.0.0
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
+	github.com/moul/http2curl v0.0.0-20170919181001-9ac6cf4d929b
+	github.com/parnurzeal/gorequest v0.0.0-20170220172057-a578a48e8d6c
+	github.com/pelletier/go-toml v1.2.0
+	github.com/pkg/errors v0.0.0-20160929014801-645ef00459ed
+	github.com/satori/go.uuid v0.0.0-20180103152354-f58768cc1a7a
+	github.com/sirupsen/logrus v0.0.0-20181008203039-ad15b4246192
+	github.com/spf13/afero v1.1.2
+	github.com/spf13/cast v1.2.0
+	github.com/spf13/jwalterweatherman v1.0.0
+	github.com/spf13/pflag v1.0.2
+	github.com/spf13/viper v0.0.0-20180928075321-2c12c60302a5
+	github.com/swaggo/gin-swagger v0.0.0-20180413180408-8cf3fa9932e2
+	github.com/swaggo/swag v0.0.0-20180612023149-db2ee6c14a35
+	github.com/ugorji/go v0.0.0-20180407100733-b4c50a2b199d
+	github.com/vmihailenco/msgpack v0.0.0-20181023084659-c4fc0fcdd500
+	github.com/yuin/gopher-lua v0.0.0-20170621093221-48de30d01168
+	golang.org/x/crypto v0.0.0-20180904163835-0709b304e793
+	golang.org/x/net v0.0.0-20181029044818-c44066c5c816
+	golang.org/x/sys v0.0.0-20180906133057-8cf3aee42992
+	golang.org/x/text v0.3.0
+	google.golang.org/appengine v0.0.0-20180918202659-ae0ab99deb4d
+	gopkg.in/go-playground/validator.v8 v8.0.0-20170730050235-5f1438d3fca6
+	gopkg.in/yaml.v2 v2.2.1
+)
