@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"os"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -41,9 +42,16 @@ func InitViper(configName string, envPrefix string, options []ViperOption) error
 
 	// load conf file
 	viper.SetConfigName(configName)
-	viper.AddConfigPath(".")
+	wd, err := os.Getwd()
+	if err != nil {
+		return errors.Wrap(err, "viper get workdir error")
+	}
+	viper.AddConfigPath(wd)
 	viper.AddConfigPath("$HOME")
 	viper.AddConfigPath("/etc")
-	err := viper.ReadInConfig()
-	return errors.Wrap(err, "init viper error")
+	err = viper.ReadInConfig()
+	if err != nil {
+		return errors.Wrap(err, "viper read in config error")
+	}
+	return nil
 }
