@@ -16,7 +16,9 @@ var Logger *logrus.Entry
 // logFormatter set log format, values: text(default), json
 func InitLogger(output io.Writer, logLevel string, logFormatter string) {
 	level, err := logrus.ParseLevel(logLevel)
-	if err == nil {
+	if err != nil {
+		logrus.Error("logrus parse level error:", err)
+	} else {
 		logrus.SetLevel(level)
 	}
 
