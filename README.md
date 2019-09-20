@@ -19,7 +19,7 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
 
 ## Skeleton code organization structure
 
-    > tree -I vendor
+    > tree
     .
     ├── app                                  // source code directory
     │   ├── apis                            // write your apis at this directory
@@ -93,8 +93,8 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
     │       ├── viper.go                    // provide configuration parser
     │       └── viper_test.go
     ├── CODE_OF_CONDUCT.md
-    ├── Gopkg.lock                           // dep file
-    ├── Gopkg.toml                           // dep file
+    ├── go.mod                               // go mod file
+    ├── go.sum                               // go mod file
     ├── LICENSE
     ├── misc                                 // write your tool scripts at here
     │   ├── gen_apidoc.sh                   // gen api docs
@@ -110,8 +110,7 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
 
 ## Develop requirements
 
-- **[[Go >= 1.10]](https://golang.org/doc/devel/release.html)** It requires Go 1.10 or newer to use ~~dep~~ and run testing coverage.
-- ~~**[[golang/dep]](https://github.com/golang/dep)** Go dependency management tool <https://golang.github.io/dep/>~~
+- **[[Go >= 1.11]](https://golang.org/doc/devel/release.html)** It requires Go 1.11 or newer to use go mod and run testing coverage.
 - **[[swaggo/swag]](https://github.com/swaggo/swag)** Automatically generate RESTful API documentation with Swagger 2.0 for Go.
 - **[[pilu/fresh]](https://github.com/pilu/fresh)** Build and (re)start go web apps after saving/creating/deleting source files.
 
@@ -152,36 +151,26 @@ You maybe need to install them. For installation, please refer to their home pag
 
 ## How to build web API server with pink-lady
 
-First, Run the script to create your new project:
+First, *Run the script to create your new project:*
 
     source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.sh)
 
 You will get the project skeleton, then you can do coding.
 
-You also can create project skeleton manually:
-
+> You also can create project skeleton manually:
+>
 > Clone the pink-lady into your gopath and install dependebcies:
 >
 >     cd $(go env GOPATH)/src
->     mkdir -p github.com/axiaoxin
->     cd github.com/axiaoxin
 >     git clone git@github.com:axiaoxin/pink-lady.git
 >     cd pink-lady
->
-> the vendor directory contain the dependencies, if not, install them by:
->
->     dep ensure
->
-> if you need use new dependencies, you should run the cmd before write code:
->
->     dep ensure --add xxxxxxxx
 >
 > if you want to change the project path or name, you must change the import path too:
 >
 >     # replace project name
 >     mv github.com/axiaoxin/pink-lady ${projname}
 >     cd ${projname}
->     sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go -rl .`
+>     sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go --include go.* -rl .`
 >
 >     # init git
 >     rm -rf .git
