@@ -55,7 +55,7 @@ func AddObject(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	objectID, err := demoService.AddObject(body.AppID, body.System, body.Entity, body.Identity)
+	objectID, err := demoService.AddObject(c, body.AppID, body.System, body.Entity, body.Identity)
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return
@@ -89,7 +89,7 @@ func Object(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	result, err := demoService.QueryObject(query.ID, query.AppID, query.System, query.Entity, query.Identity, query.PageNum, query.PageSize, query.Order)
+	result, err := demoService.QueryObject(c, query.ID, query.AppID, query.System, query.Entity, query.Identity, query.PageNum, query.PageSize, query.Order)
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return

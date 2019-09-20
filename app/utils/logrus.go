@@ -5,10 +5,14 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
-// Logger logrus entry
+// CtxLoggerKey define the logger keyname which in context
+const CtxLoggerKey = "clogger"
+
+// Logger logrus global logger, with PID field
 var Logger *logrus.Entry
 
 // InitLogger set logrus logger options
@@ -34,4 +38,17 @@ func InitLogger(output io.Writer, logLevel string, logFormatter string) {
 	Logger = Logger.WithFields(logrus.Fields{
 		"PID": syscall.Getpid(),
 	})
+}
+
+// CtxLogger return a logger with requestid
+func CtxLogger(c *gin.Context) *logrus.Entry {
+	if c == nil {
+		return Logger
+	}
+
+	logger, exists := c.Get(CtxLoggerKey)
+	if !exists {
+		Logger.Error("gin context doesnot has a clogger")
+	}
+	return logger.(*logrus.Entry)
 }

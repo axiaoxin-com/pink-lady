@@ -17,9 +17,11 @@ func RequestID() gin.HandlerFunc {
 		c.Set(RequestIDKey, requestID) // 通过上下文环境暴露到handler内部使用
 
 		c.Writer.Header().Set(RequestIDKey, requestID)
-		utils.Logger = utils.Logger.WithFields(logrus.Fields{
+		// clogger with a request id to log msg
+		clogger := utils.Logger.WithFields(logrus.Fields{
 			"requestID": requestID,
 		})
+		c.Set(utils.CtxLoggerKey, clogger)
 		c.Next()
 	}
 }

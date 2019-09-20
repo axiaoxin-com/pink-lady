@@ -47,7 +47,7 @@ func AddLabel(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	labelID, err := demoService.AddLabel(body.Name, body.Remark)
+	labelID, err := demoService.AddLabel(c, body.Name, body.Remark)
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return
@@ -80,7 +80,7 @@ func Label(c *gin.Context) {
 		return
 	}
 
-	result, err := demoService.QueryLabel(query.ID, query.Name, query.Remark, query.PageNum, query.PageSize, query.Order)
+	result, err := demoService.QueryLabel(c, query.ID, query.Name, query.Remark, query.PageNum, query.PageSize, query.Order)
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return

@@ -23,19 +23,19 @@ func TestAddLabel(t *testing.T) {
 	defer utils.DB.Close()
 	defer os.Remove(db)
 
-	id1, err := AddLabel("labelname", "labelremark")
+	id1, err := AddLabel(nil, "labelname", "labelremark")
 	if err != nil {
 		t.Error(err)
 	}
-	id2, err := AddLabel("labelname", "labelremark")
+	id2, err := AddLabel(nil, "labelname", "labelremark")
 	if id1 != id2 || err != nil {
 		t.Error("same name should return same id ", err)
 	}
-	id3, err := AddLabel("labelname", "labelremark1")
+	id3, err := AddLabel(nil, "labelname", "labelremark1")
 	if id1 != id3 || err != nil {
 		t.Error("same name should return same id ", err)
 	}
-	label, err := GetLabelByID(id3)
+	label, err := GetLabelByID(nil, id3)
 	if label.Remark != "labelremark1" || err != nil {
 		t.Error("label remark should update ", err)
 	}
@@ -51,11 +51,11 @@ func TestGetLabelByID(t *testing.T) {
 	defer utils.DB.Close()
 	defer os.Remove(db)
 
-	id, err := AddLabel("labelname", "labelremark")
+	id, err := AddLabel(nil, "labelname", "labelremark")
 	if err != nil {
 		t.Error(err)
 	}
-	label, err := GetLabelByID(id)
+	label, err := GetLabelByID(nil, id)
 	if err != nil || label.ID != id {
 		t.Error("get label by id error ", err)
 	}
@@ -71,11 +71,11 @@ func TestGetLabelsByIDs(t *testing.T) {
 	defer utils.DB.Close()
 	defer os.Remove(db)
 
-	id, err := AddLabel("labelname", "labelremark")
+	id, err := AddLabel(nil, "labelname", "labelremark")
 	if err != nil {
 		t.Error(err)
 	}
-	labels, err := GetLabelsByIDs([]uint{id})
+	labels, err := GetLabelsByIDs(nil, []uint{id})
 	if err != nil || len(labels) != 1 {
 		t.Error("get labels by ids error ", err)
 	}
@@ -92,22 +92,22 @@ func TestQueryLabel(t *testing.T) {
 	defer os.Remove(db)
 
 	// init data
-	id, err := AddLabel("labelname", "labelremark")
+	id, err := AddLabel(nil, "labelname", "labelremark")
 	if err != nil {
 		t.Error(err)
 	}
-	_, err = AddLabel("labelname1", "labelremark1")
+	_, err = AddLabel(nil, "labelname1", "labelremark1")
 	if err != nil {
 		t.Error(err)
 	}
 
 	// test query by id
-	labels, err := GetLabelsByIDs([]uint{id})
+	labels, err := GetLabelsByIDs(nil, []uint{id})
 	if err != nil || len(labels) != 1 {
 		t.Error("get labels by ids error ", err)
 	}
 
-	data, err := QueryLabel(id, "", "", 0, 0, "")
+	data, err := QueryLabel(nil, id, "", "", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}
@@ -120,7 +120,7 @@ func TestQueryLabel(t *testing.T) {
 	}
 
 	// test get by name
-	data, err = QueryLabel(0, "labelname", "", 0, 0, "")
+	data, err = QueryLabel(nil, 0, "labelname", "", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}
@@ -133,7 +133,7 @@ func TestQueryLabel(t *testing.T) {
 	}
 
 	// test default query params
-	data, err = QueryLabel(0, "", "", 0, 0, "")
+	data, err = QueryLabel(nil, 0, "", "", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}
@@ -154,7 +154,7 @@ func TestQueryLabel(t *testing.T) {
 	}
 
 	// test order
-	data, err = QueryLabel(0, "", "", 0, 0, "id desc")
+	data, err = QueryLabel(nil, 0, "", "", 0, 0, "id desc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -175,7 +175,7 @@ func TestQueryLabel(t *testing.T) {
 	}
 
 	// test page size
-	data, err = QueryLabel(0, "", "", 1, 1, "id asc")
+	data, err = QueryLabel(nil, 0, "", "", 1, 1, "id asc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -196,7 +196,7 @@ func TestQueryLabel(t *testing.T) {
 	}
 
 	// test page size order
-	data, err = QueryLabel(0, "", "", 1, 1, "id desc")
+	data, err = QueryLabel(nil, 0, "", "", 1, 1, "id desc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -217,7 +217,7 @@ func TestQueryLabel(t *testing.T) {
 	}
 
 	// test page num
-	data, err = QueryLabel(0, "", "", 2, 1, "id asc")
+	data, err = QueryLabel(nil, 0, "", "", 2, 1, "id asc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -238,7 +238,7 @@ func TestQueryLabel(t *testing.T) {
 	}
 
 	// test filter by remark 模糊查询
-	data, err = QueryLabel(0, "", "labelremark", 0, 0, "")
+	data, err = QueryLabel(nil, 0, "", "labelremark", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}

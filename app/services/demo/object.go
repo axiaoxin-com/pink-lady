@@ -3,26 +3,27 @@ package demo
 import (
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
+	"github.com/gin-gonic/gin"
 )
 
 // AddObject insert an object to database
 // return the object id
 // if the object's fields value has existed, it will return the existed id
-func AddObject(appID, system, entity, identity string) (uint, error) {
+func AddObject(c *gin.Context, appID, system, entity, identity string) (uint, error) {
 	obj := demoModels.Object{}
 	err := utils.DB.FirstOrCreate(&obj, demoModels.Object{AppID: appID, System: system, Entity: entity, Identity: identity}).Error
 	return obj.ID, err
 }
 
 // GetObjectByID return a object model by id and error
-func GetObjectByID(objectID uint) (demoModels.Object, error) {
+func GetObjectByID(c *gin.Context, objectID uint) (demoModels.Object, error) {
 	object := demoModels.Object{}
 	err := utils.DB.First(&object, objectID).Error
 	return object, err
 }
 
 // GetObjectsByIDs return objects model list by ids and error
-func GetObjectsByIDs(objectIDs []uint) ([]demoModels.Object, error) {
+func GetObjectsByIDs(c *gin.Context, objectIDs []uint) ([]demoModels.Object, error) {
 	objects := []demoModels.Object{}
 	err := utils.DB.Where(objectIDs).Find(&objects).Error
 	return objects, err
@@ -35,9 +36,9 @@ func GetObjectsByIDs(objectIDs []uint) ([]demoModels.Object, error) {
 // pageSize为分页查询每页数量, -1可取消限制
 // order为排序方式 "字段 desc/asc" 默认按id降序排列
 // 多条记录的结果返回分页信息
-func QueryObject(objectID uint, appID, system, entity, identity string, pageNum, pageSize int, order string) (interface{}, error) {
+func QueryObject(c *gin.Context, objectID uint, appID, system, entity, identity string, pageNum, pageSize int, order string) (interface{}, error) {
 	if objectID > 0 {
-		return GetObjectByID(objectID)
+		return GetObjectByID(c, objectID)
 	}
 
 	if order == "" {

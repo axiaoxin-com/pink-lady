@@ -3,18 +3,19 @@ package demo
 import (
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
+	"github.com/gin-gonic/gin"
 )
 
 // AddLabeling add associations for the objectIDs and LabelIDs
-func AddLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
-	objects, err := GetObjectsByIDs(objectIDs)
+func AddLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
+	objects, err := GetObjectsByIDs(c, objectIDs)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
-	labels, err := GetLabelsByIDs(labelIDs)
+	labels, err := GetLabelsByIDs(c, labelIDs)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -28,7 +29,7 @@ func AddLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 			}
 			err := utils.DB.Model(&object).Association("Labels").Append(label).Error
 			if err != nil {
-				utils.Logger.Warn(err)
+				utils.CtxLogger(c).Warn(err)
 				result["result"] = err
 			}
 			results = append(results, result)
@@ -38,15 +39,15 @@ func AddLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 }
 
 // ReplaceLabeling replace old associations with new given objectIDs and LabelIDs
-func ReplaceLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
-	objects, err := GetObjectsByIDs(objectIDs)
+func ReplaceLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
+	objects, err := GetObjectsByIDs(c, objectIDs)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
-	labels, err := GetLabelsByIDs(labelIDs)
+	labels, err := GetLabelsByIDs(c, labelIDs)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -57,7 +58,7 @@ func ReplaceLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, erro
 		}
 		err := utils.DB.Model(&object).Association("Labels").Replace(labels).Error
 		if err != nil {
-			utils.Logger.Warn(err)
+			utils.CtxLogger(c).Warn(err)
 			result["result"] = err
 		}
 		results = append(results, result)
@@ -66,15 +67,15 @@ func ReplaceLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, erro
 }
 
 // DeleteLabeling delete associations for object ids and label ids
-func DeleteLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
-	objects, err := GetObjectsByIDs(objectIDs)
+func DeleteLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
+	objects, err := GetObjectsByIDs(c, objectIDs)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
-	labels, err := GetLabelsByIDs(labelIDs)
+	labels, err := GetLabelsByIDs(c, labelIDs)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -88,7 +89,7 @@ func DeleteLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error
 			}
 			err := utils.DB.Model(&object).Association("Labels").Delete(label).Error
 			if err != nil {
-				utils.Logger.Warn(err)
+				utils.CtxLogger(c).Warn(err)
 				result["result"] = err
 			}
 			results = append(results, result)
@@ -98,11 +99,11 @@ func DeleteLabeling(objectIDs, labelIDs []uint) ([]map[string]interface{}, error
 }
 
 // GetLabelingByLabelID 根据标签ID查询已关联的对象列表
-func GetLabelingByLabelID(labelID uint) ([]demoModels.Object, error) {
+func GetLabelingByLabelID(c *gin.Context, labelID uint) ([]demoModels.Object, error) {
 	objects := []demoModels.Object{}
-	label, err := GetLabelByID(labelID)
+	label, err := GetLabelByID(c, labelID)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
 	scopedb := utils.DB.Model(&label).Association("Objects")
@@ -112,11 +113,11 @@ func GetLabelingByLabelID(labelID uint) ([]demoModels.Object, error) {
 }
 
 //GetLabelingByObjectID 根据对象ID查询已关联的标签列表
-func GetLabelingByObjectID(objectID uint) ([]demoModels.Label, error) {
+func GetLabelingByObjectID(c *gin.Context, objectID uint) ([]demoModels.Label, error) {
 	labels := []demoModels.Label{}
-	object, err := GetObjectByID(objectID)
+	object, err := GetObjectByID(c, objectID)
 	if err != nil {
-		utils.Logger.Warn(err)
+		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
 	scopedb := utils.DB.Model(&object).Association("Labels")
