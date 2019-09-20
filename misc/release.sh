@@ -120,16 +120,18 @@ build() {
 }
 
 tarball() {
+    configfile=config.toml
+    echo -ne "${QUESTION_FLAG} ${CYAN}Enter your configfile[${WHITE}${configfile}${CYAN}]: "
+    read cf
+    if [ "${cf}" != "" ]; then
+        configfile=${cf}
+    fi
+
     tarname=${BINARY_NAME}-${new_version}-${NOW}
     tardir=${BUILD_PATH}/${tarname}
     mkdir ${tardir}
     cp ${BUILD_PATH}/${BINARY_NAME} ${tardir}
-    if [ -e ${APP_PATH}/${BINARY_NAME}.yaml ]; then
-        cp ${APP_PATH}/${BINARY_NAME}.yaml ${tardir}
-    fi
-    if [ -e ${APP_PATH}/config.yaml ]; then
-        cp ${APP_PATH}/config.yaml ${tardir}
-    fi
+    cp ${APP_PATH}/${configfile} ${tardir}
     tar czvf ${tardir}.tar.gz -C ${BUILD_PATH} ${tarname} && rm -rf ${tardir}
 }
 

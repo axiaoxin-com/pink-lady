@@ -1,0 +1,30 @@
+[server]
+mode = "debug"
+bind = ":4869"
+
+[log]
+level = "debug"
+formatter = "json"
+
+[database]
+engine = "sqlite3"
+address = ""
+name = "/tmp/pink-lady.db"
+username = ""
+password = ""
+maxIdleConns = 2
+maxOpenConns = 0
+connMaxLifeMinutes = 60
+logMode = true
+autoMigrate = true
+
+[redis]
+mode = "single-instance"
+address = "localhost:6379"
+password = ""
+db = 0
+master = ""
+
+[sentry]
+dsn = ""
+onlyCrashes = false

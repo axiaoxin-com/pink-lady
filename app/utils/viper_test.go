@@ -10,19 +10,19 @@ import (
 
 func TestInitViper(t *testing.T) {
 	// 配置文件默认加载当前目录，需要把配置文件移到这里
-	confile, err := os.Open("../config.yaml")
+	confile, err := os.Open("../config.toml.example")
 	if err != nil {
 		t.Error(err)
 	}
 	defer confile.Close()
-	tmpConfile, err := os.Create("./config.yaml")
+	tmpConfile, err := os.Create("./config.toml")
 	if err != nil {
 		t.Error(err)
 	}
 	defer tmpConfile.Close()
 	io.Copy(tmpConfile, confile)
 	// 清理测试用的配置文件
-	defer func() { os.Remove("./config.yaml") }()
+	defer func() { os.Remove("./config.toml") }()
 
 	// 测试初始化用法
 	options := []ViperOption{

@@ -18,7 +18,7 @@ main() {
     git clone https://github.com/axiaoxin/pink-lady.git ${gopath}/src/${projname}
     # replace project name
     echo -e "${NOTICE_FLAG} Generating the project..."
-    cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.yaml.example ${gopath}/src/${projname}/app/config.yaml
+    cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
     sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go --include go.* -rl .`
 
     # remove demo
