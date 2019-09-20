@@ -19,25 +19,25 @@ func TestAddLabeling(t *testing.T) {
 	defer os.Remove(db)
 
 	// init test
-	lid, err := AddLabel("label1", "remark1")
+	lid, err := AddLabel(nil, "label1", "remark1")
 	if err != nil {
 		t.Error(err)
 	}
-	lid2, err := AddLabel("label2", "remark2")
+	lid2, err := AddLabel(nil, "label2", "remark2")
 	if err != nil {
 		t.Error(err)
 	}
-	oid, err := AddObject("appid", "sys", "entity", "id")
+	oid, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	oid2, err := AddObject("appid", "sys", "entity", "id2")
+	oid2, err := AddObject(nil, "appid", "sys", "entity", "id2")
 	if err != nil {
 		t.Error(err)
 	}
 
 	// test repeat labeling
-	results, err := AddLabeling([]uint{oid, oid2}, []uint{lid, lid2})
+	results, err := AddLabeling(nil, []uint{oid, oid2}, []uint{lid, lid2})
 	if err != nil {
 		t.Error(err)
 	}
@@ -49,15 +49,15 @@ func TestAddLabeling(t *testing.T) {
 			t.Error(result, "not ok")
 		}
 	}
-	AddLabeling([]uint{oid}, []uint{lid})
-	objs, err := GetLabelingByLabelID(lid)
+	AddLabeling(nil, []uint{oid}, []uint{lid})
+	objs, err := GetLabelingByLabelID(nil, lid)
 	if err != nil {
 		t.Error(err)
 	}
 	if len(objs) != 2 {
 		t.Error("objs should 2")
 	}
-	labels, err := GetLabelingByObjectID(oid)
+	labels, err := GetLabelingByObjectID(nil, oid)
 	if err != nil {
 		t.Error(err)
 	}
@@ -77,24 +77,24 @@ func TestReplaceLabeling(t *testing.T) {
 	defer os.Remove(db)
 
 	// init test
-	lid, err := AddLabel("label1", "remark1")
+	lid, err := AddLabel(nil, "label1", "remark1")
 	if err != nil {
 		t.Error(err)
 	}
-	lid2, err := AddLabel("label2", "remark2")
+	lid2, err := AddLabel(nil, "label2", "remark2")
 	if err != nil {
 		t.Error(err)
 	}
-	oid, err := AddObject("appid", "sys", "entity", "id")
+	oid, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	oid2, err := AddObject("appid", "sys", "entity", "id2")
+	oid2, err := AddObject(nil, "appid", "sys", "entity", "id2")
 	if err != nil {
 		t.Error(err)
 	}
 
-	results, err := AddLabeling([]uint{oid, oid2}, []uint{lid, lid2})
+	results, err := AddLabeling(nil, []uint{oid, oid2}, []uint{lid, lid2})
 	if err != nil {
 		t.Error(err)
 	}
@@ -106,14 +106,14 @@ func TestReplaceLabeling(t *testing.T) {
 			t.Error(result, "not ok")
 		}
 	}
-	objs, err := GetLabelingByLabelID(lid)
+	objs, err := GetLabelingByLabelID(nil, lid)
 	if err != nil {
 		t.Error(err)
 	}
 	if len(objs) != 2 {
 		t.Error("objs should 2")
 	}
-	labels, err := GetLabelingByObjectID(oid)
+	labels, err := GetLabelingByObjectID(nil, oid)
 	if err != nil {
 		t.Error(err)
 	}
@@ -121,7 +121,7 @@ func TestReplaceLabeling(t *testing.T) {
 		t.Error("objs should 2")
 	}
 
-	results, err = ReplaceLabeling([]uint{oid}, []uint{lid})
+	results, err = ReplaceLabeling(nil, []uint{oid}, []uint{lid})
 	if err != nil {
 		t.Error(err)
 	}
@@ -133,14 +133,14 @@ func TestReplaceLabeling(t *testing.T) {
 			t.Error(result, "not ok")
 		}
 	}
-	objs, err = GetLabelingByLabelID(lid)
+	objs, err = GetLabelingByLabelID(nil, lid)
 	if err != nil {
 		t.Error(err)
 	}
 	if len(objs) != 2 {
 		t.Error("objs should 2")
 	}
-	labels, err = GetLabelingByObjectID(oid)
+	labels, err = GetLabelingByObjectID(nil, oid)
 	if err != nil {
 		t.Error(err)
 	}
@@ -160,24 +160,24 @@ func TestDeleteLabeling(t *testing.T) {
 	defer os.Remove(db)
 
 	// init test
-	lid, err := AddLabel("label1", "remark1")
+	lid, err := AddLabel(nil, "label1", "remark1")
 	if err != nil {
 		t.Error(err)
 	}
-	lid2, err := AddLabel("label2", "remark2")
+	lid2, err := AddLabel(nil, "label2", "remark2")
 	if err != nil {
 		t.Error(err)
 	}
-	oid, err := AddObject("appid", "sys", "entity", "id")
+	oid, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	oid2, err := AddObject("appid", "sys", "entity", "id2")
+	oid2, err := AddObject(nil, "appid", "sys", "entity", "id2")
 	if err != nil {
 		t.Error(err)
 	}
 
-	results, err := AddLabeling([]uint{oid, oid2}, []uint{lid, lid2})
+	results, err := AddLabeling(nil, []uint{oid, oid2}, []uint{lid, lid2})
 	if err != nil {
 		t.Error(err)
 	}
@@ -189,12 +189,12 @@ func TestDeleteLabeling(t *testing.T) {
 			t.Error(result, "not ok")
 		}
 	}
-	labels, _ := GetLabelingByObjectID(oid)
+	labels, _ := GetLabelingByObjectID(nil, oid)
 	if len(labels) != 2 {
 		t.Error("should 2")
 	}
 
-	results, err = DeleteLabeling([]uint{oid}, []uint{lid})
+	results, err = DeleteLabeling(nil, []uint{oid}, []uint{lid})
 	if err != nil {
 		t.Error(err)
 	}
@@ -206,12 +206,12 @@ func TestDeleteLabeling(t *testing.T) {
 			t.Error(result, "not ok")
 		}
 	}
-	labels, _ = GetLabelingByObjectID(oid)
+	labels, _ = GetLabelingByObjectID(nil, oid)
 	if len(labels) != 1 {
 		t.Error("should 1")
 	}
 
-	results, err = DeleteLabeling([]uint{oid}, []uint{lid2})
+	results, err = DeleteLabeling(nil, []uint{oid}, []uint{lid2})
 	if err != nil {
 		t.Error(err)
 	}
@@ -223,7 +223,7 @@ func TestDeleteLabeling(t *testing.T) {
 			t.Error(result, "not ok")
 		}
 	}
-	labels, _ = GetLabelingByObjectID(oid)
+	labels, _ = GetLabelingByObjectID(nil, oid)
 	if len(labels) != 0 {
 		t.Error("should 0")
 	}

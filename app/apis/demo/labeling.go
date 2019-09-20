@@ -33,7 +33,7 @@ func AddLabeling(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	results, err := demoService.AddLabeling(body.ObjectIDs, body.LabelIDs)
+	results, err := demoService.AddLabeling(c, body.ObjectIDs, body.LabelIDs)
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return
@@ -56,7 +56,7 @@ func ReplaceLabeling(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	results, err := demoService.ReplaceLabeling(body.ObjectIDs, body.LabelIDs)
+	results, err := demoService.ReplaceLabeling(c, body.ObjectIDs, body.LabelIDs)
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return
@@ -79,7 +79,7 @@ func DeleteLabeling(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	results, err := demoService.DeleteLabeling(body.ObjectIDs, body.LabelIDs)
+	results, err := demoService.DeleteLabeling(c, body.ObjectIDs, body.LabelIDs)
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return
@@ -102,7 +102,7 @@ func GetLabelingByLabelID(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	result, err := demoService.GetLabelingByLabelID(uint(id))
+	result, err := demoService.GetLabelingByLabelID(c, uint(id))
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return
@@ -125,7 +125,7 @@ func GetLabelingByObjectID(c *gin.Context) {
 		response.JSON400(c, retcode.InvalidParams, err.Error())
 		return
 	}
-	result, err := demoService.GetLabelingByObjectID(uint(id))
+	result, err := demoService.GetLabelingByObjectID(c, uint(id))
 	if err != nil {
 		response.JSON(c, retcode.Failure, err.Error())
 		return

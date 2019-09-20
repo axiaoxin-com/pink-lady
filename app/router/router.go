@@ -24,7 +24,7 @@ func SetupRouter(mode string, sentryDSN string, sentryOnlyCrashes bool) *gin.Eng
 	router := gin.New()
 	router.Use(middleware.ErrorHandler())
 	router.Use(cors.Default())
-	router.Use(middleware.RequestID())
+	router.Use(middleware.RequestID()) // requestid 必须在ginlogrus前面
 	router.Use(middleware.GinLogrus())
 	if sentryDSN != "" {
 		raven.SetDSN(sentryDSN)

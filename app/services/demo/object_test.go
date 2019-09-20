@@ -19,11 +19,11 @@ func TestAddObject(t *testing.T) {
 	defer utils.DB.Close()
 	defer os.Remove(db)
 
-	id1, err := AddObject("appid", "sys", "entity", "id")
+	id1, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	id2, err := AddObject("appid", "sys", "entity", "id")
+	id2, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if id1 != id2 || err != nil {
 		t.Error("same name should return same id")
 	}
@@ -39,11 +39,11 @@ func TestGetObjectByID(t *testing.T) {
 	defer utils.DB.Close()
 	defer os.Remove(db)
 
-	id, err := AddObject("appid", "sys", "entity", "id")
+	id, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	object, err := GetObjectByID(id)
+	object, err := GetObjectByID(nil, id)
 	if err != nil || object.ID != id {
 		t.Error("get object by id error ", err)
 	}
@@ -59,11 +59,11 @@ func TestGetObjectsByIDs(t *testing.T) {
 	defer utils.DB.Close()
 	defer os.Remove(db)
 
-	id, err := AddObject("appid", "sys", "entity", "id")
+	id, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	objects, err := GetObjectsByIDs([]uint{id})
+	objects, err := GetObjectsByIDs(nil, []uint{id})
 	if err != nil || len(objects) != 1 {
 		t.Error("get objects by ids error ", err)
 	}
@@ -80,26 +80,26 @@ func TestQueryObject(t *testing.T) {
 	defer os.Remove(db)
 
 	// init data
-	id, err := AddObject("appid", "sys", "entity", "id")
+	id, err := AddObject(nil, "appid", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	_, err = AddObject("appid1", "sys", "entity", "id")
+	_, err = AddObject(nil, "appid1", "sys", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
-	_, err = AddObject("appid", "sys1", "entity", "id")
+	_, err = AddObject(nil, "appid", "sys1", "entity", "id")
 	if err != nil {
 		t.Error(err)
 	}
 
 	// test query by id
-	objects, err := GetObjectsByIDs([]uint{id})
+	objects, err := GetObjectsByIDs(nil, []uint{id})
 	if err != nil || len(objects) != 1 {
 		t.Error("get objects by ids error ", err)
 	}
 
-	data, err := QueryObject(id, "", "", "", "", 0, 0, "")
+	data, err := QueryObject(nil, id, "", "", "", "", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}
@@ -112,7 +112,7 @@ func TestQueryObject(t *testing.T) {
 	}
 
 	// test default query params
-	data, err = QueryObject(0, "", "", "", "", 0, 0, "")
+	data, err = QueryObject(nil, 0, "", "", "", "", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}
@@ -133,7 +133,7 @@ func TestQueryObject(t *testing.T) {
 	}
 
 	// test order
-	data, err = QueryObject(0, "", "", "", "", 0, 0, "id desc")
+	data, err = QueryObject(nil, 0, "", "", "", "", 0, 0, "id desc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -154,7 +154,7 @@ func TestQueryObject(t *testing.T) {
 	}
 
 	// test page size
-	data, err = QueryObject(0, "", "", "", "", 1, 1, "id asc")
+	data, err = QueryObject(nil, 0, "", "", "", "", 1, 1, "id asc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -175,7 +175,7 @@ func TestQueryObject(t *testing.T) {
 	}
 
 	// test page size order
-	data, err = QueryObject(0, "", "", "", "", 1, 1, "id desc")
+	data, err = QueryObject(nil, 0, "", "", "", "", 1, 1, "id desc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -196,7 +196,7 @@ func TestQueryObject(t *testing.T) {
 	}
 
 	// test page num
-	data, err = QueryObject(0, "", "", "", "", 2, 1, "id asc")
+	data, err = QueryObject(nil, 0, "", "", "", "", 2, 1, "id asc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -217,7 +217,7 @@ func TestQueryObject(t *testing.T) {
 	}
 
 	// test filter by appid
-	data, err = QueryObject(0, "appid", "", "", "", 0, 0, "")
+	data, err = QueryObject(nil, 0, "appid", "", "", "", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}
@@ -238,7 +238,7 @@ func TestQueryObject(t *testing.T) {
 	}
 
 	// test filter by sys
-	data, err = QueryObject(0, "", "sys1", "", "", 0, 0, "")
+	data, err = QueryObject(nil, 0, "", "sys1", "", "", 0, 0, "")
 	if err != nil {
 		t.Error(err)
 	}

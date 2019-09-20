@@ -38,7 +38,9 @@ func GinLogrus() gin.HandlerFunc {
 		end := time.Since(start)
 		status := c.Writer.Status()
 
-		entry := utils.Logger.WithFields(logrus.Fields{
+		// clogger with request id
+		clogger := utils.CtxLogger(c)
+		entry := clogger.WithFields(logrus.Fields{
 			"url":       url,
 			"method":    c.Request.Method,
 			"body":      body,

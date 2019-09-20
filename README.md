@@ -220,3 +220,4 @@ You can test your API by curl or swagger API docs:<http://pink-lady:4869/x/apido
 - Integrate Travis, code quality, goreport and codecov
 - A convinent way to dynamic reload the server when code changing, you can use `fresh` to run server in `app` directory
 - There is a demo in pink-lady, a api service for labeling object with label, you can delete it in `apis/demo` `services/demo` `models/demo`
+- If you want to log with requestid, you should use `utils.CtxLogger(c)` to get a logger with requestid

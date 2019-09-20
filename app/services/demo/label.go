@@ -5,34 +5,35 @@ import (
 
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
+	"github.com/gin-gonic/gin"
 )
 
 // AddLabel 新建标签
 // 返回标签ID
 // 如果标签名称已经存在，不会报错，直接返回已存在标签的ID
 // 如果标签名称已存在，且传递了remark参数则会更新remark字段
-func AddLabel(name, remark string) (uint, error) {
+func AddLabel(c *gin.Context, name, remark string) (uint, error) {
 	label := demoModels.Label{}
 	err := utils.DB.Where(demoModels.Label{Name: name}).Assign(demoModels.Label{Remark: remark}).FirstOrCreate(&label).Error
 	return label.ID, err
 }
 
 // GetLabelByName 按标签名称查询标签
-func GetLabelByName(name string) (demoModels.Label, error) {
+func GetLabelByName(c *gin.Context, name string) (demoModels.Label, error) {
 	label := demoModels.Label{}
 	err := utils.DB.Where(&demoModels.Label{Name: name}).First(&label).Error
 	return label, err
 }
 
 // GetLabelByID 按标签ID查询标签
-func GetLabelByID(labelID uint) (demoModels.Label, error) {
+func GetLabelByID(c *gin.Context, labelID uint) (demoModels.Label, error) {
 	label := demoModels.Label{}
 	err := utils.DB.First(&label, labelID).Error
 	return label, err
 }
 
 // GetLabelsByIDs 按标签ID列表批量查询标签
-func GetLabelsByIDs(labelIDs []uint) ([]demoModels.Label, error) {
+func GetLabelsByIDs(c *gin.Context, labelIDs []uint) ([]demoModels.Label, error) {
 	labels := []demoModels.Label{}
 	err := utils.DB.Where(labelIDs).Find(&labels).Error
 	return labels, err
@@ -44,12 +45,12 @@ func GetLabelsByIDs(labelIDs []uint) ([]demoModels.Label, error) {
 // limit为分页查询每页数量, -1可取消限制
 // order为排序方式 "字段 desc/asc" 默认按id降序排列
 // 多条记录的结果返回分页信息
-func QueryLabel(labelID uint, name, remark string, pageNum, pageSize int, order string) (interface{}, error) {
+func QueryLabel(c *gin.Context, labelID uint, name, remark string, pageNum, pageSize int, order string) (interface{}, error) {
 	if labelID > 0 {
-		return GetLabelByID(labelID)
+		return GetLabelByID(c, labelID)
 	}
 	if name != "" {
-		return GetLabelByName(name)
+		return GetLabelByName(c, name)
 	}
 
 	if order == "" {
