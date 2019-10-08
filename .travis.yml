@@ -1,14 +1,17 @@
 language: go
 
 go:
-  - "1.10.x"
   - "1.11.x"
+  - "1.12.x"
   - master
 
 go_import_path: github.com/axiaoxin/pink-lady
 
+env:
+  - GO111MODULE=on
+
 script:
-  - cp app/config.yaml.example app/config.yaml
+  - cp app/config.toml.example app/config.toml
   - go test -race -coverprofile=coverage.txt -covermode=atomic -v ./...
 
 after_success:
