@@ -87,6 +87,7 @@ func InitGormDB(engine, addr, name, username, password string, maxIdleConns, max
 		dsn = fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", username, password, addr, name)
 	case "postgres":
 		addrSlice := strings.Split(addr, ":")
+		// if pq: SSL is not enabled on the server, set sslmode=disable
 		dsn = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s", addrSlice[0], addrSlice[1], username, name, password)
 	case "sqlite3":
 		dsn = name
