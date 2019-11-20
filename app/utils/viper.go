@@ -1,10 +1,11 @@
 package utils
 
 import (
-	"os"
 	"strings"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -18,7 +19,7 @@ type ViperOption struct {
 
 // InitViper init viper by default value, ENV, cmd flag and config file
 // you can use switch to reload server when config file changed
-func InitViper(configName string, envPrefix string, options []ViperOption) error {
+func InitViper(configPath, configName string, envPrefix string, options []ViperOption) error {
 	viper.SetEnvPrefix(envPrefix)
 	for _, option := range options {
 		// set default value
@@ -42,16 +43,16 @@ func InitViper(configName string, envPrefix string, options []ViperOption) error
 
 	// load conf file
 	viper.SetConfigName(configName)
-	wd, err := os.Getwd()
-	if err != nil {
-		return errors.Wrap(err, "viper get workdir error")
-	}
-	viper.AddConfigPath(wd)
-	viper.AddConfigPath("$HOME")
-	viper.AddConfigPath("/etc")
-	err = viper.ReadInConfig()
+	viper.AddConfigPath(configPath)
+	err := viper.ReadInConfig()
 	if err != nil {
 		return errors.Wrap(err, "viper read in config error")
 	}
+	logrus.Debugf("loaded %s in %s\n", configName, configPath)
+	viper.WatchConfig()
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		viper.ReadInConfig()
+		logrus.Info("Config file changed, read in config:", e.Name)
+	})
 	return nil
 }

@@ -16,7 +16,11 @@ import (
 )
 
 func init() {
-	if err := utils.InitViper("config", "GIN", []utils.ViperOption{
+	workdir, err := os.Getwd()
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	if err := utils.InitViper(workdir, "config", "GIN", []utils.ViperOption{
 		utils.ViperOption{Name: "server.mode", Default: "debug", Desc: "server mode: debug|test|release"},
 		utils.ViperOption{Name: "server.bind", Default: ":4869", Desc: "server bind address"},
 		utils.ViperOption{Name: "log.level", Default: "info", Desc: "log level: debug|info|warning|error|fatal|panic"},
