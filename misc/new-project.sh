@@ -19,7 +19,10 @@ main() {
     # replace project name
     echo -e "${NOTICE_FLAG} Generating the project..."
     cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
-    sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go --include go.* -rl .`
+    files=`grep "github.com/axiaoxin/pink-lady" --include "go.*" --include "*.go" -rl .`
+    for f in $files; do
+        sed -i '' "s|github.com/axiaoxin/pink-lady|${projname}|g" $f
+    done
 
     # remove demo
     if [ "${rmdemo}" == "n" ] || [ "${rmdemo}" == "N" ]; then
