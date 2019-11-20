@@ -31,7 +31,11 @@ func TestInitViper(t *testing.T) {
 		ViperOption{Name: "option3", Default: "3", Desc: "string 3"},
 		ViperOption{Name: "option.4", Default: "o4", Desc: "."},
 	}
-	InitViper("config", "envPrefix", options)
+	workdir, err := os.Getwd()
+	if err != nil {
+		t.Error(err)
+	}
+	InitViper(workdir, "config", "envPrefix", options)
 	if viper.GetInt("option1") != 1 {
 		t.Error("get int option error")
 	}
