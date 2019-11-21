@@ -1,17 +1,13 @@
 package db
 
 import (
-	"database/sql/driver"
 	"fmt"
-	"reflect"
 	"regexp"
 	"strings"
 	"time"
 
-	"github.com/axiaoxin/pink-lady/app/utils"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
-	"github.com/prometheus/common/log"
 	"github.com/spf13/viper"
 
 	// need by gorm
@@ -35,54 +31,13 @@ func (dbimt DBInstanceMapType) Close() {
 	}
 }
 
-// GormLogger custom gorm logger
-type GormLogger struct{}
-
 var sqlRegexp = regexp.MustCompile(`(\$\d+)|\?`)
-
-// Print define how to log
-func (*GormLogger) Print(values ...interface{}) {
-	if len(values) > 1 {
-		level := values[0]
-		source := values[1]
-		entry := utils.Logger.WithField("source", source)
-		if level == "sql" {
-			duration := values[2]
-			// sql
-			var formattedValues []interface{}
-			for _, value := range values[4].([]interface{}) {
-				indirectValue := reflect.Indirect(reflect.ValueOf(value))
-				if indirectValue.IsValid() {
-					value = indirectValue.Interface()
-					if t, ok := value.(time.Time); ok {
-						formattedValues = append(formattedValues, fmt.Sprintf("'%v'", t.Format(time.RFC3339)))
-					} else if b, ok := value.([]byte); ok {
-						formattedValues = append(formattedValues, fmt.Sprintf("'%v'", string(b)))
-					} else if r, ok := value.(driver.Valuer); ok {
-						if value, err := r.Value(); err == nil && value != nil {
-							formattedValues = append(formattedValues, fmt.Sprintf("'%v'", value))
-						} else {
-							formattedValues = append(formattedValues, "NULL")
-						}
-					} else {
-						formattedValues = append(formattedValues, fmt.Sprintf("'%v'", value))
-					}
-				} else {
-					formattedValues = append(formattedValues, fmt.Sprintf("'%v'", value))
-				}
-			}
-			entry.WithField("took", duration).Debug(fmt.Sprintf(sqlRegexp.ReplaceAllString(values[3].(string), "%v"), formattedValues...))
-		} else {
-			entry.Error(values[2:]...)
-		}
-	} else {
-		utils.Logger.Error(values...)
-	}
-}
 
 // InitGorm init the DBInstanceMap
 func InitGorm() error {
 	var err error
+	var db *gorm.DB
+
 	databaseMap := viper.GetStringMap("database")
 	for engine, dbList := range databaseMap {
 		switch strings.ToLower(engine) {
@@ -92,7 +47,7 @@ func InitGorm() error {
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
-				db, err := NewMySQLInstance(
+				db, err = NewMySQLInstance(
 					dbItem["host"].(string),
 					int(dbItem["port"].(int64)),
 					dbItem["username"].(string),
@@ -103,9 +58,7 @@ func InitGorm() error {
 					int(dbItem["maxOpenConns"].(int64)),
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
-				if err != nil {
-					log.Error("NewMySQLInstance error:", err)
-				} else {
+				if err == nil {
 					DBInstanceMap["mysql"][dbItem["instance"].(string)] = db
 				}
 			}
@@ -115,16 +68,14 @@ func InitGorm() error {
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
-				db, err := NewSQLite3Instance(
+				db, err = NewSQLite3Instance(
 					dbItem["dbname"].(string),
 					dbItem["logMode"].(bool),
 					int(dbItem["maxIdleConns"].(int64)),
 					int(dbItem["maxOpenConns"].(int64)),
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
-				if err != nil {
-					log.Error("NewSQLite3Instance error:", err)
-				} else {
+				if err == nil {
 					DBInstanceMap["sqlite3"][dbItem["instance"].(string)] = db
 				}
 			}
@@ -134,7 +85,7 @@ func InitGorm() error {
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
-				db, err := NewPostgresInstance(
+				db, err = NewPostgresInstance(
 					dbItem["host"].(string),
 					int(dbItem["port"].(int64)),
 					dbItem["username"].(string),
@@ -146,9 +97,7 @@ func InitGorm() error {
 					int(dbItem["maxOpenConns"].(int64)),
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
-				if err != nil {
-					log.Error("NewPostgresInstance error:", err)
-				} else {
+				if err == nil {
 					DBInstanceMap["postgres"][dbItem["instance"].(string)] = db
 				}
 			}
@@ -158,7 +107,7 @@ func InitGorm() error {
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
-				db, err := NewMsSQLInstance(
+				db, err = NewMsSQLInstance(
 					dbItem["host"].(string),
 					int(dbItem["port"].(int64)),
 					dbItem["username"].(string),
@@ -169,13 +118,14 @@ func InitGorm() error {
 					int(dbItem["maxOpenConns"].(int64)),
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
-				if err != nil {
-					log.Error("NewMsSQLInstance error:", err)
-				} else {
+				if err == nil {
 					DBInstanceMap["mssql"][dbItem["instance"].(string)] = db
 				}
 			}
 		}
+	}
+	if len(DBInstanceMap) == 0 {
+		err = errors.New("DBInstanceMap is empty, check your config file")
 	}
 	return err
 }
@@ -191,7 +141,6 @@ func NewSQLite3Instance(dbname string, logMode bool, maxIdleConns, maxOpenConns,
 	if err != nil {
 		return nil, errors.Wrap(err, "NewSQLite3Instance gorm open error")
 	}
-	db.SetLogger(&GormLogger{})
 	db.LogMode(logMode)
 	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
 	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
@@ -216,7 +165,6 @@ func NewMySQLInstance(host string, port int, username, password, dbname string, 
 		return nil, errors.Wrap(err, "NewMySQLInstance gorm open error")
 	}
 	db.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8 auto_increment=1")
-	db.SetLogger(&GormLogger{})
 	db.LogMode(logMode)
 	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
 	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
@@ -241,7 +189,6 @@ func NewPostgresInstance(host string, port int, username, password, dbname, sslm
 	if err != nil {
 		return nil, errors.Wrap(err, "NewPostgresInstance gorm open error")
 	}
-	db.SetLogger(&GormLogger{})
 	db.LogMode(logMode)
 	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
 	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
@@ -265,7 +212,6 @@ func NewMsSQLInstance(host string, port int, username, password, dbname string, 
 	if err != nil {
 		return nil, errors.Wrap(err, "NewMsSQLInstance gorm open error")
 	}
-	db.SetLogger(&GormLogger{})
 	db.LogMode(logMode)
 	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
 	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量

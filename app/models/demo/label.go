@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"github.com/axiaoxin/pink-lady/app/db"
 	"github.com/axiaoxin/pink-lady/app/models"
 )
 
@@ -15,4 +16,8 @@ type Label struct {
 // TableName define the Label model's tabel name
 func (Label) TableName() string {
 	return "label"
+}
+
+func init() {
+	db.SQLite3("testing").AutoMigrate(&Label{})
 }
