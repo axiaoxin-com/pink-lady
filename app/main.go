@@ -20,7 +20,7 @@ func init() {
 	if err != nil {
 		logrus.Fatal(err)
 	}
-	if err := utils.InitViper(workdir, "config", "GIN", []utils.ViperOption{
+	if err := utils.InitViper(workdir, "config", "GIN",
 		utils.ViperOption{Name: "server.mode", Default: "debug", Desc: "server mode: debug|test|release"},
 		utils.ViperOption{Name: "server.bind", Default: ":4869", Desc: "server bind address"},
 		utils.ViperOption{Name: "log.level", Default: "info", Desc: "log level: debug|info|warning|error|fatal|panic"},
@@ -42,7 +42,7 @@ func init() {
 		utils.ViperOption{Name: "redis.master", Default: "", Desc: "redis sentinel master name"},
 		utils.ViperOption{Name: "sentry.dsn", Default: "", Desc: "sentry dsn"},
 		utils.ViperOption{Name: "sentry.onlyCrashes", Default: "", Desc: "sentry only send crash reporting"},
-	}); err != nil {
+	); err != nil {
 		logrus.Error(err)
 	}
 
