@@ -15,7 +15,11 @@ func MySQL(instance string) *gorm.DB {
 }
 
 func SQLite3(instance string) *gorm.DB {
-	return DBInstanceMap["sqlite3"][instance]
+	db := DBInstanceMap["sqlite3"][instance]
+	if db == nil && instance == "testing" {
+		db, _ = NewSQLite3Instance("/tmp/pink-lady-testing.db", true, 10, 10, 10)
+	}
+	return db
 }
 
 func Postgres(instance string) *gorm.DB {

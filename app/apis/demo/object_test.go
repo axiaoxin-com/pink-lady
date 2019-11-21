@@ -35,10 +35,7 @@ func TestAddObject(t *testing.T) {
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
 
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 
@@ -96,10 +93,7 @@ func TestObject(t *testing.T) {
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
 
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 

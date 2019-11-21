@@ -25,23 +25,6 @@ func init() {
 		utils.ViperOption{Name: "server.bind", Default: ":4869", Desc: "server bind address"},
 		utils.ViperOption{Name: "log.level", Default: "info", Desc: "log level: debug|info|warning|error|fatal|panic"},
 		utils.ViperOption{Name: "log.formatter", Default: "text", Desc: "log formatter: text|json"},
-		utils.ViperOption{Name: "database.engine", Default: "sqlite3", Desc: "database engine: mysql|postgres|sqlite3|mssql"},
-		utils.ViperOption{Name: "database.address", Default: "", Desc: "database address: host:port"},
-		utils.ViperOption{Name: "database.name", Default: "/tmp/pink-lady.db", Desc: "database name"},
-		utils.ViperOption{Name: "database.username", Default: "", Desc: "database username"},
-		utils.ViperOption{Name: "database.password", Default: "", Desc: "database password"},
-		utils.ViperOption{Name: "database.maxIdleConns", Default: 2, Desc: "sets the maximum number of connections in the idle connection pool."},
-		utils.ViperOption{Name: "database.maxOpenConns", Default: 0, Desc: "sets the maximum number of open connections to the database."},
-		utils.ViperOption{Name: "database.connMaxLifeMinutes", Default: 0, Desc: "sets the maximum amount of time(minutes) a connection may be reused."},
-		utils.ViperOption{Name: "database.logMode", Default: true, Desc: "show detailed sql log"},
-		utils.ViperOption{Name: "database.autoMigrate", Default: true, Desc: "auto migrate database when server starting"},
-		utils.ViperOption{Name: "redis.mode", Default: "single-instance", Desc: "redis mode: single-instance|sentinel|cluster"},
-		utils.ViperOption{Name: "redis.address", Default: "localhost:6379", Desc: "redis address, multiple sentinel/cluster addresses are separated by commas"},
-		utils.ViperOption{Name: "redis.password", Default: "", Desc: "redis password"},
-		utils.ViperOption{Name: "redis.db", Default: 0, Desc: "redis default db"},
-		utils.ViperOption{Name: "redis.master", Default: "", Desc: "redis sentinel master name"},
-		utils.ViperOption{Name: "sentry.dsn", Default: "", Desc: "sentry dsn"},
-		utils.ViperOption{Name: "sentry.onlyCrashes", Default: "", Desc: "sentry only send crash reporting"},
 	); err != nil {
 		logrus.Error(err)
 	}

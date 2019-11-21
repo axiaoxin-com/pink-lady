@@ -36,10 +36,7 @@ func TestAddLabel(t *testing.T) {
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
 
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
@@ -83,10 +80,7 @@ func TestGetLabelByID(t *testing.T) {
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
 
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
@@ -122,10 +116,7 @@ func TestGetLabelsByIDs(t *testing.T) {
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
 
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
@@ -160,10 +151,7 @@ func TestQueryLabel(t *testing.T) {
 		t.Error(err)
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
