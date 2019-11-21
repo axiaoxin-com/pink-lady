@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"github.com/axiaoxin/pink-lady/app/db"
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ func AddLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]inter
 				"labelID":  label.ID,
 				"result":   "ok",
 			}
-			err := utils.DB.Model(&object).Association("Labels").Append(label).Error
+			err := db.SQLite3("testing").Model(&object).Association("Labels").Append(label).Error
 			if err != nil {
 				utils.CtxLogger(c).Warn(err)
 				result["result"] = err
@@ -56,7 +57,7 @@ func ReplaceLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]i
 			"objectID": object.ID,
 			"result":   "ok",
 		}
-		err := utils.DB.Model(&object).Association("Labels").Replace(labels).Error
+		err := db.SQLite3("testing").Model(&object).Association("Labels").Replace(labels).Error
 		if err != nil {
 			utils.CtxLogger(c).Warn(err)
 			result["result"] = err
@@ -87,7 +88,7 @@ func DeleteLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]in
 				"labelID":  label.ID,
 				"result":   "ok",
 			}
-			err := utils.DB.Model(&object).Association("Labels").Delete(label).Error
+			err := db.SQLite3("testing").Model(&object).Association("Labels").Delete(label).Error
 			if err != nil {
 				utils.CtxLogger(c).Warn(err)
 				result["result"] = err
@@ -106,7 +107,7 @@ func GetLabelingByLabelID(c *gin.Context, labelID uint) ([]demoModels.Object, er
 		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
-	scopedb := utils.DB.Model(&label).Association("Objects")
+	scopedb := db.SQLite3("testing").Model(&label).Association("Objects")
 	scopedb.Find(&objects)
 	err = scopedb.Error
 	return objects, err
@@ -120,7 +121,7 @@ func GetLabelingByObjectID(c *gin.Context, objectID uint) ([]demoModels.Label, e
 		utils.CtxLogger(c).Warn(err)
 		return nil, err
 	}
-	scopedb := utils.DB.Model(&object).Association("Labels")
+	scopedb := db.SQLite3("testing").Model(&object).Association("Labels")
 	scopedb.Find(&labels)
 	err = scopedb.Error
 	return labels, err

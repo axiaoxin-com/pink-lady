@@ -1,10 +1,11 @@
 package demo
 
 import (
+	"io"
 	"os"
 	"testing"
 
-	"github.com/axiaoxin/pink-lady/app/models"
+	"github.com/axiaoxin/pink-lady/app/db"
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
 )
@@ -14,14 +15,33 @@ func init() {
 }
 
 func TestAddLabel(t *testing.T) {
-	db := "/tmp/pink-lady-unit-test.db"
-	err := utils.InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)
-	models.Migrate()
-	if utils.DB == nil || err != nil {
+	// 配置文件默认加载当前目录，需要把配置文件移到这里
+	confile, err := os.Open("../../config.toml.example")
+	if err != nil {
+		t.Error(err)
+	}
+	defer confile.Close()
+	tmpConfile, err := os.Create("./config.toml")
+	if err != nil {
+		t.Error(err)
+	}
+	defer tmpConfile.Close()
+	io.Copy(tmpConfile, confile)
+	// 清理测试用的配置文件
+	defer func() { os.Remove("./config.toml") }()
+	defer func() { os.Remove("/tmp/pink-lady-testing.db") }()
+	workdir, err := os.Getwd()
+	if err != nil {
+		t.Error(err)
+	}
+	utils.InitViper(workdir, "config", "envPrefix")
+
+	err = db.InitGorm()
+	if db.SQLite3("testing") == nil || err != nil {
 		t.Error("init DB fail ", err)
 	}
-	defer utils.DB.Close()
-	defer os.Remove(db)
+	defer db.SQLite3("testing").Close()
+	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
 	id1, err := AddLabel(nil, "labelname", "labelremark")
 	if err != nil {
@@ -42,14 +62,33 @@ func TestAddLabel(t *testing.T) {
 }
 
 func TestGetLabelByID(t *testing.T) {
-	db := "/tmp/pink-lady-unit-test.db"
-	err := utils.InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)
-	if utils.DB == nil || err != nil {
+	// 配置文件默认加载当前目录，需要把配置文件移到这里
+	confile, err := os.Open("../../config.toml.example")
+	if err != nil {
+		t.Error(err)
+	}
+	defer confile.Close()
+	tmpConfile, err := os.Create("./config.toml")
+	if err != nil {
+		t.Error(err)
+	}
+	defer tmpConfile.Close()
+	io.Copy(tmpConfile, confile)
+	// 清理测试用的配置文件
+	defer func() { os.Remove("./config.toml") }()
+	defer func() { os.Remove("/tmp/pink-lady-testing.db") }()
+	workdir, err := os.Getwd()
+	if err != nil {
+		t.Error(err)
+	}
+	utils.InitViper(workdir, "config", "envPrefix")
+
+	err = db.InitGorm()
+	if db.SQLite3("testing") == nil || err != nil {
 		t.Error("init DB fail ", err)
 	}
-	models.Migrate()
-	defer utils.DB.Close()
-	defer os.Remove(db)
+	defer db.SQLite3("testing").Close()
+	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
 	id, err := AddLabel(nil, "labelname", "labelremark")
 	if err != nil {
@@ -62,14 +101,33 @@ func TestGetLabelByID(t *testing.T) {
 }
 
 func TestGetLabelsByIDs(t *testing.T) {
-	db := "/tmp/pink-lady-unit-test.db"
-	err := utils.InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)
-	if utils.DB == nil || err != nil {
+	// 配置文件默认加载当前目录，需要把配置文件移到这里
+	confile, err := os.Open("../../config.toml.example")
+	if err != nil {
+		t.Error(err)
+	}
+	defer confile.Close()
+	tmpConfile, err := os.Create("./config.toml")
+	if err != nil {
+		t.Error(err)
+	}
+	defer tmpConfile.Close()
+	io.Copy(tmpConfile, confile)
+	// 清理测试用的配置文件
+	defer func() { os.Remove("./config.toml") }()
+	defer func() { os.Remove("/tmp/pink-lady-testing.db") }()
+	workdir, err := os.Getwd()
+	if err != nil {
+		t.Error(err)
+	}
+	utils.InitViper(workdir, "config", "envPrefix")
+
+	err = db.InitGorm()
+	if db.SQLite3("testing") == nil || err != nil {
 		t.Error("init DB fail ", err)
 	}
-	models.Migrate()
-	defer utils.DB.Close()
-	defer os.Remove(db)
+	defer db.SQLite3("testing").Close()
+	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
 	id, err := AddLabel(nil, "labelname", "labelremark")
 	if err != nil {
@@ -82,14 +140,32 @@ func TestGetLabelsByIDs(t *testing.T) {
 }
 
 func TestQueryLabel(t *testing.T) {
-	db := "/tmp/pink-lady-unit-test.db"
-	err := utils.InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)
-	if utils.DB == nil || err != nil {
+	// 配置文件默认加载当前目录，需要把配置文件移到这里
+	confile, err := os.Open("../../config.toml.example")
+	if err != nil {
+		t.Error(err)
+	}
+	defer confile.Close()
+	tmpConfile, err := os.Create("./config.toml")
+	if err != nil {
+		t.Error(err)
+	}
+	defer tmpConfile.Close()
+	io.Copy(tmpConfile, confile)
+	// 清理测试用的配置文件
+	defer func() { os.Remove("./config.toml") }()
+	defer func() { os.Remove("/tmp/pink-lady-testing.db") }()
+	workdir, err := os.Getwd()
+	if err != nil {
+		t.Error(err)
+	}
+	utils.InitViper(workdir, "config", "envPrefix")
+	err = db.InitGorm()
+	if db.SQLite3("testing") == nil || err != nil {
 		t.Error("init DB fail ", err)
 	}
-	models.Migrate()
-	defer utils.DB.Close()
-	defer os.Remove(db)
+	defer db.SQLite3("testing").Close()
+	db.SQLite3("testing").AutoMigrate(&demoModels.Label{}, &demoModels.Object{})
 
 	// init data
 	id, err := AddLabel(nil, "labelname", "labelremark")

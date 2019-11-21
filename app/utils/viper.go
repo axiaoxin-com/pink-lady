@@ -48,7 +48,7 @@ func InitViper(configPath, configName string, envPrefix string, options ...Viper
 	if err != nil {
 		return errors.Wrap(err, "viper read in config error")
 	}
-	logrus.Debugf("loaded %s in %s\n", configName, configPath)
+	logrus.Debugf("loaded %s in %s", configName, configPath)
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		viper.ReadInConfig()
