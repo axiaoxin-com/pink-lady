@@ -3,7 +3,7 @@ package response
 import (
 	"net/http"
 
-	"github.com/axiaoxin/pink-lady/app/services/retcode"
+	"github.com/axiaoxin/pink-lady/app/retcode"
 
 	"github.com/gin-gonic/gin"
 )

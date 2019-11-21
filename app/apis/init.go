@@ -10,14 +10,14 @@
 // general tool functions should be defined in utils package by modularized
 // you can record log by utils.Logger and get config by viper
 // you can return unified json struct by response package
-// the new return code should be defined in services/retcode package
+// the new return code should be defined in retcode package
 // when you finish the handlerFunc you need to register it on a url in routes.go
 // that's all.
 package apis
 
 import (
 	"github.com/axiaoxin/pink-lady/app/response"
-	"github.com/axiaoxin/pink-lady/app/services/retcode"
+	"github.com/axiaoxin/pink-lady/app/retcode"
 
 	"github.com/gin-gonic/gin"
 )

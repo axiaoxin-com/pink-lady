@@ -2,8 +2,8 @@ package demo
 
 import (
 	"github.com/axiaoxin/pink-lady/app/response"
+	"github.com/axiaoxin/pink-lady/app/retcode"
 	demoService "github.com/axiaoxin/pink-lady/app/services/demo"
-	"github.com/axiaoxin/pink-lady/app/services/retcode"
 
 	"github.com/gin-gonic/gin"
 )
