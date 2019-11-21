@@ -19,7 +19,7 @@ type ViperOption struct {
 
 // InitViper init viper by default value, ENV, cmd flag and config file
 // you can use switch to reload server when config file changed
-func InitViper(configPath, configName string, envPrefix string, options []ViperOption) error {
+func InitViper(configPath, configName string, envPrefix string, options ...ViperOption) error {
 	viper.SetEnvPrefix(envPrefix)
 	for _, option := range options {
 		// set default value

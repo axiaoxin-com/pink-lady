@@ -35,7 +35,7 @@ func TestInitViper(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	InitViper(workdir, "config", "envPrefix", options)
+	InitViper(workdir, "config", "envPrefix", options...)
 	if viper.GetInt("option1") != 1 {
 		t.Error("get int option error")
 	}
