@@ -3,9 +3,9 @@ package demo
 import (
 	"strconv"
 
+	"github.com/axiaoxin/pink-lady/app/response"
 	demoService "github.com/axiaoxin/pink-lady/app/services/demo"
 	"github.com/axiaoxin/pink-lady/app/services/retcode"
-	"github.com/axiaoxin/pink-lady/app/utils/response"
 
 	"github.com/gin-gonic/gin"
 )
