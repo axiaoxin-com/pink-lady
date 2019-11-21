@@ -30,7 +30,7 @@ import (
 // @contact.email 254606826@qq.com
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host pink-lady
+// @host 127.0.0.1:4869
 // @BasePath /
 
 // VERSION your API version, don't change the code style

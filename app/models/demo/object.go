@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"github.com/axiaoxin/pink-lady/app/db"
 	"github.com/axiaoxin/pink-lady/app/models"
 )
 
@@ -17,4 +18,8 @@ type Object struct {
 // TableName define the model's table name
 func (Object) TableName() string {
 	return "object"
+}
+
+func init() {
+	db.SQLite3("testing").AutoMigrate(&Object{})
 }
