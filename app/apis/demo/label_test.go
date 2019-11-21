@@ -36,10 +36,7 @@ func TestAddLabel(t *testing.T) {
 	utils.InitViper(workdir, "config", "envPrefix")
 
 	utils.InitLogger(os.Stdout, "debug", "text")
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 	defer db.SQLite3("testing").Close()
 
@@ -106,10 +103,7 @@ func TestLabel(t *testing.T) {
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
 
-	err = db.InitGorm()
-	if db.SQLite3("testing") == nil || err != nil {
-		t.Error("init DB fail ", err)
-	}
+	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	defer func() { os.Remove("/tmp/pink-lady-testing.db") }()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
