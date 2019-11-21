@@ -1,6 +1,8 @@
 package demo
 
-import "github.com/axiaoxin/pink-lady/app/models"
+import (
+	"github.com/axiaoxin/pink-lady/app/models"
+)
 
 // Object model of object
 type Object struct {
@@ -15,8 +17,4 @@ type Object struct {
 // TableName define the model's table name
 func (Object) TableName() string {
 	return "object"
-}
-
-func init() {
-	models.MigrationModels = append(models.MigrationModels, &Object{})
 }

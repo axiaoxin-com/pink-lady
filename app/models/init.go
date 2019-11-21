@@ -13,13 +13,3 @@ type BaseModel struct {
 	UpdatedAt utils.JSONTime  `json:"updatedAt"`
 	DeletedAt *utils.JSONTime `sql:"index" json:"-"`
 }
-
-// MigrationModels save models like &MODEL{} for auto migrate when server starting
-// when you write your model you can append to it
-var MigrationModels = []interface{}{}
-
-// Migrate run AutoMigrate to create database tables which in MigrationModels
-// running after InitGormDB
-func Migrate() error {
-	return utils.DB.AutoMigrate(MigrationModels...).Error
-}

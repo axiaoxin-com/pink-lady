@@ -1,6 +1,8 @@
 package demo
 
-import "github.com/axiaoxin/pink-lady/app/models"
+import (
+	"github.com/axiaoxin/pink-lady/app/models"
+)
 
 // Label model of label
 type Label struct {
@@ -13,8 +15,4 @@ type Label struct {
 // TableName define the Label model's tabel name
 func (Label) TableName() string {
 	return "label"
-}
-
-func init() {
-	models.MigrationModels = append(models.MigrationModels, &Label{})
 }
