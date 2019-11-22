@@ -5,6 +5,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -122,10 +123,15 @@ func Warn(msg string, fields ...zap.Field) {
 	Logger.Warn(msg, fields...)
 }
 
-// Error 记录Error级别的日志
+// Error 记录Error级别的日志，如果fields中有zap.Error则上报的sentry
 func Error(msg string, fields ...zap.Field) {
 	defer Logger.Sync()
 	Logger.Error(msg, fields...)
+	for _, field := range fields {
+		if field.Type == zapcore.ErrorType {
+			sentry.CaptureException(field.Interface.(error))
+		}
+	}
 }
 
 // Clone return the global Logger copy
