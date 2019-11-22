@@ -18,7 +18,9 @@ func SetCtxLogger(c *gin.Context, fields ...zap.Field) {
 	ctxLogger := CloneLogger()
 	ctxLogger = ctxLogger.With(fields...)
 	requestid, _ := c.Get(RequestIDKey)
-	ctxLogger = ctxLogger.With(zap.String("requestid", requestid.(string)))
+	if requestid != nil {
+		ctxLogger = ctxLogger.With(zap.String("requestid", requestid.(string)))
+	}
 	c.Set(CtxLoggerKey, ctxLogger)
 }
 
