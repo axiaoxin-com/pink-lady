@@ -11,7 +11,7 @@ func TestInitRedis(t *testing.T) {
 	}
 	defer s.Close()
 
-	err = InitRedis("single-instance", s.Addr(), "", 0, "")
+	err = InitRedis()
 	if Redis == nil || err != nil {
 		t.Errorf("init redis single instance failed %s", err)
 	}
