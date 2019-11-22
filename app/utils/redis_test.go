@@ -4,22 +4,22 @@ import (
 	"testing"
 )
 
-func TestInitRedis(t *testing.T) {
+func TestNewRedisClient(t *testing.T) {
 	s, err := MockRedis()
 	if err != nil {
 		t.Errorf("mock redis failed %s", err)
 	}
 	defer s.Close()
 
-	err = InitRedis()
-	if Redis == nil || err != nil {
-		t.Errorf("init redis single instance failed %s", err)
+	r, err := NewRedisClient(s.Addr(), "", 0)
+	if r == nil || err != nil {
+		t.Error("init redis single instance failed", err)
 	}
-	err = Redis.Set("k", "v", 0).Err()
+	err = r.Set("k", "v", 0).Err()
 	if err != nil {
 		t.Error(err)
 	}
-	v, err := Redis.Get("k").Result()
+	v, err := r.Get("k").Result()
 	if v != "v" || err != nil {
 		t.Errorf("redis get %s %s", v, err)
 	}
