@@ -29,10 +29,12 @@ func SetupRouter() *gin.Engine {
 
 	router := gin.New()
 	router.Use(cors.Default())
-	router.Use(middleware.LogRequestInfo())
 	if sentryDSN != "" {
 		raven.SetDSN(sentryDSN)
 		router.Use(sentry.Recovery(raven.DefaultClient, sentryOnlyCrashes))
+	} else {
+		router.Use(gin.Recovery())
 	}
+	router.Use(middleware.LogRequestInfo())
 	return router
 }
