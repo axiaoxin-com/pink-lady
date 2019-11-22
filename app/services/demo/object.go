@@ -1,6 +1,7 @@
 package demo
 
 import (
+	"github.com/axiaoxin/pink-lady/app/db"
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
@@ -11,21 +12,21 @@ import (
 // if the object's fields value has existed, it will return the existed id
 func AddObject(c *gin.Context, appID, system, entity, identity string) (uint, error) {
 	obj := demoModels.Object{}
-	err := utils.DB.FirstOrCreate(&obj, demoModels.Object{AppID: appID, System: system, Entity: entity, Identity: identity}).Error
+	err := db.SQLite3("testing").FirstOrCreate(&obj, demoModels.Object{AppID: appID, System: system, Entity: entity, Identity: identity}).Error
 	return obj.ID, err
 }
 
 // GetObjectByID return a object model by id and error
 func GetObjectByID(c *gin.Context, objectID uint) (demoModels.Object, error) {
 	object := demoModels.Object{}
-	err := utils.DB.First(&object, objectID).Error
+	err := db.SQLite3("testing").First(&object, objectID).Error
 	return object, err
 }
 
 // GetObjectsByIDs return objects model list by ids and error
 func GetObjectsByIDs(c *gin.Context, objectIDs []uint) ([]demoModels.Object, error) {
 	objects := []demoModels.Object{}
-	err := utils.DB.Where(objectIDs).Find(&objects).Error
+	err := db.SQLite3("testing").Where(objectIDs).Find(&objects).Error
 	return objects, err
 }
 
@@ -57,7 +58,7 @@ func QueryObject(c *gin.Context, objectID uint, appID, system, entity, identity 
 
 	count := 0
 	totalCount := true
-	scopedb := utils.DB.Order(order).Offset(offset).Limit(limit)
+	scopedb := db.SQLite3("testing").Order(order).Offset(offset).Limit(limit)
 	if appID != "" {
 		scopedb = scopedb.Where(&demoModels.Object{AppID: appID})
 		totalCount = false
@@ -77,7 +78,7 @@ func QueryObject(c *gin.Context, objectID uint, appID, system, entity, identity 
 	items := []demoModels.Object{}
 	scopedb = scopedb.Find(&items)
 	if totalCount {
-		utils.DB.Model(&demoModels.Object{}).Count(&count)
+		db.SQLite3("testing").Model(&demoModels.Object{}).Count(&count)
 	} else {
 		scopedb.Count(&count)
 	}

@@ -1,7 +1,7 @@
 [server]
 mode = "debug"
 bind = ":4869"
-sentrydsn = ""
+sentrydsn = "https://e2bef15724a942f9b181cbc1b834d7ef@report.url.cn/sentry/1953"
 
 [logger]
 level = "debug"

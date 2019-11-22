@@ -21,10 +21,12 @@ func RegisterRoutes(app *gin.Engine) {
 		x.GET("/ping", Ping)
 	}
 
-	// redirect / to apidocs
-	app.GET("/", func(c *gin.Context) {
-		c.Redirect(301, "/x/apidocs/index.html")
-	})
+	/*
+		// redirect / to apidocs
+		app.GET("/", func(c *gin.Context) {
+			c.Redirect(301, "/x/apidocs/index.html")
+		})
+	*/
 
 	// demo routes start
 	demoGroup := app.Group("/demo")
