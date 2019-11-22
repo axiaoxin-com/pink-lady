@@ -48,11 +48,11 @@ func InitViper(configPath, configName string, envPrefix string, options ...Viper
 	if err != nil {
 		return errors.Wrap(err, "viper read in config error")
 	}
-	log.Printf("loaded %s in %s\n", configName, configPath)
+	log.Printf("[INFO] loaded %s in %s\n", configName, configPath)
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		viper.ReadInConfig()
-		log.Println("Config file changed, read in config:", e.Name)
+		log.Println("[WARN] Config file changed, read in config:", e.Name)
 	})
 	return nil
 }

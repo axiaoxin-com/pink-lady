@@ -18,7 +18,7 @@ import (
 func init() {
 	workdir, err := os.Getwd()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("[FATAL] ", err)
 	}
 	if err := utils.InitViper(workdir, "config", "GIN",
 		utils.ViperOption{Name: "server.mode", Default: "debug", Desc: "server mode: debug|test|release"},
@@ -26,25 +26,25 @@ func init() {
 		utils.ViperOption{Name: "log.level", Default: "info", Desc: "log level: debug|info|warning|error|fatal|panic"},
 		utils.ViperOption{Name: "log.formatter", Default: "text", Desc: "log formatter: text|json"},
 	); err != nil {
-		log.Println(err)
+		log.Println("[ERROR]", err)
 	}
 
 	if err := logging.InitLogger(); err != nil {
-		log.Println(err)
+		log.Println("[ERROR] ", err)
 	}
 	if err := utils.InitSentry(); err != nil {
-		log.Println(err)
+		log.Println("[ERROR] ", err)
 	}
 	if err := db.InitGorm(); err != nil {
-		log.Println(err)
+		log.Println("[ERROR] ", err)
 	}
 	if err := utils.InitRedis(); err != nil {
-		log.Println(err)
+		log.Println("[ERROR] ", err)
 	}
 }
 
 func main() {
-	log.Println("======================= pink-lady =======================")
+	log.Println("[INFO] ======================= pink-lady =======================")
 	defer db.DBInstanceMap.Close()
 
 	// TODO: imp in cli
