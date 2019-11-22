@@ -3,6 +3,7 @@ package demo
 import (
 	"strings"
 
+	"github.com/axiaoxin/pink-lady/app/db"
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
@@ -14,28 +15,28 @@ import (
 // 如果标签名称已存在，且传递了remark参数则会更新remark字段
 func AddLabel(c *gin.Context, name, remark string) (uint, error) {
 	label := demoModels.Label{}
-	err := utils.DB.Where(demoModels.Label{Name: name}).Assign(demoModels.Label{Remark: remark}).FirstOrCreate(&label).Error
+	err := db.SQLite3("testing").Where(demoModels.Label{Name: name}).Assign(demoModels.Label{Remark: remark}).FirstOrCreate(&label).Error
 	return label.ID, err
 }
 
 // GetLabelByName 按标签名称查询标签
 func GetLabelByName(c *gin.Context, name string) (demoModels.Label, error) {
 	label := demoModels.Label{}
-	err := utils.DB.Where(&demoModels.Label{Name: name}).First(&label).Error
+	err := db.SQLite3("testing").Where(&demoModels.Label{Name: name}).First(&label).Error
 	return label, err
 }
 
 // GetLabelByID 按标签ID查询标签
 func GetLabelByID(c *gin.Context, labelID uint) (demoModels.Label, error) {
 	label := demoModels.Label{}
-	err := utils.DB.First(&label, labelID).Error
+	err := db.SQLite3("testing").First(&label, labelID).Error
 	return label, err
 }
 
 // GetLabelsByIDs 按标签ID列表批量查询标签
 func GetLabelsByIDs(c *gin.Context, labelIDs []uint) ([]demoModels.Label, error) {
 	labels := []demoModels.Label{}
-	err := utils.DB.Where(labelIDs).Find(&labels).Error
+	err := db.SQLite3("testing").Where(labelIDs).Find(&labels).Error
 	return labels, err
 }
 
@@ -69,7 +70,7 @@ func QueryLabel(c *gin.Context, labelID uint, name, remark string, pageNum, page
 
 	count := 0
 	totalCount := true
-	scopedb := utils.DB.Order(order).Offset(offset).Limit(limit)
+	scopedb := db.SQLite3("testing").Order(order).Offset(offset).Limit(limit)
 	if remark != "" {
 		scopedb = scopedb.Where("remark LIKE ?", "%"+strings.TrimSpace(remark)+"%")
 		totalCount = false
@@ -77,7 +78,7 @@ func QueryLabel(c *gin.Context, labelID uint, name, remark string, pageNum, page
 	items := []demoModels.Label{}
 	scopedb = scopedb.Find(&items)
 	if totalCount {
-		utils.DB.Model(&demoModels.Label{}).Count(&count)
+		db.SQLite3("testing").Model(&demoModels.Label{}).Count(&count)
 	} else {
 		scopedb.Count(&count)
 	}

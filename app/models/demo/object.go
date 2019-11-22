@@ -1,6 +1,9 @@
 package demo
 
-import "github.com/axiaoxin/pink-lady/app/models"
+import (
+	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/models"
+)
 
 // Object model of object
 type Object struct {
@@ -18,5 +21,5 @@ func (Object) TableName() string {
 }
 
 func init() {
-	models.MigrationModels = append(models.MigrationModels, &Object{})
+	db.SQLite3("testing").AutoMigrate(&Object{})
 }

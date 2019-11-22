@@ -2,16 +2,22 @@
 package router
 
 import (
-	"github.com/axiaoxin/pink-lady/app/middleware"
+	"log"
+	"strings"
+	"time"
 
-	raven "github.com/getsentry/raven-go"
+	"github.com/axiaoxin/pink-lady/app/middleware"
+	"github.com/spf13/viper"
+
+	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/sentry"
 	"github.com/gin-gonic/gin"
 )
 
 // SetupRouter init and return a gin router
-func SetupRouter(mode string, sentryDSN string, sentryOnlyCrashes bool) *gin.Engine {
+func SetupRouter() *gin.Engine {
+	mode := strings.ToLower(viper.GetString("server.mode"))
+
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
 	} else if mode == "test" {
@@ -21,13 +27,15 @@ func SetupRouter(mode string, sentryDSN string, sentryOnlyCrashes bool) *gin.Eng
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	router := gin.New()
+	router := gin.Default()
 	router.Use(cors.Default())
-	router.Use(middleware.RequestID()) // requestid 必须在ginlogrus前面
-	router.Use(middleware.GinLogrus())
-	if sentryDSN != "" {
-		raven.SetDSN(sentryDSN)
-		router.Use(sentry.Recovery(raven.DefaultClient, sentryOnlyCrashes))
+	router.Use(middleware.LogRequestInfo())
+	if viper.GetString("server.sentrydsn") != "" {
+		log.Println("[INFO] Using sentry middleware")
+		router.Use(sentrygin.New(sentrygin.Options{
+			Repanic: true,
+			Timeout: time.Second * 3,
+		}))
 	}
 	return router
 }

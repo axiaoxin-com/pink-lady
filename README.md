@@ -13,211 +13,51 @@
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/axiaoxin)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/axiaoxin/pink-lady/pulls)
 
-The typically [gin](https://github.com/gin-gonic/gin)-based web application's organizational structure -> pink-lady.
-
-The name comes from the Pink Lady which is a national standard cocktail with Gin as Base.
-
-## Skeleton code organization structure
-
-    > tree
-    .
-    ├── app                                  // source code directory
-    │   ├── apis                            // write your apis at this directory
-    │   │   ├── demo                       // the demo apis
-    │   │   │   ├── label.go
-    │   │   │   ├── labeling.go
-    │   │   │   ├── labeling_test.go
-    │   │   │   ├── label_test.go
-    │   │   │   ├── object.go
-    │   │   │   └── object_test.go
-    │   │   ├── init.go                    // skeleton default api
-    │   │   ├── init_test.go
-    │   │   ├── routes.go                  // register your handler function on url in here
-    │   │   └── routes_test.go
-    │   ├── config.yaml                     // your custom configuration file
-    │   ├── config.yaml.example             // example configuration file
-    │   ├── docs                            // api docs generate by swag
-    │   │   ├── docs.go
-    │   │   └── swagger
-    │   │       ├── swagger.json
-    │   │       └── swagger.yaml
-    │   ├── main.go                         // main run a endless api server
-    │   ├── middleware                      // skeleton default middlewares
-    │   │   ├── errorhandler.go            // handle 404 500 to return JSON
-    │   │   ├── errorhandler_test.go
-    │   │   ├── ginlogrus.go               // logs use logrus and add custom fields
-    │   │   ├── ginlogrus_test.go
-    │   │   ├── init.go
-    │   │   ├── requestid.go               // set request id in header and logger
-    │   │   └── requestid_test.go
-    │   ├── models                          // write your models at here
-    │   │   ├── demo                       // the demo models
-    │   │   │   ├── label.go
-    │   │   │   └── object.go
-    │   │   ├── init.go                    // provide a base model
-    │   │   └── init_test.go
-    │   ├── router                          // gin router
-    │   │   ├── router.go                  // return router with middlewares
-    │   │   └── router_test.go
-    │   ├── services                        // write your business handler at here
-    │   │   ├── demo                       // the demo services
-    │   │   │   ├── label.go
-    │   │   │   ├── labeling.go
-    │   │   │   ├── labeling_test.go
-    │   │   │   ├── label_test.go
-    │   │   │   ├── object.go
-    │   │   │   └── object_test.go
-    │   │   ├── init.go
-    │   │   ├── init_test.go
-    │   │   └── retcode                    // write your business return code at here
-    │   │       ├── retcode.go
-    │   │       └── retcode_test.go
-    │   └── utils                           // add common utils at here
-    │       ├── endless.go                  // provide a graceful stop server
-    │       ├── gorequest.go                // provide a http client
-    │       ├── gorm.go                     // provide gorm db client
-    │       ├── gorm_test.go
-    │       ├── init.go
-    │       ├── jsontime.go                 // provide a custom format time field for json
-    │       ├── jsontime_test.go
-    │       ├── logrus.go                   // provide a logger
-    │       ├── logrus_test.go
-    │       ├── pagination.go               // provide a pagination function
-    │       ├── pagination_test.go
-    │       ├── redis.go                    // provide a redis client
-    │       ├── redis_test.go
-    │       ├── response                    // provide united json response functions
-    │       │   ├── response.go
-    │       │   └── response_test.go
-    │       ├── testing.go                  // provide GET/POST request function for testing
-    │       ├── viper.go                    // provide configuration parser
-    │       └── viper_test.go
-    ├── CODE_OF_CONDUCT.md
-    ├── go.mod                               // go mod file
-    ├── go.sum                               // go mod file
-    ├── LICENSE
-    ├── misc                                 // write your tool scripts at here
-    │   ├── gen_apidoc.sh                   // gen api docs
-    │   ├── new-project.sh                  // create new project using pink-lady
-    │   ├── pinklady.png                    // logo
-    │   ├── pre-push.githook                // a git pe-push hook for run test when push
-    │   ├── README.md
-    │   ├── release.sh                      // a tool for release the binary app
-    │   ├── sql                             // save your sqls at there
-    │   │   └── README.md
-    │   └── supervisor.conf
-    └── README.md
-
-## Develop requirements
-
-- **[[Go >= 1.11]](https://golang.org/doc/devel/release.html)** It requires Go 1.11 or newer to use go mod and run testing coverage.
-- **[[swaggo/swag]](https://github.com/swaggo/swag)** Automatically generate RESTful API documentation with Swagger 2.0 for Go.
-- **[[pilu/fresh]](https://github.com/pilu/fresh)** Build and (re)start go web apps after saving/creating/deleting source files.
-
-You maybe need to install them. For installation, please refer to their home page.
-
-## Skeleton dependencies
-
-- **[[spf13/viper]](https://github.com/spf13/viper)** Go configuration with fangs
-- **[[sirupsen/logrus]](https://github.com/sirupsen/logrus)** Structured, pluggable logging for Go.
-- **[[fvbock/endless]](https://github.com/fvbock/endless)** Zero downtime restarts for go servers (Drop in replacement for http.ListenAndServe)
-- **[[jinzhu/gorm]](https://github.com/jinzhu/gorm)** The fantastic ORM library for Golang, aims to be developer friendly <http://gorm.io>
-- **[[satori/go.uuid]](https://github.com/satori/go.uuid)** UUID package for Go
-- **[[go-redis/redis]](https://github.com/go-redis/redis)** Type-safe Redis client for Golang <https://godoc.org/github.com/go-redis/redis>
-- **[[swaggo/gin-swagger]](https://github.com/swaggo/gin-swagger)** gin middleware to automatically generate RESTful API documentation with Swagger 2.0.
-- **[[gin-contrib/cors]](https://github.com/gin-contrib/cors)** Official CORS gin's middleware
-- **[[gin-contrib/sentry]](https://github.com/gin-contrib/sentry)** Middleware to integrate with sentry crash reporting.
-- **[[alicebob/miniredis]](https://github.com/alicebob/miniredis)** Pure Go Redis server for Go unittests
-- **[[parnurzeal/gorequest]](https://github.com/parnurzeal/gorequest)** GoRequest -- Simplified HTTP client ( inspired by nodejs SuperAgent ) <http://parnurzeal.github.io/gorequest/>
-- **[[pkg/errors]](https://github.com/pkg/errors)** Simple error handling primitives <https://godoc.org/github.com/pkg/errors>
-- **[[json-iterator/go]](https://github.com/json-iterator/go)** A high-performance 100% compatible drop-in replacement of "encoding/json"
-
-## Feature
-
-- Clear code organization.
-- Validation of production environment.
-- Flexible and rich configuration, easy to configure for server, log, database, redis and sentry.
-- Detailed and leveled log, easy to log gin request log with requestid and orm sql log.
-- Support multiple database ORM such as sqlite3, mysql, postgresql and sqlserver.
-- Support redis single client, sentinel client and cluster client.
-- Support sentry for collecting panic logs.
-- Provide a graceful restart/stop server.
-- Integration of gorequest, pagination, functions for testing and other common tools.
-- Provide functions to respond unified JSON structrue with `code`, `message`, `data` fields.
-- Provide easy-to-use business return code.
-- Gin router support handle 404/500 requests as a unified JSON structure.
-- Support auto generating the swagger API docs by comments
-- Provide a `release.sh` tool for releasing binary in `misc` directory.
-
-## How to build web API server with pink-lady
-
-First, *Run the script to create your new project:*
+pink-lady是使用[gin](https://github.com/gin-gonic/gin)做web开发的demo项目，你可以通过执行以下以下命令复制一份在这个基础上来开始你自己新的web项目。
 
     source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.sh)
 
-You will get the project skeleton, then you can do coding.
-
-> You also can create project skeleton manually:
->
-> Clone the pink-lady into your gopath and install dependebcies:
->
->     cd $(go env GOPATH)/src
->     git clone git@github.com:axiaoxin/pink-lady.git
->     cd pink-lady
->
-> if you want to change the project path or name, you must change the import path too:
->
->     # replace project name
->     mv github.com/axiaoxin/pink-lady ${projname}
->     cd ${projname}
->     sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go --include go.* -rl .`
->
->     # init git
->     rm -rf .git
->     git init
->     git add .
->     git commit -m "init project from pink-lady"
->
->     # remove demo
->     rm -rf app/docs
->     rm -rf app/apis/demo
->     rm -rf app/services/demo
->     rm -rf app/models/demo
->     sed -i "/demo routes start/,/demo routes end/d" app/apis/routes.go
-
-Second, Write your API in `apis` directory, you can create a file or a subdirectory as a package to save your gin API handler function, then register the handlers on url in `apis/routes.go` like the default `ping` API
-
-Third, Run develop server in `app` directory:
-
-    cd app
-    cp config.yaml.example config.yaml
-    go test ./...
-    go run main.go
-
-Fourth, Release your API server, run `misc/release.sh` will build a binary app in `build` directory if your tests all pass, and bump version, update api docs and make a git commit and add a tag with the version
-
-    cd misc
-    ./release.sh
-
-If you wrote swag style comments you can generate the API docs in `app` directory manually:
-
-    cd app
-    swag init -g apis/init.go
-
-You can test your API by curl or swagger API docs:<http://pink-lady:4869/x/apidocs/index.html>, sure, you need to configure a host of pink-lady for your server
+所有代码在app目录中，misc中存放各类脚本，在go 1.13测试通过。
 
 
-## Develop suggestions
+# 如何开始开发
 
-- You should put your API handler functions in `app/apis` as a single file or a package, then register the handlers in `app/apis/routes.go`
-- Add your middleware in `app/middleware`, use it by adding to `app/router/router.go`
-- Define the database model in `app/models` by embed `BaseModel` in `app/models/init.go`
-- Write reusable business code in `app/services` as single file or a package
-- Define the return codes in `app/services/retcode/retcode.go`
-- Add generic business independent tool type code in `app/utils`
-- Add tool scripts etc in `misc`
-- Write unit tests and doc for functions
-- Integrate Travis, code quality, goreport and codecov
-- A convinent way to dynamic reload the server when code changing, you can use `fresh` to run server in `app` directory
-- There is a demo in pink-lady, a api service for labeling object with label, you can delete it in `apis/demo` `services/demo` `models/demo`
-- If you want to log with requestid, you should use `utils.CtxLogger(c)` to get a logger with requestid
+## 配置
+配置文件参考`app/config.toml.example`生成你自己的`app/config.toml`文件，使用[viper](https://github.com/spf13/viper)读取
+配置文件可以使用任意viper支持的文件格式，推荐使用[toml](https://github.com/toml-lang/toml)
+
+代码中读取配置在配置文件中新增你的配置项，然后直接使用`viper.GetXXX("a.b.c")`即可读取
+
+## 接口实现
+在`app/apis/routes.go`中添加URL并指定你的handleFunc，handleFunc可以在`app/apis`下以目录或者文件的形式自己按实际情况组织
+可复用的代码可以在`app/services`下以目录或者文件的形式按需组织
+
+API版本号定义在`app/api/init.go`中，可以手动修改值，但不要修改代码格式，自动生成API文档依赖这个格式。
+
+## 访问DB
+使用(gorm](https://github.com/jinzhu/gorm)访问db，在`app/models`中定义数据库模型，使用`app/db`包获取db实例，db实例按配置文件中的配置全部生成。
+使用配置中的instance的值可以获取对应db实例，例如获取MySQL配置中的`instance = "default"`的数据库实例使用`db.MySQL("default")`即可，其他db实例类似。
+
+## 日志
+使用[logrus](https://github.com/sirupsen/logrus)打印日志，日志不打印到文件全部输出到标准输出。
+普通日志直接使用logrus的方式答应，打印请求信息使用全局的logger`utils.Logger`进行普通日志打印，该Logger是一个logrus的Entry实例，用法直接参考logrus
+
+如果需要自动打印RequestID，必须使用`utils.CtxLogger(ctx)`实时获取带RequestID的Logger
+
+## 中间件
+中间件存放在`app/middleware`中，在`app/router/router.go`进行注册。
+
+## 返回值
+使用`app/response`中的方法返回统一结构的json，返回码参数为`RetCode`结构体对象，在`app/retcode`中新增返回码。一个返回码结构体对象包含实际的code和code对应的message，同一个code要对应不同message必须新增RetCode结构体对象
+
+## Swagger API文档
+使用[swag](https://github.com/swaggo/swag)生成api文档，运行`misc/gen_apidoc_xxx.sh`可以根据swag支持的注释格式生成swagger api文档
+
+需要先安装swag：
+
+    go get -u -vgithub.com/swaggo/swag/cmd/swag
+
+文档相关的代码在`app/docs`中，你自己的文档不要放在这里。
+
+生成文档后启动服务，访问<http://127.0.0.1:4869/x/apidocs/index.html>即可看到效果。
+浏览器请求地址host必须和`app/apis/init.go`中的`// @host`指定的注释一致，如果更改请求地址需要同步修改这里。

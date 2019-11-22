@@ -1,10 +1,13 @@
 package demo
 
 import (
+	"io"
 	"os"
 	"testing"
 
-	"github.com/axiaoxin/pink-lady/app/models"
+	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/logging"
+	"github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/router"
 	"github.com/axiaoxin/pink-lady/app/utils"
 
@@ -12,15 +15,32 @@ import (
 )
 
 func TestLabelingAPIs(t *testing.T) {
-	db := "/tmp/pink-lady-unit-test.db"
-	err := utils.InitGormDB("sqlite3", "", db, "", "", 0, 0, 0, true)
-	if utils.DB == nil || err != nil {
-		t.Error("init DB fail ", err)
+	// 配置文件默认加载当前目录，需要把配置文件移到这里
+	confile, err := os.Open("../../config.toml.example")
+	if err != nil {
+		t.Error(err)
 	}
-	models.Migrate()
-	defer utils.DB.Close()
-	defer os.Remove(db)
-	r := router.SetupRouter("test", "", false)
+	defer confile.Close()
+	tmpConfile, err := os.Create("./config.toml")
+	if err != nil {
+		t.Error(err)
+	}
+	defer tmpConfile.Close()
+	io.Copy(tmpConfile, confile)
+	// 清理测试用的配置文件
+	defer func() { os.Remove("./config.toml") }()
+	defer func() { os.Remove("/tmp/pink-lady-testing.db") }()
+	workdir, err := os.Getwd()
+	if err != nil {
+		t.Error(err)
+	}
+	logging.InitLogger()
+	utils.InitViper(workdir, "config", "envPrefix")
+	db.InitGorm()
+	defer db.SQLite3("testing").Close()
+	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
+
+	r := router.SetupRouter()
 	r.POST("/l", AddLabel)
 	r.POST("/o", AddObject)
 	r.POST("/", AddLabeling)

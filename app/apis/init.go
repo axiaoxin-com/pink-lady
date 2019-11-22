@@ -8,16 +8,15 @@
 // you should extract the common business logic handle functions into services package
 // database model should be defined in models package by modularized
 // general tool functions should be defined in utils package by modularized
-// you can record log by utils.Logger and get config by viper
-// you can return unified json struct by utils/response package
-// the new return code should be defined in services/retcode package
+// you can return unified json struct by response package
+// the new return code should be defined in retcode package
 // when you finish the handlerFunc you need to register it on a url in routes.go
 // that's all.
 package apis
 
 import (
-	"github.com/axiaoxin/pink-lady/app/services/retcode"
-	"github.com/axiaoxin/pink-lady/app/utils/response"
+	"github.com/axiaoxin/pink-lady/app/response"
+	"github.com/axiaoxin/pink-lady/app/retcode"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,7 +29,7 @@ import (
 // @contact.email 254606826@qq.com
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host pink-lady
+// @host 127.0.0.1:4869
 // @BasePath /
 
 // VERSION your API version, don't change the code style
