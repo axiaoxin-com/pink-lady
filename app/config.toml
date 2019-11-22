@@ -1,0 +1,71 @@
+[server]
+mode = "debug"
+bind = ":4869"
+sentrydsn = "https://e2bef15724a942f9b181cbc1b834d7ef@report.url.cn/sentry/1953"
+
+[logger]
+level = "debug"
+format = "json"
+outputPaths = ["stderr", "/tmp/pink-lady.log"]
+
+[database]
+sqlite3 = [
+    {
+        instance = "default",
+        dbname = "/tmp/pink-lady.db",
+        maxIdleConns = 2,  # 设置连接池中的最大闲置连接数
+        maxOpenConns = 0,  # 设置数据库的最大连接数量
+        connMaxLifeMinutes = 60,  # 设置连接的最大可复用时间
+        logMode = true,
+        autoMigrate = true
+    },
+    {
+        instance = "testing",
+        dbname = "/tmp/pink-lady-testing.db",
+        maxIdleConns = 2,  # 设置连接池中的最大闲置连接数
+        maxOpenConns = 0,  # 设置数据库的最大连接数量
+        connMaxLifeMinutes = 60,  # 设置连接的最大可复用时间
+        logMode = true,
+        autoMigrate = true
+    }
+]
+
+mysql = [
+    {
+        instance = "default",
+        host = "127.0.0.1",
+        port = 3306,
+        dbname = "test",
+        username = "root",
+        password = "roooooot",
+        maxIdleConns = 2,
+        maxOpenConns = 0,
+        connMaxLifeMinutes = 60,
+        logMode = true,
+        autoMigrate = false
+    }
+]
+
+postgres = [
+    {
+        instance = "default",
+        host = "127.0.0.1",
+        port = 5432,
+        dbname = "test",
+        username = "root",
+        password = "roooooot",
+        sslmode = "disable",
+        maxIdleConns = 2,
+        maxOpenConns = 0,
+        connMaxLifeMinutes = 60,
+        logMode = true,
+        autoMigrate = false
+    }
+]
+
+[redis]
+mode = "single-instance"
+address = "localhost:6379"
+password = ""
+dbindex = 0
+master = ""
