@@ -65,7 +65,7 @@ postgres = [
 mode = "single-instance"
 address = "localhost:6379"
 password = ""
-db = 0
+dbindex = 0
 master = ""
 
 [sentry]

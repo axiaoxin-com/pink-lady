@@ -33,14 +33,15 @@ func init() {
 	if err := db.InitGorm(); err != nil {
 		logrus.Error(err)
 	}
-	if err := utils.InitRedis(viper.GetString("redis.mode"), viper.GetString("redis.address"), viper.GetString("redis.password"), viper.GetInt("redis.db"), viper.GetString("redis.master")); err != nil {
-		logrus.Error(err)
+	if err := utils.InitRedis(); err != nil {
+		log.Println(err)
 	}
 }
 
 func main() {
-	logrus.Info("===================================== pink-lady =====================================")
+	log.Println("======================= pink-lady =======================")
 	defer db.DBInstanceMap.Close()
+
 	// TODO: imp in cli
 	version := pflag.Bool("version", false, "show version")
 	check := pflag.Bool("check", false, "check everything need to be checked")
