@@ -2,9 +2,10 @@
 mode = "debug"
 bind = ":4869"
 
-[log]
+[logger]
 level = "debug"
-formatter = "json"
+format = "json"
+outputPaths = ["stderr", "/tmp/pink-lady.log"]
 
 [database]
 sqlite3 = [

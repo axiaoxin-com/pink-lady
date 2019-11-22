@@ -1,4 +1,4 @@
-package logger
+package logging
 
 import (
 	"syscall"
@@ -14,8 +14,8 @@ func TestInitLogger(t *testing.T) {
 	}
 }
 
-func TestNew(t *testing.T) {
-	logger, err := New(
+func TestNewLogger(t *testing.T) {
+	logger, err := NewLogger(
 		viper.GetString("logger.level"),
 		viper.GetString("logger.format"),
 		viper.GetStringSlice("logger.outputPaths"),

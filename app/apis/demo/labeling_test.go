@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/router"
 	"github.com/axiaoxin/pink-lady/app/utils"
@@ -33,12 +34,13 @@ func TestLabelingAPIs(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	logging.InitLogger()
 	utils.InitViper(workdir, "config", "envPrefix")
 	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 
-	r := router.SetupRouter("test", "", false)
+	r := router.SetupRouter()
 	r.POST("/l", AddLabel)
 	r.POST("/o", AddObject)
 	r.POST("/", AddLabeling)

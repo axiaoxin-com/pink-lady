@@ -2,8 +2,8 @@ package demo
 
 import (
 	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/logging"
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
-	"github.com/axiaoxin/pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,12 +11,12 @@ import (
 func AddLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 	objects, err := GetObjectsByIDs(c, objectIDs)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	labels, err := GetLabelsByIDs(c, labelIDs)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -30,7 +30,7 @@ func AddLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]inter
 			}
 			err := db.SQLite3("testing").Model(&object).Association("Labels").Append(label).Error
 			if err != nil {
-				utils.CtxLogger(c).Warn(err)
+				logging.CtxLogger(c).Warn(err.Error())
 				result["result"] = err
 			}
 			results = append(results, result)
@@ -43,12 +43,12 @@ func AddLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]inter
 func ReplaceLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 	objects, err := GetObjectsByIDs(c, objectIDs)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	labels, err := GetLabelsByIDs(c, labelIDs)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -59,7 +59,7 @@ func ReplaceLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]i
 		}
 		err := db.SQLite3("testing").Model(&object).Association("Labels").Replace(labels).Error
 		if err != nil {
-			utils.CtxLogger(c).Warn(err)
+			logging.CtxLogger(c).Warn(err.Error())
 			result["result"] = err
 		}
 		results = append(results, result)
@@ -71,12 +71,12 @@ func ReplaceLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]i
 func DeleteLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]interface{}, error) {
 	objects, err := GetObjectsByIDs(c, objectIDs)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	labels, err := GetLabelsByIDs(c, labelIDs)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	var results []map[string]interface{}
@@ -90,7 +90,7 @@ func DeleteLabeling(c *gin.Context, objectIDs, labelIDs []uint) ([]map[string]in
 			}
 			err := db.SQLite3("testing").Model(&object).Association("Labels").Delete(label).Error
 			if err != nil {
-				utils.CtxLogger(c).Warn(err)
+				logging.CtxLogger(c).Warn(err.Error())
 				result["result"] = err
 			}
 			results = append(results, result)
@@ -104,7 +104,7 @@ func GetLabelingByLabelID(c *gin.Context, labelID uint) ([]demoModels.Object, er
 	objects := []demoModels.Object{}
 	label, err := GetLabelByID(c, labelID)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	scopedb := db.SQLite3("testing").Model(&label).Association("Objects")
@@ -118,7 +118,7 @@ func GetLabelingByObjectID(c *gin.Context, objectID uint) ([]demoModels.Label, e
 	labels := []demoModels.Label{}
 	object, err := GetObjectByID(c, objectID)
 	if err != nil {
-		utils.CtxLogger(c).Warn(err)
+		logging.CtxLogger(c).Warn(err.Error())
 		return nil, err
 	}
 	scopedb := db.SQLite3("testing").Model(&object).Association("Labels")

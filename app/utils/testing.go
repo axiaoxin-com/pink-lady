@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
@@ -11,7 +12,6 @@ import (
 	"testing"
 
 	"github.com/alicebob/miniredis"
-	"github.com/sirupsen/logrus"
 )
 
 // TestingGETRequest perform a GET request with the handler for testing
@@ -35,7 +35,7 @@ func TestingPOSTRequest(r http.Handler, path string, jsonStr string) *httptest.R
 func MockRedis() (*miniredis.Miniredis, error) {
 	s, err := miniredis.Run()
 	if err != nil {
-		logrus.Error(err)
+		log.Println("[Error] ", err)
 	}
 	return s, err
 }
