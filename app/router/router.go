@@ -3,21 +3,21 @@ package router
 
 import (
 	"strings"
+	"time"
 
 	"github.com/axiaoxin/pink-lady/app/middleware"
 	"github.com/spf13/viper"
 
-	raven "github.com/getsentry/raven-go"
+	"github.com/getsentry/sentry-go"
+	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/sentry"
 	"github.com/gin-gonic/gin"
 )
 
 // SetupRouter init and return a gin router
 func SetupRouter() *gin.Engine {
 	mode := strings.ToLower(viper.GetString("server.mode"))
-	sentryDSN := viper.GetString("sentry.dsn")
-	sentryOnlyCrashes := viper.GetBool("sentry.onlycrashes")
+
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
 	} else if mode == "test" {
@@ -27,14 +27,14 @@ func SetupRouter() *gin.Engine {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	router := gin.New()
+	router := gin.Default()
 	router.Use(cors.Default())
-	if sentryDSN != "" {
-		raven.SetDSN(sentryDSN)
-		router.Use(sentry.Recovery(raven.DefaultClient, sentryOnlyCrashes))
-	} else {
-		router.Use(gin.Recovery())
-	}
 	router.Use(middleware.LogRequestInfo())
+	if sentry.CurrentHub().Client() != nil {
+		router.Use(sentrygin.New(sentrygin.Options{
+			Repanic: true,
+			Timeout: time.Second * 3,
+		}))
+	}
 	return router
 }

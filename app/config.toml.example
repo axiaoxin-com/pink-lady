@@ -1,6 +1,7 @@
 [server]
 mode = "debug"
 bind = ":4869"
+sentrydsn = ""
 
 [logger]
 level = "debug"
@@ -68,7 +69,3 @@ address = "localhost:6379"
 password = ""
 dbindex = 0
 master = ""
-
-[sentry]
-dsn = ""
-onlyCrashes = false
