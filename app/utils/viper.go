@@ -1,11 +1,11 @@
 package utils
 
 import (
+	"log"
 	"strings"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/pkg/errors"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -48,11 +48,11 @@ func InitViper(configPath, configName string, envPrefix string, options ...Viper
 	if err != nil {
 		return errors.Wrap(err, "viper read in config error")
 	}
-	logrus.Debugf("loaded %s in %s", configName, configPath)
+	log.Printf("loaded %s in %s\n", configName, configPath)
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		viper.ReadInConfig()
-		logrus.Info("Config file changed, read in config:", e.Name)
+		log.Println("Config file changed, read in config:", e.Name)
 	})
 	return nil
 }

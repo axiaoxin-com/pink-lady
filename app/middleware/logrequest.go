@@ -51,7 +51,7 @@ func LogRequestInfo() gin.HandlerFunc {
 
 		end := time.Since(start)
 		status := c.Writer.Status()
-		ctxLogger := logging.GetCtxLogger(c).With(
+		ctxLogger := logging.CtxLogger(c).With(
 			zap.String("url", url),
 			zap.String("method", c.Request.Method),
 			zap.String("body", body),
@@ -67,9 +67,9 @@ func LogRequestInfo() gin.HandlerFunc {
 			ctxLogger.Error(c.Errors.String())
 		} else {
 			if status > 499 {
-				ctxLogger.Error("LogRequest")
+				ctxLogger.Error("LogRequestInfo")
 			} else {
-				ctxLogger.Info("LogRequest")
+				ctxLogger.Info("LogRequestInfo")
 			}
 		}
 	}

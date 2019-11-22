@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
-	"strings"
 
 	"github.com/axiaoxin/pink-lady/app/apis"
 	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/axiaoxin/pink-lady/app/router"
 	"github.com/axiaoxin/pink-lady/app/utils"
 
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
@@ -18,7 +18,7 @@ import (
 func init() {
 	workdir, err := os.Getwd()
 	if err != nil {
-		logrus.Fatal(err)
+		log.Fatal(err)
 	}
 	if err := utils.InitViper(workdir, "config", "GIN",
 		utils.ViperOption{Name: "server.mode", Default: "debug", Desc: "server mode: debug|test|release"},
@@ -26,12 +26,14 @@ func init() {
 		utils.ViperOption{Name: "log.level", Default: "info", Desc: "log level: debug|info|warning|error|fatal|panic"},
 		utils.ViperOption{Name: "log.formatter", Default: "text", Desc: "log formatter: text|json"},
 	); err != nil {
-		logrus.Error(err)
+		log.Println(err)
 	}
 
-	utils.InitLogger(os.Stdout, viper.GetString("log.level"), viper.GetString("log.formatter"))
+	if err := logging.InitLogger(); err != nil {
+		log.Println(err)
+	}
 	if err := db.InitGorm(); err != nil {
-		logrus.Error(err)
+		log.Println(err)
 	}
 	if err := utils.InitRedis(); err != nil {
 		log.Println(err)
@@ -56,10 +58,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	mode := strings.ToLower(viper.GetString("server.mode"))
-	sentryDSN := viper.GetString("sentry.dsn")
-	sentryOnlyCrashes := viper.GetBool("sentry.onlycrashes")
-	app := router.SetupRouter(mode, sentryDSN, sentryOnlyCrashes)
+	app := router.SetupRouter()
 	apis.RegisterRoutes(app)
 	bind := viper.GetString("server.bind")
 	utils.EndlessServe(bind, app)

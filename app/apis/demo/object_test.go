@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/router"
 	"github.com/axiaoxin/pink-lady/app/utils"
@@ -34,12 +35,13 @@ func TestAddObject(t *testing.T) {
 		t.Error(err)
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
+	logging.InitLogger()
 
 	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 
-	r := router.SetupRouter("test", "", false)
+	r := router.SetupRouter()
 
 	r.POST("/", AddObject)
 	w := utils.TestingPOSTRequest(r, "/", `{"appID": "appid1", "system": "sys1", "entity": "e1", "identity": "id1"}`)
@@ -92,12 +94,13 @@ func TestObject(t *testing.T) {
 		t.Error(err)
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
+	logging.InitLogger()
 
 	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 
-	r := router.SetupRouter("test", "", false)
+	r := router.SetupRouter()
 
 	r.GET("/", Object)
 	r.POST("/", AddObject)

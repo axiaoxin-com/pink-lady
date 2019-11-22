@@ -1,5 +1,5 @@
 // Package logger provides ...
-package logger
+package logging
 
 import (
 	"strings"
@@ -9,9 +9,6 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
-
-// CtxLoggerKey define the logger keyname which in context
-const CtxLoggerKey = "ctxLogger"
 
 var (
 	// Logger global zap logger with pid field
@@ -23,7 +20,7 @@ var (
 // InitLogger init the global zap logger
 func InitLogger() error {
 	var err error
-	Logger, err = New(
+	Logger, err = NewLogger(
 		viper.GetString("logger.level"),
 		viper.GetString("logger.format"),
 		viper.GetStringSlice("logger.outputPaths"),
@@ -34,8 +31,8 @@ func InitLogger() error {
 	return err
 }
 
-// New return a new zap logger
-func New(level, format string, outputPaths []string, initialFields map[string]interface{}) (*zap.Logger, error) {
+// NewLogger return a new zap logger
+func NewLogger(level, format string, outputPaths []string, initialFields map[string]interface{}) (*zap.Logger, error) {
 	cfg := zap.Config{}
 	// 设置level 默认为info
 	switch strings.ToLower(level) {
@@ -129,4 +126,10 @@ func Warn(msg string, fields ...zap.Field) {
 func Error(msg string, fields ...zap.Field) {
 	defer Logger.Sync()
 	Logger.Error(msg, fields...)
+}
+
+// Clone return the global Logger copy
+func CloneLogger() *zap.Logger {
+	copy := *Logger
+	return &copy
 }

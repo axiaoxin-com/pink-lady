@@ -8,7 +8,6 @@
 // you should extract the common business logic handle functions into services package
 // database model should be defined in models package by modularized
 // general tool functions should be defined in utils package by modularized
-// you can record log by utils.Logger and get config by viper
 // you can return unified json struct by response package
 // the new return code should be defined in retcode package
 // when you finish the handlerFunc you need to register it on a url in routes.go

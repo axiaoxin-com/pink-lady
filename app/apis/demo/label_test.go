@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/router"
 	"github.com/axiaoxin/pink-lady/app/utils"
@@ -34,13 +35,13 @@ func TestAddLabel(t *testing.T) {
 		t.Error(err)
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
+	logging.InitLogger()
 
-	utils.InitLogger(os.Stdout, "debug", "text")
 	db.InitGorm()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 	defer db.SQLite3("testing").Close()
 
-	r := router.SetupRouter("test", "", false)
+	r := router.SetupRouter()
 
 	r.POST("/", AddLabel)
 	w := utils.TestingPOSTRequest(r, "/", `{"name": "name", "remark": "remark"}`)
@@ -102,13 +103,14 @@ func TestLabel(t *testing.T) {
 		t.Error(err)
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
+	logging.InitLogger()
 
 	db.InitGorm()
 	defer db.SQLite3("testing").Close()
 	defer func() { os.Remove("/tmp/pink-lady-testing.db") }()
 	db.SQLite3("testing").AutoMigrate(&demo.Label{}, &demo.Object{})
 
-	r := router.SetupRouter("test", "", false)
+	r := router.SetupRouter()
 
 	r.GET("/", Label)
 	r.POST("/", AddLabel)

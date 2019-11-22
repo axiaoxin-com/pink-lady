@@ -6,13 +6,10 @@ import (
 	"testing"
 
 	"github.com/axiaoxin/pink-lady/app/db"
+	"github.com/axiaoxin/pink-lady/app/logging"
 	demoModels "github.com/axiaoxin/pink-lady/app/models/demo"
 	"github.com/axiaoxin/pink-lady/app/utils"
 )
-
-func init() {
-	utils.InitLogger(os.Stdout, "debug", "text")
-}
 
 func TestAddLabel(t *testing.T) {
 	// 配置文件默认加载当前目录，需要把配置文件移到这里
@@ -35,6 +32,7 @@ func TestAddLabel(t *testing.T) {
 		t.Error(err)
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
+	logging.InitLogger()
 
 	db.InitGorm()
 	defer db.SQLite3("testing").Close()

@@ -2,7 +2,10 @@
 package router
 
 import (
+	"strings"
+
 	"github.com/axiaoxin/pink-lady/app/middleware"
+	"github.com/spf13/viper"
 
 	raven "github.com/getsentry/raven-go"
 	"github.com/gin-contrib/cors"
@@ -11,7 +14,10 @@ import (
 )
 
 // SetupRouter init and return a gin router
-func SetupRouter(mode string, sentryDSN string, sentryOnlyCrashes bool) *gin.Engine {
+func SetupRouter() *gin.Engine {
+	mode := strings.ToLower(viper.GetString("server.mode"))
+	sentryDSN := viper.GetString("sentry.dsn")
+	sentryOnlyCrashes := viper.GetBool("sentry.onlycrashes")
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
 	} else if mode == "test" {
@@ -23,8 +29,7 @@ func SetupRouter(mode string, sentryDSN string, sentryOnlyCrashes bool) *gin.Eng
 
 	router := gin.New()
 	router.Use(cors.Default())
-	router.Use(middleware.RequestID()) // requestid 必须在ginlogrus前面
-	router.Use(middleware.GinLogrus())
+	router.Use(middleware.LogRequestInfo())
 	if sentryDSN != "" {
 		raven.SetDSN(sentryDSN)
 		router.Use(sentry.Recovery(raven.DefaultClient, sentryOnlyCrashes))
