@@ -61,5 +61,6 @@ func SetCtxRequestID(c *gin.Context, requestid string) {
 	// set in context
 	c.Set(RequestIDKey, requestid)
 	// set in header
+	c.Request.Header.Set(RequestIDKey, requestid)
 	c.Writer.Header().Set(RequestIDKey, requestid)
 }
