@@ -1,16 +1,6 @@
 // Package retcode define all api return code at here
 package retcode
 
-// 删除已有的iota常量时记得用_占位
-const (
-	success = iota
-	failure
-	unknownError
-	invalidParams
-	notFound
-	internalError
-)
-
 // RetCode has code and message field
 type RetCode struct {
 	code    int
