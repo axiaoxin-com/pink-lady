@@ -19,18 +19,15 @@ main() {
     # replace project name
     echo -e "${NOTICE_FLAG} Generating the project..."
     cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
-    files=`grep "github.com/axiaoxin/pink-lady" --include "go.*" --include "*.go" -rl .`
-    for f in $files; do
-        sed -i '' "s|github.com/axiaoxin/pink-lady|${projname}|g" $f
-    done
+    sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
 
     # remove demo
     if [ "${rmdemo}" == "n" ] || [ "${rmdemo}" == "N" ]; then
         rm -rf app/apis/demo
         rm -rf app/services/demo
         rm -rf app/models/demo
-        sed -i "/demo routes start/,/demo routes end/d" app/apis/routes.go
-        sed -i '/app\/apis\/demo"$/d' app/apis/routes.go
+        sed -i "/demo routes start/,/demo routes end/d" ${gopath}/src/${projname}/app/apis/routes.go
+        sed -i '/app\/apis\/demo"$/d' ${gopath}/src/${projname}/app/apis/routes.go
     fi
     echo -e "${NOTICE_FLAG} Create project ${projname} in ${gopath}/src succeed."
 
@@ -39,7 +36,7 @@ main() {
     read initgit
     if [ "${initgit}" == "y" ] || [ "${rmdemo}" == "Y" ]; then
         cd ${gopath}/src/${projname} && git init && git add . && git commit -m "init project with pink-lady"
-        cp ${gopath}/src/${projname}/misc/pre-commit.githook ${gopath}/src/${projname}/.git/hooks/pre-commit
+        cp ${gopath}/src/${projname}/misc/pre-commit.linux.githook ${gopath}/src/${projname}/.git/hooks/pre-commit
         chmod +x ${gopath}/src/${projname}/.git/hooks/pre-commit
     fi
 }
