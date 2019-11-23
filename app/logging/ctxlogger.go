@@ -27,6 +27,7 @@ func CtxLogger(c *gin.Context, fields ...zap.Field) *zap.Logger {
 		ctxLogger = ctxLoggerItf.(*zap.Logger)
 	} else {
 		ctxLogger = CloneLogger().With(zap.String("requestid", CtxRequestID(c)))
+		Debug("no ctxLogger in context, clone the global Logger as ctxLogger")
 	}
 	if len(fields) > 0 {
 		ctxLogger = ctxLogger.With(fields...)
@@ -43,12 +44,15 @@ func CtxRequestID(c *gin.Context) string {
 		if requestid != "" {
 			return requestid
 		}
+		Debug("context requestid is empty")
 	}
+	Debug("no requestid in context")
 	// if not then get request id from header
 	requestid := c.Request.Header.Get(RequestIDKey)
 	if requestid != "" {
 		return requestid
 	}
+	Debug("no requestid in header, generate uuid as requestid")
 	// else gen a request id
 	return uuid.NewV4().String()
 }
