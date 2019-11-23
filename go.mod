@@ -3,7 +3,6 @@ module github.com/axiaoxin/pink-lady
 go 1.12
 
 require (
-	git.code.oa.com/yunmonitor/ygin v1.1.6 // indirect
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/alicebob/gopher-json v0.0.0-20180125190556-5a6b3ba71ee6 // indirect
 	github.com/alicebob/miniredis v2.5.0+incompatible
@@ -35,7 +34,7 @@ require (
 	github.com/spf13/viper v1.4.0
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.2
-	github.com/ugorji/go v1.1.7 // indirect
+	github.com/ugorji/go/codec v1.1.7 // indirect
 	github.com/yuin/gopher-lua v0.0.0-20190514113301-1cd887cd7036 // indirect
 	go.uber.org/atomic v1.5.1 // indirect
 	go.uber.org/multierr v1.4.0 // indirect
@@ -46,5 +45,4 @@ require (
 	golang.org/x/tools v0.0.0-20191122000530-004141db30c2 // indirect
 	google.golang.org/appengine v1.6.2 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
-	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )
