@@ -15,7 +15,10 @@
 
 pink-lady是使用[gin](https://github.com/gin-gonic/gin)做web开发的demo项目，你可以通过执行以下以下命令复制一份在这个基础上来开始你自己新的web项目。
 
-    source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.sh)
+    # macos
+    source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.macos.sh)
+    # linux
+    source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.linux.sh)
 
 所有代码在app目录中，misc中存放各类脚本，在go 1.13测试通过。
 
