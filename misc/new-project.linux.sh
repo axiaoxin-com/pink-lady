@@ -26,8 +26,8 @@ main() {
         rm -rf app/apis/demo
         rm -rf app/services/demo
         rm -rf app/models/demo
-        sed -i "/demo routes start/,/demo routes end/d" app/apis/routes.go
-        sed -i '/app\/apis\/demo"$/d' app/apis/routes.go
+        sed -i "/demo routes start/,/demo routes end/d" ${gopath}/src/${projname}/app/apis/routes.go
+        sed -i '/app\/apis\/demo"$/d' ${gopath}/src/${projname}/app/apis/routes.go
     fi
     echo -e "${NOTICE_FLAG} Create project ${projname} in ${gopath}/src succeed."
 

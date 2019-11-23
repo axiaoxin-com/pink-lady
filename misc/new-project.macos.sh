@@ -21,7 +21,7 @@ main() {
     cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
     files=`grep "github.com/axiaoxin/pink-lady" --include "go.*" --include "*.go" -rl .`
     for f in $files; do
-        sed -i '' "s|github.com/axiaoxin/pink-lady|${projname}|g" $f
+        sed -i '' "s|github.com/axiaoxin/pink-lady|${projname}|g" $(greadlink -f $f)
     done
 
     # remove demo
@@ -29,8 +29,8 @@ main() {
         rm -rf app/apis/demo
         rm -rf app/services/demo
         rm -rf app/models/demo
-        sed -i '' "/demo routes start/,/demo routes end/d" app/apis/routes.go
-        sed -i '' '/app\/apis\/demo"$/d' app/apis/routes.go
+        sed -i '' "/demo routes start/,/demo routes end/d"  ${gopath}/src/${projname}/app/apis/routes.go
+        sed -i '' '/app\/apis\/demo"$/d' ${gopath}/src/${projname}/app/apis/routes.go
     fi
     echo -e "${NOTICE_FLAG} Create project ${projname} in ${gopath}/src succeed."
 
