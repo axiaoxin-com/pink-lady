@@ -2,6 +2,7 @@ package logging
 
 import (
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -53,6 +54,9 @@ func TestCtxLoggerDefaultLogger(t *testing.T) {
 	if logger == nil {
 		t.Error("context also must should return a logger")
 	}
+	if logger != Logger {
+		t.Error("logger no equal")
+	}
 	logger.Info("this is a logger from default logger")
 }
 
@@ -66,31 +70,50 @@ func TestCtxLoggerDefaultLoggerWithField(t *testing.T) {
 	if logger == nil {
 		t.Error("context also must should return a logger")
 	}
+	if logger == Logger {
+		t.Error("with field will get a logger")
+	}
 	logger.Info("this is a logger from default logger with field")
 }
 
-func TestCtxLoggerWithCtxReuquestID(t *testing.T) {
+func TestCtxRequstIDCtx(t *testing.T) {
 	InitLogger()
 	c := &gin.Context{}
 	c.Request, _ = http.NewRequest("GET", "/", nil)
-	c.Set(RequestIDKey, "IAMAREQUESTID")
-
-	logger := CtxLogger(c)
-	if logger == nil {
-		t.Error("context also must should return a logger")
+	if CtxRequestID(c) != "" {
+		t.Error("context should return empty value")
 	}
-	logger.Info("this is a logger context exists requestid")
+	c.Set(RequestIDKey, "IAMAREQUESTID")
+	if CtxRequestID(c) != "IAMAREQUESTID" {
+		t.Error("context should return set value")
+	}
 }
 
-func TestCtxLoggerWithHeaderReuquestID(t *testing.T) {
+func TestCtxRequstIDHeader(t *testing.T) {
 	InitLogger()
 	c := &gin.Context{}
 	c.Request, _ = http.NewRequest("GET", "/", nil)
 	c.Request.Header.Set(RequestIDKey, "IAMAREQUESTID TOO")
-
-	logger := CtxLogger(c)
-	if logger == nil {
-		t.Error("context also must should return a logger")
+	if CtxRequestID(c) != "IAMAREQUESTID TOO" {
+		t.Error("context should return set value")
 	}
-	logger.Info("this is a logger header exists requestid")
+}
+
+func TestSetRequestID(t *testing.T) {
+	c, _ := gin.CreateTestContext(httptest.NewRecorder())
+	c.Request, _ = http.NewRequest("GET", "/", nil)
+	SetCtxRequestID(c, "xyz")
+	r, e := c.Get(RequestIDKey)
+	if !e {
+		t.Error("xyz not exists")
+	}
+	if r.(string) != "xyz" {
+		t.Error("should xyz")
+	}
+	if c.Request.Header.Get(RequestIDKey) != "xyz" {
+		t.Error("request header not xyz")
+	}
+	if c.Writer.Header().Get(RequestIDKey) != "xyz" {
+		t.Error("request header not xyz")
+	}
 }

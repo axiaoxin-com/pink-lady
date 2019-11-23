@@ -3,10 +3,10 @@ package middleware
 import (
 	"testing"
 
-	"github.com/axiaoxin/pink-lady/app/logging"
-	"github.com/axiaoxin/pink-lady/app/utils"
 	"go.uber.org/zap"
 
+	"github.com/axiaoxin/pink-lady/app/logging"
+	"github.com/axiaoxin/pink-lady/app/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +14,13 @@ func TestRequestID(t *testing.T) {
 	r := gin.New()
 	logging.InitLogger()
 	r.Use(LogRequestInfo())
-	r.GET("/", func(c *gin.Context) { return })
+	r.GET("/", func(c *gin.Context) {
+		_, e := c.Get(logging.RequestIDKey)
+		if !e {
+			t.Error("Context中没有requestid")
+		}
+		return
+	})
 
 	w := utils.TestingGETRequest(r, "/")
 	if w.Header().Get(logging.RequestIDKey) == "" {
