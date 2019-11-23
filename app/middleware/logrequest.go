@@ -8,7 +8,6 @@ import (
 
 	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/gin-gonic/gin"
-	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 )
 
@@ -25,16 +24,12 @@ func readBody(reader io.Reader) string {
 // record request and response info
 func LogRequestInfo() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// ! get request id first
-		requestid := c.Request.Header.Get(logging.RequestIDKey)
-		if requestid == "" {
-			requestid = uuid.NewV4().String()
-		}
-		c.Set(logging.RequestIDKey, requestid) // 通过上下文环境暴露到handler内部使用
-		c.Writer.Header().Set(logging.RequestIDKey, requestid)
-
+		// set requestid
+		requestid := logging.CtxRequestID(c)
+		logging.SetCtxRequestID(c, requestid)
 		// set ctx logger
-		logging.SetCtxLogger(c)
+		ctxLogger := logging.CtxLogger(c)
+		logging.SetCtxLogger(c, ctxLogger)
 
 		start := time.Now()
 		url := c.Request.URL.String()
@@ -51,7 +46,7 @@ func LogRequestInfo() gin.HandlerFunc {
 
 		end := time.Since(start)
 		status := c.Writer.Status()
-		ctxLogger := logging.CtxLogger(c).With(
+		ctxLogger = logging.CtxLogger(c,
 			zap.String("url", url),
 			zap.String("method", c.Request.Method),
 			zap.String("body", body),
@@ -59,7 +54,7 @@ func LogRequestInfo() gin.HandlerFunc {
 			zap.String("useragent", c.Request.UserAgent()),
 			zap.Int("status", status),
 			zap.Int("size", c.Writer.Size()),
-			zap.Float64("latency", float64(end.Seconds())*1000.0),
+			zap.Float64("latency", float64(end.Seconds())*1000.0), // 毫秒
 		)
 
 		if len(c.Errors) > 0 {
