@@ -24,10 +24,10 @@ func (rc *RetCode) Decode() (int, string) {
 
 // define your return code at here
 var (
-	Success       = &RetCode{code: success, message: "success"}
-	Failure       = &RetCode{code: failure, message: "failure"}
-	UnknownError  = &RetCode{code: unknownError, message: "unknown error"}
-	InvalidParams = &RetCode{code: invalidParams, message: "invalid params"}
-	RouteNotFound = &RetCode{code: notFound, message: "route not found"}
-	InternalError = &RetCode{code: internalError, message: "internal error"}
+	Success       = &RetCode{code: success, message: "成功"}
+	Failure       = &RetCode{code: failure, message: "失败"}
+	UnknownError  = &RetCode{code: unknownError, message: "未知错误"}
+	InvalidParams = &RetCode{code: invalidParams, message: "无效参数"}
+	RouteNotFound = &RetCode{code: notFound, message: "路由不存在"}
+	InternalError = &RetCode{code: internalError, message: "内部错误"}
 )
