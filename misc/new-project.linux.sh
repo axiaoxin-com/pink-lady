@@ -19,10 +19,7 @@ main() {
     # replace project name
     echo -e "${NOTICE_FLAG} Generating the project..."
     cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
-    files=`grep "github.com/axiaoxin/pink-lady" --include "go.*" --include "*.go" -rl .`
-    for f in $files; do
-        sed -i '' "s|github.com/axiaoxin/pink-lady|${projname}|g" $f
-    done
+    sed -i "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include *.go --include go.* -rl .`
 
     # remove demo
     if [ "${rmdemo}" == "n" ] || [ "${rmdemo}" == "N" ]; then
@@ -39,7 +36,7 @@ main() {
     read initgit
     if [ "${initgit}" == "y" ] || [ "${rmdemo}" == "Y" ]; then
         cd ${gopath}/src/${projname} && git init && git add . && git commit -m "init project with pink-lady"
-        cp ${gopath}/src/${projname}/misc/pre-commit.githook ${gopath}/src/${projname}/.git/hooks/pre-commit
+        cp ${gopath}/src/${projname}/misc/pre-commit.linux.githook ${gopath}/src/${projname}/.git/hooks/pre-commit
         chmod +x ${gopath}/src/${projname}/.git/hooks/pre-commit
     fi
 }

@@ -62,7 +62,11 @@ You maybe need to install them. For installation, please refer to their home pag
 
 First, *Run the script to create your new project:*
 
-    source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.sh)
+    # macos
+    source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.macos.sh)
+
+    # linux
+    source <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.linux.sh)
 
 You will get the project skeleton, then you can do coding.
 
