@@ -28,23 +28,17 @@ func TestCtxLogger(t *testing.T) {
 	r.Use(LogRequestInfo())
 	r.GET("/", func(c *gin.Context) {
 		ctxLogger := logging.CtxLogger(c)
+		ctxLogger.Info("from ctxlogger var")
+		logging.CtxLogger(c).Info("from middleware logger")
 		ctxLogger = ctxLogger.With(zap.String("myfield", "myfield"))
-		ctxLogger.Info("")
-		return
-	})
+		ctxLogger.Info("from ctxlogger var with field")
+		logging.CtxLogger(c).Info("from middleware logger after var set field")
 
-	utils.TestingGETRequest(r, "/")
-}
-
-func TestSetNewRequestInfoField(t *testing.T) {
-	r := gin.New()
-	logging.InitLogger()
-	r.Use(LogRequestInfo())
-	r.GET("/", func(c *gin.Context) {
-		ctxLogger := logging.CtxLogger(c)
-		ctxLogger.Info("")
-		logging.SetCtxLogger(c, zap.String("NewRequestInfoField", "NewRequestInfoField"))
-		logging.CtxLogger(c).Info("")
+		dctxLogger := logging.CtxLogger(c)
+		nctxLogger := dctxLogger.With(zap.String("new-field", "new_field"))
+		nctxLogger.Info("from nctxLogger with field")
+		logging.SetCtxLogger(c, nctxLogger)
+		logging.CtxLogger(c).Info("from middleware logger after set new logger")
 		return
 	})
 
