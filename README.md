@@ -32,7 +32,7 @@ pink-lady是使用[gin](https://github.com/gin-gonic/gin)做web开发的demo项�
 代码中读取配置在配置文件中新增你的配置项，然后直接使用`viper.GetXXX("a.b.c")`即可读取
 
 ## 接口实现
-在`app/apis/routes.go`中添加URL并指定你的handleFunc，handleFunc可以在`app/apis`下以目录或者文件的形式自己按实际情况组织
+在`app/apis/routes.go`中添加URL并指定你的HandleFunc，HandleFunc可以在`app/apis`下以目录或者文件的形式自己按实际情况组织
 可复用的代码可以在`app/services`下以目录或者文件的形式按需组织
 
 API版本号定义在`app/api/init.go`中，可以手动修改值，但不要修改代码格式，自动生成API文档依赖这个格式。
@@ -42,10 +42,9 @@ API版本号定义在`app/api/init.go`中，可以手动修改值，但不要修
 使用配置中的instance的值可以获取对应db实例，例如获取MySQL配置中的`instance = "default"`的数据库实例使用`db.MySQL("default")`即可，其他db实例类似。
 
 ## 日志
-使用[logrus](https://github.com/sirupsen/logrus)打印日志，日志不打印到文件全部输出到标准输出。
-普通日志直接使用logrus的方式答应，打印请求信息使用全局的logger`utils.Logger`进行普通日志打印，该Logger是一个logrus的Entry实例，用法直接参考logrus
-
-如果需要自动打印RequestID，必须使用`utils.CtxLogger(ctx)`实时获取带RequestID的Logger
+使用[zap](https://github.com/uber-go/zap)打印日志，日志全部输出位置通过配置文件中的outputPaths配置。
+普通日志直接使用全局的logger`logging.Logger`进行普通日志打印会自动带上进程ID字段，
+使用`logging.CtxLogger(ctx)`可以获取带请求信息字段包括requestid的logger
 
 ## 中间件
 中间件存放在`app/middleware`中，在`app/router/router.go`进行注册。
