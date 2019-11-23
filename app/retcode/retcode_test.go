@@ -3,9 +3,9 @@ package retcode
 import "testing"
 
 func TestRetCode(t *testing.T) {
-	NewCode := &RetCode{code: 999999, message: "xxx"}
+	NewCode := NewRetCode(999999, "xxx")
 	code, msg := NewCode.Decode()
-	if code != 999999 && msg != "xxx" {
-		t.Error("Retcode decode error")
+	if code != 999999 || msg != "xxx" {
+		t.Error("Retcode invalid")
 	}
 }
