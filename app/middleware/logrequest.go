@@ -8,6 +8,7 @@ import (
 
 	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/gin-gonic/gin"
+	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 )
 
@@ -26,9 +27,12 @@ func LogRequestInfo() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// set requestid
 		requestid := logging.CtxRequestID(c)
+		if requestid == "" {
+			requestid = uuid.NewV4().String()
+		}
 		logging.SetCtxRequestID(c, requestid)
-		// set ctx logger
-		ctxLogger := logging.CtxLogger(c)
+		// set ctx logger with requestid
+		ctxLogger := logging.CtxLogger(c, zap.String(logging.RequestIDKey, requestid))
 		logging.SetCtxLogger(c, ctxLogger)
 
 		start := time.Now()

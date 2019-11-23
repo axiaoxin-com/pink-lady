@@ -2,7 +2,6 @@ package logging
 
 import (
 	"github.com/gin-gonic/gin"
-	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 )
 
@@ -26,7 +25,7 @@ func CtxLogger(c *gin.Context, fields ...zap.Field) *zap.Logger {
 	if ctxLoggerItf != nil {
 		ctxLogger = ctxLoggerItf.(*zap.Logger)
 	} else {
-		ctxLogger = CloneLogger().With(zap.String("requestid", CtxRequestID(c)))
+		ctxLogger = CloneLogger()
 		Debug("no ctxLogger in context, clone the global Logger as ctxLogger")
 	}
 	if len(fields) > 0 {
@@ -52,9 +51,9 @@ func CtxRequestID(c *gin.Context) string {
 	if requestid != "" {
 		return requestid
 	}
-	Debug("no requestid in header, generate uuid as requestid")
+	Debug("no requestid in header")
 	// else gen a request id
-	return uuid.NewV4().String()
+	return ""
 }
 
 // SetCtxRequestID set requestid for context
