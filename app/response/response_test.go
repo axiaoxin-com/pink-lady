@@ -95,3 +95,26 @@ func TestJSON500(t *testing.T) {
 		t.Error("json data error")
 	}
 }
+
+func TestRespond(t *testing.T) {
+	gin.SetMode(gin.ReleaseMode)
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+	Respond(c, 200, retcode.Success, gin.H{"k": "v"})
+	if c.Writer.Status() != 200 {
+		t.Error("http status code error")
+	}
+	j := w.Body.Bytes()
+	r := Response{}
+	err := json.Unmarshal(j, &r)
+	if err != nil {
+		t.Error(err)
+	}
+	if r.Code != 0 {
+		t.Error("json code error")
+	}
+	if r.Data.(map[string]interface{})["k"].(string) != "v" {
+		t.Error("json data error")
+	}
+
+}
