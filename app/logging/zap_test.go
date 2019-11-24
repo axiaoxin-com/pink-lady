@@ -1,12 +1,10 @@
 package logging
 
 import (
-	"errors"
 	"syscall"
 	"testing"
 
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
 func TestInitLogger(t *testing.T) {
@@ -29,13 +27,4 @@ func TestNewLogger(t *testing.T) {
 		t.Error(err)
 	}
 
-}
-
-func TestInterfaces(t *testing.T) {
-	InitLogger()
-	Debug("msg")
-	Info("msg")
-	Warn("msg")
-	Error("中文")
-	Error("with error field", zap.Error(errors.New("iamerror")))
 }
