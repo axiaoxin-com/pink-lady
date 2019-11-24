@@ -45,7 +45,7 @@ func init() {
 
 func main() {
 	log.Println("[INFO] ======================= pink-lady =======================")
-	defer db.DBInstanceMap.Close()
+	defer db.InstanceMap.Close()
 
 	// TODO: imp in cli
 	version := pflag.Bool("version", false, "show version")
