@@ -38,7 +38,7 @@ pink-lady是使用[gin](https://github.com/gin-gonic/gin)做web开发的demo项�
 API版本号定义在`app/api/init.go`中，可以手动修改值，但不要修改代码格式，自动生成API文档依赖这个格式。
 
 ## 访问DB
-使用(gorm](https://github.com/jinzhu/gorm)访问db，在`app/models`中定义数据库模型，使用`app/db`包获取db实例，db实例按配置文件中的配置全部生成。
+使用[gorm](https://github.com/jinzhu/gorm)访问db，在`app/models`中定义数据库模型，使用`app/db`包获取db实例，db实例按配置文件中的配置全部生成。
 使用配置中的instance的值可以获取对应db实例，例如获取MySQL配置中的`instance = "default"`的数据库实例使用`db.MySQL("default")`即可，其他db实例类似。
 
 ## 日志
