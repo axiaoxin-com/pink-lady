@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
@@ -39,6 +40,7 @@ func InitGorm() error {
 	var db *gorm.DB
 
 	databaseMap := viper.GetStringMap("database")
+	logger := NewLogger(logging.CloneLogger().Named("gorm"))
 	for engine, dbList := range databaseMap {
 		switch strings.ToLower(engine) {
 		case "mysql":
@@ -59,6 +61,7 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
+					db.SetLogger(logger)
 					InstanceMap["mysql"][dbItem["instance"].(string)] = db
 				}
 			}
@@ -76,6 +79,7 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
+					db.SetLogger(logger)
 					InstanceMap["sqlite3"][dbItem["instance"].(string)] = db
 				}
 			}
@@ -98,6 +102,7 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
+					db.SetLogger(logger)
 					InstanceMap["postgres"][dbItem["instance"].(string)] = db
 				}
 			}
@@ -119,6 +124,7 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
+					db.SetLogger(logger)
 					InstanceMap["mssql"][dbItem["instance"].(string)] = db
 				}
 			}

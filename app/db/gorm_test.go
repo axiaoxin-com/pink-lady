@@ -5,6 +5,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/axiaoxin/pink-lady/app/logging"
 	"github.com/axiaoxin/pink-lady/app/utils"
 )
 
@@ -45,6 +46,8 @@ func TestInitGorm(t *testing.T) {
 		t.Error(err)
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
+	logging.InitLogger()
+
 	InitGorm()
 	if InstanceMap["sqlite3"]["default"] == nil {
 		t.Error("InitGorm failed")

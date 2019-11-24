@@ -32,13 +32,14 @@ func init() {
 	if err := logging.InitLogger(); err != nil {
 		log.Println("[ERROR] ", err)
 	}
-	if err := utils.InitSentry(); err != nil {
-		log.Println("[ERROR] ", err)
-	}
+
 	if err := db.InitGorm(); err != nil {
 		log.Println("[ERROR] ", err)
 	}
 	if err := utils.InitRedis(); err != nil {
+		log.Println("[ERROR] ", err)
+	}
+	if err := utils.InitSentry(); err != nil {
 		log.Println("[ERROR] ", err)
 	}
 }
