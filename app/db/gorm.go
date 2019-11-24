@@ -17,13 +17,13 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-// DBInstanceMapType {"mysql": {"default": client}, "sqlite3": {"default": client}}
-type DBInstanceMapType map[string]map[string]*gorm.DB
+// InstanceMapType {"mysql": {"default": client}, "sqlite3": {"default": client}}
+type InstanceMapType map[string]map[string]*gorm.DB
 
-// DBInstanceMap is *gorm.DB instance group by db engine
-var DBInstanceMap = make(DBInstanceMapType)
+// InstanceMap is *gorm.DB instance group by db engine
+var InstanceMap = make(InstanceMapType)
 
-func (dbimt DBInstanceMapType) Close() {
+func (dbimt InstanceMapType) Close() {
 	for _, ins := range dbimt {
 		for _, i := range ins {
 			i.Close()
@@ -33,7 +33,7 @@ func (dbimt DBInstanceMapType) Close() {
 
 var sqlRegexp = regexp.MustCompile(`(\$\d+)|\?`)
 
-// InitGorm init the DBInstanceMap
+// InitGorm init the InstanceMap
 func InitGorm() error {
 	var err error
 	var db *gorm.DB
@@ -42,8 +42,8 @@ func InitGorm() error {
 	for engine, dbList := range databaseMap {
 		switch strings.ToLower(engine) {
 		case "mysql":
-			if DBInstanceMap["mysql"] == nil {
-				DBInstanceMap["mysql"] = make(map[string]*gorm.DB)
+			if InstanceMap["mysql"] == nil {
+				InstanceMap["mysql"] = make(map[string]*gorm.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -59,12 +59,12 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
-					DBInstanceMap["mysql"][dbItem["instance"].(string)] = db
+					InstanceMap["mysql"][dbItem["instance"].(string)] = db
 				}
 			}
 		case "sqlite3":
-			if DBInstanceMap["sqlite3"] == nil {
-				DBInstanceMap["sqlite3"] = make(map[string]*gorm.DB)
+			if InstanceMap["sqlite3"] == nil {
+				InstanceMap["sqlite3"] = make(map[string]*gorm.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -76,12 +76,12 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
-					DBInstanceMap["sqlite3"][dbItem["instance"].(string)] = db
+					InstanceMap["sqlite3"][dbItem["instance"].(string)] = db
 				}
 			}
 		case "postgres":
-			if DBInstanceMap["postgres"] == nil {
-				DBInstanceMap["postgres"] = make(map[string]*gorm.DB)
+			if InstanceMap["postgres"] == nil {
+				InstanceMap["postgres"] = make(map[string]*gorm.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -98,12 +98,12 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
-					DBInstanceMap["postgres"][dbItem["instance"].(string)] = db
+					InstanceMap["postgres"][dbItem["instance"].(string)] = db
 				}
 			}
 		case "mssql":
-			if DBInstanceMap["mssql"] == nil {
-				DBInstanceMap["mssql"] = make(map[string]*gorm.DB)
+			if InstanceMap["mssql"] == nil {
+				InstanceMap["mssql"] = make(map[string]*gorm.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -119,13 +119,13 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
-					DBInstanceMap["mssql"][dbItem["instance"].(string)] = db
+					InstanceMap["mssql"][dbItem["instance"].(string)] = db
 				}
 			}
 		}
 	}
-	if len(DBInstanceMap) == 0 {
-		err = errors.New("DBInstanceMap is empty, check your config file")
+	if len(InstanceMap) == 0 {
+		err = errors.New("db InstanceMap is empty, check your config file")
 	}
 	return err
 }

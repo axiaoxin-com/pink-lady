@@ -22,6 +22,7 @@ The name comes from the Pink Lady which is a national standard cocktail with Gin
 - **[[Go >= 1.11]](https://golang.org/doc/devel/release.html)** It requires Go 1.11 or newer to use go mod and run testing coverage.
 - **[[swaggo/swag]](https://github.com/swaggo/swag)** Automatically generate RESTful API documentation with Swagger 2.0 for Go.
 - **[[pilu/fresh]](https://github.com/pilu/fresh)** Build and (re)start go web apps after saving/creating/deleting source files.
+- **[[goose]](https://github.com/pressly/goose)** Goose database migration tool
 
 You maybe need to install them. For installation, please refer to their home page.
 

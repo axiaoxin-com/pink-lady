@@ -46,8 +46,8 @@ func TestInitGorm(t *testing.T) {
 	}
 	utils.InitViper(workdir, "config", "envPrefix")
 	InitGorm()
-	if DBInstanceMap["sqlite3"]["default"] == nil {
+	if InstanceMap["sqlite3"]["default"] == nil {
 		t.Error("InitGorm failed")
 	}
-	t.Logf("====> DBInstanceMap %+v", DBInstanceMap)
+	t.Logf("====> InstanceMap %+v", InstanceMap)
 }
