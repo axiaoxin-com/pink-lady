@@ -2,9 +2,8 @@
 package apis
 
 import (
-	"github.com/axiaoxin/pink-lady/app/apis/demo"
 	// need by swag
-	_ "github.com/axiaoxin/pink-lady/app/docs"
+	_ "pink-lady/app/apis/docs"
 
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -17,32 +16,27 @@ func RegisterRoutes(app *gin.Engine) {
 	// group x registered pink-lady default api
 	x := app.Group("/x")
 	{
-		x.GET("/apidocs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		x.GET("/apidocs/*any", gin.BasicAuth(gin.Accounts{
+			"admin": "!admin",
+		}), ginSwagger.WrapHandler(swaggerFiles.Handler))
 		x.GET("/ping", Ping)
 	}
 
-	/*
-		// redirect / to apidocs
-		app.GET("/", func(c *gin.Context) {
-			c.Redirect(301, "/x/apidocs/index.html")
-		})
-	*/
+	// redirect / to apidocs
+	app.GET("/", func(c *gin.Context) {
+		c.Redirect(301, "/x/apidocs/index.html")
+	})
 
 	// demo routes start
 	demoGroup := app.Group("/demo")
 	{
-		demoGroup.POST("/label", demo.AddLabel)
-		demoGroup.GET("/label", demo.Label)
-
-		demoGroup.POST("/object", demo.AddObject)
-		demoGroup.GET("/object", demo.Object)
-
-		demoGroup.POST("/labeling", demo.AddLabeling)
-		demoGroup.GET("/labeling/label/:id", demo.GetLabelingByLabelID)
-		demoGroup.GET("/labeling/object/:id", demo.GetLabelingByObjectID)
-		demoGroup.PUT("/labeling", demo.ReplaceLabeling)
-		demoGroup.DELETE("/labeling", demo.DeleteLabeling)
+		demoGroup.POST("/alert-policy", CreateAlertPolicy)
+		demoGroup.GET("/alert-policy", DescribeAlertPolicies)
+		demoGroup.PUT("/alert-policy", ModifyAlertPolicy)
+		demoGroup.GET("/alert-policy/:appid/:uin/:id", DescribeAlertPolicy)
+		demoGroup.DELETE("/alert-policy/:appid/:uin/:id", DeleteAlertPolicy)
 	}
 	// demo routes end
-	// register your api below
+
+	// 在这下面开始注册你的URL路由
 }

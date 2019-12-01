@@ -3,7 +3,8 @@ package utils
 import (
 	"net/http"
 
-	"github.com/axiaoxin/pink-lady/app/logging"
+	"pink-lady/app/logging"
+
 	"github.com/getsentry/sentry-go"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"

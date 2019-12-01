@@ -9,26 +9,20 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime"
+	"strings"
 	"testing"
 
 	"github.com/alicebob/miniredis"
 )
 
-// TestingGETRequest perform a GET request with the handler for testing
-func TestingGETRequest(r http.Handler, path string) *httptest.ResponseRecorder {
-	req, _ := http.NewRequest("GET", path, nil)
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-	return w
-}
-
-// TestingPOSTRequest perform a POST request with the handler for testing
-func TestingPOSTRequest(r http.Handler, path string, jsonStr string) *httptest.ResponseRecorder {
-	req, _ := http.NewRequest("POST", path, bytes.NewBuffer([]byte(jsonStr)))
+// PerformRequest perform a request with the handler for testing
+func PerformRequest(app http.Handler, method, path string, body []byte) *httptest.ResponseRecorder {
+	method = strings.ToUpper(method)
+	req, _ := http.NewRequest(method, path, bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-	return w
+	respRecorder := httptest.NewRecorder()
+	app.ServeHTTP(respRecorder, req)
+	return respRecorder
 }
 
 // MockRedis provide a mock redis server for testing

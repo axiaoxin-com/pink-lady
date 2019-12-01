@@ -19,9 +19,9 @@ func TestJSONTime(t *testing.T) {
 	j, _ := json.Marshal(s)
 	err := json.Unmarshal(j, &s)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
 	if s.JT.String() != "2018-11-10 18:52:25" {
-		t.Error("json time field format error")
+		t.Fatal("json time field format error")
 	}
 }

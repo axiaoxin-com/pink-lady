@@ -2,63 +2,44 @@ package middleware
 
 import (
 	"bytes"
-	"io"
 	"io/ioutil"
 	"time"
 
-	"github.com/axiaoxin/pink-lady/app/logging"
+	"pink-lady/app/logging"
+	"pink-lady/app/utils"
+
 	"github.com/gin-gonic/gin"
-	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 )
-
-func readBody(reader io.Reader) string {
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(reader)
-
-	s := buf.String()
-	return s
-}
 
 // LogRequestInfo middleware for logging request info
 // set request
 // record request and response info
 func LogRequestInfo() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// set requestid
-		requestid := logging.CtxRequestID(c)
-		if requestid == "" {
-			requestid = uuid.NewV4().String()
-		}
-		logging.SetCtxRequestID(c, requestid)
-		// set ctx logger with requestid
-		ctxLogger := logging.CtxLogger(c, zap.String(logging.RequestIDKey, requestid))
-		logging.SetCtxLogger(c, ctxLogger)
-
 		start := time.Now()
-		url := c.Request.URL.String()
-		body := ""
+		// 读取body用于日志打印
+		var body []byte
 		if c.Request.Body != nil {
-			buf, _ := ioutil.ReadAll(c.Request.Body)
-			rdr1 := ioutil.NopCloser(bytes.NewBuffer(buf))
-			rdr2 := ioutil.NopCloser(bytes.NewBuffer(buf)) //We have to create a new Buffer, because rdr1 will be read.
-			body = readBody(rdr1)
-			c.Request.Body = rdr2
+			body, _ = ioutil.ReadAll(c.Request.Body)
 		}
+		// body被read、bind之后会被置空，需要重置
+		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 
 		c.Next()
 
+		// 执行完毕后打印详情
 		end := time.Since(start)
 		status := c.Writer.Status()
-		ctxLogger = logging.CtxLogger(c,
-			zap.String("url", url),
+		ctxLogger := logging.CtxLogger(c,
+			zap.String("url", c.Request.URL.String()),
 			zap.String("method", c.Request.Method),
-			zap.String("body", body),
+			zap.Int("status", status),
+			zap.Float64("latency", float64(end.Seconds())*1000.0), // 毫秒
 			zap.String("clientip", c.ClientIP()),
 			zap.String("useragent", c.Request.UserAgent()),
-			zap.Int("status", status),
 			zap.Int("size", c.Writer.Size()),
-			zap.Float64("latency", float64(end.Seconds())*1000.0), // 毫秒
+			zap.String("body", utils.RemoveAllWhiteSpace(string(body))),
 		)
 
 		if len(c.Errors) > 0 {
