@@ -1,0 +1,380 @@
+basePath: /
+definitions:
+  apis.CreateAlertPolicyParam:
+    properties:
+      alert_policy:
+        $ref: '#/definitions/demomod.AlertPolicy'
+        description: AlertPolicy不能使用匿名结构体，里面的AppID和Uin会和BaseParam里面的冲突，否则导致参数绑定失败
+        type: object
+      appid:
+        description: appid
+        example: 1
+        type: integer
+      uin:
+        description: 根帐号uin
+        example: axiaoxin
+        type: string
+    required:
+    - alert_policy
+    - appid
+    - uin
+    type: object
+  apis.ModifyAlertPolicyParam:
+    properties:
+      alert_policy:
+        $ref: '#/definitions/demomod.AlertPolicy'
+        description: AlertPolicy不能使用匿名结构体，里面的AppID和Uin会和BaseParam里面的冲突，否则导致参数绑定失败
+        type: object
+      appid:
+        description: appid
+        example: 1
+        type: integer
+      uin:
+        description: 根帐号uin
+        example: axiaoxin
+        type: string
+    required:
+    - alert_policy
+    - appid
+    - uin
+    type: object
+  demomod.AlertFilterRule:
+    properties:
+      field:
+        description: 日志原始字段名
+        example: field
+        type: string
+      id:
+        description: 主键ID
+        example: 0
+        type: integer
+      operating:
+        description: 操作符
+        example: =
+        type: string
+      relation:
+        description: 与或关系（1=与，2=或）
+        example: 1
+        type: integer
+      value:
+        description: 筛选值（多个值逗号分隔）
+        example: value
+        type: string
+    required:
+    - field
+    - operating
+    - relation
+    - value
+    type: object
+  demomod.AlertPolicy:
+    properties:
+      alert_channel:
+        description: 告警接收渠道 1=邮件 2=短信 3=微信
+        example: weixin,sms
+        type: string
+      alert_filter_rules:
+        description: 告警过滤条件
+        items:
+          $ref: '#/definitions/demomod.AlertFilterRule'
+        type: array
+      alert_group_id:
+        description: 告警接收组 逗号分隔
+        example: -1,0
+        type: string
+      alert_trigger_rules:
+        description: 告警触发条件
+        items:
+          $ref: '#/definitions/demomod.AlertTriggerRule'
+        type: array
+      appid:
+        description: AppID
+        example: 1
+        type: integer
+      callback_url:
+        description: 回调url 不包含scheme部分
+        example: axiaoxin.com
+        type: string
+      id:
+        description: 主键ID
+        example: 0
+        type: integer
+      latest_alert_time:
+        description: 最后告警时间（产生告警后更改该字段）
+        type: string
+      metric_set_id:
+        description: 指标集ID
+        example: -1
+        type: integer
+      name:
+        description: 策略名称
+        example: swag-test-name
+        type: string
+      notice_frequency_sec:
+        description: 通知频率（通知间隔秒数）
+        example: 60
+        type: integer
+      notice_period_begin:
+        description: 通知时段开始时间（从00:00:00开始计算的秒数）
+        example: 0
+        type: integer
+      notice_period_end:
+        description: 通知时段结束时间（从00:00:00开始计算的秒数）
+        example: 86399
+        type: integer
+      status:
+        description: 状态 1=已开启 2=未开启 3=已失效
+        example: 1
+        type: integer
+      uin:
+        description: Uin
+        example: axiaoxin
+        type: string
+      url_scheme:
+        description: 回调url的scheme
+        example: http
+        type: string
+    required:
+    - alert_channel
+    - alert_group_id
+    - alert_trigger_rules
+    - callback_url
+    - metric_set_id
+    - name
+    - notice_frequency_sec
+    - notice_period_end
+    - status
+    - url_scheme
+    type: object
+  demomod.AlertTriggerRule:
+    properties:
+      continuous_cycle_count:
+        description: 持续周期个数
+        example: 1
+        type: integer
+      id:
+        description: 主键ID
+        example: 0
+        type: integer
+      metric_id:
+        description: 指标id
+        example: -1
+        type: integer
+      metric_type:
+        description: 指标类型 1=普通指标 2=复合指标
+        example: 1
+        type: integer
+      operating:
+        description: 操作符
+        example: =
+        type: string
+      relation:
+        description: 与或关系（1=与，2=或）
+        example: 1
+        type: integer
+      value:
+        description: 指标阈值
+        example: "1"
+        type: string
+    required:
+    - continuous_cycle_count
+    - metric_id
+    - metric_type
+    - operating
+    - relation
+    - value
+    type: object
+  response.Response:
+    properties:
+      code:
+        type: object
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+  utils.JSONTime:
+    type: object
+host: 127.0.0.1:4869
+info:
+  contact:
+    email: 254606826@qq.com
+    name: API Support
+    url: http://axiaoxin.com
+  description: pink-lady web API list.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: pink-lady Web API
+  version: 0.0.1
+paths:
+  /demo/alert-policy:
+    get:
+      consumes:
+      - application/json
+      description: 根据appid、uin、搜索条件等查询告警策略列表，包括其关联数据
+      parameters:
+      - default: 1
+        description: 必填参数
+        in: query
+        name: appid
+        required: true
+        type: integer
+      - default: axiaoxin
+        description: 必填参数
+        in: query
+        name: uin
+        required: true
+        type: string
+      - default: 0
+        description: 分页offset
+        in: query
+        name: offset
+        type: integer
+      - default: 10
+        description: 分页limit
+        in: query
+        name: limit
+        type: integer
+      - default: id desc
+        description: 排序方式
+        in: query
+        name: order
+        type: string
+      - description: 按ID搜索
+        in: query
+        name: id
+        type: string
+      - description: 按名字模糊搜索
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 查询告警策略列表
+      tags:
+      - demo
+    post:
+      consumes:
+      - application/json
+      description: 新增告警策略返回对应ID
+      parameters:
+      - description: 参数包含BaseParam和demomod.AlertPolicy
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/apis.CreateAlertPolicyParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 新增告警策略
+      tags:
+      - demo
+    put:
+      consumes:
+      - application/json
+      description: 更新告警策略返回对应ID
+      parameters:
+      - description: 参数包含BaseParam和demomod.AlertPolicy
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/apis.ModifyAlertPolicyParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 更新告警策略
+      tags:
+      - demo
+  /demo/alert-policy/{appid}/{uin}/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 根据appid、uin删除指定id的告警策略，包括其关联条件，成功Data为true
+      parameters:
+      - default: 1
+        description: param desc
+        in: path
+        name: appid
+        required: true
+        type: integer
+      - default: axiaoxin
+        description: param desc
+        in: path
+        name: uin
+        required: true
+        type: string
+      - description: param desc
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 删除告警策略
+      tags:
+      - demo
+    get:
+      consumes:
+      - application/json
+      description: 根据appid、uin查询指定id的告警策略详情，包括其关联数据
+      parameters:
+      - default: 1
+        description: param desc
+        in: path
+        name: appid
+        required: true
+        type: integer
+      - default: axiaoxin
+        description: param desc
+        in: path
+        name: uin
+        required: true
+        type: string
+      - description: param desc
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 查询指定告警策略
+      tags:
+      - demo
+  /x/ping:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Ping for server is living will respond API version
+      tags:
+      - x
+swagger: "2.0"

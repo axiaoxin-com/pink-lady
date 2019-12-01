@@ -1,48 +1,72 @@
+// Package response 提供统一的JSON返回结构，可以通过配置设置具体返回的code字段为int或者string
 package response
 
 import (
+	"fmt"
 	"net/http"
-
-	"github.com/axiaoxin/pink-lady/app/retcode"
 
 	"github.com/gin-gonic/gin"
 )
 
-// Response the unified json structure
+// Response 统一的返回结构定义
 type Response struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
+	Code interface{} `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
-// JSON respond unified JSON structure with 200 http status code
-func JSON(c *gin.Context, rc *retcode.RetCode, data interface{}) {
-	Respond(c, http.StatusOK, rc, data)
+// JSON 返回HTTP状态码为200的统一成功结构
+func JSON(c *gin.Context, data interface{}) {
+	Respond(c, http.StatusOK, data, RCSuccess)
 }
 
-// JSON400 respond unified JSON structure with 400 http status code
-func JSON400(c *gin.Context, rc *retcode.RetCode, data interface{}) {
-	Respond(c, http.StatusBadRequest, rc, data)
+// ErrJSON 返回HTTP状态码为200的统一失败结构
+func ErrJSON(c *gin.Context, rc error, extraMsgs ...interface{}) {
+	Respond(c, http.StatusOK, nil, rc, extraMsgs...)
 }
 
-// JSON404 respond unified JSON structure with 404 http status code
-func JSON404(c *gin.Context, rc *retcode.RetCode, data interface{}) {
-	Respond(c, http.StatusNotFound, rc, data)
+// ErrJSON400 respond unified JSON structure with 400 http status code
+func ErrJSON400(c *gin.Context, extraMsgs ...interface{}) {
+	Respond(c, http.StatusBadRequest, nil, RCInvalidParam, extraMsgs...)
 }
 
-// JSON500 respond unified JSON structure with 500 http status code
-func JSON500(c *gin.Context, rc *retcode.RetCode, data interface{}) {
-	Respond(c, http.StatusInternalServerError, rc, data)
+// ErrJSON404 respond unified JSON structure with 404 http status code
+func ErrJSON404(c *gin.Context, extraMsgs ...interface{}) {
+	Respond(c, http.StatusNotFound, nil, RCNotFound, extraMsgs...)
+}
+
+// ErrJSON500 respond unified JSON structure with 500 http status code
+func ErrJSON500(c *gin.Context, extraMsgs ...interface{}) {
+	Respond(c, http.StatusInternalServerError, nil, RCInternalError, extraMsgs...)
 }
 
 // Respond encapsulates c.JSON
 // debug mode respond indented json
-func Respond(c *gin.Context, status int, rc *retcode.RetCode, data interface{}) {
-	code, msg := rc.Decode()
+func Respond(c *gin.Context, status int, data interface{}, rc error, extraMsgs ...interface{}) {
+	// 初始化code、msg为失败
+	code, msg, errs := RCFailure.Decode()
+
+	if rc, ok := rc.(*RetCode); !ok {
+		// 支持rc参数直接传error，如果是error，则将error信息添加到msg
+		msg = fmt.Sprint(msg, " ", rc.Error())
+	} else {
+		// 如果是返回码，正常处理
+		code, msg, errs = rc.Decode()
+		// 存在errs则将errs信息添加的msg
+		if len(errs) > 0 {
+			msg = fmt.Sprint(msg, " ", rc.Error())
+		}
+	}
+
+	// 将extraMsgs添加到msg
+	if len(extraMsgs) > 0 {
+		msg = fmt.Sprint(msg, "; ", extraMsgs)
+	}
+
 	resp := Response{
-		Code:    code,
-		Message: msg,
-		Data:    data,
+		Code: code,
+		Msg:  msg,
+		Data: data,
 	}
 	if gin.Mode() == gin.ReleaseMode {
 		c.JSON(status, resp)

@@ -6,7 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/axiaoxin/pink-lady/app/middleware"
+	"pink-lady/app/database"
+	"pink-lady/app/logging"
+	"pink-lady/app/middleware"
+	"pink-lady/app/utils"
+
 	"github.com/spf13/viper"
 
 	sentrygin "github.com/getsentry/sentry-go/gin"
@@ -14,10 +18,35 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// SetupRouter init and return a gin router
-func SetupRouter() *gin.Engine {
-	mode := strings.ToLower(viper.GetString("server.mode"))
+// InitDependencies 初始化所有依赖
+func InitDependencies(configPath, configName string) {
+	bindOption := utils.NewViperOption("server.bind", "localhost:4869", "server binding address")
+	modeOption := utils.NewViperOption("server.mode", "debug", "server mode")
+	if err := utils.InitViper(configPath, configName, "", bindOption, modeOption); err != nil {
+		log.Println("[ERROR]", err)
+	}
 
+	if err := logging.InitLogger(); err != nil {
+		log.Println("[ERROR] ", err)
+	}
+	if err := utils.InitSentry(); err != nil {
+		log.Println("[ERROR] ", err)
+	}
+	if err := database.InitGorm(); err != nil {
+		log.Println("[ERROR] ", err)
+	}
+	if err := utils.InitRedis(); err != nil {
+		log.Println("[ERROR] ", err)
+	}
+}
+
+// SetupRouter init and return a gin router
+func SetupRouter(configPath, configName string) *gin.Engine {
+	// Init
+	InitDependencies(configPath, configName)
+
+	// setup gin
+	mode := strings.ToLower(viper.GetString("server.mode"))
 	if mode == "debug" {
 		gin.SetMode(gin.DebugMode)
 	} else if mode == "test" {
@@ -26,9 +55,10 @@ func SetupRouter() *gin.Engine {
 		gin.DisableConsoleColor()
 		gin.SetMode(gin.ReleaseMode)
 	}
-
+	// new router app
 	router := gin.Default()
 	router.Use(cors.Default())
+	router.Use(middleware.SetRequestID())
 	router.Use(middleware.LogRequestInfo())
 	if viper.GetString("server.sentrydsn") != "" {
 		log.Println("[INFO] Using sentry middleware")

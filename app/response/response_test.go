@@ -5,8 +5,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/axiaoxin/pink-lady/app/retcode"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +12,7 @@ func TestJSON(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
-	JSON(c, retcode.Success, gin.H{"k": "v"})
+	JSON(c, gin.H{"k": "v"})
 	if c.Writer.Status() != 200 {
 		t.Error("http status code error")
 	}
@@ -23,9 +21,6 @@ func TestJSON(t *testing.T) {
 	err := json.Unmarshal(j, &r)
 	if err != nil {
 		t.Error(err)
-	}
-	if r.Code != 0 {
-		t.Error("json code error")
 	}
 	if r.Data.(map[string]interface{})["k"].(string) != "v" {
 		t.Error("json data error")
@@ -36,7 +31,7 @@ func TestJSON400(t *testing.T) {
 	gin.SetMode(gin.DebugMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
-	JSON400(c, retcode.InvalidParams, gin.H{"k": "v"})
+	ErrJSON400(c, "extra msg")
 	if c.Writer.Status() != 400 {
 		t.Error("http status code error")
 	}
@@ -46,18 +41,12 @@ func TestJSON400(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if r.Code != 3 {
-		t.Error("json code error")
-	}
-	if r.Data.(map[string]interface{})["k"].(string) != "v" {
-		t.Error("json data error")
-	}
 }
 
 func TestJSON404(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
-	JSON404(c, retcode.RouteNotFound, gin.H{"k": "v"})
+	ErrJSON404(c, "extra msg")
 	if c.Writer.Status() != 404 {
 		t.Error("http status code error")
 	}
@@ -67,18 +56,12 @@ func TestJSON404(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if r.Code != 4 {
-		t.Error("json code error")
-	}
-	if r.Data.(map[string]interface{})["k"].(string) != "v" {
-		t.Error("json data error")
-	}
 }
 
 func TestJSON500(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
-	JSON500(c, retcode.InternalError, gin.H{"k": "v"})
+	ErrJSON500(c, "extra msg")
 	if c.Writer.Status() != 500 {
 		t.Error("http status code error")
 	}
@@ -88,19 +71,13 @@ func TestJSON500(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if r.Code != 5 {
-		t.Error("json code error")
-	}
-	if r.Data.(map[string]interface{})["k"].(string) != "v" {
-		t.Error("json data error")
-	}
 }
 
 func TestRespond(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
-	Respond(c, 200, retcode.Success, gin.H{"k": "v"})
+	Respond(c, 200, gin.H{"k": "v"}, RCSuccess)
 	if c.Writer.Status() != 200 {
 		t.Error("http status code error")
 	}
@@ -109,9 +86,6 @@ func TestRespond(t *testing.T) {
 	err := json.Unmarshal(j, &r)
 	if err != nil {
 		t.Error(err)
-	}
-	if r.Code != 0 {
-		t.Error("json code error")
 	}
 	if r.Data.(map[string]interface{})["k"].(string) != "v" {
 		t.Error("json data error")

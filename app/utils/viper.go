@@ -17,6 +17,15 @@ type ViperOption struct {
 	Desc    string
 }
 
+// NewViperOption return ViperOption pointer
+func NewViperOption(name string, defaultValue interface{}, desc string) ViperOption {
+	return ViperOption{
+		Name:    name,
+		Default: defaultValue,
+		Desc:    desc,
+	}
+}
+
 // InitViper init viper by default value, ENV, cmd flag and config file
 // you can use switch to reload server when config file changed
 func InitViper(configPath, configName string, envPrefix string, options ...ViperOption) error {
@@ -30,16 +39,20 @@ func InitViper(configPath, configName string, envPrefix string, options ...Viper
 		viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
 		// cmd
-		switch option.Default.(type) {
-		case int:
-			pflag.Int(option.Name, option.Default.(int), option.Desc)
-		case string:
-			pflag.String(option.Name, option.Default.(string), option.Desc)
-		case bool:
-			pflag.Bool(option.Name, option.Default.(bool), option.Desc)
-
+		if pflag.Lookup(option.Name) == nil {
+			switch option.Default.(type) {
+			case int:
+				pflag.Int(option.Name, option.Default.(int), option.Desc)
+			case string:
+				pflag.String(option.Name, option.Default.(string), option.Desc)
+			case bool:
+				pflag.Bool(option.Name, option.Default.(bool), option.Desc)
+			}
 		}
 	}
+
+	pflag.Parse()
+	viper.BindPFlags(pflag.CommandLine)
 
 	// load conf file
 	viper.SetConfigName(configName)

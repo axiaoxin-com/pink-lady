@@ -18,3 +18,4 @@ app/app
 app/tmp/
 build/
 app/config.toml
+config.toml

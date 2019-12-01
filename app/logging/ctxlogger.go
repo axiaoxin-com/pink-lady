@@ -2,6 +2,7 @@ package logging
 
 import (
 	"github.com/gin-gonic/gin"
+	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 )
 
@@ -25,7 +26,7 @@ func CtxLogger(c *gin.Context, fields ...zap.Field) *zap.Logger {
 	if ctxLoggerItf != nil {
 		ctxLogger = ctxLoggerItf.(*zap.Logger)
 	} else {
-		ctxLogger = CloneLogger()
+		ctxLogger = CloneLogger().Named("ctxLogger")
 		Debug("no ctxLogger in context, clone the global Logger as ctxLogger")
 	}
 	if len(fields) > 0 {
@@ -37,30 +38,29 @@ func CtxLogger(c *gin.Context, fields ...zap.Field) *zap.Logger {
 // CtxRequestID get requestid from context
 func CtxRequestID(c *gin.Context) string {
 	// first get from context
-	requestidItf, _ := c.Get(RequestIDKey)
-	if requestidItf != nil {
-		requestid := requestidItf.(string)
-		if requestid != "" {
-			return requestid
-		}
-		Debug("context requestid is empty")
+	requestid := c.GetString(RequestIDKey)
+	if requestid != "" {
+		return requestid
 	}
 	Debug("no requestid in context")
 	// if not then get request id from header
-	requestid := c.Request.Header.Get(RequestIDKey)
+	requestid = c.Request.Header.Get(RequestIDKey)
 	if requestid != "" {
 		return requestid
 	}
 	Debug("no requestid in header")
 	// else gen a request id
-	return ""
+	return "pink-lady-" + uuid.NewV4().String()
 }
 
-// SetCtxRequestID set requestid for context
+// SetCtxRequestID 设置requestid到ctxlogger、context、header中
 func SetCtxRequestID(c *gin.Context, requestid string) {
-	// set in context
+	// 设置带requestid的logger到context中
+	ctxLogger := CtxLogger(c, zap.String(RequestIDKey, requestid))
+	SetCtxLogger(c, ctxLogger)
+	// 设置requestid到context中
 	c.Set(RequestIDKey, requestid)
-	// set in header
+	// 设置requestid到header中
 	c.Request.Header.Set(RequestIDKey, requestid)
 	c.Writer.Header().Set(RequestIDKey, requestid)
 }

@@ -3,7 +3,7 @@ package apis
 import (
 	"testing"
 
-	"github.com/axiaoxin/pink-lady/app/utils"
+	"pink-lady/app/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +11,7 @@ import (
 func TestRegisterRoutes(t *testing.T) {
 	r := gin.New()
 	RegisterRoutes(r)
-	w := utils.TestingGETRequest(r, "/x/ping")
+	w := utils.PerformRequest(r, "GET", "/x/ping", nil)
 	if w.Result().StatusCode != 200 {
 		t.Error("register routes no /x/ping")
 	}
