@@ -64,7 +64,9 @@ func SetupRouter(configPath, configName string) *gin.Engine {
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.Use(middleware.SetRequestID())
-	router.Use(middleware.LogRequestInfo())
+	if viper.GetBool("logger.logRequestInfo") {
+		router.Use(middleware.LogRequestInfo())
+	}
 	if viper.GetString("server.sentrydsn") != "" {
 		log.Println("[INFO] Using sentry middleware")
 		router.Use(sentrygin.New(sentrygin.Options{
