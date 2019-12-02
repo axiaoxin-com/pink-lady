@@ -19,6 +19,14 @@ sqlite3 = [
         maxOpenConns = 0,  # 设置数据库的最大连接数量
         connMaxLifeMinutes = 60,  # 设置连接的最大可复用时间
         logMode = true
+    },
+    {
+        instance = "another",
+        dbname = "/tmp/another-pink-lady.db",
+        maxIdleConns = 2,  # 设置连接池中的最大闲置连接数
+        maxOpenConns = 0,  # 设置数据库的最大连接数量
+        connMaxLifeMinutes = 60,  # 设置连接的最大可复用时间
+        logMode = true
     }
 ]
 
