@@ -67,3 +67,8 @@ address = "localhost:6379"
 password = ""
 dbindex = 0
 master = ""
+
+[apidocs]
+rootRedirect = true
+basicauth.username = "admin"
+basicauth.password = "!admin"

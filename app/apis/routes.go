@@ -4,8 +4,10 @@ package apis
 import (
 	// need by swag
 	_ "pink-lady/app/apis/docs"
+	"pink-lady/app/middleware"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
@@ -16,16 +18,16 @@ func RegisterRoutes(app *gin.Engine) {
 	// group x registered pink-lady default api
 	x := app.Group("/x")
 	{
-		x.GET("/apidocs/*any", gin.BasicAuth(gin.Accounts{
-			"admin": "!admin",
-		}), ginSwagger.WrapHandler(swaggerFiles.Handler))
+		x.GET("/apidocs/*any", middleware.BasicAuth(), ginSwagger.WrapHandler(swaggerFiles.Handler))
 		x.GET("/ping", Ping)
 	}
 
 	// redirect / to apidocs
-	app.GET("/", func(c *gin.Context) {
-		c.Redirect(301, "/x/apidocs/index.html")
-	})
+	if viper.GetBool("apidocs.rootRedirect") {
+		app.GET("/", func(c *gin.Context) {
+			c.Redirect(301, "/x/apidocs/index.html")
+		})
+	}
 
 	// demo routes start
 	demoGroup := app.Group("/demo")
