@@ -22,7 +22,12 @@ import (
 func InitDependencies(configPath, configName string) {
 	bindOption := utils.NewViperOption("server.bind", "localhost:4869", "server binding address")
 	modeOption := utils.NewViperOption("server.mode", "debug", "server mode")
-	if err := utils.InitViper(configPath, configName, "", bindOption, modeOption); err != nil {
+	basicAuthUsername := utils.NewViperOption("apidocs.basicauth.username", "admin", "apidocs default login username")
+	basicAuthPassword := utils.NewViperOption("apidocs.basicauth.password", "!admin", "apidocs default login password")
+	if err := utils.InitViper(configPath, configName, "",
+		bindOption, modeOption,
+		basicAuthUsername, basicAuthPassword,
+	); err != nil {
 		log.Println("[ERROR]", err)
 	}
 
