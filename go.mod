@@ -8,7 +8,6 @@ require (
 	github.com/alicebob/miniredis v2.5.0+incompatible
 	github.com/denisenkom/go-mssqldb v0.0.0-20190920000552-128d9f4ae1cd // indirect
 	github.com/fsnotify/fsnotify v1.4.7
-	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/getsentry/sentry-go v0.3.1
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-gonic/gin v1.5.0

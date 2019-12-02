@@ -9,6 +9,7 @@ format = "json"
 outputPaths = ["stderr", "/tmp/pink-lady.log"]
 disableCaller = false
 disableStacktrace = false
+logRequestInfo = true
 
 [database]
 sqlite3 = [
