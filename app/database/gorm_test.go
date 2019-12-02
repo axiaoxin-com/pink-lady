@@ -33,7 +33,7 @@ func TestInitGorm(t *testing.T) {
 	logging.InitLogger()
 
 	InitGorm()
-	if InstanceMap["sqlite3"]["default"] == nil {
+	if InstanceMap["sqlite3"]["default"] == nil || InstanceMap["sqlite3"]["another"] == nil {
 		t.Fatal("InitGorm failed")
 	}
 }
