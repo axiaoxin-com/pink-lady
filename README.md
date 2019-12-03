@@ -3,7 +3,6 @@
 ![proj-icon](https://raw.githubusercontent.com/axiaoxin/pink-lady/master/logo.png)
 
 [![Build Status](https://travis-ci.org/axiaoxin/pink-lady.svg?branch=master)](https://travis-ci.org/axiaoxin/pink-lady)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b906dd1655074f60bf93a7c592d29204)](https://www.codacy.com/app/axiaoxin/pink-lady?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=axiaoxin/pink-lady&amp;utm_campaign=Badge_Grade)
 [![go report card](https://goreportcard.com/badge/github.com/axiaoxin/pink-lady)](https://goreportcard.com/report/github.com/axiaoxin/pink-lady)
 [![codecov](https://codecov.io/gh/axiaoxin/pink-lady/branch/master/graph/badge.svg)](https://codecov.io/gh/axiaoxin/pink-lady)
 ![version-badge](https://img.shields.io/github/release/axiaoxin/pink-lady.svg)
