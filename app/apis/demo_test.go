@@ -3,10 +3,12 @@ package apis
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"testing"
 	"time"
 
 	"pink-lady/app/database"
+	"pink-lady/app/models/demomod"
 	"pink-lady/app/router"
 	"pink-lady/app/utils"
 
@@ -20,12 +22,14 @@ func Setup() {
 	// 注册路由
 	utrouter = router.SetupRouter("..", "config")
 	RegisterRoutes(utrouter)
+	database.UTDB().AutoMigrate(&demomod.AlertPolicy{}, &demomod.AlertFilterRule{}, &demomod.AlertTriggerRule{})
 }
 
 func Teardown() {
 	// 关闭数据库连接
 	database.InstanceMap.Close()
 	utrouter = nil
+	os.Remove(database.UTDBFile)
 }
 
 func TestAlertAPI(t *testing.T) {
