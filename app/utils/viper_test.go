@@ -18,10 +18,10 @@ func TestInitViper(t *testing.T) {
 
 	// 测试初始化用法
 	options := []ViperOption{
-		ViperOption{Name: "option1", Default: 1, Desc: "number 1"},
-		ViperOption{Name: "option2", Default: true, Desc: "bool true"},
-		ViperOption{Name: "option3", Default: "3", Desc: "string 3"},
-		ViperOption{Name: "option.4", Default: "o4", Desc: "."},
+		{Name: "option1", Default: 1, Desc: "number 1"},
+		{Name: "option2", Default: true, Desc: "bool true"},
+		{Name: "option3", Default: "3", Desc: "string 3"},
+		{Name: "option.4", Default: "o4", Desc: "."},
 	}
 	if err := InitViper("/tmp/", "config-plut", "envPrefix", options...); err != nil {
 		t.Error(err)

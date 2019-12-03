@@ -44,13 +44,13 @@ func ErrJSON500(c *gin.Context, extraMsgs ...interface{}) {
 // debug mode respond indented json
 func Respond(c *gin.Context, status int, data interface{}, err error, extraMsgs ...interface{}) {
 	// 初始化code、msg为失败
-	code, msg, errs := RCFailure.Decode()
+	code, msg, _ := RCFailure.Decode()
 
 	if rc, ok := err.(*RetCode); ok {
 		// 如果是返回码，正常处理
-		code, msg, errs = rc.Decode()
+		code, msg, _ = rc.Decode()
 		// 存在errs则将errs信息添加的msg
-		if len(errs) > 0 {
+		if len(rc.Errs()) > 0 {
 			msg = fmt.Sprint(msg, " ", rc.Error())
 		}
 	} else {

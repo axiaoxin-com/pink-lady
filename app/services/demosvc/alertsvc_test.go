@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"pink-lady/app/database"
 	"pink-lady/app/models/demomod"
 	"pink-lady/app/router"
@@ -24,6 +25,7 @@ func Setup() {
 	router.InitDependencies("../../", "config")
 	utdb = database.UTDB()
 	utdb.AutoMigrate(&demomod.AlertPolicy{}, &demomod.AlertFilterRule{}, &demomod.AlertTriggerRule{})
+	utdb.LogMode(false)
 
 	// 初始化gin.Context
 	utctx, _ = gin.CreateTestContext(httptest.NewRecorder())
@@ -37,6 +39,7 @@ func Teardown() {
 	// Reset 变量
 	utdb = nil
 	utctx = nil
+	os.Remove(database.UTDBFile)
 	log.Println("Teardown!")
 }
 
@@ -56,7 +59,7 @@ func CreateATestPolicy() (int64, error) {
 		URLScheme:          "http",
 		CallbackURL:        "-",
 		AlertFilterRules: []*demomod.AlertFilterRule{
-			&demomod.AlertFilterRule{
+			{
 				AlertPolicyID: -1,
 				Relation:      1,
 				Field:         "-",
@@ -65,7 +68,7 @@ func CreateATestPolicy() (int64, error) {
 			},
 		},
 		AlertTriggerRules: []*demomod.AlertTriggerRule{
-			&demomod.AlertTriggerRule{
+			{
 				Relation:             1,
 				MetricID:             -1,
 				MetricType:           1,
@@ -73,7 +76,7 @@ func CreateATestPolicy() (int64, error) {
 				Value:                "-",
 				ContinuousCycleCount: 1,
 			},
-			&demomod.AlertTriggerRule{
+			{
 				Relation:             1,
 				MetricID:             -2,
 				MetricType:           1,
@@ -105,7 +108,7 @@ func TestCreateAlertPolicy(t *testing.T) {
 		URLScheme:          "http",
 		CallbackURL:        "-",
 		AlertFilterRules: []*demomod.AlertFilterRule{
-			&demomod.AlertFilterRule{
+			{
 				Relation:  1,
 				Field:     "-",
 				Operating: "=",
@@ -113,7 +116,7 @@ func TestCreateAlertPolicy(t *testing.T) {
 			},
 		},
 		AlertTriggerRules: []*demomod.AlertTriggerRule{
-			&demomod.AlertTriggerRule{
+			{
 				Relation:             1,
 				MetricID:             -1,
 				MetricType:           1,
@@ -121,7 +124,7 @@ func TestCreateAlertPolicy(t *testing.T) {
 				Value:                "-",
 				ContinuousCycleCount: 1,
 			},
-			&demomod.AlertTriggerRule{
+			{
 				Relation:             1,
 				MetricID:             -2,
 				MetricType:           1,
@@ -336,12 +339,13 @@ func TestModifyAlertPolicy(t *testing.T) {
 	}
 }
 
-func TestDescribeAlertPolicies(t *testing.T) {
+var nowCount int
+var testIDs []int64
+
+func TestDescribeAlertPolicies1(t *testing.T) {
 	Setup()
-	defer Teardown()
 
 	// 新创建10条新记录确保一定有数据用于测试列表操作 （可能已插入过数据）
-	testIDs := []int64{}
 	for i := 0; i < 10; i++ {
 		id, err := CreateATestPolicy()
 		if err != nil {
@@ -350,7 +354,6 @@ func TestDescribeAlertPolicies(t *testing.T) {
 		testIDs = append(testIDs, id)
 	}
 	// 获取当前数据总数
-	nowCount := 0
 	utdb.Model(&demomod.AlertPolicy{}).Where("appid = ? AND uin = ?", -1, "-1").Count(&nowCount)
 
 	// 测试过滤条件使用空值查询
@@ -369,10 +372,16 @@ func TestDescribeAlertPolicies(t *testing.T) {
 	if len(list) != 0 {
 		t.Fatal("TestDescribeAlertPolicies limit为0返回list应该为空")
 	}
+}
 
+func TestDescribeAlertPolicies2(t *testing.T) {
 	// 测试limit
-	limit = 10
-	list, count, err = DescribeAlertPolicies(utctx, utdb, -1, "-1", offset, limit, order, id, name)
+	id := int64(0)
+	name := ""
+	offset := 0
+	limit := 5
+	order := ""
+	list, count, err := DescribeAlertPolicies(utctx, utdb, -1, "-1", offset, limit, order, id, name)
 	if err != nil {
 		t.Fatal("TestDescribeAlertPolicies 空值过滤条件时错误:", err)
 	}
@@ -387,8 +396,8 @@ func TestDescribeAlertPolicies(t *testing.T) {
 		t.Fatal("默认排序应为ID从小到大")
 	}
 	// offset翻页
-	offset = 10
-	limit = 10
+	offset = 5
+	limit = 5
 	olist, count, err := DescribeAlertPolicies(utctx, utdb, -1, "-1", offset, limit, order, id, name)
 	if err != nil {
 		t.Fatal("TestDescribeAlertPolicies 空值过滤条件时错误:", err)
@@ -401,7 +410,7 @@ func TestDescribeAlertPolicies(t *testing.T) {
 	}
 	// 默认排序按id 从小到大
 	if olist[0].ID > olist[1].ID {
-		t.Fatal("默认排序应为ID从小到大")
+		t.Fatal("默认排序应为ID从小到大", olist)
 	}
 
 	// 测试排序按id 从大到小 拿到的最后10条记录应该全为新加的10条记录
@@ -430,11 +439,16 @@ func TestDescribeAlertPolicies(t *testing.T) {
 	if olist[0].ID+1 != list[limit-1].ID {
 		t.Fatal("TestDescribeAlertPolicies offset之后的第一个记录的ID应该和offset之前的最后一个记录的ID连续")
 	}
+}
 
+func TestDescribeAlertPolicies3(t *testing.T) {
 	// 测试取消offset和limit
-	offset = -1
-	limit = -1
-	list, count, err = DescribeAlertPolicies(utctx, utdb, -1, "-1", offset, limit, order, id, name)
+	id := int64(0)
+	order := ""
+	name := ""
+	offset := -1
+	limit := -1
+	list, count, err := DescribeAlertPolicies(utctx, utdb, -1, "-1", offset, limit, order, id, name)
 	if err != nil {
 		t.Fatal("TestDescribeAlertPolicies 空值过滤条件时错误:", err)
 	}

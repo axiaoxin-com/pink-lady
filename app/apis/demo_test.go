@@ -31,12 +31,7 @@ func Teardown() {
 	//os.Remove(database.UTDBFile)
 }
 
-func TestAlertAPI(t *testing.T) {
-	Setup()
-	defer Teardown()
-
-	// 测试创建接口
-	paramCreate := fmt.Sprintf(`{
+var paramCreateTpl = `{
 		"appid": 1,
 		"uin": "axiaoxin",
 		"alert_policy": {
@@ -71,7 +66,16 @@ func TestAlertAPI(t *testing.T) {
 			"uin": "string",
 			"url_scheme": "http"
 		}
-	}`, time.Now().UnixNano()+rand.Int63())
+	}`
+
+var policyID int64
+var policyName string
+
+func TestCreateAndGet(t *testing.T) {
+	Setup()
+
+	// 测试创建接口
+	paramCreate := fmt.Sprintf(paramCreateTpl, time.Now().UnixNano()+rand.Int63())
 
 	respRecorder := utils.PerformRequest(utrouter, "POST", "/demo/alert-policy", []byte(paramCreate))
 	body := respRecorder.Body.Bytes()
@@ -83,7 +87,7 @@ func TestAlertAPI(t *testing.T) {
 	if data.Get("code").ToInt() != 0 {
 		t.Fatal("接口返回了错误信息，没有成功创建告警策略:", string(body))
 	}
-	policyID := data.Get("data").ToInt64()
+	policyID = data.Get("data").ToInt64()
 	if policyID == 0 {
 		t.Fatal("接口没有返回正确id:", string(body))
 	}
@@ -99,13 +103,13 @@ func TestAlertAPI(t *testing.T) {
 	if data.Get("code").ToInt() != 0 {
 		t.Fatal("接口返回了错误信息，没有成功获取告警策略:", string(body))
 	}
-	policyName := data.Get("data", "name").ToString()
+	policyName = data.Get("data", "name").ToString()
 	if policyName == "" {
 		t.Fatal("接口返回的结果没有name字段:", string(body))
 	}
+}
 
-	// 测试修改接口
-	paramModify := fmt.Sprintf(`{
+var paramUpdateTpl = `{
 		"appid": 1,
 		"uin": "axiaoxin",
 		"alert_policy": {
@@ -134,11 +138,15 @@ func TestAlertAPI(t *testing.T) {
 			"uin": "string",
 			"url_scheme": "http"
 		}
-	}`, policyID, policyName)
+	}`
 
-	respRecorder = utils.PerformRequest(utrouter, "PUT", "/demo/alert-policy", []byte(paramModify))
-	body = respRecorder.Body.Bytes()
-	data = jsoniter.Get(body)
+func TestUpdate(t *testing.T) {
+	// 测试修改接口
+	paramModify := fmt.Sprintf(paramUpdateTpl, policyID, policyName)
+
+	respRecorder := utils.PerformRequest(utrouter, "PUT", "/demo/alert-policy", []byte(paramModify))
+	body := respRecorder.Body.Bytes()
+	data := jsoniter.Get(body)
 
 	if respRecorder.Code != 200 {
 		t.Fatal("接口响应错误：", respRecorder.Code, string(body))
@@ -155,12 +163,14 @@ func TestAlertAPI(t *testing.T) {
 	if data.Get("data", "alert_trigger_rules").Size() != 1 {
 		t.Fatal("修改策略触发条件未生效:", string(body))
 	}
+}
 
+func TestList(t *testing.T) {
 	// 测试列表接口
 	// 搜索条件全部为空值（不搜索）
-	respRecorder = utils.PerformRequest(utrouter, "GET", "/demo/alert-policy?appid=1&uin=axiaoxin", nil)
-	body = respRecorder.Body.Bytes()
-	data = jsoniter.Get(body)
+	respRecorder := utils.PerformRequest(utrouter, "GET", "/demo/alert-policy?appid=1&uin=axiaoxin", nil)
+	body := respRecorder.Body.Bytes()
+	data := jsoniter.Get(body)
 
 	if respRecorder.Code != 200 {
 		t.Fatal("接口响应错误：", respRecorder.Code, string(body))
@@ -181,11 +191,15 @@ func TestAlertAPI(t *testing.T) {
 	if data.Get("data", "alert_policies").Size() != 1 {
 		t.Fatal("按ID搜索返回错误结果:", string(body))
 	}
+}
+
+func TestDelete(t *testing.T) {
+	defer Teardown()
 
 	// 测试删除接口
-	respRecorder = utils.PerformRequest(utrouter, "DELETE", fmt.Sprint("/demo/alert-policy/1/axiaoxin/", policyID), nil)
-	body = respRecorder.Body.Bytes()
-	data = jsoniter.Get(body)
+	respRecorder := utils.PerformRequest(utrouter, "DELETE", fmt.Sprint("/demo/alert-policy/1/axiaoxin/", policyID), nil)
+	body := respRecorder.Body.Bytes()
+	data := jsoniter.Get(body)
 
 	if respRecorder.Code != 200 {
 		t.Fatal("接口响应错误：", respRecorder.Code, string(body))
