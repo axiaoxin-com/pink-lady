@@ -3,7 +3,6 @@ package apis
 import (
 	"fmt"
 	"math/rand"
-	"os"
 	"testing"
 	"time"
 
@@ -29,7 +28,7 @@ func Teardown() {
 	// 关闭数据库连接
 	database.InstanceMap.Close()
 	utrouter = nil
-	os.Remove(database.UTDBFile)
+	//os.Remove(database.UTDBFile)
 }
 
 func TestAlertAPI(t *testing.T) {
@@ -197,5 +196,4 @@ func TestAlertAPI(t *testing.T) {
 	if data.Get("data").ToBool() != true {
 		t.Fatal("删除失败没有返回true:", string(body))
 	}
-
 }

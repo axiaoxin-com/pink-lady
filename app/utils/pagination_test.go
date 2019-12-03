@@ -33,7 +33,7 @@ func TestPaginateByPageNumSize(t *testing.T) {
 	}
 	p = PaginateByPageNumSize(0, -1, -1)
 	if p != nil {
-		t.Fatalf("paginate should nil")
+		t.Fatal("paginate should nil")
 	}
 }
 
@@ -57,5 +57,9 @@ func TestPaginateByOffsetLimit(t *testing.T) {
 	p = PaginateByOffsetLimit(100, 110, 10)
 	if p.HasNext != false || p.HasPrev != true || p.NextPageNum != 13 || p.PagesCount != 10 || p.PageNum != 12 || p.PageSize != 10 || p.PrevPageNum != 11 || p.TotalCount != 100 {
 		t.Fatalf("paginate error %+v", p)
+	}
+	p = PaginateByOffsetLimit(0, 0, 10)
+	if p != nil {
+		t.Fatal("paginate should nil")
 	}
 }

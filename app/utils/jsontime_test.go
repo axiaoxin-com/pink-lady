@@ -24,4 +24,13 @@ func TestJSONTime(t *testing.T) {
 	if s.JT.String() != "2018-11-10 18:52:25" {
 		t.Fatal("json time field format error")
 	}
+	if _, err := s.JT.Value(); err != nil {
+		t.Fatal(err)
+	}
+	if err := s.JT.Scan(""); err == nil {
+		t.Fatal("scan convert to timestamp")
+	}
+	if err := s.JT.Scan(time.Now()); err != nil {
+		t.Fatal("scan convert err", err)
+	}
 }
