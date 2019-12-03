@@ -31,3 +31,10 @@ func TestMsSQL(t *testing.T) {
 		t.Fatal("should be nil")
 	}
 }
+
+func TestPostgres(t *testing.T) {
+	i := Postgres("none-exists")
+	if i != nil {
+		t.Fatal("should be nil")
+	}
+}

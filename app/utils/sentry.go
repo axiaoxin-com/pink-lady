@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// InitSentry 初始化sentry配置
 func InitSentry() error {
 	err := sentry.Init(sentry.ClientOptions{
 		Dsn:              viper.GetString("server.sentrydsn"),

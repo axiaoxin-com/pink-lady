@@ -2,6 +2,8 @@ package utils
 
 import (
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 func TestNewRedisClient(t *testing.T) {
@@ -37,4 +39,16 @@ func TestNewRedisClient(t *testing.T) {
 			t.Fatalf("init redis cluster failed %s", err)
 		}
 	*/
+}
+
+func TestInitRedis(t *testing.T) {
+	err := InitRedis()
+	if err == nil {
+		t.Error("没有设置redis配置应该返回错误")
+	}
+	viper.SetDefault("redis.mode", "cluster")
+	viper.SetDefault("redis.address", "127.0.0.1:6379")
+	viper.SetDefault("redis.password", "")
+	viper.SetDefault("redis.dbindex", 0)
+	InitRedis()
 }
