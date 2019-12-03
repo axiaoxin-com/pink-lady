@@ -52,3 +52,10 @@ func TestInitViper(t *testing.T) {
 		t.Fatal("read conf file error")
 	}
 }
+
+func TestNewViperOption(t *testing.T) {
+	o := NewViperOption("name", "default value", "desc")
+	if o.Name != "name" || o.Default != "default value" || o.Desc != "desc" {
+		t.Fatal(o)
+	}
+}

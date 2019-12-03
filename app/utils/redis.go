@@ -48,6 +48,8 @@ func InitRedis() error {
 	} else if mode == RedisClusterMode {
 		addrs := strings.Split(addr, RedisAddrsSeparator)
 		RedisCluster, err = NewRedisCluster(addrs, password)
+	} else {
+		err = errors.New("Invalid Redis config to InitRedis")
 	}
 	return err
 }
