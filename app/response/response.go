@@ -21,8 +21,8 @@ func JSON(c *gin.Context, data interface{}) {
 }
 
 // ErrJSON 返回HTTP状态码为200的统一失败结构
-func ErrJSON(c *gin.Context, rc error, extraMsgs ...interface{}) {
-	Respond(c, http.StatusOK, nil, rc, extraMsgs...)
+func ErrJSON(c *gin.Context, err error, extraMsgs ...interface{}) {
+	Respond(c, http.StatusOK, nil, err, extraMsgs...)
 }
 
 // ErrJSON400 respond unified JSON structure with 400 http status code
@@ -42,20 +42,20 @@ func ErrJSON500(c *gin.Context, extraMsgs ...interface{}) {
 
 // Respond encapsulates c.JSON
 // debug mode respond indented json
-func Respond(c *gin.Context, status int, data interface{}, rc error, extraMsgs ...interface{}) {
+func Respond(c *gin.Context, status int, data interface{}, err error, extraMsgs ...interface{}) {
 	// 初始化code、msg为失败
 	code, msg, errs := RCFailure.Decode()
 
-	if rc, ok := rc.(*RetCode); !ok {
-		// 支持rc参数直接传error，如果是error，则将error信息添加到msg
-		msg = fmt.Sprint(msg, " ", rc.Error())
-	} else {
+	if rc, ok := err.(*RetCode); ok {
 		// 如果是返回码，正常处理
 		code, msg, errs = rc.Decode()
 		// 存在errs则将errs信息添加的msg
 		if len(errs) > 0 {
 			msg = fmt.Sprint(msg, " ", rc.Error())
 		}
+	} else {
+		// 支持rc参数直接传error，如果是error，则将error信息添加到msg
+		msg = fmt.Sprint(msg, " ", err.Error())
 	}
 
 	// 将extraMsgs添加到msg
