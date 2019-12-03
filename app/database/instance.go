@@ -12,7 +12,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-// UTDBFile
+// UTDBFile sqlite3单测数据库文件位置
 const UTDBFile = "/tmp/pink-lady-ut.db"
 
 // UTDB 单元测试使用的Sqlite3 DB
