@@ -75,8 +75,8 @@ func CopyFile(sourceFile, destinationFile string) (err error) {
 
 // RemoveAllWhiteSpace 删除字符串中所有的空白符
 func RemoveAllWhiteSpace(s string) string {
-	s = strings.ReplaceAll(s, "\t", "")
-	s = strings.ReplaceAll(s, "\n", "")
-	s = strings.ReplaceAll(s, " ", "")
+	s = strings.Replace(s, "\t", "", -1)
+	s = strings.Replace(s, "\n", "", -1)
+	s = strings.Replace(s, " ", "", -1)
 	return s
 }
