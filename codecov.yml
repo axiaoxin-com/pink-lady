@@ -1,0 +1,4 @@
+ignore:
+  - "app/apis/demo*"
+  - "app/models/demomod"
+  - "app/services/demosvc"
