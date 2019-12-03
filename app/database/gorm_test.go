@@ -37,3 +37,11 @@ func TestInitGorm(t *testing.T) {
 		t.Fatal("InitGorm failed")
 	}
 }
+
+func TestLikeFieldEscape(t *testing.T) {
+	s := "select * from table where f like _%; -- c"
+	s1 := GormMySQLLikeFieldEscape(s)
+	if s1 != `select * from table where f like \_\%\; \-- c` {
+		t.Fatal(s1)
+	}
+}
