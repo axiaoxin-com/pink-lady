@@ -28,9 +28,9 @@ sqlite3 = [
     {
         instance = "another",
         dbname = "/tmp/another-pink-lady.db",
-        maxIdleConns = 10,  # 设置连接池中的最大闲置连接数
-        maxOpenConns = 10,  # 设置数据库的最大连接数量
-        connMaxLifeMinutes = 60,  # 设置连接的最大可复用时间
+        maxIdleConns = 10,
+        maxOpenConns = 10,
+        connMaxLifeMinutes = 60,
         logMode = true
     }
 ]
@@ -43,9 +43,10 @@ mysql = [
         dbname = "test",
         username = "root",
         password = "roooooot",
-        maxIdleConns = 10,
-        maxOpenConns = 10,
-        connMaxLifeMinutes = 60,
+        maxIdleConns = 10,  # 设置连接池中的最大闲置连接数
+        maxOpenConns = 10,  # 设置数据库的最大连接数量
+        connMaxLifeMinutes = 60,  # 设置连接的最大可复用时间
+        timeout = 5,  # 连接超时时间（秒）
         logMode = true
     }
 ]

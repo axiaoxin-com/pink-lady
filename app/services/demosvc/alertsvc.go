@@ -32,16 +32,12 @@ func CreateAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy)
 func DeleteAlertPolicy(c *gin.Context, db *gorm.DB, appID int, uin string, id int64) error {
 	// 开启事务
 	tx := db.Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-			logging.CtxLogger(c).Error("DeleteAlertPolicy panic recovered", zap.Any("recover", r))
-		}
-	}()
 	if err := tx.Error; err != nil {
 		logging.CtxLogger(c).Error("DeleteAlertPolicy Begin tx error", zap.Error(err))
 		return ErrAlertPolicyDeleteFailed.AppendError(err)
 	}
+	// 始终关闭事务
+	defer tx.Rollback()
 
 	// 查询要删除的记录,不存在返回错误
 	policy := &demomod.AlertPolicy{}
@@ -57,21 +53,18 @@ func DeleteAlertPolicy(c *gin.Context, db *gorm.DB, appID int, uin string, id in
 
 	// 删除告警过滤条件
 	if err := tx.Where("alert_policy_id = ?", id).Delete(demomod.AlertFilterRule{}).Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("DeleteAlertPolicy Delete filter rule error", zap.Error(err))
 		return ErrAlertPolicyDeleteFailed.AppendError(err)
 	}
 
 	// 删除告警触发条件
 	if err := tx.Where("alert_policy_id = ?", id).Delete(demomod.AlertTriggerRule{}).Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("DeleteAlertPolicy Delete trigger rule error", zap.Error(err))
 		return ErrAlertPolicyDeleteFailed.AppendError(err)
 	}
 
 	// 提交事务
 	if err := tx.Commit().Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("DeleteAlertPolicy Commit error", zap.Error(err))
 		return ErrAlertPolicyDeleteFailed.AppendError(err)
 	}
@@ -152,16 +145,11 @@ func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy)
 
 	// 开启事务
 	tx := db.Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-			logging.CtxLogger(c).Error("ModifyAlertPolicy panic recovered", zap.Any("recover", r))
-		}
-	}()
 	if err := tx.Error; err != nil {
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Begin tx error", zap.Error(err))
 		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
 	}
+	defer tx.Rollback()
 
 	// 使用结构体更新只会更新非零值，这里使用map方式，只会更新其中有变化的属性
 	if err := tx.Model(rawPolicy).Updates(map[string]interface{}{
@@ -175,20 +163,17 @@ func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy)
 		"url_scheme":           policy.URLScheme,
 		"callback_url":         policy.CallbackURL,
 	}).Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Updates policy error", zap.Error(err))
 		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
 	}
 
 	// 删除过滤条件
 	if err := tx.Where("alert_policy_id = ?", policy.ID).Delete(demomod.AlertFilterRule{}).Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Delete filter rules error", zap.Error(err))
 		return nil, ErrAlertFilterRuleDeleteFailed.AppendError(err)
 	}
 	// 删除触发条件
 	if err := tx.Where("alert_policy_id = ?", policy.ID).Delete(demomod.AlertTriggerRule{}).Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Delete trigger rules error", zap.Error(err))
 		return nil, ErrAlertTriggerRuleDeleteFailed.AppendError(err)
 	}
@@ -199,14 +184,12 @@ func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy)
 
 	// 保存更新
 	if err := tx.Save(rawPolicy).Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Save rules error", zap.Error(err))
 		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
 	}
 
 	// 提交事务
 	if err := tx.Commit().Error; err != nil {
-		tx.Rollback()
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Commit error", zap.Error(err))
 		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
 	}
