@@ -15,18 +15,21 @@ import (
 
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 )
 
 // InitDependencies 初始化所有依赖
 func InitDependencies(configPath, configName string) {
-	bindOption := utils.NewViperOption("server.bind", "localhost:4869", "server binding address")
-	modeOption := utils.NewViperOption("server.mode", "debug", "server mode")
-	basicAuthUsername := utils.NewViperOption("apidocs.basicauth.username", "admin", "apidocs default login username")
-	basicAuthPassword := utils.NewViperOption("apidocs.basicauth.password", "!admin", "apidocs default login password")
+	bindOpt := utils.NewViperOption("server.bind", "localhost:4869", "server binding address")
+	modeOpt := utils.NewViperOption("server.mode", "debug", "server mode")
+	basicAuthUsernameOpt := utils.NewViperOption("apidocs.basicauth.username", "admin", "apidocs default login username")
+	basicAuthPasswordOpt := utils.NewViperOption("apidocs.basicauth.password", "!admin", "apidocs default login password")
+	pprofPathOpt := utils.NewViperOption("pprof.path", "/x/debug/pprof", "pprof default register path")
 	if err := utils.InitViper(configPath, configName, "",
-		bindOption, modeOption,
-		basicAuthUsername, basicAuthPassword,
+		bindOpt, modeOpt,
+		basicAuthUsernameOpt, basicAuthPasswordOpt,
+		pprofPathOpt,
 	); err != nil {
 		log.Println("[ERROR]", err)
 	}
@@ -74,5 +77,10 @@ func SetupRouter(configPath, configName string) *gin.Engine {
 			Timeout: time.Second * 3,
 		}))
 	}
+
+	if viper.GetBool("pprof.open") {
+		pprof.Register(router, viper.GetString("pprof.path"))
+	}
+
 	return router
 }
