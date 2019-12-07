@@ -81,6 +81,8 @@ github.com/gin-contrib/cors v1.3.0 h1:PolezCc89peu+NgkIWt9OB01Kbzt6IP0J/JvkG6xxl
 github.com/gin-contrib/cors v1.3.0/go.mod h1:artPvLlhkF7oG06nK8v3U8TNz6IeX+w1uzCSEId5/Vc=
 github.com/gin-contrib/gzip v0.0.1 h1:ezvKOL6jH+jlzdHNE4h9h8q8uMpDQjyl0NN0Jd7jozc=
 github.com/gin-contrib/gzip v0.0.1/go.mod h1:fGBJBCdt6qCZuCAOwWuFhBB4OOq9EFqlo5dEaFhhu5w=
+github.com/gin-contrib/pprof v1.2.1 h1:p6mY/FsE3tDx2+Wp3ksrMe1QL5egQ7p+lsZ7WbQLT1U=
+github.com/gin-contrib/pprof v1.2.1/go.mod h1:u2l4P4YNkLXYz+xBbrl7Pxu1Btng6VCD7j3O3pUPP2w=
 github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7/go.mod h1:VJ0WA2NBN22VlZ2dKZQPAPnyWw5XTlK1KymzLKsr59s=
 github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3/go.mod h1:VJ0WA2NBN22VlZ2dKZQPAPnyWw5XTlK1KymzLKsr59s=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=

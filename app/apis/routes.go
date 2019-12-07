@@ -14,7 +14,6 @@ import (
 
 // RegisterRoutes add handlers on urls at there
 func RegisterRoutes(app *gin.Engine) {
-
 	// group x registered pink-lady default api
 	x := app.Group("/x")
 	{

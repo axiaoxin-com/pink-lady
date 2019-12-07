@@ -3,6 +3,10 @@ mode = "debug"
 bind = "localhost:4869"
 sentrydsn = ""
 
+[pprof]
+open = true
+path = "/x/debug/pprof"
+
 [logger]
 level = "debug"
 format = "json"
