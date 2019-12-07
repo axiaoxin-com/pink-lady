@@ -57,6 +57,7 @@ func InitGorm() error {
 					int(dbItem["maxIdleConns"].(int64)),
 					int(dbItem["maxOpenConns"].(int64)),
 					int(dbItem["connMaxLifeMinutes"].(int64)),
+					int(dbItem["timeout"].(int64)),
 				)
 				if err == nil {
 					db.SetLogger(logger)
@@ -162,8 +163,9 @@ func NewSQLite3Instance(dbname string, logMode bool, maxIdleConns, maxOpenConns,
 // maxIdleConns sets the maximum number of connections in the idle connection pool
 // maxOpenConns sets the maximum number of open connections to the database.
 // connMaxLifeMinutes sets the maximum amount of time(minutes) a connection may be reused
-func NewMySQLInstance(host string, port int, username, password, dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes int) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", username, password, host, port, dbname)
+// timeout conn timeout, readtimeout and writetimeout is x3
+func NewMySQLInstance(host string, port int, username, password, dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes, timeout int) (*gorm.DB, error) {
+	dsn := fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local&timeout=%ds&readTimeout=%ds&writeTimeout=%ds", username, password, host, port, dbname, timeout, timeout*5, timeout*5)
 	db, err := gorm.Open("mysql", dsn)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewMySQLInstance gorm open error")
