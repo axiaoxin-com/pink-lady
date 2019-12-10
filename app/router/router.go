@@ -19,18 +19,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	// DefaultPprofPath 默认pprof url
+	DefaultPprofPath = "/x/debug/pprof"
+)
+
 // InitDependencies 初始化所有依赖
-func InitDependencies(configPath, configName string) {
-	bindOpt := utils.NewViperOption("server.bind", "localhost:4869", "server binding address")
-	modeOpt := utils.NewViperOption("server.mode", "debug", "server mode")
-	basicAuthUsernameOpt := utils.NewViperOption("apidocs.basicauth.username", "admin", "apidocs default login username")
-	basicAuthPasswordOpt := utils.NewViperOption("apidocs.basicauth.password", "!admin", "apidocs default login password")
-	pprofPathOpt := utils.NewViperOption("pprof.path", "/x/debug/pprof", "pprof default register path")
-	if err := utils.InitViper(configPath, configName, "",
-		bindOpt, modeOpt,
-		basicAuthUsernameOpt, basicAuthPasswordOpt,
-		pprofPathOpt,
-	); err != nil {
+func InitDependencies(configpath, configname string) {
+	if err := utils.InitViper(configpath, configname, ""); err != nil {
 		log.Println("[ERROR]", err)
 	}
 
@@ -49,9 +45,9 @@ func InitDependencies(configPath, configName string) {
 }
 
 // SetupRouter init and return a gin router
-func SetupRouter(configPath, configName string) *gin.Engine {
+func SetupRouter(configpath, configname string) *gin.Engine {
 	// Init
-	InitDependencies(configPath, configName)
+	InitDependencies(configpath, configname)
 
 	// setup gin
 	mode := strings.ToLower(viper.GetString("server.mode"))
@@ -79,7 +75,11 @@ func SetupRouter(configPath, configName string) *gin.Engine {
 	}
 
 	if viper.GetBool("pprof.open") {
-		pprof.Register(router, viper.GetString("pprof.path"))
+		pprofPath := viper.GetString("pprof.path")
+		if pprofPath == "" {
+			pprofPath = DefaultPprofPath
+		}
+		pprof.Register(router, pprofPath)
 	}
 
 	return router

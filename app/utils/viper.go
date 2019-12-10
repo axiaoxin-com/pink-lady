@@ -6,7 +6,6 @@ import (
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/pkg/errors"
-	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
 
@@ -28,7 +27,7 @@ func NewViperOption(name string, defaultValue interface{}, desc string) ViperOpt
 
 // InitViper init viper by default value, ENV, cmd flag and config file
 // you can use switch to reload server when config file changed
-func InitViper(configPath, configName string, envPrefix string, options ...ViperOption) error {
+func InitViper(configpath, configname string, envPrefix string, options ...ViperOption) error {
 	viper.SetEnvPrefix(envPrefix)
 	for _, option := range options {
 		// set default value
@@ -37,31 +36,16 @@ func InitViper(configPath, configName string, envPrefix string, options ...Viper
 		// bind ENV
 		viper.BindEnv(option.Name)
 		viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-
-		// cmd
-		if pflag.Lookup(option.Name) == nil {
-			switch option.Default.(type) {
-			case int:
-				pflag.Int(option.Name, option.Default.(int), option.Desc)
-			case string:
-				pflag.String(option.Name, option.Default.(string), option.Desc)
-			case bool:
-				pflag.Bool(option.Name, option.Default.(bool), option.Desc)
-			}
-		}
 	}
 
-	pflag.Parse()
-	viper.BindPFlags(pflag.CommandLine)
-
 	// load conf file
-	viper.SetConfigName(configName)
-	viper.AddConfigPath(configPath)
+	viper.SetConfigName(configname)
+	viper.AddConfigPath(configpath)
 	err := viper.ReadInConfig()
 	if err != nil {
 		return errors.Wrap(err, "viper read in config error")
 	}
-	log.Printf("[INFO] loaded %s in %s\n", configName, configPath)
+	log.Printf("[INFO] loaded %s in %s\n", configname, configpath)
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		viper.ReadInConfig()

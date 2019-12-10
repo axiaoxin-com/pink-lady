@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -15,16 +16,27 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	// DefaultServerBind 默认运行地址
+	DefaultServerBind = "localhost:4869"
+)
+
 func main() {
 	log.Println("[INFO] ============ pink-lady ============")
 	workdir, err := os.Getwd()
 	if err != nil {
 		log.Fatal("[FATAL] ", err)
 	}
-	app := router.SetupRouter(workdir, "config")
+	configpath := flag.String("configpath", workdir, "path of config file")
+	configname := flag.String("configname", "config", "name of config file (no suffix)")
+	flag.Parse()
+	app := router.SetupRouter(*configpath, *configname)
 	apis.RegisterRoutes(app)
 
 	bind := viper.GetString("server.bind")
+	if bind == "" {
+		bind = DefaultServerBind
+	}
 	srv := &http.Server{
 		Addr:           bind,
 		Handler:        app,
