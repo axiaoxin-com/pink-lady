@@ -89,7 +89,7 @@ func DeleteAlertPolicy(c *gin.Context) {
 
 // ModifyAlertPolicy godoc
 // @Summary 更新告警策略
-// @Description 更新告警策略返回对应ID
+// @Description 更新告警策略成功返回true
 // @Tags demo
 // @Accept json
 // @Produce json
@@ -106,12 +106,12 @@ func ModifyAlertPolicy(c *gin.Context) {
 	// 使用外层appid和uin作为告警策略的字段
 	p.AlertPolicy.AppID = p.AppID
 	p.AlertPolicy.Uin = p.Uin
-	result, err := demosvc.ModifyAlertPolicy(c, db, p.AlertPolicy)
+	err := demosvc.ModifyAlertPolicy(c, db, p.AlertPolicy)
 	if err != nil {
 		response.ErrJSON(c, err)
 		return
 	}
-	response.JSON(c, result)
+	response.JSON(c, true)
 }
 
 // DescribeAlertPolicies godoc
