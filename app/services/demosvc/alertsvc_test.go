@@ -304,7 +304,7 @@ func TestModifyAlertPolicy(t *testing.T) {
 		ContinuousCycleCount: 1,
 	}
 	p.AlertTriggerRules = []*demomod.AlertTriggerRule{tr2, ntr}
-	mPolicy, err := ModifyAlertPolicy(utctx, utdb, p)
+	err = ModifyAlertPolicy(utctx, utdb, p)
 	if err != nil {
 		t.Fatal("ModifyAlertPolicy err:", err)
 	}
@@ -331,10 +331,10 @@ func TestModifyAlertPolicy(t *testing.T) {
 	}
 
 	// 检查修改返回的结果和查询修改后的结果是否一致
-	if qPolicy.AlertChannel != mPolicy.AlertChannel {
+	if qPolicy.AlertChannel != p.AlertChannel {
 		t.Fatal("TestModifyAlertPolicy 对比更新返回的policy和查询的policy字段失败")
 	}
-	if qPolicy.AlertTriggerRules[0].Relation != mPolicy.AlertTriggerRules[0].Relation {
+	if qPolicy.AlertTriggerRules[0].Relation != tr2.Relation {
 		t.Fatal("TestModifyAlertPolicy 对比更新返回的关联条件的字段失败")
 	}
 }
