@@ -6,10 +6,13 @@
 # it wants to stop the commit.
 #
 # To enable this hook, rename this file to "pre-commit".
+realpath() {
+    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
 
-hooks_path=$(dirname "`greadlink -f $0`")
+hooks_path=$(dirname "`realpath $0`")
 git_path=$(dirname "$hooks_path")
 project_path=$(dirname "$git_path")
 
 cd $project_path/app
-go fmt -s -w ./... && go vet ./... && go test ./...
+go fmt ./... && go vet ./... && go test ./...
