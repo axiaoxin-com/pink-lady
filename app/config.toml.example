@@ -68,11 +68,18 @@ postgres = [
 ]
 
 [redis]
-mode = "single-instance"
-address = "localhost:6379"
-password = ""
-dbindex = 0
-master = ""
+    [redis.local0]
+        mode = "normal"
+        address = "localhost:6379"
+        password = ""
+        dbindex = 0
+        master = ""
+    [redis.local1]
+        mode = "normal"
+        address = "localhost:6379"
+        password = ""
+        dbindex = 1
+        master = ""
 
 [apidocs]
 rootRedirect = true
