@@ -282,7 +282,7 @@ paths:
     put:
       consumes:
       - application/json
-      description: 更新告警策略返回对应ID
+      description: 更新告警策略成功返回true
       parameters:
       - description: 参数包含BaseParam和demomod.AlertPolicy
         in: body
