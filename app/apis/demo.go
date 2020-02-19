@@ -2,8 +2,8 @@ package apis
 
 import (
 	"pink-lady/app/database"
+	"pink-lady/app/handlers/demohdl"
 	"pink-lady/app/response"
-	"pink-lady/app/services/demosvc"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +27,7 @@ func CreateAlertPolicy(c *gin.Context) {
 	// 使用外层appid和uin作为告警策略的字段
 	p.AlertPolicy.AppID = p.AppID
 	p.AlertPolicy.Uin = p.Uin
-	result, err := demosvc.CreateAlertPolicy(c, db, p.AlertPolicy)
+	result, err := demohdl.CreateAlertPolicy(c, db, p.AlertPolicy)
 	if err != nil {
 		response.ErrJSON(c, err)
 		return
@@ -53,7 +53,7 @@ func DescribeAlertPolicy(c *gin.Context) {
 		return
 	}
 	db := database.UTDB()
-	result, err := demosvc.DescribeAlertPolicy(c, db, p.AppID, p.Uin, p.ID)
+	result, err := demohdl.DescribeAlertPolicy(c, db, p.AppID, p.Uin, p.ID)
 	if err != nil {
 		response.ErrJSON(c, err)
 		return
@@ -79,7 +79,7 @@ func DeleteAlertPolicy(c *gin.Context) {
 		return
 	}
 	db := database.UTDB()
-	err := demosvc.DeleteAlertPolicy(c, db, p.AppID, p.Uin, p.ID)
+	err := demohdl.DeleteAlertPolicy(c, db, p.AppID, p.Uin, p.ID)
 	if err != nil {
 		response.ErrJSON(c, err)
 		return
@@ -106,7 +106,7 @@ func ModifyAlertPolicy(c *gin.Context) {
 	// 使用外层appid和uin作为告警策略的字段
 	p.AlertPolicy.AppID = p.AppID
 	p.AlertPolicy.Uin = p.Uin
-	err := demosvc.ModifyAlertPolicy(c, db, p.AlertPolicy)
+	err := demohdl.ModifyAlertPolicy(c, db, p.AlertPolicy)
 	if err != nil {
 		response.ErrJSON(c, err)
 		return
@@ -140,7 +140,7 @@ func DescribeAlertPolicies(c *gin.Context) {
 		return
 	}
 	db := database.UTDB()
-	result, count, err := demosvc.DescribeAlertPolicies(c, db, p.AppID, p.Uin, p.Offset, p.Limit, p.Order, p.ID, p.Name)
+	result, count, err := demohdl.DescribeAlertPolicies(c, db, p.AppID, p.Uin, p.Offset, p.Limit, p.Order, p.ID, p.Name)
 	if err != nil {
 		response.ErrJSON(c, err)
 		return

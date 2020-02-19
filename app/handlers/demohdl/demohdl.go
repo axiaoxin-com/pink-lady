@@ -1,4 +1,4 @@
-package demosvc
+package demohdl
 
 import (
 	"pink-lady/app/database"
