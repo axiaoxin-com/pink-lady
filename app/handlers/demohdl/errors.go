@@ -1,6 +1,6 @@
 // 业务自身的错误码 (云API子错误码)
 
-package demosvc
+package demohdl
 
 import "pink-lady/app/response"
 
