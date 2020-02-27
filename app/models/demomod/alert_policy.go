@@ -57,8 +57,8 @@ type AlertPolicy struct {
 	URLScheme          string              `gorm:"column:url_scheme" json:"url_scheme" binding:"required" example:"http"`                   // 回调url的scheme
 	CallbackURL        string              `gorm:"column:callback_url" json:"callback_url" binding:"required" example:"axiaoxin.com"`       // 回调url 不包含scheme部分
 	LatestAlertTime    string              `gorm:"column:latest_alert_time" json:"latest_alert_time" binding:"-" example:""`                // 最后告警时间（产生告警后更改该字段）
-	AlertFilterRules   []*AlertFilterRule  `json:"alert_filter_rules" binding:"dive"`                                                       // 告警过滤条件
-	AlertTriggerRules  []*AlertTriggerRule `json:"alert_trigger_rules" binding:"required,dive"`                                             // 告警触发条件
+	AlertFilterRules   []*AlertFilterRule  `gorm:"foreignkey:alert_policy_id" json:"alert_filter_rules" binding:"dive"`                     // 告警过滤条件
+	AlertTriggerRules  []*AlertTriggerRule `gorm:"foreignkey:alert_policy_id" json:"alert_trigger_rules" binding:"required,dive"`           // 告警触发条件
 }
 
 // TableName define tabel name
