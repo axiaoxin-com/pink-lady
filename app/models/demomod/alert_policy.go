@@ -44,21 +44,21 @@ func (*AlertTriggerRule) TableName() string {
 // AlertPolicy 告警策略表
 type AlertPolicy struct {
 	models.BaseModel
-	AppID              int                 `gorm:"column:appid" json:"appid" example:"1" binding:"-"`                                       // AppID
-	Uin                string              `gorm:"column:uin" json:"uin" example:"axiaoxin" binding:"-"`                                    // Uin
-	Name               string              `gorm:"column:name" json:"name" binding:"required" example:"swag-test-name"`                     // 策略名称
-	MetricSetID        int64               `gorm:"column:metric_set_id" json:"metric_set_id" binding:"required" example:"-1"`               // 指标集ID
-	NoticeFrequencySec int                 `gorm:"column:notice_frequency_sec" json:"notice_frequency_sec" binding:"required" example:"60"` // 通知频率（通知间隔秒数）
-	Status             int                 `gorm:"column:status" json:"status" binding:"required" example:"1"`                              // 状态 1=已开启 2=未开启 3=已失效
-	AlertGroupID       string              `gorm:"column:alert_group_id" json:"alert_group_id" binding:"required" example:"-1,0"`           // 告警接收组 逗号分隔
-	AlertChannel       string              `gorm:"column:alert_channel" json:"alert_channel" binding:"required" example:"weixin,sms"`       // 告警接收渠道 1=邮件 2=短信 3=微信
-	NoticePeriodBegin  int                 `gorm:"column:notice_period_begin" json:"notice_period_begin" binding:"-" example:"0"`           // 通知时段开始时间（从00:00:00开始计算的秒数）
-	NoticePeriodEnd    int                 `gorm:"column:notice_period_end" json:"notice_period_end" binding:"required" example:"86399"`    // 通知时段结束时间（从00:00:00开始计算的秒数）
-	URLScheme          string              `gorm:"column:url_scheme" json:"url_scheme" binding:"required" example:"http"`                   // 回调url的scheme
-	CallbackURL        string              `gorm:"column:callback_url" json:"callback_url" binding:"required" example:"axiaoxin.com"`       // 回调url 不包含scheme部分
-	LatestAlertTime    string              `gorm:"column:latest_alert_time" json:"latest_alert_time" binding:"-" example:""`                // 最后告警时间（产生告警后更改该字段）
-	AlertFilterRules   []*AlertFilterRule  `gorm:"foreignkey:alert_policy_id" json:"alert_filter_rules" binding:"dive"`                     // 告警过滤条件
-	AlertTriggerRules  []*AlertTriggerRule `gorm:"foreignkey:alert_policy_id" json:"alert_trigger_rules" binding:"required,dive"`           // 告警触发条件
+	AppID              int                 `gorm:"column:appid" json:"appid" example:"1" binding:"-"`                                                       // AppID
+	Uin                string              `gorm:"column:uin" json:"uin" example:"axiaoxin" binding:"-"`                                                    // Uin
+	Name               string              `gorm:"column:name" json:"name" binding:"required" example:"swag-test-name"`                                     // 策略名称
+	MetricSetID        int64               `gorm:"column:metric_set_id" json:"metric_set_id" binding:"required" example:"-1"`                               // 指标集ID
+	NoticeFrequencySec int                 `gorm:"column:notice_frequency_sec" json:"notice_frequency_sec" binding:"required" example:"60"`                 // 通知频率（通知间隔秒数）
+	Status             int                 `gorm:"column:status" json:"status" binding:"required" example:"1"`                                              // 状态 1=已开启 2=未开启 3=已失效
+	AlertGroupID       string              `gorm:"column:alert_group_id" json:"alert_group_id" binding:"required" example:"-1,0"`                           // 告警接收组 逗号分隔
+	AlertChannel       string              `gorm:"column:alert_channel" json:"alert_channel" binding:"required" example:"weixin,sms"`                       // 告警接收渠道 1=邮件 2=短信 3=微信
+	NoticePeriodBegin  int                 `gorm:"column:notice_period_begin" json:"notice_period_begin" binding:"-" example:"0"`                           // 通知时段开始时间（从00:00:00开始计算的秒数）
+	NoticePeriodEnd    int                 `gorm:"column:notice_period_end" json:"notice_period_end" binding:"required" example:"86399"`                    // 通知时段结束时间（从00:00:00开始计算的秒数）
+	URLScheme          string              `gorm:"column:url_scheme" json:"url_scheme" binding:"required" example:"http"`                                   // 回调url的scheme
+	CallbackURL        string              `gorm:"column:callback_url" json:"callback_url" binding:"required" example:"axiaoxin.com"`                       // 回调url 不包含scheme部分
+	LatestAlertTime    string              `gorm:"column:latest_alert_time" json:"latest_alert_time" binding:"-" example:""`                                // 最后告警时间（产生告警后更改该字段）
+	AlertFilterRules   []*AlertFilterRule  `gorm:"foreignkey:alert_policy_id;association_foreignkey:id" json:"alert_filter_rules" binding:"dive"`           // 告警过滤条件
+	AlertTriggerRules  []*AlertTriggerRule `gorm:"foreignkey:alert_policy_id;association_foreignkey:id" json:"alert_trigger_rules" binding:"required,dive"` // 告警触发条件
 }
 
 // TableName define tabel name
