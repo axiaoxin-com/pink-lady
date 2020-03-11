@@ -35,7 +35,7 @@ main() {
     # replace project name
     echo -e "${NOTICE_FLAG} Generating the project..."
     cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
-    replace_in_file "s|github.com/axiaoxin/pink-lady|${projname}|g"  `grep "github.com/axiaoxin/pink-lady" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
+    replace_in_file "s|pink-lady|${projname}|g"  `grep "pink-lady" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
 
     # remove demo
     if [ "${rmdemo}" == "n" ] || [ "${rmdemo}" == "N" ]; then
