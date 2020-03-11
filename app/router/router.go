@@ -33,9 +33,6 @@ func InitDependencies(configpath, configname string) {
 	if err := logging.InitLogger(); err != nil {
 		log.Println("[ERROR] ", err)
 	}
-	if err := utils.InitSentry(); err != nil {
-		log.Println("[ERROR] ", err)
-	}
 	if err := database.InitGorm(); err != nil {
 		log.Println("[ERROR] ", err)
 	}
