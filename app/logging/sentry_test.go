@@ -1,16 +1,14 @@
-package utils
+package logging
 
 import (
 	"testing"
-
-	"pink-lady/app/logging"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/pkg/errors"
 )
 
 func TestInitSentry(t *testing.T) {
-	logging.InitLogger()
+	InitLogger()
 	err := InitSentry()
 	if err != nil {
 		t.Fatal(err)
