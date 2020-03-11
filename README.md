@@ -71,7 +71,7 @@ API版本号定义在`app/api/apis.go`中，可以手动修改值，但不要修
 ## Swagger API文档
 
 使用 [swag](https://github.com/swaggo/swag) 生成api文档，
-运行`misc/gen_apidoc.sh`可以根据swag支持的注释格式生成swagger api文档
+运行`script/gen_apidoc.sh`可以根据swag支持的注释格式生成swagger api文档
 
 需要先安装swag：
 
@@ -87,5 +87,5 @@ go get -u -v github.com/swaggo/swag/cmd/swag
 ## 快速创建以 pink-lady 为模板的项目
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/misc/new-project.sh)
+bash <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/script/new-project.sh)
 ```
