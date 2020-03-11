@@ -56,7 +56,9 @@ API版本号定义在`app/api/apis.go`中，可以手动修改值，但不要修
 
 ## 日志
 
-使用 [zap](https://github.com/uber-go/zap) 打印日志，普通日志直接使用全局的`logging.Logger`的方式打印，打印带有context中requestid的日志使用`logging.CtxLogger(c)`
+使用 [zap](https://github.com/uber-go/zap) 打印日志，普通日志直接使用`logging`中暴露的各种函数即可，也可以使用全局的`logging.Logger`打印，打印带有context中requestid的日志使用`logging.CtxLogger(c)`
+
+如果配置了Sentry DSN，则会将所有Error级别以上的日志事件上报到Sentry
 
 ## 中间件
 
