@@ -1,6 +1,9 @@
 package logging
 
 import (
+	"net/http"
+	"net/http/httptest"
+
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
@@ -12,6 +15,15 @@ const (
 	// RequestIDKey define the request id header key
 	RequestIDKey = "X-Request-Id"
 )
+
+// GenGinContext 生成gin.context
+func GenGinContext(logger *zap.Logger, requestID string) *gin.Context {
+	c, _ := gin.CreateTestContext(httptest.NewRecorder())
+	c.Request, _ = http.NewRequest("GET", "http://fake.url", nil)
+	SetCtxLogger(c, logger)
+	SetCtxRequestID(c, requestID)
+	return c
+}
 
 // SetCtxLogger add a logger with given field into the gin.Context
 // and set requestid field get from context

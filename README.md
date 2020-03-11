@@ -34,7 +34,7 @@ go mod
 ## 接口实现
 
 在`app/apis/routes.go`中添加URL并指定你的handleFunc，handleFunc推荐在`app/apis`下按业务模块新建文件的形式组织
-可复用的代码可以在`app/services`下以目录或者文件的形式按需组织
+可复用的代码可以在`app/handlers`下以目录或者文件的形式按需组织
 
 API版本号定义在`app/api/apis.go`中，可以手动修改值，但不要修改代码格式，自动生成API文档依赖这个格式。
 
@@ -45,7 +45,7 @@ API版本号定义在`app/api/apis.go`中，可以手动修改值，但不要修
 - `app/apis/routes.go`
 - `app/apis/demo*`
 - `app/models/demomod/`
-- `app/services/demosvc/`
+- `app/handlers/demohdl/`
 
 ## 访问DB
 

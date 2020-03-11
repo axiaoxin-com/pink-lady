@@ -1,4 +1,4 @@
-package demosvc
+package demohdl
 
 import (
 	"pink-lady/app/database"
@@ -135,19 +135,19 @@ func DescribeAlertTriggerRules(c *gin.Context, db *gorm.DB, policyID int64) ([]d
 // ModifyAlertPolicy 更新告警策略
 // 使用Association Replace来更新关联条件如果传了主键ID则更新对应记录，没有主键ID的全部新增记录，剔除了关联并不会删除记录只会把关联的id置为0
 // 这里需要真实删除记录 使用事务删除全部关联
-func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy) (*demomod.AlertPolicy, error) {
+func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy) error {
 	// 查询被更新的记录是否存在
 	rawPolicy := &demomod.AlertPolicy{}
 	if err := db.Where("appid = ? AND uin = ? AND id = ?", policy.AppID, policy.Uin, policy.ID).Find(rawPolicy).Error; err != nil {
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Find error", zap.Error(err))
-		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
+		return ErrAlertPolicyModifyFailed.AppendError(err)
 	}
 
 	// 开启事务
 	tx := db.Begin()
 	if err := tx.Error; err != nil {
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Begin tx error", zap.Error(err))
-		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
+		return ErrAlertPolicyModifyFailed.AppendError(err)
 	}
 	defer tx.Rollback()
 
@@ -164,36 +164,42 @@ func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy)
 		"callback_url":         policy.CallbackURL,
 	}).Error; err != nil {
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Updates policy error", zap.Error(err))
-		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
+		return ErrAlertPolicyModifyFailed.AppendError(err)
 	}
 
 	// 删除过滤条件
 	if err := tx.Where("alert_policy_id = ?", policy.ID).Delete(demomod.AlertFilterRule{}).Error; err != nil {
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Delete filter rules error", zap.Error(err))
-		return nil, ErrAlertFilterRuleDeleteFailed.AppendError(err)
+		return ErrAlertFilterRuleDeleteFailed.AppendError(err)
 	}
 	// 删除触发条件
 	if err := tx.Where("alert_policy_id = ?", policy.ID).Delete(demomod.AlertTriggerRule{}).Error; err != nil {
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Delete trigger rules error", zap.Error(err))
-		return nil, ErrAlertTriggerRuleDeleteFailed.AppendError(err)
+		return ErrAlertTriggerRuleDeleteFailed.AppendError(err)
 	}
 
-	// 更新关联数据
-	tx.Model(rawPolicy).Association("AlertFilterRules").Replace(policy.AlertFilterRules)
-	tx.Model(rawPolicy).Association("AlertTriggerRules").Replace(policy.AlertTriggerRules)
-
-	// 保存更新
-	if err := tx.Save(rawPolicy).Error; err != nil {
-		logging.CtxLogger(c).Error("ModifyAlertPolicy Save rules error", zap.Error(err))
-		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
+	// 插入新的关联数据
+	for _, r := range policy.AlertFilterRules {
+		r.AlertPolicyID = policy.ID
+		if err := tx.Create(r).Error; err != nil {
+			logging.CtxLogger(c).Error(err.Error())
+			return ErrAlertPolicyModifyFailed.AppendError(err)
+		}
+	}
+	for _, r := range policy.AlertTriggerRules {
+		r.AlertPolicyID = policy.ID
+		if err := tx.Create(r).Error; err != nil {
+			logging.CtxLogger(c).Error(err.Error())
+			return ErrAlertPolicyModifyFailed.AppendError(err)
+		}
 	}
 
 	// 提交事务
 	if err := tx.Commit().Error; err != nil {
 		logging.CtxLogger(c).Error("ModifyAlertPolicy Commit error", zap.Error(err))
-		return nil, ErrAlertPolicyModifyFailed.AppendError(err)
+		return ErrAlertPolicyModifyFailed.AppendError(err)
 	}
-	return rawPolicy, nil
+	return nil
 }
 
 // DescribeAlertPolicies 查询告警策略列表

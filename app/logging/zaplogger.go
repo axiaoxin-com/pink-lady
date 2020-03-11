@@ -30,6 +30,11 @@ func InitLogger() error {
 		viper.GetBool("logger.disableStacktrace"),
 	)
 	Logger = Logger.Named("pink-lady")
+	err = InitSentry()
+
+	if viper.GetString("server.sentrydsn") != "" {
+		Logger = SentryAttach(Logger, SentryClient)
+	}
 	return err
 }
 
@@ -110,4 +115,11 @@ func NewLogger(level, format string, outputPaths []string, initialFields map[str
 func CloneLogger() *zap.Logger {
 	copy := *Logger
 	return &copy
+}
+
+// AttachCore godoc
+func AttachCore(l *zap.Logger, c zapcore.Core) *zap.Logger {
+	return l.WithOptions(zap.WrapCore(func(core zapcore.Core) zapcore.Core {
+		return zapcore.NewTee(core, c)
+	}))
 }
