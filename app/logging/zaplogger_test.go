@@ -5,12 +5,21 @@ import (
 	"testing"
 
 	"github.com/spf13/viper"
+	"go.uber.org/zap/zapcore"
 )
 
 func TestInitLogger(t *testing.T) {
 	err := InitLogger()
 	if err != nil {
 		t.Fatal(err)
+	}
+	l := CloneLogger()
+	if l == nil {
+		t.Error("CloneLogger failed")
+	}
+	ll := AttachCore(l, zapcore.NewNopCore())
+	if ll == nil {
+		t.Error("AttachCore failed")
 	}
 }
 
