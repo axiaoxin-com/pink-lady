@@ -91,7 +91,7 @@
                 }
             },
             "put": {
-                "description": "更新告警策略返回对应ID",
+                "description": "更新告警策略成功返回true",
                 "consumes": [
                     "application/json"
                 ],

@@ -10,20 +10,18 @@ import (
 
 // redis connection modes
 const (
-	RedisSingleInstanceMode = "single-instance"
+	RedisSingleInstanceMode = "normal"
 	RedisSentinelMode       = "sentinel"
 	RedisClusterMode        = "cluster"
 	RedisAddrsSeparator     = ","
 )
 
-// redis clients
+// redis clients map
 var (
-	// Redis single instance
-	Redis *redis.Client
-	// Redis sentinel instance
-	RedisSentinel *redis.Client
-	// RedisCluster redis cluster client
-	RedisCluster *redis.ClusterClient
+	// RedisClientMap redis normal and sentinel client map
+	RedisClientMap = make(map[string]*redis.Client)
+	// RedisClusterMap redis cluster client map
+	RedisClusterMap = make(map[string]*redis.ClusterClient)
 )
 
 // InitRedis init redis client by different mode
@@ -34,23 +32,34 @@ var (
 // `dbindex` is redis db number, cluster mode don't use it
 // `master` is redis sentinel master name, only need to be set on sentinel mode, others dont't use it
 func InitRedis() error {
-	addr := viper.GetString("redis.address")
-	password := viper.GetString("redis.password")
-	dbindex := viper.GetInt("redis.dbindex")
-	mode := strings.ToLower(viper.GetString("redis.mode"))
-
 	var err error
-	if mode == RedisSingleInstanceMode {
-		Redis, err = NewRedisClient(addr, password, dbindex)
-	} else if mode == RedisSentinelMode {
-		addrs := strings.Split(addr, RedisAddrsSeparator)
-		RedisSentinel, err = NewRedisSentinel(viper.GetString("redis.master"), addrs, password, dbindex)
-	} else if mode == RedisClusterMode {
-		addrs := strings.Split(addr, RedisAddrsSeparator)
-		RedisCluster, err = NewRedisCluster(addrs, password)
-	} else {
-		err = errors.New("Invalid Redis config to InitRedis")
+	var cli *redis.Client
+	var cluster *redis.ClusterClient
+
+	redisMap := viper.GetStringMap("redis")
+	for name, confItf := range redisMap {
+		conf := confItf.(map[string]interface{})
+		addr := conf["address"].(string)
+		password := conf["password"].(string)
+		dbindex := int(conf["dbindex"].(int64))
+		mode := strings.ToLower(conf["mode"].(string))
+
+		if mode == RedisSingleInstanceMode {
+			cli, err = NewRedisClient(addr, password, dbindex)
+			RedisClientMap[name] = cli
+		} else if mode == RedisSentinelMode {
+			addrs := strings.Split(addr, RedisAddrsSeparator)
+			cli, err = NewRedisSentinel(viper.GetString("redis.master"), addrs, password, dbindex)
+			RedisClientMap[name] = cli
+		} else if mode == RedisClusterMode {
+			addrs := strings.Split(addr, RedisAddrsSeparator)
+			cluster, err = NewRedisCluster(addrs, password)
+			RedisClusterMap[name] = cluster
+		} else {
+			err = errors.New("Invalid Redis config to InitRedis")
+		}
 	}
+
 	return err
 }
 

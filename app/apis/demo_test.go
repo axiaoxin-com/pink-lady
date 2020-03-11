@@ -154,14 +154,8 @@ func TestUpdate(t *testing.T) {
 	if data.Get("code").ToInt() != 0 {
 		t.Fatal("接口返回了错误信息，没有成功获取告警策略:", string(body))
 	}
-	if data.Get("data", "alert_channel").ToString() != "weixin" {
-		t.Fatal("修改策略表的alert_channel字段失败:", string(body))
-	}
-	if data.Get("data", "alert_filter_rules").Size() != 0 {
-		t.Fatal("修改策略清空过滤条件未生效:", string(body))
-	}
-	if data.Get("data", "alert_trigger_rules").Size() != 1 {
-		t.Fatal("修改策略触发条件未生效:", string(body))
+	if data.Get("data").ToBool() == false {
+		t.Fatal("修改策略表的字段失败:", string(body))
 	}
 }
 
