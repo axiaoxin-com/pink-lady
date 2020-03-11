@@ -5,7 +5,7 @@
 // WAY TO ADD YOUR NEW API:
 // create code file or package according to you business logic, let structure be modularized
 // write the gin handlerFunc code like the Ping() in the file
-// you should extract the common business logic handle functions into services package
+// you should extract the common business logic handle functions into handlers package
 // database model should be defined in models package by modularized
 // general tool functions should be defined in utils package by modularized
 // you can return unified json struct by response package
