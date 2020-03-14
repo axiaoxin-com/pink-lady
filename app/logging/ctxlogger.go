@@ -57,8 +57,9 @@ func CtxRequestID(c context.Context) string {
 	return "pink-lady-" + uuid.NewV4().String()
 }
 
-// SetCtxLogger set logger into context
-func SetCtxLogger(c context.Context, logger *zap.Logger) {
+// SetCtxLogger set logger and requestid into context
+func SetCtxLogger(c context.Context, requestid string) {
+	logger := CtxLogger(c, zap.String(RequestIDKey, requestid))
 	if gc, ok := c.(*gin.Context); ok {
 		gc.Set(CtxLoggerKey, logger)
 	}

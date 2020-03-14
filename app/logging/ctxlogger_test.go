@@ -8,11 +8,11 @@ import (
 	"go.uber.org/zap"
 )
 
-func TestSetCtxLogger(t *testing.T) {
+func TestSetCtxLoggerRequestID(t *testing.T) {
 	InitLogger()
 	c := &gin.Context{}
 
-	SetCtxLogger(c, Logger)
+	SetCtxLogger(c, "1234")
 	_, exists := c.Get(CtxLoggerKey)
 	if !exists {
 		t.Fatal("set ctxLogger failed")
@@ -45,13 +45,10 @@ func TestCtxLoggerDefaultLogger(t *testing.T) {
 	InitLogger()
 	c := &gin.Context{}
 
-	SetCtxLogger(c, Logger)
+	SetCtxLogger(c, "rid")
 	logger := CtxLogger(c)
 	if logger == nil {
 		t.Fatal("context also must should return a logger")
-	}
-	if logger != Logger {
-		t.Fatal("logger no equal")
 	}
 	logger.Info("this is a logger from default logger")
 }
@@ -60,7 +57,7 @@ func TestCtxLoggerDefaultLoggerWithField(t *testing.T) {
 	InitLogger()
 	c := &gin.Context{}
 
-	SetCtxLogger(c, Logger)
+	SetCtxLogger(c, "rid")
 	logger := CtxLogger(c, zap.String("myfield", "xxx"))
 	if logger == nil {
 		t.Fatal("context also must should return a logger")
