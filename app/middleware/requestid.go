@@ -4,7 +4,6 @@ import (
 	"pink-lady/app/logging"
 
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 )
 
 // SetRequestID middleware for gen request id
@@ -19,10 +18,8 @@ func SetRequestID() gin.HandlerFunc {
 		c.Writer.Header().Set(logging.RequestIDKey, requestid)
 		// 设置requestid到gin context中
 		c.Set(logging.RequestIDKey, requestid)
-		// 设置requestid到ctxlogger中
-		ctxLogger := logging.CtxLogger(c, zap.String(logging.RequestIDKey, requestid))
-		// 将logger设置到gin context
-		logging.SetCtxLogger(c, ctxLogger)
+		// 设置context logger
+		logging.SetCtxLogger(c, requestid)
 
 		c.Next()
 	}
