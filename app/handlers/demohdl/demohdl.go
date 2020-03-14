@@ -1,12 +1,12 @@
 package demohdl
 
 import (
+	"context"
 	"pink-lady/app/database"
 	"pink-lady/app/logging"
 	"pink-lady/app/models"
 	"pink-lady/app/models/demomod"
 
-	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
@@ -15,7 +15,7 @@ import (
 // CreateAlertPolicy 新增告警策略
 // 主体信息插入告警策略表，AlertTriggerRules 插入告警触发条件，AlertFilterRules 插入告警过滤条件
 // 单个create是原子操作不需要使用事务
-func CreateAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy) (int64, error) {
+func CreateAlertPolicy(c context.Context, db *gorm.DB, policy *demomod.AlertPolicy) (int64, error) {
 	// 创建告警策略
 	if err := db.Create(policy).Error; err != nil {
 		logging.CtxLogger(c).Error(err.Error())
@@ -29,7 +29,7 @@ func CreateAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy)
 // 关联的告警过滤条件和触发条件也会被删除
 // 使用Association Clear不会删除记录，只是把关联的策略ID设置为空
 // 这里采用真实删除，涉及多个delete操作需要使用事务
-func DeleteAlertPolicy(c *gin.Context, db *gorm.DB, appID int, uin string, id int64) error {
+func DeleteAlertPolicy(c context.Context, db *gorm.DB, appID int, uin string, id int64) error {
 	// 开启事务
 	tx := db.Begin()
 	if err := tx.Error; err != nil {
@@ -73,7 +73,7 @@ func DeleteAlertPolicy(c *gin.Context, db *gorm.DB, appID int, uin string, id in
 
 // DescribeAlertPolicy 查询告警策略详情
 // 及其关联的触发条件和筛选条件
-func DescribeAlertPolicy(c *gin.Context, db *gorm.DB, appID int, uin string, id int64) (*demomod.AlertPolicy, error) {
+func DescribeAlertPolicy(c context.Context, db *gorm.DB, appID int, uin string, id int64) (*demomod.AlertPolicy, error) {
 	// 按appid uin id获取记录
 	result := db.Where("appid = ? AND uin = ? AND id = ?", appID, uin, id)
 	if result.Error != nil {
@@ -101,7 +101,7 @@ func DescribeAlertPolicy(c *gin.Context, db *gorm.DB, appID int, uin string, id 
 }
 
 // DescribeAlertFilterRules 获取告警策略筛选条件
-func DescribeAlertFilterRules(c *gin.Context, db *gorm.DB, appID int, uin string, alertPolicyID int64) ([]demomod.AlertFilterRule, error) {
+func DescribeAlertFilterRules(c context.Context, db *gorm.DB, appID int, uin string, alertPolicyID int64) ([]demomod.AlertFilterRule, error) {
 	ruleSlice := []demomod.AlertFilterRule{}
 	policy := &demomod.AlertPolicy{
 		BaseModel: models.BaseModel{
@@ -118,7 +118,7 @@ func DescribeAlertFilterRules(c *gin.Context, db *gorm.DB, appID int, uin string
 }
 
 // DescribeAlertTriggerRules 获取告警策略触发条件
-func DescribeAlertTriggerRules(c *gin.Context, db *gorm.DB, policyID int64) ([]demomod.AlertTriggerRule, error) {
+func DescribeAlertTriggerRules(c context.Context, db *gorm.DB, policyID int64) ([]demomod.AlertTriggerRule, error) {
 	ruleSlice := []demomod.AlertTriggerRule{}
 	policy := &demomod.AlertPolicy{
 		BaseModel: models.BaseModel{
@@ -135,7 +135,7 @@ func DescribeAlertTriggerRules(c *gin.Context, db *gorm.DB, policyID int64) ([]d
 // ModifyAlertPolicy 更新告警策略
 // 使用Association Replace来更新关联条件如果传了主键ID则更新对应记录，没有主键ID的全部新增记录，剔除了关联并不会删除记录只会把关联的id置为0
 // 这里需要真实删除记录 使用事务删除全部关联
-func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy) error {
+func ModifyAlertPolicy(c context.Context, db *gorm.DB, policy *demomod.AlertPolicy) error {
 	// 查询被更新的记录是否存在
 	rawPolicy := &demomod.AlertPolicy{}
 	if err := db.Where("appid = ? AND uin = ? AND id = ?", policy.AppID, policy.Uin, policy.ID).Find(rawPolicy).Error; err != nil {
@@ -210,7 +210,7 @@ func ModifyAlertPolicy(c *gin.Context, db *gorm.DB, policy *demomod.AlertPolicy)
 // id 按id搜索
 // name 按名字模糊搜索
 // 返回列表数据、最终数据总数、error
-func DescribeAlertPolicies(c *gin.Context, db *gorm.DB, appID int, uin string, offset, limit int, order string, ID int64, name string) ([]*demomod.AlertPolicy, int, error) {
+func DescribeAlertPolicies(c context.Context, db *gorm.DB, appID int, uin string, offset, limit int, order string, ID int64, name string) ([]*demomod.AlertPolicy, int, error) {
 	// 策略列表
 	policies := []*demomod.AlertPolicy{}
 	// 记录总数
