@@ -2,7 +2,6 @@ package logging
 
 import (
 	"net/http"
-	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -82,34 +81,5 @@ func TestCtxRequstIDCtx(t *testing.T) {
 	c.Set(RequestIDKey, "IAMAREQUESTID")
 	if CtxRequestID(c) != "IAMAREQUESTID" {
 		t.Fatal("context should return set value")
-	}
-}
-
-func TestCtxRequstIDHeader(t *testing.T) {
-	InitLogger()
-	c := &gin.Context{}
-	c.Request, _ = http.NewRequest("GET", "/", nil)
-	c.Request.Header.Set(RequestIDKey, "IAMAREQUESTID TOO")
-	if CtxRequestID(c) != "IAMAREQUESTID TOO" {
-		t.Fatal("context should return set value")
-	}
-}
-
-func TestSetRequestID(t *testing.T) {
-	c, _ := gin.CreateTestContext(httptest.NewRecorder())
-	c.Request, _ = http.NewRequest("GET", "/", nil)
-	SetCtxRequestID(c, "xyz")
-	r, e := c.Get(RequestIDKey)
-	if !e {
-		t.Fatal("xyz not exists")
-	}
-	if r.(string) != "xyz" {
-		t.Fatal("should xyz")
-	}
-	if c.Request.Header.Get(RequestIDKey) != "xyz" {
-		t.Fatal("request header not xyz")
-	}
-	if c.Writer.Header().Get(RequestIDKey) != "xyz" {
-		t.Fatal("request header not xyz")
 	}
 }
