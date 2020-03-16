@@ -1,19 +1,14 @@
 #! /usr/bin/env bash
-CYAN="\033[1;36m"
-GREEN="\033[0;32m"
-WHITE="\033[1;37m"
-NOTICE_FLAG="${CYAN}❯"
-QUESTION_FLAG="${GREEN}?"
 
 OS=`uname`
 # $(replace_in_file pattern file)
 function replace_in_file() {
     if [ "$OS" = 'Darwin' ]; then
         # for MacOS
-        sed -i '' -e "$1" "$2"
+        sed -i '' -E "$1" "$2"
     else
         # for Linux and Windows
-        sed -i'' -e "$1" "$2"
+        sed -i'' "$1" "$2"
     fi
 }
 
@@ -23,32 +18,35 @@ main() {
         echo "GOPATH not exists"
         exit -1
     fi
-    echo -e "${NOTICE_FLAG} New project will be create in ${WHITE}${gopath}/src/"
-    echo -ne "${QUESTION_FLAG} ${CYAN}Enter your new project full name${CYAN}: "
+    echo -e "New project will be create in ${gopath}/src/"
+    echo -ne "Enter your new project full name: "
     read projname
-    echo -ne "${QUESTION_FLAG} ${CYAN}Do you want to the demo code[${WHITE}Y/n${CYAN}]: "
+    echo -ne "Do you want to save the demo code[Y/n]: "
     read rmdemo
 
     # get skeleton
-    echo -e "${NOTICE_FLAG} Downloading the skeleton..."
+    echo -e "Downloading the skeleton..."
     git clone https://github.com/axiaoxin/pink-lady.git ${gopath}/src/${projname}
     # replace project name
-    echo -e "${NOTICE_FLAG} Generating the project..."
+    echo -e "Generating the project..."
     cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
-    replace_in_file "s|pink-lady|${projname}|g"  `grep "pink-lady" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
+    if [ "$OS" = 'Darwin' ]; then
+        sed -i '' -e "s/pink-lady/${projname}/g" `grep "pink-lady" --include "swagger.*" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
+    else
+        sed -i "s/pink-lady/${projname}/g" `grep "pink-lady" --include "swagger.*" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
+    fi
 
     # remove demo
     if [ "${rmdemo}" == "n" ] || [ "${rmdemo}" == "N" ]; then
-        rm -rf app/apis/demo
-        rm -rf app/services/demo
-        rm -rf app/models/demo
+        rm -rf app/apis/demo*
+        rm -rf app/handlers/demohdl
+        rm -rf app/models/demomod
         replace_in_file "/demo routes start/,/demo routes end/d"  ${gopath}/src/${projname}/app/apis/routes.go
-        replace_in_file '/app\/apis\/demo"$/d' ${gopath}/src/${projname}/app/apis/routes.go
     fi
-    echo -e "${NOTICE_FLAG} Create project ${projname} in ${gopath}/src succeed."
+    echo -e "Create project ${projname} in ${gopath}/src succeed."
 
     # init a git repo
-    echo -ne "${QUESTION_FLAG} ${CYAN}Do you want to init a git repo[${WHITE}N/y${CYAN}]: "
+    echo -ne "Do you want to init a git repo[N/y]: "
     read initgit
     if [ "${initgit}" == "y" ] || [ "${rmdemo}" == "Y" ]; then
         cd ${gopath}/src/${projname} && git init && git add . && git commit -m "init project with pink-lady"
