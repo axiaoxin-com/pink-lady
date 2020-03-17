@@ -2,7 +2,7 @@ package demohdl
 
 import (
 	"context"
-	"pink-lady/app/database"
+	"pink-lady/app/database/gormdb"
 	"pink-lady/app/logging"
 	"pink-lady/app/models"
 	"pink-lady/app/models/demomod"
@@ -104,7 +104,7 @@ func DescribeAlertPolicy(c context.Context, db *gorm.DB, appID int, uin string, 
 func DescribeAlertFilterRules(c context.Context, db *gorm.DB, appID int, uin string, alertPolicyID int64) ([]demomod.AlertFilterRule, error) {
 	ruleSlice := []demomod.AlertFilterRule{}
 	policy := &demomod.AlertPolicy{
-		BaseModel: models.BaseModel{
+		GormBaseModel: models.GormBaseModel{
 			ID: alertPolicyID,
 		},
 		AppID: appID,
@@ -121,7 +121,7 @@ func DescribeAlertFilterRules(c context.Context, db *gorm.DB, appID int, uin str
 func DescribeAlertTriggerRules(c context.Context, db *gorm.DB, policyID int64) ([]demomod.AlertTriggerRule, error) {
 	ruleSlice := []demomod.AlertTriggerRule{}
 	policy := &demomod.AlertPolicy{
-		BaseModel: models.BaseModel{
+		GormBaseModel: models.GormBaseModel{
 			ID: policyID,
 		},
 	}
@@ -231,7 +231,7 @@ func DescribeAlertPolicies(c context.Context, db *gorm.DB, appID int, uin string
 	} else {
 		// 按名称搜索多条记录
 		if name != "" {
-			search = search.Where("name LIKE ?", "%"+database.GormMySQLLikeFieldEscape(name)+"%")
+			search = search.Where("name LIKE ?", "%"+gormdb.GormMySQLLikeFieldEscape(name)+"%")
 			if search.Error != nil {
 				logging.CtxLogger(c).Error("DescribeAlertPolicies search by name error", zap.Error(search.Error))
 				return nil, 0, ErrAlertPolicyListFailed.AppendError(search.Error)

@@ -6,7 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"pink-lady/app/database"
+	"pink-lady/app/database/gormdb"
+	"pink-lady/app/database/sqlxdb"
 	"pink-lady/app/logging"
 	"pink-lady/app/middleware"
 	"pink-lady/app/utils"
@@ -33,7 +34,10 @@ func InitDependencies(configpath, configname string) {
 	if err := logging.InitLogger(); err != nil {
 		log.Println("[ERROR] ", err)
 	}
-	if err := database.InitGorm(); err != nil {
+	if err := gormdb.InitGorm(); err != nil {
+		log.Println("[ERROR] ", err)
+	}
+	if err := sqlxdb.InitSqlx(); err != nil {
 		log.Println("[ERROR] ", err)
 	}
 	if err := utils.InitRedis(); err != nil {
