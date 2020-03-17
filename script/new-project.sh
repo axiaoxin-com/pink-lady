@@ -31,9 +31,9 @@ main() {
     echo -e "Generating the project..."
     cd ${gopath}/src/${projname} && rm -rf .git && cp ${gopath}/src/${projname}/app/config.toml.example ${gopath}/src/${projname}/app/config.toml
     if [ "$OS" = 'Darwin' ]; then
-        sed -i '' -e "s/pink-lady/${projname}/g" `grep "pink-lady" --include "swagger.*" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
+        sed -i '' -e "s|pink-lady|${projname}|g" `grep "pink-lady" --include "swagger.*" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
     else
-        sed -i "s/pink-lady/${projname}/g" `grep "pink-lady" --include "swagger.*" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
+        sed -i "s|pink-lady|${projname}|g" `grep "pink-lady" --include "swagger.*" --include ".travis.yml" --include "*.go" --include "go.*" -rl .`
     fi
 
     # remove demo
