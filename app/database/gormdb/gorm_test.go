@@ -1,4 +1,4 @@
-package database
+package gormdb
 
 import (
 	"os"
@@ -26,7 +26,7 @@ func TestNewSQLite3Instance(t *testing.T) {
 
 func TestInitGorm(t *testing.T) {
 	// 配置文件默认加载当前目录，需要把配置文件移到这里
-	utils.CopyFile("../config.toml.example", "./config.toml")
+	utils.CopyFile("../../config.toml.example", "./config.toml")
 	// 清理测试用的配置文件
 	defer func() { os.Remove("./config.toml") }()
 	utils.InitViper("./", "config", "")
