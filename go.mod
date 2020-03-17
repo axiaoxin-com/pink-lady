@@ -17,6 +17,7 @@ require (
 	github.com/go-redis/redis v6.15.6+incompatible
 	github.com/gomodule/redigo v2.0.0+incompatible // indirect
 	github.com/jinzhu/gorm v1.9.11
+	github.com/jmoiron/sqlx v1.2.0
 	github.com/json-iterator/go v1.1.7
 	github.com/lib/pq v1.2.0 // indirect
 	github.com/mailru/easyjson v0.7.0 // indirect
