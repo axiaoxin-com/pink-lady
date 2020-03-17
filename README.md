@@ -40,7 +40,7 @@ API版本号定义在`app/api/apis.go`中，可以手动修改值，但不要修
 
 ## Demo
 
-提供了一个demo接口实现用于参考，涉及
+提供了一个使用gormdb的demo接口实现用于参考，涉及
 
 - `app/apis/routes.go`
 - `app/apis/demo*`
@@ -49,8 +49,8 @@ API版本号定义在`app/api/apis.go`中，可以手动修改值，但不要修
 
 ## 访问DB
 
-使用 [gorm](https://github.com/jinzhu/gorm) 访问db，在`app/models`中定义数据库模型，使用`app/db`包获取db实例，数据库实例按配置文件中的配置全部生成。
-使用配置中的`instance`的值可以获取对应数据库实例，例如获取MySQL配置中的`instance = "default"`的数据库实例使用`db.MySQL("default")`即可，其他实例类似。
+`app/database`下提供了[gorm](https://github.com/jinzhu/gorm)和[sqlx](https://github.com/jmoiron/sqlx)的数据库实例来访问db，在`app/models`中定义数据库模型，数据库实例按配置文件中的配置全部生成。
+使用配置中的`instance`的值可以获取对应数据库实例，例如获取MySQL配置中的`instance = "default"`的数据库实例使用`gormdb.MySQL("default")` 或 `sqlxdb.MySQL("default")` 即可，其他实例类似。
 
 建议针对你的DB变更做迁移备份，这里推荐使用 [goose](https://github.com/pressly/goose)
 
@@ -58,7 +58,7 @@ API版本号定义在`app/api/apis.go`中，可以手动修改值，但不要修
 
 使用 [zap](https://github.com/uber-go/zap) 打印日志，普通日志直接使用`logging`中暴露的各种函数即可，也可以使用全局的`logging.Logger`打印，打印带有context中requestid的日志使用`logging.CtxLogger(c)`
 
-如果配置了Sentry DSN，则会将所有Error级别以上的日志事件上报到Sentry
+如果配置了Sentry DSN，则会将所有Error级别以上的日志事件自动上报到Sentry
 
 ## 中间件
 
@@ -89,3 +89,9 @@ go get -u -v github.com/swaggo/swag/cmd/swag
 ```
 bash <(curl -s https://raw.githubusercontent.com/axiaoxin/pink-lady/master/script/new-project.sh)
 ```
+
+## 开发相关工具
+
+数据库迁移工具: [goose](https://github.com/pressly/goose)
+
+根据mysql表自动生成结构体：[table2struct](https://github.com/axiaoxin/table2struct)
