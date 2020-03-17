@@ -1,7 +1,7 @@
 package apis
 
 import (
-	"pink-lady/app/database"
+	"pink-lady/app/database/gormdb"
 	"pink-lady/app/handlers/demohdl"
 	"pink-lady/app/response"
 
@@ -23,7 +23,7 @@ func CreateAlertPolicy(c *gin.Context) {
 		response.ErrJSON400(c, response.RCInvalidParam, err)
 		return
 	}
-	db := database.UTDB()
+	db := gormdb.UTDB()
 	// 使用外层appid和uin作为告警策略的字段
 	p.AlertPolicy.AppID = p.AppID
 	p.AlertPolicy.Uin = p.Uin
@@ -52,7 +52,7 @@ func DescribeAlertPolicy(c *gin.Context) {
 		response.ErrJSON400(c, response.RCInvalidParam, err)
 		return
 	}
-	db := database.UTDB()
+	db := gormdb.UTDB()
 	result, err := demohdl.DescribeAlertPolicy(c, db, p.AppID, p.Uin, p.ID)
 	if err != nil {
 		response.ErrJSON(c, err)
@@ -78,7 +78,7 @@ func DeleteAlertPolicy(c *gin.Context) {
 		response.ErrJSON400(c, response.RCInvalidParam, err)
 		return
 	}
-	db := database.UTDB()
+	db := gormdb.UTDB()
 	err := demohdl.DeleteAlertPolicy(c, db, p.AppID, p.Uin, p.ID)
 	if err != nil {
 		response.ErrJSON(c, err)
@@ -102,7 +102,7 @@ func ModifyAlertPolicy(c *gin.Context) {
 		response.ErrJSON400(c, response.RCInvalidParam, err)
 		return
 	}
-	db := database.UTDB()
+	db := gormdb.UTDB()
 	// 使用外层appid和uin作为告警策略的字段
 	p.AlertPolicy.AppID = p.AppID
 	p.AlertPolicy.Uin = p.Uin
@@ -139,7 +139,7 @@ func DescribeAlertPolicies(c *gin.Context) {
 		response.ErrJSON400(c, response.RCInvalidParam, err)
 		return
 	}
-	db := database.UTDB()
+	db := gormdb.UTDB()
 	result, count, err := demohdl.DescribeAlertPolicies(c, db, p.AppID, p.Uin, p.Offset, p.Limit, p.Order, p.ID, p.Name)
 	if err != nil {
 		response.ErrJSON(c, err)

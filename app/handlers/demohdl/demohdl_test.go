@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"pink-lady/app/database"
+	"pink-lady/app/database/gormdb"
 	"pink-lady/app/models/demomod"
 	"pink-lady/app/router"
 	"testing"
@@ -23,7 +23,7 @@ var utctx *gin.Context
 func Setup() {
 	// 初始化配置
 	router.InitDependencies("../../", "config")
-	utdb = database.UTDB()
+	utdb = gormdb.UTDB()
 	utdb.AutoMigrate(&demomod.AlertPolicy{}, &demomod.AlertFilterRule{}, &demomod.AlertTriggerRule{})
 	utdb.LogMode(false)
 
@@ -39,7 +39,7 @@ func Teardown() {
 	// Reset 变量
 	utdb = nil
 	utctx = nil
-	os.Remove(database.UTDBFile)
+	os.Remove(gormdb.UTDBFile)
 	log.Println("Teardown!")
 }
 
