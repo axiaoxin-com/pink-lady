@@ -1,12 +1,11 @@
-package database
+package sqlxdb
 
 import (
 	"fmt"
-	"pink-lady/app/logging"
 	"strings"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 
@@ -18,7 +17,7 @@ import (
 )
 
 // InstanceMapType {"mysql": {"default": client}, "sqlite3": {"default": client}}
-type InstanceMapType map[string]map[string]*gorm.DB
+type InstanceMapType map[string]map[string]*sqlx.DB
 
 // InstanceMap is *gorm.DB instance group by db engine
 var InstanceMap = make(InstanceMapType)
@@ -32,18 +31,17 @@ func (dbimt InstanceMapType) Close() {
 	}
 }
 
-// InitGorm init the InstanceMap
-func InitGorm() error {
+// InitSqlx init the InstanceMap
+func InitSqlx() error {
 	var err error
-	var db *gorm.DB
+	var db *sqlx.DB
 
 	databaseMap := viper.GetStringMap("database")
-	logger := NewLogger(logging.CloneLogger().Named("gorm"))
 	for engine, dbList := range databaseMap {
 		switch strings.ToLower(engine) {
 		case "mysql":
 			if InstanceMap["mysql"] == nil {
-				InstanceMap["mysql"] = make(map[string]*gorm.DB)
+				InstanceMap["mysql"] = make(map[string]*sqlx.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -60,13 +58,12 @@ func InitGorm() error {
 					int(dbItem["timeout"].(int64)),
 				)
 				if err == nil {
-					db.SetLogger(logger)
 					InstanceMap["mysql"][dbItem["instance"].(string)] = db
 				}
 			}
 		case "sqlite3":
 			if InstanceMap["sqlite3"] == nil {
-				InstanceMap["sqlite3"] = make(map[string]*gorm.DB)
+				InstanceMap["sqlite3"] = make(map[string]*sqlx.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -78,13 +75,12 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
-					db.SetLogger(logger)
 					InstanceMap["sqlite3"][dbItem["instance"].(string)] = db
 				}
 			}
 		case "postgres":
 			if InstanceMap["postgres"] == nil {
-				InstanceMap["postgres"] = make(map[string]*gorm.DB)
+				InstanceMap["postgres"] = make(map[string]*sqlx.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -101,13 +97,12 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
-					db.SetLogger(logger)
 					InstanceMap["postgres"][dbItem["instance"].(string)] = db
 				}
 			}
 		case "mssql":
 			if InstanceMap["mssql"] == nil {
-				InstanceMap["mssql"] = make(map[string]*gorm.DB)
+				InstanceMap["mssql"] = make(map[string]*sqlx.DB)
 			}
 			for _, dbItemItf := range dbList.([]interface{}) {
 				dbItem := dbItemItf.(map[string]interface{})
@@ -123,7 +118,6 @@ func InitGorm() error {
 					int(dbItem["connMaxLifeMinutes"].(int64)),
 				)
 				if err == nil {
-					db.SetLogger(logger)
 					InstanceMap["mssql"][dbItem["instance"].(string)] = db
 				}
 			}
@@ -141,15 +135,14 @@ func InitGorm() error {
 // maxIdleConns sets the maximum number of connections in the idle connection pool
 // maxOpenConns sets the maximum number of open connections to the database.
 // connMaxLifeMinutes sets the maximum amount of time(minutes) a connection may be reused
-func NewSQLite3Instance(dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes int) (*gorm.DB, error) {
-	db, err := gorm.Open("sqlite3", dbname)
+func NewSQLite3Instance(dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes int) (*sqlx.DB, error) {
+	db, err := sqlx.Open("sqlite3", dbname)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewSQLite3Instance gorm open error")
 	}
-	db.LogMode(logMode)
-	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
-	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
-	db.DB().SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
+	db.SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
+	db.SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
+	db.SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
 	return db, nil
 }
 
@@ -164,17 +157,15 @@ func NewSQLite3Instance(dbname string, logMode bool, maxIdleConns, maxOpenConns,
 // maxOpenConns sets the maximum number of open connections to the database.
 // connMaxLifeMinutes sets the maximum amount of time(minutes) a connection may be reused
 // timeout conn timeout, readtimeout and writetimeout is x3
-func NewMySQLInstance(host string, port int, username, password, dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes, timeout int) (*gorm.DB, error) {
+func NewMySQLInstance(host string, port int, username, password, dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes, timeout int) (*sqlx.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local&timeout=%ds&readTimeout=%ds&writeTimeout=%ds", username, password, host, port, dbname, timeout, timeout*5, timeout*5)
-	db, err := gorm.Open("mysql", dsn)
+	db, err := sqlx.Open("mysql", dsn)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewMySQLInstance gorm open error")
 	}
-	db.Set("gorm:table_options", "ENGINE=InnoDB CHARSET=utf8 auto_increment=1")
-	db.LogMode(logMode)
-	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
-	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
-	db.DB().SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
+	db.SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
+	db.SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
+	db.SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
 	return db, nil
 }
 
@@ -189,16 +180,15 @@ func NewMySQLInstance(host string, port int, username, password, dbname string, 
 // maxIdleConns sets the maximum number of connections in the idle connection pool
 // maxOpenConns sets the maximum number of open connections to the database.
 // connMaxLifeMinutes sets the maximum amount of time(minutes) a connection may be reused
-func NewPostgresInstance(host string, port int, username, password, dbname, sslmode string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes int) (*gorm.DB, error) {
+func NewPostgresInstance(host string, port int, username, password, dbname, sslmode string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes int) (*sqlx.DB, error) {
 	dsn := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s", host, port, username, dbname, password, sslmode)
-	db, err := gorm.Open("postgres", dsn)
+	db, err := sqlx.Open("postgres", dsn)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewPostgresInstance gorm open error")
 	}
-	db.LogMode(logMode)
-	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
-	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
-	db.DB().SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
+	db.SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
+	db.SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
+	db.SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
 	return db, nil
 }
 
@@ -212,15 +202,14 @@ func NewPostgresInstance(host string, port int, username, password, dbname, sslm
 // maxIdleConns sets the maximum number of connections in the idle connection pool
 // maxOpenConns sets the maximum number of open connections to the database.
 // connMaxLifeMinutes sets the maximum amount of time(minutes) a connection may be reused
-func NewMsSQLInstance(host string, port int, username, password, dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes int) (*gorm.DB, error) {
+func NewMsSQLInstance(host string, port int, username, password, dbname string, logMode bool, maxIdleConns, maxOpenConns, connMaxLifeMinutes int) (*sqlx.DB, error) {
 	dsn := fmt.Sprintf("sqlserver://%s:%s@%s:%d?database=%s", username, password, host, port, dbname)
-	db, err := gorm.Open("mssql", dsn)
+	db, err := sqlx.Open("mssql", dsn)
 	if err != nil {
 		return nil, errors.Wrap(err, "NewMsSQLInstance gorm open error")
 	}
-	db.LogMode(logMode)
-	db.DB().SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
-	db.DB().SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
-	db.DB().SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
+	db.SetMaxIdleConns(maxIdleConns)                                       // 设置连接池中的最大闲置连接数
+	db.SetMaxOpenConns(maxOpenConns)                                       // 设置数据库的最大连接数量
+	db.SetConnMaxLifetime(time.Duration(connMaxLifeMinutes) * time.Minute) // 设置连接的最大可复用时间
 	return db, nil
 }

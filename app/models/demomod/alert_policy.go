@@ -11,7 +11,7 @@ const (
 
 // AlertFilterRule 告警筛选规则表
 type AlertFilterRule struct {
-	models.BaseModel
+	models.GormBaseModel
 	AlertPolicyID int64  `gorm:"column:alert_policy_id" json:"alert_policy_id" binding:"-" example:"-"` // 关联的告警策略ID
 	Relation      int    `gorm:"column:relation" json:"relation" binding:"required" example:"1"`        // 与或关系（1=与，2=或）
 	Field         string `gorm:"column:field" json:"field" binding:"required" example:"field"`          // 日志原始字段名
@@ -26,7 +26,7 @@ func (*AlertFilterRule) TableName() string {
 
 // AlertTriggerRule 告警策略触发条件表
 type AlertTriggerRule struct {
-	models.BaseModel
+	models.GormBaseModel
 	AlertPolicyID        int64  `gorm:"column:alert_policy_id" json:"alert_policy_id" binding:"-" example:"-"`                      // 关联的告警策略主键id
 	Relation             int    `gorm:"column:relation" json:"relation" binding:"required" example:"1"`                             // 与或关系（1=与，2=或）
 	MetricID             int    `gorm:"column:metric_id" json:"metric_id" binding:"required" example:"-1"`                          // 指标id
@@ -43,7 +43,7 @@ func (*AlertTriggerRule) TableName() string {
 
 // AlertPolicy 告警策略表
 type AlertPolicy struct {
-	models.BaseModel
+	models.GormBaseModel
 	AppID              int                 `gorm:"column:appid" json:"appid" example:"1" binding:"-"`                                                       // AppID
 	Uin                string              `gorm:"column:uin" json:"uin" example:"axiaoxin" binding:"-"`                                                    // Uin
 	Name               string              `gorm:"column:name" json:"name" binding:"required" example:"swag-test-name"`                                     // 策略名称
