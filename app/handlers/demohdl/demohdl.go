@@ -104,7 +104,7 @@ func DescribeAlertPolicy(c context.Context, db *gorm.DB, appID int, uin string, 
 func DescribeAlertFilterRules(c context.Context, db *gorm.DB, appID int, uin string, alertPolicyID int64) ([]demomod.AlertFilterRule, error) {
 	ruleSlice := []demomod.AlertFilterRule{}
 	policy := &demomod.AlertPolicy{
-		BaseModel: models.BaseModel{
+		GormBaseModel: models.GormBaseModel{
 			ID: alertPolicyID,
 		},
 		AppID: appID,
@@ -121,7 +121,7 @@ func DescribeAlertFilterRules(c context.Context, db *gorm.DB, appID int, uin str
 func DescribeAlertTriggerRules(c context.Context, db *gorm.DB, policyID int64) ([]demomod.AlertTriggerRule, error) {
 	ruleSlice := []demomod.AlertTriggerRule{}
 	policy := &demomod.AlertPolicy{
-		BaseModel: models.BaseModel{
+		GormBaseModel: models.GormBaseModel{
 			ID: policyID,
 		},
 	}
