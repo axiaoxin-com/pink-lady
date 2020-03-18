@@ -32,7 +32,7 @@ func TestInitSqlx(t *testing.T) {
 	utils.CopyFile("../../config.toml.example", "./config.toml")
 	// 清理测试用的配置文件
 	defer func() { os.Remove("./config.toml") }()
-	utils.InitViper("./", "config", "")
+	utils.InitViper([]string{"./"}, "config", "")
 	logging.InitLogger()
 
 	InitSqlx()

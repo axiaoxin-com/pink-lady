@@ -25,7 +25,7 @@ func main() {
 	log.Println("[INFO] ============ pink-lady ============")
 	workdir, err := os.Getwd()
 	if err != nil {
-		log.Fatal("[FATAL] ", err)
+		log.Fatal("[FATAL] get workdir error", err)
 	}
 	configpath := flag.String("configpath", workdir, "path of config file")
 	configname := flag.String("configname", "config", "name of config file (no suffix)")
