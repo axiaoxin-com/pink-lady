@@ -3,6 +3,8 @@ package router
 
 import (
 	"log"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -27,7 +29,12 @@ const (
 
 // InitDependencies 初始化所有依赖
 func InitDependencies(configpath, configname string) {
-	if err := utils.InitViper(configpath, configname, ""); err != nil {
+	processdir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal("[FATAL] get processdir error", err)
+	}
+	configpaths := []string{configpath, processdir}
+	if err := utils.InitViper(configpaths, configname, ""); err != nil {
 		log.Println("[ERROR]", err)
 	}
 
