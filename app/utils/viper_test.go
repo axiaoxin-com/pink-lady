@@ -23,7 +23,7 @@ func TestInitViper(t *testing.T) {
 		{Name: "option3", Default: "3", Desc: "string 3"},
 		{Name: "option.4", Default: "o4", Desc: "."},
 	}
-	if err := InitViper("/tmp/", "config-plut", "envPrefix", options...); err != nil {
+	if err := InitViper([]string{"/tmp/"}, "config-plut", "envPrefix", options...); err != nil {
 		t.Error(err)
 	}
 	if viper.GetInt("option1") != 1 {

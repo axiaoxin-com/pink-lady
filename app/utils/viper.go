@@ -27,7 +27,7 @@ func NewViperOption(name string, defaultValue interface{}, desc string) ViperOpt
 
 // InitViper init viper by default value, ENV, cmd flag and config file
 // you can use switch to reload server when config file changed
-func InitViper(configpath, configname string, envPrefix string, options ...ViperOption) error {
+func InitViper(configpaths []string, configname string, envPrefix string, options ...ViperOption) error {
 	viper.SetEnvPrefix(envPrefix)
 	for _, option := range options {
 		// set default value
@@ -40,12 +40,14 @@ func InitViper(configpath, configname string, envPrefix string, options ...Viper
 
 	// load conf file
 	viper.SetConfigName(configname)
-	viper.AddConfigPath(configpath)
+	for _, configpath := range configpaths {
+		viper.AddConfigPath(configpath)
+	}
 	err := viper.ReadInConfig()
 	if err != nil {
 		return errors.Wrap(err, "viper read in config error")
 	}
-	log.Printf("[INFO] loaded %s in %s\n", configname, configpath)
+	log.Printf("[INFO] loaded %s in %v\n", configname, configpaths)
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		viper.ReadInConfig()

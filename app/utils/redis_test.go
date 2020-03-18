@@ -40,7 +40,7 @@ func TestNewRedisClient(t *testing.T) {
 }
 
 func TestInitRedis(t *testing.T) {
-	InitViper("..", "config", "")
+	InitViper([]string{".."}, "config", "")
 	InitRedis()
 	if len(RedisClientMap) == 0 {
 		t.Error("RedisClientMap init failed")
