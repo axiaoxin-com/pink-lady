@@ -1,0 +1,38 @@
+########## server 相关配置项
+[server]
+# 设置 server 运行地址
+addr = ":4869"
+# 设置 server 的运行环境
+env = "localhost"
+# 设置 gin mode，可选值： debug 、 test 、 release
+mode = "debug"
+# 是否开启 pprof
+pprof = true
+# 设置请求处理超时时间（秒）
+handler_timeout = 5
+
+########## basic auth 相关配置项
+[basic_auth]
+# 登录用户名
+username = "admin"
+# 登录密码
+password = "admin"
+
+########## MySQL 相关配置项
+# mysql 按不同环境可以添加多个配置
+# 本地配置
+[mysql.localhost]
+# 其他环境
+[mysql.other]
+
+########## Redis 相关配置项
+# redis 按不同环境可以添加多个配置
+[redis]
+    # 本地配置
+    [redis.localhost]
+        mode = "normal"
+        address = "localhost:6379"
+        password = ""
+        dbindex = 0
+        master = ""
+    [redis.other]
