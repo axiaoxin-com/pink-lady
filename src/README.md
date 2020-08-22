@@ -56,7 +56,7 @@ go get -u github.com/axiaoxin-com/table2struct
 
 服务通过 [viper](https://github.com/spf13/viper) 加载配置文件， viper 支持的配置文件格式都可以使用。
 
-服务启动时默认加载当前目录的 `[viper webapp toml](viper.webapp.toml)` 作为配置。其中包含了服务支持的全部配置项。
+服务启动时默认加载当前目录的 `[config.default.toml](./config.default.toml)` 作为配置。其中包含了服务支持的全部配置项。
 
 服务启动时可以通过以下参数指定其他配置文件：
 
@@ -75,5 +75,5 @@ go get -u github.com/axiaoxin-com/table2struct
 手动完整的启动服务命令：
 
 ```
-go run main.go -p . -c viper.webapp -t toml
+go run main.go -p . -c config.default -t toml
 ```

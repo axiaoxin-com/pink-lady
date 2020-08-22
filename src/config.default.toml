@@ -1,8 +1,8 @@
-#########################
-#                       #
-# viper WebApp 配置文件 #
-#                       #
-#########################
+#############################
+#                           #
+# viper web server 配置文件 #
+#                           #
+#############################
 
 
 ########## 环境配置
@@ -20,6 +20,27 @@ pprof = true
 read_timeout = 5
 # 服务器从 accept 到写 response 的超时时间（秒）
 write_timeout = 5
+
+########## logging 日志相关配置
+[logging]
+# 日志级别，可选值： debug info warn error dpanic panic fatal
+level = "debug"
+# 日志格式，可选值： json console
+format = "json"
+# 日志输出路径
+output_paths = ["stderr"]
+# 是否关闭打印 caller 字段
+disable_caller = false
+# 是否关闭打印 stacktrace 字段
+disable_stacktrace = true
+# 动态修改日志级别的 http 服务端口
+atomic_level_addr = ":4870"
+
+########## sentry 相关配置
+[sentry]
+# sentry dsn
+dsn = ""
+debug = true
 
 ########## apidocs 相关配置
 [apidocs]

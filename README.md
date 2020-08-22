@@ -19,15 +19,14 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 其次，因为 gin 就是国外六大类烈酒之一的金酒，是近百年来调制鸡尾酒时最常使用的基酒，其配方多达千种以上，
 而 pink lady 是以 gin 作 base 的国标鸡尾酒之一，在这里 pink-lady 则是以 gin 作 base 的代码骨架模板之一
 
-pink-lady 是使用 [goutils](http://github.com/axiaoxin-com/goutils) 包快速组装出的 gin 项目模板。
-实现代码在`src`路径下，在 pink-lady 模板项目下，你只需关注如何实现你的业务逻辑，不用考虑如何组织项目结构和集成一些通用功能，比如数据库的连接封装，配置文件的读取，swagger 文档生成，统一的 JSON 返回结果，错误码定义等等。
+实现代码在`src`路径下，在 pink-lady 模板项目下，你只需关注如何实现你的业务逻辑，不用考虑如何组织项目结构和集成一些通用功能，比如数据库的连接封装，配置文件的读取，swagger 文档生成，统一的 JSON 返回结果，错误码定义，集成 Sentry 等等。
 
 你可以在`apis`路径下实现你的 api，并在 `apis/apis.go` 的 `Routes` 函数中注册 URL 即可。可复用的业务代码可以放到 `handler` 包中，便于比如定时任务复用业务逻辑代码。数据库模型相关定义放到 `models` 包中便于复用。
 
-## 使用 `goutils` 3 步组装一个 WEB 应用
+## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
-1. 初始化 web 应用的配置信息到 viper 。
-   配置文件必须满足能解析出指定的内容，参考 [viper.webapp.toml](./src/viper/webapp.toml) 中的配置项
-2. 创建对应的 HTTP Handler，如：`*gin.Engine`
-3. 运行 web 应用服务器。
-   需传入 Handler 和在该 Handler 上注册 URL 路由注册函数
+1. 初始化 web 应用的配置信息到 viper `InitConfig` 。
+   配置文件必须满足能解析出指定的内容，参考 [config.default.toml](./src/config.default.toml) 中的配置项
+2. 创建自定义中间件的 gin app `NewGinEngine`
+3. 运行 web 应用服务器 `Run`。
+   需传入 gin app 和在该 app 上注册 URL 路由注册函数
