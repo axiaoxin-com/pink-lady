@@ -3,27 +3,18 @@ package apis
 import (
 	"testing"
 
-	"pink-lady/app/utils"
-
+	"github.com/axiaoxin-com/goutils"
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 )
 
 func TestRegisterRoutes(t *testing.T) {
 	r := gin.New()
-	RegisterRoutes(r)
-	w := utils.PerformRequest(r, "GET", "/x/ping", nil)
-	if w.Result().StatusCode != 200 {
-		t.Fatal("register routes no /x/ping")
+	Register(r)
+	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil)
+	if err != nil {
+		t.Error(err)
 	}
-}
-
-func TestRedirect(t *testing.T) {
-	r := gin.New()
-	RegisterRoutes(r)
-	viper.SetDefault("apidocs.rootRedirect", true)
-	w := utils.PerformRequest(r, "GET", "/", nil)
-	if w.Result().StatusCode != 301 {
-		t.Fatal("root redirect fail")
+	if recorder.Code != 200 {
+		t.Error("/x/ping status code:", recorder.Code)
 	}
 }
