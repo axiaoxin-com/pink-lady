@@ -27,6 +27,8 @@ import (
 const (
 	// Version api 版本号
 	Version string = "0.0.1"
+	// DisableGinSwaggerEnvkey 设置该环境变量时关闭 swagger 文档
+	DisableGinSwaggerEnvkey = "DISABLE_GIN_SWAGGER"
 )
 
 // Register 在 gin engine 上注册 url 对应的 HandlerFunc
@@ -47,7 +49,7 @@ func Register(app *gin.Engine) {
 	x := app.Group("/x")
 	{
 		// ginSwagger 生成的在线 API 文档路由
-		x.GET("/apidocs/*any", auth, ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, "DISABLE_GIN_SWAGGER"))
+		x.GET("/apidocs/*any", auth, ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, DisableGinSwaggerEnvkey))
 		// 默认的 ping 方法，返回 server 相关信息
 		x.GET("/ping", Ping)
 	}
