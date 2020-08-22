@@ -10,5 +10,4 @@ func main() {
 	goutils.InitWebAppViperConfig()
 	app := goutils.NewGinEngine(viper.GetString("server.mode"), viper.GetBool("server.pprof"))
 	goutils.RunWebApp(app, apis.Register)
-
 }
