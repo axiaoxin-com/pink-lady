@@ -3,19 +3,18 @@ package apis
 import (
 	"testing"
 
-	"pink-lady/app/router"
-	"pink-lady/app/utils"
-
-	jsoniter "github.com/json-iterator/go"
+	"github.com/axiaoxin-com/goutils"
+	"github.com/gin-gonic/gin"
 )
 
 func TestPing(t *testing.T) {
-	r := router.SetupRouter("../", "config")
-	RegisterRoutes(r)
-	w := utils.PerformRequest(r, "GET", "/x/ping", nil)
-	body := jsoniter.Get(w.Body.Bytes())
-	version := body.Get("data", "version").ToString()
-	if version != VERSION {
-		t.Error("version error", body.ToString())
+	r := gin.New()
+	Register(r)
+	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil)
+	if err != nil {
+		t.Error(err)
+	}
+	if recorder.Code != 200 {
+		t.Error("/x/ping status code:", recorder.Code)
 	}
 }
