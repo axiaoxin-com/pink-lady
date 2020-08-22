@@ -20,5 +20,5 @@ import (
 func Ping(c *gin.Context) {
 	data := gin.H{"version": Version}
 	response.JSON(c, data)
-	return
+	panic("test panic")
 }
