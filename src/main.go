@@ -22,14 +22,6 @@ import (
 const (
 	// DefaultServerAddr 默认运行地址
 	DefaultServerAddr = ":4869"
-	// DefaultServerReadTimeout 服务器从 accept 到读取 body 的超时时间（秒）
-	DefaultServerReadTimeout = 5
-	// DefaultServerWriteTimeout 服务器从 accept 到写 response 的超时时间（秒）
-	DefaultServerWriteTimeout = 5
-	// DefaultBasicAuthUsername BasicAuth 默认用户名
-	DefaultBasicAuthUsername = "admin"
-	// DefaultBasicAuthPassword BasicAuth 默认密码
-	DefaultBasicAuthPassword = "admin"
 )
 
 func init() {
@@ -39,23 +31,32 @@ func init() {
 		logging.Fatal(nil, "get workdir failed", zap.Error(err))
 	}
 	configPath := flag.String("p", workdir, "path of config file")
-	configName := flag.String("c", "config", "name of config file (no suffix)")
-	configType := flag.String("t", "toml", "type of config file (the file format suffix)")
+	configName := flag.String("c", "config.default", "name of config file without format suffix)")
+	configType := flag.String("t", "toml", "type of config file format")
 	flag.Parse()
 	if err := goutils.InitViper(*configPath, *configName, *configType, func(e fsnotify.Event) {
 		logging.Warn(nil, "Config file changed:"+e.Name)
 	}); err != nil {
-		panic("Init viper error:" + err.Error())
+		logging.Warn(nil, "Init viper error:"+err.Error())
 	}
 
 	// 设置配置默认值
+	viper.SetDefault("env", "dev")
+
+	viper.SetDefault("server.addr", DefaultServerAddr)
 	viper.SetDefault("server.mode", gin.ReleaseMode)
 	viper.SetDefault("server.pprof", true)
-	viper.SetDefault("server.addr", DefaultServerAddr)
-	viper.SetDefault("server.read_timeout", DefaultServerReadTimeout)
-	viper.SetDefault("server.write_timeout", DefaultServerWriteTimeout)
-	viper.SetDefault("basic_auth.username", DefaultBasicAuthUsername)
-	viper.SetDefault("basic_auth.password", DefaultBasicAuthPassword)
+	viper.SetDefault("server.read_timeout", 5)  // 服务器从 accept 到读取 body 的超时时间（秒）
+	viper.SetDefault("server.write_timeout", 5) // 服务器从 accept 到写 response 的超时时间（秒）
+
+	viper.SetDefault("apidocs.title", "pink-lady swagger apidocs")
+	viper.SetDefault("apidocs.desc", "Using pink-lady to develop gin app on fly.")
+	viper.SetDefault("apidocs.host", "localhost"+DefaultServerAddr)
+	viper.SetDefault("apidocs.basepath", "/")
+	viper.SetDefault("apidocs.schemes", []string{"http"})
+
+	viper.SetDefault("basic_auth.username", "admin")
+	viper.SetDefault("basic_auth.password", "admin")
 }
 
 // 根据配置创建并运行使用 gin 处理请求的 http server
@@ -68,8 +69,8 @@ func main() {
 	apis.Register(ginEngine)
 
 	addr := viper.GetString("server.addr")
-	readTimeout := viper.GetInt("server.handler_timeout")
-	writeTimeout := viper.GetInt("server.handler_timeout")
+	readTimeout := viper.GetInt("server.read_timeout")
+	writeTimeout := viper.GetInt("server.write_timeout")
 	srv := &http.Server{
 		Addr:         addr,
 		Handler:      ginEngine,

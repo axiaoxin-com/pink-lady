@@ -1,0 +1,32 @@
+definitions:
+  response.Response:
+    properties:
+      code:
+        type: object
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+info:
+  contact:
+    email: 254606826@qq.com
+    name: API Support
+    url: http://github.com/axiaoxin-com/pink-lady
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /x/ping:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Ping for server is living will respond API version
+      tags:
+      - x
+swagger: "2.0"
