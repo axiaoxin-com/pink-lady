@@ -14,7 +14,8 @@ swag init --dir ./ --generalInfo apis/apis.go --propertyStrategy snakecase --out
 
 api 文档地址： <http://localhost:4869/x/apidocs/index.html>
 
-环境变量中设置 `DISABLE_GIN_SWAGGER` 可是其不可见。首次访问需经过 Basic 认证登录，登录账号密码可通过配置修改，默认为 `admin` `admin`
+服务启动时如果环境变量设置了 `DISABLE_GIN_SWAGGER` 会关闭 api 文档。
+首次访问需经过 Basic 认证登录，登录账号密码可通过配置修改，默认为 `admin` `admin`
 
 swag 中文文档: <https://github.com/swaggo/swag/blob/master/README_zh-CN.md>
 
