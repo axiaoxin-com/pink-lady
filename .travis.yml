@@ -4,15 +4,20 @@ go:
   - "1.11.x"
   - "1.12.x"
   - "1.13.x"
+  - "1.14.x"
   - master
 
-go_import_path: pink-lady
+go_import_path: github.com/axiaoxin-com/pink-lady
 
 env:
   - GO111MODULE=on
 
+services:
+  - mysql
+  - postgresql
+  - redis-server
+
 script:
-  - cp app/config.toml.example app/config.toml
   - go test -race -coverprofile=coverage.txt -covermode=atomic -v ./...
 
 after_success:

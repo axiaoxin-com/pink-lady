@@ -19,6 +19,9 @@ info:
 paths:
   /x/ping:
     get:
+      consumes:
+      - application/json
+      description: 返回 server 相关信息，可以用于健康检查
       produces:
       - application/json
       responses:
@@ -26,7 +29,16 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.Response'
-      summary: Ping for server is living will respond API version
+      security:
+      - ApiKeyAuth: []
+      summary: 默认的 Ping 接口
       tags:
       - x
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
 swagger: "2.0"

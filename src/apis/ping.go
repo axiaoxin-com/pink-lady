@@ -8,16 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// VERSION your API version, don't change the code style
-const VERSION = "0.0.1"
-
 // Ping godoc
-// @Summary Ping for server is living will respond API version
+// @Summary 默认的 Ping 接口
+// @Description 返回 server 相关信息，可以用于健康检查
 // @Tags x
+// @Accept json
 // @Produce json
-// @Router /x/ping [get]
 // @Success 200 {object} response.Response
+// @Security ApiKeyAuth
+// @Router /x/ping [get]
 func Ping(c *gin.Context) {
-	data := gin.H{"version": VERSION}
+	data := gin.H{"version": Version}
 	response.JSON(c, data)
+	return
 }

@@ -34,13 +34,22 @@ var doc = `{
     "paths": {
         "/x/ping": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "返回 server 相关信息，可以用于健康检查",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "x"
                 ],
-                "summary": "Ping for server is living will respond API version",
+                "summary": "默认的 Ping 接口",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -66,6 +75,16 @@ var doc = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "BasicAuth": {
+            "type": "basic"
         }
     }
 }`

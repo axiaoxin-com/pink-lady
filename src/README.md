@@ -12,6 +12,12 @@ go get -u github.com/swaggo/swag/cmd/swag
 swag init --dir ./ --generalInfo apis/apis.go --propertyStrategy snakecase --output ./apis/docs
 ```
 
+api 文档地址： <http://localhost:4869/x/apidocs/index.html>
+
+环境变量中设置 `DISABLE_GIN_SWAGGER` 可是其不可见。首次访问需经过 Basic 认证登录，登录账号密码可通过配置修改，默认为 `admin` `admin`
+
+swag 中文文档: <https://github.com/swaggo/swag/blob/master/README_zh-CN.md>
+
 ## 使用 [air](https://github.com/cosmtrek/air) 可以根据文件变化自动编译运行服务
 
 安装：
