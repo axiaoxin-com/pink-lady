@@ -43,8 +43,8 @@ github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmV
 github.com/armon/go-radix v0.0.0-20180808171621-7fddfc383310/go.mod h1:ufUuZ+zHj4x4TnLV4JWEpy2hxWSpsRywHrMgIH9cCH8=
 github.com/axiaoxin-com/goutils v0.0.0-20200822133453-bd88b307760e h1:olvaFV+0fo+TmgIYJumT2Rx0bHUpXzHmYzcgHRPdeuw=
 github.com/axiaoxin-com/goutils v0.0.0-20200822133453-bd88b307760e/go.mod h1:723kNAEXqcIDUPxW3kZ/Nu96kDm7zIQmWn19bxdSUtc=
-github.com/axiaoxin-com/logging v1.0.3-0.20200822130531-588fca8f918f h1:X+vlE1IJQvU70SvJxYjfrsQLytf+msbhQv0bedXhrZo=
-github.com/axiaoxin-com/logging v1.0.3-0.20200822130531-588fca8f918f/go.mod h1:G3VrPAKNpR54CiV5AwSf29/1vlo1wHW2oU4/I+uJLqs=
+github.com/axiaoxin-com/logging v1.0.3-0.20200822140849-8ae81221600f h1:X8h1AifbMr1NGIuoDrCLPRwMnYF/wty3KGV8Q5PwzMU=
+github.com/axiaoxin-com/logging v1.0.3-0.20200822140849-8ae81221600f/go.mod h1:G3VrPAKNpR54CiV5AwSf29/1vlo1wHW2oU4/I+uJLqs=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
