@@ -7,6 +7,10 @@
 
 // @securityDefinitions.basic BasicAuth
 
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
 package apis
 
 import (
@@ -28,7 +32,7 @@ const (
 // Register 在 gin engine 上注册 url 对应的 HandlerFunc
 func Register(app *gin.Engine) {
 
-	// api 文档变量设置
+	// api 文档变量设置，注意这里依赖 viper 读配置，需要保证在 main 中已预先加载这些配置项
 	docs.SwaggerInfo.Title = viper.GetString("apidocs.title")
 	docs.SwaggerInfo.Description = viper.GetString("apidocs.desc")
 	docs.SwaggerInfo.Version = Version
