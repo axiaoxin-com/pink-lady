@@ -105,7 +105,7 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 			logging.Fatal(nil, "Server start error:"+err.Error())
 		}
 	}()
-	logging.Infof(nil, "Server is running on %s with config file %s .", srv.Addr, configFile)
+	logging.Infof(nil, "Server is running on %s with config file %s", srv.Addr, configFile)
 
 	// 监听中断信号， WriteTimeout 时间后优雅关闭服务
 	// syscall.SIGTERM 不带参数的 kill 命令
@@ -126,8 +126,26 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 }
 
 // GinBasicAuth 加到 gin app 的路由中可以对该路由添加 basic auth 登录验证
-func GinBasicAuth() gin.HandlerFunc {
+// 传入 username 和 password 对可以替换默认的 username 和 password
+func GinBasicAuth(args ...string) gin.HandlerFunc {
+	username := viper.GetString("basic_auth.username")
+	password := viper.GetString("basic_auth.password")
+	if len(args) == 2 {
+		username = args[0]
+		password = args[1]
+	} else {
+		logging.Error(nil, "Wrong number of username and password pair.")
+	}
 	return gin.BasicAuth(gin.Accounts{
-		viper.GetString("basic_auth.username"): viper.GetString("basic_auth.password"),
+		username: password,
 	})
+}
+
+// DefaultGinMiddlewares 默认的 gin 中间件
+func DefaultGinMiddlewares() []gin.HandlerFunc {
+	m := []gin.HandlerFunc{
+		logging.GinTraceIDMiddleware(logging.GetTraceIDFromHeader),
+		gin.Logger(),
+	}
+	return m
 }

@@ -37,6 +37,9 @@ var doc = `{
                 "security": [
                     {
                         "ApiKeyAuth": []
+                    },
+                    {
+                        "BasicAuth": []
                     }
                 ],
                 "description": "返回 server 相关信息，可以用于健康检查",
@@ -50,6 +53,14 @@ var doc = `{
                     "x"
                 ],
                 "summary": "默认的 Ping 接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "you can set custom trace id in header",
+                        "name": "trace_id",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -80,7 +91,7 @@ var doc = `{
     "securityDefinitions": {
         "ApiKeyAuth": {
             "type": "apiKey",
-            "name": "Authorization",
+            "name": "apikey",
             "in": "header"
         },
         "BasicAuth": {
