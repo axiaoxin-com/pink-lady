@@ -49,6 +49,8 @@ github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737 h1:gG11tN0R75
 github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737/go.mod h1:qSbS9tJ2k4lVFcawNNdiBjrfIV94qSpCPqzstXMWbXA=
 github.com/axiaoxin-com/logging v1.0.3-0.20200822140849-8ae81221600f h1:X8h1AifbMr1NGIuoDrCLPRwMnYF/wty3KGV8Q5PwzMU=
 github.com/axiaoxin-com/logging v1.0.3-0.20200822140849-8ae81221600f/go.mod h1:G3VrPAKNpR54CiV5AwSf29/1vlo1wHW2oU4/I+uJLqs=
+github.com/axiaoxin-com/logging v1.0.3-0.20200823231230-7aa4f3206428 h1:7LNntiKtZFATDUBzYp1jmTnymcPx9f9PCj6BPH1R7JM=
+github.com/axiaoxin-com/logging v1.0.3-0.20200823231230-7aa4f3206428/go.mod h1:G3VrPAKNpR54CiV5AwSf29/1vlo1wHW2oU4/I+uJLqs=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=

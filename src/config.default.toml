@@ -28,7 +28,7 @@ level = "debug"
 # 日志格式，可选值： json console
 format = "json"
 # 日志输出路径
-output_paths = ["stderr"]
+output_paths = ["stdout"]
 # 是否关闭打印 caller 字段
 disable_caller = false
 # 是否关闭打印 stacktrace 字段
