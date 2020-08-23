@@ -130,10 +130,13 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 func GinBasicAuth(args ...string) gin.HandlerFunc {
 	username := viper.GetString("basic_auth.username")
 	password := viper.GetString("basic_auth.password")
-	if len(args) == 2 {
+	switch len(args) {
+	case 2:
 		username = args[0]
 		password = args[1]
-	} else {
+	case 0:
+		logging.Info(nil, "Set basic auth using the username and password in the configuration file.")
+	default:
 		logging.Error(nil, "Wrong number of username and password pair.")
 	}
 	return gin.BasicAuth(gin.Accounts{
@@ -144,7 +147,7 @@ func GinBasicAuth(args ...string) gin.HandlerFunc {
 // DefaultGinMiddlewares 默认的 gin 中间件
 func DefaultGinMiddlewares() []gin.HandlerFunc {
 	m := []gin.HandlerFunc{
-		logging.GinTraceIDMiddleware(logging.GetTraceIDFromHeader),
+		logging.GinTraceID(logging.GetGinTraceIDFromHeader, logging.GetGinTraceIDFromQueryString, logging.GetGinTraceIDFromPostForm),
 		gin.Logger(),
 	}
 	return m
