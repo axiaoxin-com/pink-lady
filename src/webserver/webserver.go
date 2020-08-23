@@ -2,7 +2,6 @@ package webserver
 
 import (
 	"context"
-	"flag"
 	"net/http"
 	"os"
 	"os/signal"
@@ -20,29 +19,17 @@ import (
 var (
 	// GinPprofURLPath 设置 gin 中的 pprof url 注册路径，可以通过外部修改
 	GinPprofURLPath        = "/x/pprof"
-	workdir         string = "."
 	configFile      string = ""
 )
 
-func init() {
-	// 加载配置文件到 viper
-	wd, err := os.Getwd()
-	if err != nil {
-		logging.Warn(nil, "get workdir failed:"+err.Error())
-	} else {
-		workdir = wd
-	}
-	configPath := flag.String("p", workdir, "path of config file")
-	configName := flag.String("c", "config.default", "name of config file without format suffix)")
-	configType := flag.String("t", "toml", "type of config file format")
-	flag.Parse()
+// InitViperConfig 加载 server 配置文件到 viper
+func InitViperConfig(configPath, configName, configType string) {
+	configFile = configPath + "/" + configName + "." + configType
 
-	configFile = *configPath + "/" + *configName + "." + *configType
-
-	if err := goutils.InitViper(*configPath, *configName, *configType, func(e fsnotify.Event) {
+	if err := goutils.InitViper(configPath, configName, configType, func(e fsnotify.Event) {
 		logging.Warn(nil, "Config file changed:"+e.Name)
 	}); err != nil {
-		logging.Warn(nil, "Init viper error:"+err.Error())
+		logging.Error(nil, "Init viper error:"+err.Error())
 	}
 
 	// 设置配置默认值
@@ -136,4 +123,11 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 		logging.Fatal(nil, "Server shutdown with error: "+err.Error())
 	}
 	logging.Info(nil, "Server shutdown")
+}
+
+// GinBasicAuth 加到 gin app 的路由中可以对该路由添加 basic auth 登录验证
+func GinBasicAuth() gin.HandlerFunc {
+	return gin.BasicAuth(gin.Accounts{
+		viper.GetString("basic_auth.username"): viper.GetString("basic_auth.password"),
+	})
 }

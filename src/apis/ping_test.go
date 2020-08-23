@@ -5,10 +5,15 @@ import (
 
 	"github.com/axiaoxin-com/goutils"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 func TestPing(t *testing.T) {
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
+	viper.Set("basic_auth.username", "admin")
+	viper.Set("basic_auth.password", "admin")
+	defer viper.Reset()
 	Register(r)
 	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil)
 	if err != nil {
