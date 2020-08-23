@@ -22,6 +22,11 @@ paths:
       consumes:
       - application/json
       description: 返回 server 相关信息，可以用于健康检查
+      parameters:
+      - description: you can set custom trace id in header
+        in: header
+        name: trace_id
+        type: string
       produces:
       - application/json
       responses:
@@ -31,13 +36,14 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - ApiKeyAuth: []
+      - BasicAuth: []
       summary: 默认的 Ping 接口
       tags:
       - x
 securityDefinitions:
   ApiKeyAuth:
     in: header
-    name: Authorization
+    name: apikey
     type: apiKey
   BasicAuth:
     type: basic

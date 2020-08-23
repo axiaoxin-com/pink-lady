@@ -16,6 +16,8 @@ import (
 // @Produce json
 // @Success 200 {object} response.Response
 // @Security ApiKeyAuth
+// @Security BasicAuth
+// @Param trace_id header string false "you can set custom trace id in header"
 // @Router /x/ping [get]
 func Ping(c *gin.Context) {
 	data := gin.H{"version": Version}

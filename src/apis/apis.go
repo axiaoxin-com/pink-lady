@@ -9,7 +9,7 @@
 
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
-// @name Authorization
+// @name apikey
 
 package apis
 
