@@ -25,8 +25,8 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
-1. 初始化 web 应用的配置信息到 viper `InitConfig` 。
-   配置文件必须满足能解析出指定的内容，参考 [config.default.toml](./src/config.default.toml) 中的配置项
-2. 创建自定义中间件的 gin app `NewGinEngine`
+1. 确认配置文件正确。
+   配置文件必须满足能解析出指定的内容，复制或修改 [config.default.toml](./src/config.default.toml) 中的配置项
+2. 创建自定义中间件的 gin app `NewGinEngine` （可选）
 3. 运行 web 应用服务器 `Run`。
    需传入 gin app 和在该 app 上注册 URL 路由注册函数

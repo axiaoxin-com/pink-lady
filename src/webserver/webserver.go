@@ -24,8 +24,7 @@ var (
 	configFile      string = ""
 )
 
-// InitConfig 按 viper app 配置文件初始化 viper 配置
-func InitConfig() {
+func init() {
 	// 加载配置文件到 viper
 	wd, err := os.Getwd()
 	if err != nil {
@@ -66,11 +65,10 @@ func InitConfig() {
 }
 
 // NewGinEngine 根据参数创建 gin 的 router engine
-// mode gin.ReleaseMode gin.TestMode gin.DebugMode
-// registerPprof 是否注册 pprof
 // middlewares 需要使用到的中间件列表，默认不为 engine 添加任何中间件
-func NewGinEngine(mode string, registerPprof bool, middlewares ...gin.HandlerFunc) *gin.Engine {
+func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	// set gin mode
+	mode := viper.GetString("server.mode")
 	if mode == gin.ReleaseMode {
 		gin.DisableConsoleColor()
 	}
@@ -83,7 +81,7 @@ func NewGinEngine(mode string, registerPprof bool, middlewares ...gin.HandlerFun
 		engine.Use(middleware)
 	}
 
-	if registerPprof {
+	if viper.GetBool("server.pprof") {
 		pprof.Register(engine, GinPprofURLPath)
 	}
 	return engine
