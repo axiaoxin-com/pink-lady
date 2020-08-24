@@ -2,9 +2,11 @@ package webserver
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -102,8 +104,21 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 
 	// 启动 http server
 	go func() {
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logging.Fatal(nil, "Server start error:"+err.Error())
+		var ln net.Listener
+		var err error
+		if strings.ToLower(strings.Split(addr, ":")[0]) == "unix" {
+			ln, err = net.Listen("unix", strings.Split(addr, ":")[1])
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			ln, err = net.Listen("tcp", addr)
+			if err != nil {
+				panic(err)
+			}
+		}
+		if err := srv.Serve(ln); err != nil {
+			panic(err)
 		}
 	}()
 	logging.Infof(nil, "Server is running on %s with config file %s", srv.Addr, configFile)
