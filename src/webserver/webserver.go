@@ -55,11 +55,7 @@ func InitViperConfig(configPath, configName, configType string) {
 // middlewares 需要使用到的中间件列表，默认不为 engine 添加任何中间件
 func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	// set gin mode
-	mode := viper.GetString("server.mode")
-	if mode == gin.ReleaseMode {
-		gin.DisableConsoleColor()
-	}
-	gin.SetMode(mode)
+	gin.SetMode(viper.GetString("server.mode"))
 
 	engine := gin.New()
 
