@@ -10,7 +10,7 @@ env = "dev"
 
 ########## server 相关配置
 [server]
-# server 运行地址
+# server 运行地址，支持 HTTP 端口 ":port" 或 UNIX Socket "unix:/file"
 addr = ":4869"
 # gin mode ，可选值： debug 、 test 、 release
 mode = "debug"

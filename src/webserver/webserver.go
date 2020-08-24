@@ -94,6 +94,11 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 		ReadTimeout:  time.Duration(readTimeout) * time.Second,
 		WriteTimeout: time.Duration(writeTimeout) * time.Second,
 	}
+	// Shutdown 时关闭 db 和 redis 连接
+	srv.RegisterOnShutdown(func() {
+		goutils.CloseGormInstances()
+		goutils.CloseRedisInstances()
+	})
 
 	// 启动 http server
 	go func() {
