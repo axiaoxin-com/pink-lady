@@ -110,7 +110,7 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	logging.Infof(nil, "Server will shutdown after %d seconds", writeTimeout)
+	logging.Infof(nil, "Server is shutting down.")
 
 	// 创建一个 context 用于通知 server 有 writeTimeout 秒的时间结束当前正在处理的请求
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(writeTimeout)*time.Second)
@@ -118,7 +118,7 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	if err := srv.Shutdown(ctx); err != nil {
 		logging.Fatal(nil, "Server shutdown with error: "+err.Error())
 	}
-	logging.Info(nil, "Server shutdown")
+	logging.Info(nil, "Server exit.")
 }
 
 // GinBasicAuth 加到 gin app 的路由中可以对该路由添加 basic auth 登录验证
