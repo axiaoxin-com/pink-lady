@@ -7,6 +7,9 @@ go:
   - "1.14.x"
   - master
 
+os:
+  - linux
+
 go_import_path: github.com/axiaoxin-com/pink-lady
 
 env:
@@ -15,9 +18,10 @@ env:
 services:
   - mysql
   - postgresql
-  - redis-server
+  - redis
 
 script:
+  - cd src
   - go test -race -coverprofile=coverage.txt -covermode=atomic -v ./...
 
 after_success:
