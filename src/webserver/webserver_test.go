@@ -42,6 +42,7 @@ func TestRun(t *testing.T) {
 		})
 	}
 	go Run(app, register)
+	time.Sleep(1000 * time.Microsecond)
 
 	rsp, err := http.Get("http://localhost" + viper.GetString("server.addr") + "/666")
 	if err != nil {
@@ -70,7 +71,8 @@ func TestUnixRun(t *testing.T) {
 		})
 	}
 	go Run(app, register)
-	time.Sleep(500 * time.Microsecond)
+	time.Sleep(1000 * time.Microsecond)
+
 	client := http.Client{
 		Transport: &http.Transport{
 			DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
