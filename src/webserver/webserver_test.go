@@ -22,14 +22,6 @@ func TestViperConfig(t *testing.T) {
 	}
 }
 
-func TestNewGinEngine(t *testing.T) {
-	viper.SetDefault("server.mode", "release")
-	defer viper.Reset()
-	if app := NewGinEngine(); app == nil {
-		t.Error("app is nil")
-	}
-}
-
 func TestRun(t *testing.T) {
 	InitViperConfig("..", "config.default", "toml")
 	defer viper.Reset()
