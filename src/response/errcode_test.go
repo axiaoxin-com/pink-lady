@@ -2,10 +2,10 @@ package response
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestErrCode(t *testing.T) {
-	if CodeSuccess.Code() != success {
-		t.Error("wrong success code")
-	}
+	assert.Equal(t, CodeSuccess.Code(), success)
 }

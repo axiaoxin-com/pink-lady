@@ -6,6 +6,7 @@ import (
 	"github.com/axiaoxin-com/goutils"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestRegisterRoutes(t *testing.T) {
@@ -18,10 +19,6 @@ func TestRegisterRoutes(t *testing.T) {
 
 	Register(r)
 	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil)
-	if err != nil {
-		t.Error(err)
-	}
-	if recorder.Code != 200 {
-		t.Error("/x/ping status code:", recorder.Code)
-	}
+	assert.Nil(t, err)
+	assert.Equal(t, recorder.Code, 200)
 }
