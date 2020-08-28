@@ -43,8 +43,8 @@ github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmV
 github.com/armon/go-radix v0.0.0-20180808171621-7fddfc383310/go.mod h1:ufUuZ+zHj4x4TnLV4JWEpy2hxWSpsRywHrMgIH9cCH8=
 github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737 h1:gG11tN0R75DPXDBhxJ6lxhHhSh8y1myfHDPgj72T9i4=
 github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737/go.mod h1:qSbS9tJ2k4lVFcawNNdiBjrfIV94qSpCPqzstXMWbXA=
-github.com/axiaoxin-com/logging v1.0.3-0.20200823231230-7aa4f3206428 h1:7LNntiKtZFATDUBzYp1jmTnymcPx9f9PCj6BPH1R7JM=
-github.com/axiaoxin-com/logging v1.0.3-0.20200823231230-7aa4f3206428/go.mod h1:G3VrPAKNpR54CiV5AwSf29/1vlo1wHW2oU4/I+uJLqs=
+github.com/axiaoxin-com/logging v1.0.3-0.20200828035139-c9fbad4d6583 h1:iSdxSsRDgeTBtXXtgyHlafC3Wlhg5ErTqAxpqtCYnQE=
+github.com/axiaoxin-com/logging v1.0.3-0.20200828035139-c9fbad4d6583/go.mod h1:G3VrPAKNpR54CiV5AwSf29/1vlo1wHW2oU4/I+uJLqs=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
@@ -587,8 +587,8 @@ golang.org/x/sys v0.0.0-20200116001909-b77594299b42/go.mod h1:h1NjWce9XRLGQEsW7w
 golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20200420163511-1957bb5e6d1f/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
-golang.org/x/sys v0.0.0-20200821140526-fda516888d29 h1:mNuhGagCf3lDDm5C0376C/sxh6V7fy9WbdEu/YDNA04=
-golang.org/x/sys v0.0.0-20200821140526-fda516888d29/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20200826173525-f9321e4c35a6 h1:DvY3Zkh7KabQE/kfzMvYvKirSiguP9Q/veMtkYyf0o8=
+golang.org/x/sys v0.0.0-20200826173525-f9321e4c35a6/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.2 h1:tW2bmiBqwgJj/UpqtC8EpXEZVYOwU0yG4iWbprSVAcs=

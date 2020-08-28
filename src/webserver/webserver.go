@@ -21,17 +21,18 @@ var (
 	configFile string = ""
 )
 
-// InitViperConfig 加载 server 配置文件到 viper
-func InitViperConfig(configPath, configName, configType string) {
+// InitWithConfigFile 根据 webserver 配置文件初始化 webserver
+func InitWithConfigFile(configPath, configName, configType string) {
 	configFile = configPath + "/" + configName + "." + configType
 
+	// 加载配置文件内容到 viper 中以便使用
 	if err := goutils.InitViper(configPath, configName, configType, func(e fsnotify.Event) {
 		logging.Warn(nil, "Config file changed:"+e.Name)
 	}); err != nil {
 		logging.Error(nil, "Init viper error:"+err.Error())
 	}
 
-	// 设置配置默认值
+	// 设置 viper 中 webserver 配置项默认值
 	viper.SetDefault("env", "dev")
 
 	viper.SetDefault("server.addr", ":4869")
@@ -48,6 +49,8 @@ func InitViperConfig(configPath, configName, configType string) {
 
 	viper.SetDefault("basic_auth.username", "admin")
 	viper.SetDefault("basic_auth.password", "admin")
+
+	// 根据配置创建 logging 的 logger 并将 logging 的默认 logger 替换为当前创建的 logger
 }
 
 // Run 以 viper 加载的 app 配置启动运行 http.Handler 的 app

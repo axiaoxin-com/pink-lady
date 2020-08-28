@@ -54,8 +54,11 @@ func GinBasicAuth(args ...string) gin.HandlerFunc {
 // DefaultGinMiddlewares 默认的 gin server 使用的中间件列表
 func DefaultGinMiddlewares() []gin.HandlerFunc {
 	m := []gin.HandlerFunc{
-		logging.GinTraceID(logging.GetGinTraceIDFromHeader, logging.GetGinTraceIDFromQueryString, logging.GetGinTraceIDFromPostForm),
-		gin.Logger(),
+		logging.GinLoggerWithConfig(logging.GinLoggerConfig{
+			DisableDetails:         viper.GetBool("logging.access_logger.disable_details"),
+			DetailsWithContextKeys: viper.GetBool("logging.access_logger.details_with_context_keys"),
+			DetailsWithBody:        viper.GetBool("logging.access_logger.details_with_body"),
+		}),
 	}
 	return m
 }

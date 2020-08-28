@@ -20,7 +20,7 @@ func main() {
 	configName := flag.String("c", "config.default", "name of config file without format suffix)")
 	configType := flag.String("t", "toml", "type of config file format")
 	flag.Parse()
-	webserver.InitViperConfig(*configPath, *configName, *configType)
+	webserver.InitWithConfigFile(*configPath, *configName, *configType)
 
 	// 创建 gin app
 	middlewares := webserver.DefaultGinMiddlewares()
