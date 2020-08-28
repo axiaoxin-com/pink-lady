@@ -76,7 +76,7 @@ go get -u github.com/axiaoxin-com/table2struct
 
 # API 开发
 
-使用 pink-lady 开发 web api 服务，你只需实现 gin 的 `HandlerFunc` 并在 `apis/apis.go` 的 `Routes` 函数中注册到对应的 URL 上即可。
+使用 pink-lady 开发 web api 服务，你只需实现 gin 的 `HandlerFunc` 并在 `apis/routes.go` 的 `Routes` 函数中注册到对应的 URL 上即可。
 
 api 中使用 `c.Error(err)` 会将 err 保存到 context 中，打印访问日志时会以 `Error` 级别自动打印错误信息。避免同一类错误打印多次日志影响问题定位效率。
 
