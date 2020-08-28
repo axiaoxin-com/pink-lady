@@ -24,7 +24,7 @@ swag 中文文档: <https://github.com/swaggo/swag/blob/master/README_zh-CN.md>
 安装：
 
 ```
-go get -u [github cosmtrek air](github.com/cosmtrek/air)
+go get -u github.com/cosmtrek/air
 ```
 
 在 `src` 目录中执行 `air -c .air.toml` 即可运行服务，代码修改后会自动更新 api 文档并重新编译运行
@@ -68,9 +68,17 @@ go get -u github.com/axiaoxin-com/table2struct
 
 **建议**：在开发自己的服务时，复制当前目录的 toml 配置创建一份新的配置，再在其上进行修改或新增配置，然后通过指定参数加载自己的配置。
 
+# 日志打印
+
+使用 [logging](https://github.com/axiaoxin-com/logging) 的方法打印带 trace id 的日志，可通过配置文件中 `[logging]` 下的配置项进行相关设置。
+
+配置 sentry dsn 后，`Error` 级别以上的日志会被自动采集到 Sentry 便于错误发现与定位。
+
 # API 开发
 
 使用 pink-lady 开发 web api 服务，你只需实现 gin 的 `HandlerFunc` 并在 `apis/apis.go` 的 `Routes` 函数中注册到对应的 URL 上即可。
+
+api 中使用 `c.Error(err)` 会将 err 保存到 context 中，打印访问日志时会以 `Error` 级别自动打印错误信息。避免同一类错误打印多次日志影响问题定位效率。
 
 手动完整的启动服务命令：
 
