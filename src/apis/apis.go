@@ -29,16 +29,9 @@ import (
 )
 
 const (
-	// Version api 版本号
-	Version string = "0.0.1"
 	// DisableGinSwaggerEnvkey 设置该环境变量时关闭 swagger 文档
 	DisableGinSwaggerEnvkey = "DISABLE_GIN_SWAGGER"
 )
-
-// Routes 注册 API URL 路由
-func Routes(app *gin.Engine) {
-	// TODO: 在这里注册你的 gin API
-}
 
 // Register 在 gin engine 上注册 url 对应的 HandlerFunc
 func Register(httpHandler http.Handler) {
