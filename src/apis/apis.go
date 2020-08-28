@@ -61,7 +61,7 @@ func Register(httpHandler http.Handler) {
 		// ginSwagger 生成的在线 API 文档路由
 		x.GET("/apidocs/*any", webserver.GinBasicAuth(), ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, DisableGinSwaggerEnvkey))
 		// 默认的 ping 方法，返回 server 相关信息
-		x.GET("/ping", Ping)
+		x.Any("/ping", Ping)
 	}
 
 	// 注册其他 gin HandlerFunc
