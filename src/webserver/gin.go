@@ -37,15 +37,11 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 func GinBasicAuth(args ...string) gin.HandlerFunc {
 	username := viper.GetString("basic_auth.username")
 	password := viper.GetString("basic_auth.password")
-	switch len(args) {
-	case 2:
+	if len(args) == 2 {
 		username = args[0]
 		password = args[1]
-	case 0:
-		logging.Debug(nil, "Basic auth using the username and password in the configuration file.")
-	default:
-		logging.Error(nil, "Wrong number of username and password pair.")
 	}
+	logging.Debug(nil, "Basic auth username:"+username+" password:"+password)
 	return gin.BasicAuth(gin.Accounts{
 		username: password,
 	})
@@ -58,6 +54,7 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 			DisableDetails:         viper.GetBool("logging.access_logger.disable_details"),
 			DetailsWithContextKeys: viper.GetBool("logging.access_logger.details_with_context_keys"),
 			DetailsWithBody:        viper.GetBool("logging.access_logger.details_with_body"),
+			SkipPaths:              viper.GetStringSlice("logging.access_logger.skip_paths"),
 		}),
 	}
 	return m
