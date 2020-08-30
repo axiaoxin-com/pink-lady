@@ -1,6 +1,6 @@
 # pink-lady
 
-![proj-icon](./misc/logo.png)
+![proj-icon](./misc/pics/logo.png)
 
 [![Build Status](https://travis-ci.org/axiaoxin/pink-lady.svg?branch=master)](https://travis-ci.org/axiaoxin/pink-lady)
 [![go report card](https://goreportcard.com/badge/github.com/axiaoxin/pink-lady)](https://goreportcard.com/report/github.com/axiaoxin/pink-lady)
@@ -21,7 +21,7 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 
 实现代码在`src`路径下，在 pink-lady 模板项目下，你只需关注如何实现你的业务逻辑，不用考虑如何组织项目结构和集成一些通用功能，比如数据库的连接封装，配置文件的读取，swagger 文档生成，统一的 JSON 返回结果，错误码定义，集成 Sentry 等等。
 
-你可以在`apis`路径下实现你的 api，并在 `apis/routes.go` 的 `Routes` 函数中注册 URL 即可。可复用的业务代码可以放到 `handler` 包中，便于比如定时任务复用业务逻辑代码。数据库模型相关定义放到 `models` 包中便于复用。
+你可以在`apis`路径下实现你的 api，并在 `apis/routes.go` 的 `Routes` 函数中注册 URL 即可。可复用的业务代码可以放到 `handlers` 包中，便于比如定时任务复用业务逻辑代码。数据库模型相关定义放到 `models` 包中便于复用。
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
@@ -30,3 +30,13 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 2. 创建自定义中间件的 gin app `NewGinEngine` （可选）
 3. 运行 web 应用服务器 `Run`。
    需传入 gin app 和在该 app 上注册 URL 路由注册函数
+
+## 关于 gin
+
+### 图解 gin 框架的实现
+
+![gin arch](./misc/pics/gin_arch.svg)
+
+### gin 中间件原理解析
+
+<https://github.com/axiaoxin/axiaoxin/issues/17>
