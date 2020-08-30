@@ -17,6 +17,17 @@
 pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/gin)
 来进行 HTTP API 开发的示例项目，新建项目时可以使用它作为项目模板。
 
+## 特性
+
+- 使用 viper 加载配置，支持配置热更新，服务所有特性都通过配置文件控制
+- 支持生成 swagger api 文档
+- 封装数据库连接实例池，通过读取配置文件可以直接在代码中使用 gorm 和 sqlx 快速连接 mysql、sqlite3、postgresql、sqlserver
+- 封装 redis， redis sentinel， redis cluster 连接实例池
+- 封装统一的 JSON 返回结构
+- 集成 sentry
+- 使用 GinLogger 中间件打印详细的访问日志，支持不同的 http 状态码使用不同的日志级别
+- 使用 logging 打印日志，支持 trace id，error 以上级别自动上报到 sentry
+
 之所以叫 pink-lady 首先字面意思就是红粉佳人或则粉红女郎，有这个性感的名字相信你更会好好对你的代码负责。
 其次，因为 gin 就是国外六大类烈酒之一的金酒，是近百年来调制鸡尾酒时最常使用的基酒，其配方多达千种以上，
 而 pink lady 是以 gin 作 base 的国标鸡尾酒之一，在这里 pink-lady 则是以 gin 作 base 的代码骨架模板之一
@@ -35,7 +46,7 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 
 ## 关于 gin
 
-###  gin 框架源码图解
+### gin 框架源码图解
 
 ![gin arch](./misc/pics/gin_arch.svg)
 
