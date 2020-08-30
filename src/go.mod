@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737
-	github.com/axiaoxin-com/logging v1.0.3-0.20200828035139-c9fbad4d6583
+	github.com/axiaoxin-com/logging v1.2.1-0.20200830105008-4f57e39dbe0d
 	github.com/denisenkom/go-mssqldb v0.0.0-20200620013148-b91950f658ec // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/getsentry/sentry-go v0.7.0 // indirect
@@ -31,7 +31,7 @@ require (
 	github.com/swaggo/swag v1.6.7
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
 	golang.org/x/net v0.0.0-20200813134508-3edf25e44fcc // indirect
-	golang.org/x/sys v0.0.0-20200826173525-f9321e4c35a6 // indirect
+	golang.org/x/sys v0.0.0-20200828194041-157a740278f4 // indirect
 	golang.org/x/tools v0.0.0-20200821200730-1e23e48ab93b // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/ini.v1 v1.60.1 // indirect

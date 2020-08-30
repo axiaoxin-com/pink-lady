@@ -1,3 +1,4 @@
+package apis
 
 const (
 	// Version api 版本号

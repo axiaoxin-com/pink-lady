@@ -33,8 +33,12 @@ output_paths = ["stdout"]
 disable_caller = false
 # 是否关闭打印 stacktrace 字段
 disable_stacktrace = true
-# 动态修改日志级别的 http 服务端口
-atomic_level_addr = ":4870"
+## 动态修改日志级别 http 服务配置
+[logging.atomic_level_server]
+# http 服务端口
+addr = ":4870"
+# 接口 url path
+path = ""
 ## 访问日志相关配置
 [logging.access_logger]
 # 关闭打印 details 字段

@@ -28,6 +28,7 @@ func InitWithConfigFile(configPath, configName, configType string) {
 	// 加载配置文件内容到 viper 中以便使用
 	if err := goutils.InitViper(configPath, configName, configType, func(e fsnotify.Event) {
 		logging.Warn(nil, "Config file changed:"+e.Name)
+		logging.SetLevel(viper.GetString("logging.level"))
 	}); err != nil {
 		logging.Error(nil, "Init viper error:"+err.Error())
 	}
@@ -51,6 +52,42 @@ func InitWithConfigFile(configPath, configName, configType string) {
 	viper.SetDefault("basic_auth.password", "admin")
 
 	// 根据配置创建 logging 的 logger 并将 logging 的默认 logger 替换为当前创建的 logger
+	// 创建 sentry 客户端
+	sentryDSN := viper.GetString("sentry.dsn")
+	if sentryDSN == "" {
+		sentryDSN = os.Getenv(logging.SentryDSNEnvKey)
+	}
+	sentryDebug := true
+	if viper.GetString("server.mode") == "release" {
+		sentryDebug = false
+	}
+	if viper.GetBool("sentry.debug") {
+		sentryDebug = true
+	}
+	logging.Debug(nil, "Sentry use dns: "+sentryDSN)
+	sentry, err := logging.NewSentryClient(sentryDSN, sentryDebug)
+	if err != nil {
+		logging.Error(nil, "Sentry client create error:"+err.Error())
+	}
+	logger, err := logging.NewLogger(logging.Options{
+		Level:             viper.GetString("logging.level"),
+		Format:            viper.GetString("logging.format"),
+		OutputPaths:       viper.GetStringSlice("logging.output_paths"),
+		DisableCaller:     viper.GetBool("logging.disable_caller"),
+		DisableStacktrace: viper.GetBool("logging.disable_stacktrace"),
+		AtomicLevelServer: logging.AtomicLevelServerOption{
+			Addr:     viper.GetString("logging.atomic_level_server.addr"),
+			Path:     viper.GetString("logging.atomic_level_server.path"),
+			Username: viper.GetString("basic_auth.username"),
+			Password: viper.GetString("basic_auth.password"),
+		},
+		SentryClient: sentry,
+	})
+	if err != nil {
+		logging.Error(nil, "Logger create error:"+err.Error())
+	} else {
+		logging.ReplaceLogger(logger)
+	}
 }
 
 // Run 以 viper 加载的 app 配置启动运行 http.Handler 的 app
