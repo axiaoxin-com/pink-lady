@@ -19,3 +19,4 @@ app/tmp/
 build/
 app/config.toml
 config.toml
+.DS_Store

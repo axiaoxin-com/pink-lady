@@ -49,10 +49,10 @@ func Register(httpHandler http.Handler) {
 	docs.SwaggerInfo.Schemes = viper.GetStringSlice("apidocs.schemes")
 
 	// Group x 默认 url 路由
-	x := app.Group("/x")
+	x := app.Group("/x", webserver.GinBasicAuth())
 	{
 		// ginSwagger 生成的在线 API 文档路由
-		x.GET("/apidocs/*any", webserver.GinBasicAuth(), ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, DisableGinSwaggerEnvkey))
+		x.GET("/apidocs/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, DisableGinSwaggerEnvkey))
 		// 默认的 ping 方法，返回 server 相关信息
 		x.Any("/ping", Ping)
 	}

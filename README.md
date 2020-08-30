@@ -12,6 +12,8 @@
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/axiaoxin)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/axiaoxin/pink-lady/pulls)
 
+> Pinklady is a template project of gin app, which encapsulates mysql, redis, logging, viper, swagger, middlewares and other common components.
+
 pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/gin)
 来进行 HTTP API 开发的示例项目，新建项目时可以使用它作为项目模板。
 
@@ -33,7 +35,7 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 
 ## 关于 gin
 
-### 图解 gin 框架的实现
+###  gin 框架源码图解
 
 ![gin arch](./misc/pics/gin_arch.svg)
 
