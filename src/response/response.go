@@ -57,6 +57,7 @@ func Respond(c *gin.Context, status int, data interface{}, errcode error, extraM
 	} else {
 		// 支持 errcode 参数直接传 error ，如果是 error ，则将 error 信息添加到 msg
 		msg = fmt.Sprint(msg, " ", errcode.Error())
+		c.Error(errcode)
 	}
 
 	// 将 extraMsgs 添加到 msg
