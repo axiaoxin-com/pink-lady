@@ -51,8 +51,7 @@ func InitWithConfigFile(configPath, configName, configType string) {
 	viper.SetDefault("basic_auth.username", "admin")
 	viper.SetDefault("basic_auth.password", "admin")
 
-	// 根据配置创建 logging 的 logger 并将 logging 的默认 logger 替换为当前创建的 logger
-	// 创建 sentry 客户端
+	// 初始化 sentry 并创建 sentry 客户端
 	sentryDSN := viper.GetString("sentry.dsn")
 	if sentryDSN == "" {
 		sentryDSN = os.Getenv(logging.SentryDSNEnvKey)
@@ -69,6 +68,8 @@ func InitWithConfigFile(configPath, configName, configType string) {
 	if err != nil {
 		logging.Error(nil, "Sentry client create error:"+err.Error())
 	}
+
+	// 根据配置创建 logging 的 logger 并将 logging 的默认 logger 替换为当前创建的 logger
 	logger, err := logging.NewLogger(logging.Options{
 		Level:             viper.GetString("logging.level"),
 		Format:            viper.GetString("logging.format"),

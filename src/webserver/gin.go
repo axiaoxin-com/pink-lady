@@ -2,6 +2,7 @@ package webserver
 
 import (
 	"github.com/axiaoxin-com/logging"
+	"github.com/axiaoxin-com/pink-lady/response"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -50,12 +51,15 @@ func GinBasicAuth(args ...string) gin.HandlerFunc {
 // DefaultGinMiddlewares 默认的 gin server 使用的中间件列表
 func DefaultGinMiddlewares() []gin.HandlerFunc {
 	m := []gin.HandlerFunc{
+		// 记录请求处理日志，最顶层执行
 		logging.GinLoggerWithConfig(logging.GinLoggerConfig{
 			DisableDetails:         viper.GetBool("logging.access_logger.disable_details"),
 			DetailsWithContextKeys: viper.GetBool("logging.access_logger.details_with_context_keys"),
 			DetailsWithBody:        viper.GetBool("logging.access_logger.details_with_body"),
 			SkipPaths:              viper.GetStringSlice("logging.access_logger.skip_paths"),
 		}),
+		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500
+		logging.GinRecovery(response.Respond),
 	}
 	return m
 }

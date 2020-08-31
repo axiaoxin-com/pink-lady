@@ -46,7 +46,7 @@ disable_details = false
 # 开启 details 字段时，打印 context 中的 keys 信息
 details_with_context_keys = false
 # 开启 details 字段时，打印请求 body 和 响应 body。慎用！影响性能严重，仅调试时使用
-details_with_body = false
+details_with_body = true
 # 不打印日志的 path
 skip_paths = [
     "/x/apidocs/doc.json",

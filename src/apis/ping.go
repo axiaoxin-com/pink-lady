@@ -21,6 +21,7 @@ import (
 // @Param trace_id header string false "you can set custom trace id in header"
 // @Router /x/ping [get]
 func Ping(c *gin.Context) {
+	// panic("test panic")
 	data := gin.H{
 		"version":             Version,
 		"mysql":               handlers.CheckMySQL(),
@@ -28,5 +29,5 @@ func Ping(c *gin.Context) {
 		"atomic_level_server": handlers.CheckAtomicLevelServer(),
 	}
 	response.JSON(c, data)
-	//panic("test panic")
+	return
 }
