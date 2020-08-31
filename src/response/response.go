@@ -26,21 +26,6 @@ func ErrJSON(c *gin.Context, err error, extraMsgs ...interface{}) {
 	Respond(c, http.StatusOK, nil, err, extraMsgs...)
 }
 
-// ErrJSON400 respond unified JSON structure with 400 http status code
-func ErrJSON400(c *gin.Context, extraMsgs ...interface{}) {
-	Respond(c, http.StatusBadRequest, nil, CodeInvalidParam, extraMsgs...)
-}
-
-// ErrJSON404 respond unified JSON structure with 404 http status code
-func ErrJSON404(c *gin.Context, extraMsgs ...interface{}) {
-	Respond(c, http.StatusNotFound, nil, CodeNotFound, extraMsgs...)
-}
-
-// ErrJSON500 respond unified JSON structure with 500 http status code
-func ErrJSON500(c *gin.Context, extraMsgs ...interface{}) {
-	Respond(c, http.StatusInternalServerError, nil, CodeInternalError, extraMsgs...)
-}
-
 // Respond encapsulates c.JSON
 // debug mode respond indented json
 func Respond(c *gin.Context, status int, data interface{}, errcode error, extraMsgs ...interface{}) {
