@@ -3,6 +3,7 @@
 package apis
 
 import (
+	"github.com/axiaoxin-com/pink-lady/handlers"
 	"github.com/axiaoxin-com/pink-lady/response"
 
 	"github.com/gin-gonic/gin"
@@ -20,7 +21,12 @@ import (
 // @Param trace_id header string false "you can set custom trace id in header"
 // @Router /x/ping [get]
 func Ping(c *gin.Context) {
-	data := gin.H{"version": Version}
+	data := gin.H{
+		"version":             Version,
+		"mysql":               handlers.CheckMySQL(),
+		"redis":               handlers.CheckRedis(),
+		"atomic_level_server": handlers.CheckAtomicLevelServer(),
+	}
 	response.JSON(c, data)
-	// panic("test panic")
+	//panic("test panic")
 }
