@@ -53,12 +53,15 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 	m := []gin.HandlerFunc{
 		// 记录请求处理日志，最顶层执行
 		logging.GinLoggerWithConfig(logging.GinLoggerConfig{
-			DisableDetails:         viper.GetBool("logging.access_logger.disable_details"),
-			DetailsWithContextKeys: viper.GetBool("logging.access_logger.details_with_context_keys"),
-			DetailsWithBody:        viper.GetBool("logging.access_logger.details_with_body"),
-			SkipPaths:              viper.GetStringSlice("logging.access_logger.skip_paths"),
+			SkipPaths:           viper.GetStringSlice("logging.access_logger.skip_paths"),
+			EnableDetails:       viper.GetBool("logging.access_logger.enable_details"),
+			EnableContextKeys:   viper.GetBool("logging.access_logger.enable_context_keys"),
+			EnableRequestHeader: viper.GetBool("logging.access_logger.enable_request_header"),
+			EnableRequestForm:   viper.GetBool("logging.access_logger.enable_request_form"),
+			EnableRequestBody:   viper.GetBool("logging.access_logger.enable_request_body"),
+			EnableResponseBody:  viper.GetBool("logging.access_logger.enable_response_body"),
 		}),
-		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500
+		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500 JSON
 		logging.GinRecovery(response.Respond),
 	}
 	return m
