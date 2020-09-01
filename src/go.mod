@@ -5,7 +5,7 @@ go 1.14
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737
-	github.com/axiaoxin-com/logging v1.2.1-0.20200901050108-bcfcf0843592
+	github.com/axiaoxin-com/logging v1.2.1-0.20200901113159-6f3495ba8196
 	github.com/denisenkom/go-mssqldb v0.0.0-20200620013148-b91950f658ec // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/getsentry/sentry-go v0.7.0 // indirect

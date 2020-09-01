@@ -30,6 +30,10 @@ func InitWithConfigFile(configPath, configName, configType string) {
 		logging.Warn(nil, "Config file changed:"+e.Name)
 		logging.SetLevel(viper.GetString("logging.level"))
 	}); err != nil {
+		// 文件不存在时 1 使用默认配置，其他 err 直接 panic
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			panic(err)
+		}
 		logging.Error(nil, "Init viper error:"+err.Error())
 	}
 
