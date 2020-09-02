@@ -1,6 +1,14 @@
 package webserver
 
 import (
+	"errors"
+	"fmt"
+	"net"
+	"net/http"
+	"os"
+	"runtime/debug"
+	"strings"
+
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/response"
 	"github.com/gin-contrib/pprof"
@@ -48,6 +56,56 @@ func GinBasicAuth(args ...string) gin.HandlerFunc {
 	})
 }
 
+// GinRecovery gin recovery 中间件
+// save err in context and abort with 500
+func GinRecovery(statusHandler ...func(c *gin.Context, status int, data interface{}, err error, extraMsgs ...interface{})) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			status := c.Writer.Status()
+
+			if err := recover(); err != nil {
+				// Check for a broken connection, as it is not really a
+				// condition that warrants a panic stack trace.
+				var brokenPipe bool
+				if ne, ok := err.(*net.OpError); ok {
+					if se, ok := ne.Err.(*os.SyscallError); ok {
+						if strings.Contains(strings.ToLower(se.Error()), "broken pipe") || strings.Contains(strings.ToLower(se.Error()), "connection reset by peer") {
+							brokenPipe = true
+						}
+					}
+				}
+				if brokenPipe {
+					// save err in context
+					c.Error(errors.New(fmt.Sprint("Broken pipe:", err, "\n", string(debug.Stack()))))
+					if len(statusHandler) > 0 {
+						status = http.StatusInternalServerError
+						statusHandler[0](c, status, nil, errors.New(http.StatusText(status)))
+					} else {
+						c.AbortWithStatus(http.StatusInternalServerError)
+					}
+					return
+				}
+
+				// save err in context
+				c.Error(errors.New(fmt.Sprint("Recovery from panic:", err, "\n", string(debug.Stack()))))
+				if len(statusHandler) > 0 {
+					status = http.StatusInternalServerError
+					statusHandler[0](c, status, nil, errors.New(http.StatusText(status)))
+				} else {
+					c.AbortWithStatus(http.StatusInternalServerError)
+				}
+				return
+			}
+
+			if len(statusHandler) > 0 && status >= 400 {
+				statusHandler[0](c, status, nil, errors.New(http.StatusText(status)))
+			}
+		}()
+
+		c.Next()
+	}
+}
+
 // DefaultGinMiddlewares 默认的 gin server 使用的中间件列表
 func DefaultGinMiddlewares() []gin.HandlerFunc {
 	m := []gin.HandlerFunc{
@@ -62,7 +120,7 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 			EnableResponseBody:  viper.GetBool("logging.access_logger.enable_response_body"),
 		}),
 		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500 JSON
-		logging.GinRecovery(response.Respond),
+		GinRecovery(response.Respond),
 	}
 	return m
 }
