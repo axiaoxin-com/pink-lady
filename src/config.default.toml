@@ -16,10 +16,8 @@ addr = ":4869"
 mode = "debug"
 # 开启 pprof
 pprof = true
-# 服务器从 accept 到读取 body 的超时时间（秒）
-read_timeout = 5
-# 服务器从 accept 到写 response 的超时时间（秒）
-write_timeout = 5
+# 请求处理超时时间（秒）
+handler_timeout = 5
 
 ########## 日志相关配置
 [logging]
