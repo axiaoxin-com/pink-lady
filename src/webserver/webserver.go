@@ -112,10 +112,9 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	handlerTimeout := viper.GetDuration("server.handler_timeout") * time.Second
 	addr := viper.GetString("server.addr")
 	srv := &http.Server{
-		Addr:         addr,
-		Handler:      app,
-		ReadTimeout:  handlerTimeout,
-		WriteTimeout: handlerTimeout,
+		Addr:    addr,
+		Handler: app,
+		//	Handler: http.TimeoutHandler(app, handlerTimeout, ""),
 	}
 	// Shutdown 时关闭 db 和 redis 连接
 	srv.RegisterOnShutdown(func() {
