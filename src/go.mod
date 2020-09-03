@@ -4,9 +4,9 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737
+	github.com/axiaoxin-com/goutils v0.0.0-20200903141426-4f3b85da9884
 	github.com/axiaoxin-com/logging v1.2.2-0.20200902023105-1971934e3eda
-	github.com/denisenkom/go-mssqldb v0.0.0-20200620013148-b91950f658ec // indirect
+	github.com/denisenkom/go-mssqldb v0.0.0-20200831201914-36b6ff1bbc10 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/getsentry/sentry-go v0.7.0 // indirect
 	github.com/gin-contrib/pprof v1.3.0
@@ -17,10 +17,11 @@ require (
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/lib/pq v1.8.0 // indirect
+	github.com/magiconair/properties v1.8.2 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/pelletier/go-toml v1.8.0 // indirect
-	github.com/spf13/afero v1.3.4 // indirect
+	github.com/spf13/afero v1.3.5 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -35,5 +36,5 @@ require (
 	golang.org/x/sys v0.0.0-20200831180312-196b9ba8737a // indirect
 	golang.org/x/tools v0.0.0-20200821200730-1e23e48ab93b // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/ini.v1 v1.60.1 // indirect
+	gopkg.in/ini.v1 v1.60.2 // indirect
 )

@@ -40,42 +40,6 @@ func TestErrJSON(t *testing.T) {
 	require.Nil(t, err)
 }
 
-func TestJSON400(t *testing.T) {
-	gin.SetMode(gin.ReleaseMode)
-	responseWriter := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(responseWriter)
-	ErrJSON400(c, "extra msg")
-	require.Equal(t, c.Writer.Status(), 400)
-	j := responseWriter.Body.Bytes()
-	r := Response{}
-	err := json.Unmarshal(j, &r)
-	require.Nil(t, err)
-}
-
-func TestJSON404(t *testing.T) {
-	gin.SetMode(gin.ReleaseMode)
-	responseWriter := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(responseWriter)
-	ErrJSON404(c, "extra msg")
-	require.Equal(t, c.Writer.Status(), 404)
-	j := responseWriter.Body.Bytes()
-	r := Response{}
-	err := json.Unmarshal(j, &r)
-	require.Nil(t, err)
-}
-
-func TestJSON500(t *testing.T) {
-	gin.SetMode(gin.ReleaseMode)
-	responseWriter := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(responseWriter)
-	ErrJSON500(c, "extra msg")
-	require.Equal(t, c.Writer.Status(), 500)
-	j := responseWriter.Body.Bytes()
-	r := Response{}
-	err := json.Unmarshal(j, &r)
-	require.Nil(t, err)
-}
-
 func TestRespond(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	responseWriter := httptest.NewRecorder()

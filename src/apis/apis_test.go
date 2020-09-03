@@ -18,7 +18,7 @@ func TestRegisterRoutes(t *testing.T) {
 	defer viper.Reset()
 
 	Register(r)
-	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil)
+	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil, map[string]string{"Authorization": "Basic YWRtaW46YWRtaW4="})
 	assert.Nil(t, err)
 	assert.Equal(t, recorder.Code, 200)
 }
