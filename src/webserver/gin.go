@@ -59,8 +59,8 @@ func GinBasicAuth(args ...string) gin.HandlerFunc {
 }
 
 // GinRecovery gin recovery 中间件
-// save err in context and abort with 500
-func GinRecovery(statusHandler ...func(c *gin.Context, status int, data interface{}, err error, extraMsgs ...interface{})) gin.HandlerFunc {
+// save err in context and abort with recoveryHandler
+func GinRecovery(recoveryHandler ...func(c *gin.Context, status int, data interface{}, err error, extraMsgs ...interface{})) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			status := c.Writer.Status()
@@ -79,9 +79,9 @@ func GinRecovery(statusHandler ...func(c *gin.Context, status int, data interfac
 				if brokenPipe {
 					// save err in context
 					c.Error(fmt.Errorf("Broken pipe: %v\n%s", err, string(debug.Stack())))
-					if len(statusHandler) > 0 {
+					if len(recoveryHandler) > 0 {
 						c.Abort()
-						statusHandler[0](c, status, nil, errors.New(http.StatusText(status)))
+						recoveryHandler[0](c, status, nil, errors.New(http.StatusText(status)))
 						return
 					}
 					c.AbortWithStatus(status)
@@ -95,9 +95,9 @@ func GinRecovery(statusHandler ...func(c *gin.Context, status int, data interfac
 			// 状态码大于 400 的以 status handler 进行响应
 			if status >= 400 {
 				// 有 handler 时使用 handler 返回
-				if len(statusHandler) > 0 {
+				if len(recoveryHandler) > 0 {
 					c.Abort()
-					statusHandler[0](c, status, nil, errors.New(http.StatusText(status)))
+					recoveryHandler[0](c, status, nil, errors.New(http.StatusText(status)))
 					return
 				}
 				// 否则只返回状态码
