@@ -45,6 +45,8 @@ github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737 h1:gG11tN0R75
 github.com/axiaoxin-com/goutils v0.0.0-20200823074839-2fb83a93b737/go.mod h1:qSbS9tJ2k4lVFcawNNdiBjrfIV94qSpCPqzstXMWbXA=
 github.com/axiaoxin-com/logging v1.2.2-0.20200901115528-24e5fa1d4529 h1:5qfH/0A5HwOSWc7D9Xln1su9F0Y0KKC2JHR+w1kPaBo=
 github.com/axiaoxin-com/logging v1.2.2-0.20200901115528-24e5fa1d4529/go.mod h1:4nICuwYPRsXnF/kTJ/W3hXNljkCGrQm/VitBW2659RU=
+github.com/axiaoxin-com/logging v1.2.2-0.20200902023105-1971934e3eda h1:233YEw4qaPIKx1Ymq+bs59cGGtUuBP2IJQLcAbmjZR8=
+github.com/axiaoxin-com/logging v1.2.2-0.20200902023105-1971934e3eda/go.mod h1:4nICuwYPRsXnF/kTJ/W3hXNljkCGrQm/VitBW2659RU=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
@@ -488,6 +490,8 @@ go.uber.org/tools v0.0.0-20190618225709-2cfd321de3ee/go.mod h1:vJERXedbb3MVM5f9E
 go.uber.org/zap v1.10.0/go.mod h1:vwi/ZaCAaUcBkycHslxD9B2zi4UTXhF60s6SWpuDF0Q=
 go.uber.org/zap v1.15.0 h1:ZZCA22JRF2gQE5FoNmhmrf7jeJJ2uhqDUNRYKm8dvmM=
 go.uber.org/zap v1.15.0/go.mod h1:Mb2vm2krFEG5DV0W9qcHBYFtp/Wku1cvYaqPsS/WYfc=
+go.uber.org/zap v1.16.0 h1:uFRZXykJGK9lLY4HtgSw44DnIcAM+kRBP7x5m+NpAOM=
+go.uber.org/zap v1.16.0/go.mod h1:MA8QOfq0BHJwdXa996Y4dYkAqRKB8/1K1QMMZVaNZjQ=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20181029021203-45a5f77698d3/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=

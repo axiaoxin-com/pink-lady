@@ -3,8 +3,6 @@
 package apis
 
 import (
-	"time"
-
 	"github.com/axiaoxin-com/pink-lady/handlers"
 	"github.com/axiaoxin-com/pink-lady/response"
 
@@ -23,7 +21,6 @@ import (
 // @Param trace_id header string false "you can set custom trace id in header"
 // @Router /x/ping [get]
 func Ping(c *gin.Context) {
-	time.Sleep(6 * time.Second)
 	data := gin.H{
 		"version":             Version,
 		"mysql":               handlers.CheckMySQL(),
