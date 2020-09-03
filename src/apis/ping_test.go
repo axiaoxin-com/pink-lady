@@ -16,7 +16,7 @@ func TestPing(t *testing.T) {
 	viper.Set("basic_auth.password", "admin")
 	defer viper.Reset()
 	Register(r)
-	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil)
+	recorder, err := goutils.RequestHTTPHandler(r, "GET", "/x/ping", nil, map[string]string{"Authorization": "Basic YWRtaW46YWRtaW4="})
 	assert.Nil(t, err)
 	assert.Equal(t, recorder.Code, 200)
 }
