@@ -161,6 +161,7 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 		// 记录请求处理日志，最顶层执行
 		logging.GinLoggerWithConfig(logging.GinLoggerConfig{
 			SkipPaths:           viper.GetStringSlice("logging.access_logger.skip_paths"),
+			SkipPathRegexps:     viper.GetStringSlice("logging.access_logger.skip_path_regexps"),
 			EnableDetails:       viper.GetBool("logging.access_logger.enable_details"),
 			EnableContextKeys:   viper.GetBool("logging.access_logger.enable_context_keys"),
 			EnableRequestHeader: viper.GetBool("logging.access_logger.enable_request_header"),

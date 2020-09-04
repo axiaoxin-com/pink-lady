@@ -52,12 +52,13 @@ enable_request_form = false
 enable_request_body = false
 # 打印响应 body，慎用，严重影响性能
 enable_response_body = false
-# 不打印日志的 path
-skip_paths = [
-    "/x/apidocs/doc.json",
-    "/x/apidocs/swagger-ui-bundle.js",
-    "/x/apidocs/swagger-ui-standalone-preset.js",
-    "/x/apidocs/swagger-ui.css",
+# 精确指定不打印日志的 path
+skip_paths = []
+# 正则表达式指定不打印日志的 path
+skip_path_regexps = [
+    "/x/apidocs/.+\\.json",
+    "/x/apidocs/.+\\.js",
+    "/x/apidocs/.+\\.css",
 ]
 
 ########## sentry 相关配置
