@@ -13,14 +13,8 @@ import (
 
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/response"
-	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-)
-
-var (
-	// GinPprofURLPath 设置 gin 中的 pprof url 注册路径，可以通过外部修改
-	GinPprofURLPath = "/x/pprof"
 )
 
 // NewGinEngine 根据参数创建 gin 的 router engine
@@ -36,9 +30,6 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 		engine.Use(middleware)
 	}
 
-	if viper.GetBool("server.pprof") {
-		pprof.Register(engine, GinPprofURLPath)
-	}
 	return engine
 }
 
