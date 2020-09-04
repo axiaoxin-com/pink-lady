@@ -49,6 +49,10 @@ github.com/axiaoxin-com/logging v1.2.2-0.20200901115528-24e5fa1d4529 h1:5qfH/0A5
 github.com/axiaoxin-com/logging v1.2.2-0.20200901115528-24e5fa1d4529/go.mod h1:4nICuwYPRsXnF/kTJ/W3hXNljkCGrQm/VitBW2659RU=
 github.com/axiaoxin-com/logging v1.2.2-0.20200902023105-1971934e3eda h1:233YEw4qaPIKx1Ymq+bs59cGGtUuBP2IJQLcAbmjZR8=
 github.com/axiaoxin-com/logging v1.2.2-0.20200902023105-1971934e3eda/go.mod h1:4nICuwYPRsXnF/kTJ/W3hXNljkCGrQm/VitBW2659RU=
+github.com/axiaoxin-com/logging v1.2.2-0.20200904010012-e9bae8d17ba8 h1:+nC9EL1/ELw9XLnTIfWb5uQASYu9WIp+n1Jypo5EIxA=
+github.com/axiaoxin-com/logging v1.2.2-0.20200904010012-e9bae8d17ba8/go.mod h1:4nICuwYPRsXnF/kTJ/W3hXNljkCGrQm/VitBW2659RU=
+github.com/axiaoxin-com/logging v1.2.2-0.20200904010848-7eafa4cf68a0 h1:arDmoKTFzifxZhjlI9gZt3WqcA4GfHSqPXJSFfbJ/sI=
+github.com/axiaoxin-com/logging v1.2.2-0.20200904010848-7eafa4cf68a0/go.mod h1:4nICuwYPRsXnF/kTJ/W3hXNljkCGrQm/VitBW2659RU=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+CedLV8=
