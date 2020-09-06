@@ -16,6 +16,7 @@ package apis
 import (
 	"net/http"
 
+	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/apis/docs"
 	"github.com/axiaoxin-com/pink-lady/webserver"
 	"github.com/gin-contrib/pprof"
@@ -54,6 +55,9 @@ func Register(httpHandler http.Handler) {
 	{
 		if viper.GetBool("server.pprof") {
 			pprof.RouteRegister(x, "/pprof")
+		}
+		if viper.GetBool("server.metrics") {
+			x.GET("/metrics", logging.PromMetricsGinHandler())
 		}
 		// ginSwagger 生成的在线 API 文档路由
 		x.GET("/apidocs/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, DisableGinSwaggerEnvkey))
