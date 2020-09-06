@@ -30,6 +30,7 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 - 内置 GinRecovery 中间件，异常服务默认按状态码返回 JSON 错误信息，panic 错误统一交由 GinLogger 打印，支持自定义输出格式
 - 内置 GinTimeout 中间件，可以为请求处理设置超时时间，超时时间到达后返回 503 JSON 错误信息
 - 使用 logging 打印日志，支持 trace id，error 以上级别自动上报到 sentry
+- 支持 prometheus metrics exporter
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
