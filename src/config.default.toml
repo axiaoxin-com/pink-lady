@@ -18,6 +18,8 @@ mode = "debug"
 pprof = true
 # 请求处理超时时间（秒）
 handler_timeout = 5
+# 开启 prometheus metrics
+metrics = true
 
 ########## 日志相关配置
 [logging]
