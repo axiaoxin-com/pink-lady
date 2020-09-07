@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v0.0.0-20200903141426-4f3b85da9884
+	github.com/axiaoxin-com/goutils v0.0.0-20200907121852-2289c4ecc340
 	github.com/axiaoxin-com/logging v1.2.3-0.20200906133312-c412ba56842d
 	github.com/denisenkom/go-mssqldb v0.0.0-20200831201914-36b6ff1bbc10 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
@@ -32,9 +32,10 @@ require (
 	github.com/swaggo/swag v1.6.7
 	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
+	golang.org/x/exp v0.0.0-20200901203048-c4f52b2c50aa // indirect
 	golang.org/x/net v0.0.0-20200813134508-3edf25e44fcc // indirect
 	golang.org/x/sys v0.0.0-20200905004654-be1d3432aa8f // indirect
 	golang.org/x/tools v0.0.0-20200821200730-1e23e48ab93b // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
-	gopkg.in/ini.v1 v1.60.2 // indirect
+	gopkg.in/ini.v1 v1.61.0 // indirect
 )

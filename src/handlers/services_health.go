@@ -3,6 +3,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -30,7 +31,7 @@ func CheckRedis() map[string]string {
 	localhostRedisStatus := "ok"
 	if localhostRedis, err := goutils.RedisClient("localhost"); err != nil {
 		localhostRedisStatus = err.Error()
-	} else if _, err := localhostRedis.Ping().Result(); err != nil {
+	} else if _, err := localhostRedis.Ping(context.TODO()).Result(); err != nil {
 		localhostRedisStatus = err.Error()
 	}
 	return map[string]string{
