@@ -54,11 +54,9 @@ func Respond(c *gin.Context, status int, data interface{}, errcode error, extraM
 		Msg:  msg,
 		Data: data,
 	}
-	if !c.Writer.Written() {
-		if gin.Mode() == gin.ReleaseMode {
-			c.JSON(status, resp)
-		} else {
-			c.IndentedJSON(status, resp)
-		}
+	if gin.Mode() == gin.ReleaseMode {
+		c.JSON(status, resp)
+	} else {
+		c.IndentedJSON(status, resp)
 	}
 }
