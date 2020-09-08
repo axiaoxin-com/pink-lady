@@ -23,9 +23,9 @@ import (
 func Ping(c *gin.Context) {
 	data := gin.H{
 		"version":             Version,
-		"mysql":               handlers.CheckMySQL(),
-		"redis":               handlers.CheckRedis(),
-		"atomic_level_server": handlers.CheckAtomicLevelServer(),
+		"mysql":               handlers.CheckMySQL(c),
+		"redis":               handlers.CheckRedis(c),
+		"atomic_level_server": handlers.CheckAtomicLevelServer(c),
 	}
 	response.JSON(c, data)
 	return
