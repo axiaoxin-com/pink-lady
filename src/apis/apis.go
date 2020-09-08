@@ -57,7 +57,7 @@ func Register(httpHandler http.Handler) {
 			pprof.RouteRegister(x, "/pprof")
 		}
 		if viper.GetBool("server.metrics") {
-			x.GET("/metrics", logging.PromMetricsGinHandler())
+			x.GET("/metrics", logging.WrapGinPromExporter())
 		}
 		// ginSwagger 生成的在线 API 文档路由
 		x.GET("/apidocs/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, DisableGinSwaggerEnvkey))
