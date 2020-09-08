@@ -56,8 +56,8 @@ github.com/aws/aws-sdk-go v1.27.0/go.mod h1:KmX6BPdI08NWTb3/sm4ZGu5ShLoqVDhKgpiN
 github.com/aws/aws-sdk-go-v2 v0.18.0/go.mod h1:JWVYvqSMppoMJC0x5wdwiImzgXTI9FuZwxzkQq9wy+g=
 github.com/axiaoxin-com/goutils v0.0.0-20200907121852-2289c4ecc340 h1:2uEbTv9lr1Pv7DHc8MV0IH0plmnO7GNrTfDZVZENxkY=
 github.com/axiaoxin-com/goutils v0.0.0-20200907121852-2289c4ecc340/go.mod h1:0PDT7QHTa7rNeNBL2tE2ZdpcRyp1yi5e7IFgxvPAYPs=
-github.com/axiaoxin-com/logging v1.2.3-0.20200906133312-c412ba56842d h1:NyyTtgAcYSCtanlHNPFaVcX59gsxrFXnV3F+8ofSo1I=
-github.com/axiaoxin-com/logging v1.2.3-0.20200906133312-c412ba56842d/go.mod h1:WM8Q9JLUi1jDh51XirUBDn8QXkxc8AO2oApFXHiEXf4=
+github.com/axiaoxin-com/logging v1.2.4-0.20200908004355-8858f5262e3b h1:wYGyzStGtBKxPLKLyE+K/75A7NeToB/APz3VJ+QUc+w=
+github.com/axiaoxin-com/logging v1.2.4-0.20200908004355-8858f5262e3b/go.mod h1:WM8Q9JLUi1jDh51XirUBDn8QXkxc8AO2oApFXHiEXf4=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beorn7/perks v1.0.0 h1:HWo1m869IqiPhD389kmkxeTalrjNbbJTC8LXupb+sl0=
