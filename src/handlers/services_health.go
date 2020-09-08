@@ -13,7 +13,7 @@ import (
 )
 
 // CheckMySQL 检查 mysql 服务状态
-func CheckMySQL() map[string]string {
+func CheckMySQL(ctx context.Context) map[string]string {
 	// 检查本地 mysql
 	localhostMySQLStatus := "ok"
 	if localhostMySQL, err := goutils.GormMySQL("localhost"); err != nil {
@@ -27,7 +27,7 @@ func CheckMySQL() map[string]string {
 }
 
 // CheckRedis 检查 redis 服务状态
-func CheckRedis() map[string]string {
+func CheckRedis(ctx context.Context) map[string]string {
 	localhostRedisStatus := "ok"
 	if localhostRedis, err := goutils.RedisClient("localhost"); err != nil {
 		localhostRedisStatus = err.Error()
@@ -41,12 +41,15 @@ func CheckRedis() map[string]string {
 }
 
 // CheckAtomicLevelServer 检查 logging 的 AtomicLevel server 是否正常
-func CheckAtomicLevelServer() string {
+func CheckAtomicLevelServer(ctx context.Context) string {
 	client := &http.Client{}
 	url := "http://localhost" + viper.GetString("logging.atomic_level_server.addr") + viper.GetString("logging.atomic_level_server.path")
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return err.Error()
+	}
+	if ctx != nil {
+		req = req.WithContext(ctx)
 	}
 	req.SetBasicAuth(viper.GetString("basic_auth.username"), viper.GetString("basic_auth.password"))
 	rsp, err := client.Do(req)
