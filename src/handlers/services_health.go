@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/axiaoxin-com/goutils"
+	"github.com/axiaoxin-com/logging"
 	"github.com/spf13/viper"
 )
 
@@ -48,10 +49,8 @@ func CheckAtomicLevelServer(ctx context.Context) string {
 	if err != nil {
 		return err.Error()
 	}
-	if ctx != nil {
-		req = req.WithContext(ctx)
-	}
 	req.SetBasicAuth(viper.GetString("basic_auth.username"), viper.GetString("basic_auth.password"))
+	req.Header.Set(string(logging.TraceIDKeyname), logging.CtxTraceID(ctx))
 	rsp, err := client.Do(req)
 	if err != nil {
 		return err.Error()
