@@ -11,8 +11,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/response"
+	"github.com/axiaoxin-com/ratelimiter"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
@@ -114,7 +116,7 @@ func GinTimeout(timeoutSec ...int) gin.HandlerFunc {
 		// 设置超时 context
 		ctx, cancel := context.WithTimeout(c.Request.Context(), timeout)
 		defer cancel()
-		c.Request.WithContext(ctx)
+		c.Request = c.Request.WithContext(ctx)
 
 		// 处理请求
 		// 超时发生时，由于先返回了超时的信息，而 Next 仍然在继续执行
@@ -162,7 +164,27 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 		}),
 		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500 JSON
 		GinRecovery(response.Respond),
+		// handler 超过指定时间没有处理完成直接返回 503
 		GinTimeout(),
+	}
+
+	// 是否开启请求限频
+	if viper.GetBool("server.ratelimiter") {
+		fillInterval := viper.GetInt("ratelimiter.bucket_fill_every_microsecond")
+		bucketCapacity := viper.GetInt("ratelimiter.bucket_capacity")
+		// 添加限频中间件到中间件列表
+		limiterType := strings.ToLower(viper.GetString("ratelimiter.type"))
+		logging.Debugf(nil, "%s ratelimiter with bucket_fill_every_microsecond=%d bucket_capacity=%d", limiterType, fillInterval, bucketCapacity)
+		if strings.HasPrefix(limiterType, "redis.") {
+			which := strings.TrimPrefix(limiterType, "redis.")
+			if rdb, err := goutils.RedisClient(which); err != nil {
+				logging.Error(nil, "redis ratelimiter does not work. get redis client error:"+err.Error())
+			} else {
+				m = append(m, ratelimiter.GinRedisRatelimiter(rdb, fillInterval, bucketCapacity))
+			}
+		} else {
+			m = append(m, ratelimiter.GinMemRatelimiter(fillInterval, bucketCapacity))
+		}
 	}
 	return m
 }

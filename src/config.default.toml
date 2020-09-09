@@ -20,6 +20,19 @@ pprof = true
 handler_timeout = 5
 # 开启 prometheus metrics
 metrics = true
+# 开启 ratelimiter 请求频率限制
+ratelimiter = false
+
+########## token bucket 请求频率限制配置
+[ratelimiter]
+# 限频方式： mem->进程内存； redis.<WHICH>->使用用配置文件中对应的 redis 配置，如 redis.localhost
+type = "mem"
+# 速率限制：每隔多少微秒填充 1 个 token
+bucket_fill_every_microsecond = 1000000
+# 允许的最大突增量： bucket 容量
+bucket_capacity = 1
+# bucket 过期时间（秒）
+bucket_expire_second = 3600
 
 ########## 日志相关配置
 [logging]
@@ -46,13 +59,13 @@ path = "/"
 enable_details = false
 # 打印 context 中的 keys 信息，慎用，推荐仅开发调试使用
 enable_context_keys = false
-# 打印请求 Header，慎用，推荐仅开发调试使用
+# 打印请求 Header ，慎用，推荐仅开发调试使用
 enable_request_header = false
 # 打印请求的表单信息，慎用，推荐仅开发调试使用
 enable_request_form = false
-# 打印请求 body，慎用，严重影响性能
+# 打印请求 body ，慎用，严重影响性能
 enable_request_body = false
-# 打印响应 body，慎用，严重影响性能
+# 打印响应 body ，慎用，严重影响性能
 enable_response_body = false
 # 精确指定不打印日志的 path
 skip_paths = []
@@ -140,12 +153,50 @@ conn_max_life_minutes = 10
 
 ########## Redis 相关配置
 # redis 按不同环境可以添加多个配置
-[redis]
-    # 本地配置
-    [redis.localhost]
-        mode = "normal"
-        address = "localhost:6379"
-        password = ""
-        dbindex = 0
-        master = ""
-    [redis.other]
+# 本地配置
+[redis.localhost]
+# redis 地址
+addr = "localhost:6379"
+# 密码
+password = ""
+# 使用的 db 索引
+db = 0
+# 连接超时时间（秒）
+dial_timeout = 5
+# 读超时（秒）
+read_timeout = 3
+# 写超时（秒）
+write_timeout = 3
+# 连接池大小: 0表示10 * runtime.NumCPU()
+pool_size = 0
+[redis.other]
+
+########## Redis Sentinel 相关配置
+[redis.sentinel.prod]
+# master 节点名
+master_name = ""
+# sentinel 地址列表
+sentinel_addrs = [""]
+# 密码
+password = ""
+# db 索引
+db = 0
+# 连接超时时间（秒）
+dial_timeout = 5
+# 读超时（秒）
+read_timeout = 3
+# 写超时（秒）
+write_timeout = 3
+# 连接池大小: 0表示10 * runtime.NumCPU()
+pool_size = 0
+
+########## Redis Cluster 相关配置
+[redis.cluster.prod]
+# 集群节点地址列表
+addrs = [""]
+# 密码
+password = ""
+# 读超时（秒）
+read_timeout = 3
+# 写超时（秒）
+write_timeout = 3
