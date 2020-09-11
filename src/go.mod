@@ -4,10 +4,10 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v0.0.0-20200909093258-aaf2fefcde7a
-	github.com/axiaoxin-com/logging v1.2.4-0.20200909014947-5f3338e0cfa7
-	github.com/axiaoxin-com/ratelimiter v0.0.0-20200910070812-fa02b5058d47
-	github.com/denisenkom/go-mssqldb v0.0.0-20200831201914-36b6ff1bbc10 // indirect
+	github.com/axiaoxin-com/goutils v1.0.0
+	github.com/axiaoxin-com/logging v1.2.4
+	github.com/axiaoxin-com/ratelimiter v1.0.0
+	github.com/denisenkom/go-mssqldb v0.0.0-20200910202707-1e08a3fab204 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/getsentry/sentry-go v0.7.0 // indirect
 	github.com/gin-contrib/pprof v1.3.0
