@@ -109,12 +109,12 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	routesRegister(app)
 
 	// 创建 server
-	handlerTimeout := viper.GetDuration("server.handler_timeout") * time.Second
 	addr := viper.GetString("server.addr")
 	srv := &http.Server{
-		Addr:    addr,
-		Handler: app,
-		//	Handler: http.TimeoutHandler(app, handlerTimeout, ""),
+		Addr:         addr,
+		Handler:      app,
+		ReadTimeout:  10 * time.Minute,
+		WriteTimeout: 10 * time.Minute,
 	}
 	// Shutdown 时关闭 db 和 redis 连接
 	srv.RegisterOnShutdown(func() {
@@ -152,7 +152,8 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	<-quit
 	logging.Infof(nil, "Server is shutting down.")
 
-	// 创建一个 context 用于通知 server 有 writeTimeout 秒的时间结束当前正在处理的请求
+	// 创建一个 context 用于通知 server handlerTimeout 秒后结束当前正在处理的请求
+	handlerTimeout := viper.GetDuration("server.handler_timeout") * time.Second
 	ctx, cancel := context.WithTimeout(context.Background(), handlerTimeout)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
