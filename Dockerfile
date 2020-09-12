@@ -1,14 +1,8 @@
-FROM golang:latest
+FROM alpine
 
-WORKDIR $GOPATH/src/github.com/axiaoxin-com/pink-lady/src
+WORKDIR /srv/pink-lady
 
-COPY . $GOPATH/src/github.com/axiaoxin-com/pink-lady
-
-ENV GOPROXY="https://goproxy.cn,direct"
-
-RUN go get -u github.com/swaggo/swag/cmd/swag
-RUN swag init --dir ./ --generalInfo apis/apis.go --propertyStrategy snakecase --output ./apis/docs
-RUN go build -o pink-lady-apiserver -tags=jsoniter
+ADD ./dist/pink-lady.tar.gz /srv/
 
 EXPOSE 4869 4870
-ENTRYPOINT ["./pink-lady-apiserver", "-p", ".", "-c", "config.default", "-t", "toml"]
+ENTRYPOINT ["./apiserver", "-p", ".", "-c", "config.default", "-t", "toml"]

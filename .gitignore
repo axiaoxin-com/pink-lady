@@ -13,10 +13,5 @@
 
 
 # custom
-# vendor/
-app/app
-app/tmp/
-build/
-app/config.toml
-config.toml
 .DS_Store
+./dist/*
