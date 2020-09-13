@@ -18,6 +18,10 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 其次，因为 gin 就是国外六大类烈酒之一的金酒，是近百年来调制鸡尾酒时最常使用的基酒，其配方多达千种以上，
 而 pink lady 是以 gin 作 base 的国标鸡尾酒之一，在这里 pink-lady 则是以 gin 作 base 的代码骨架模板之一
 
+## 使用 pink-lady 模板创建项目
+
+点击 <https://github.com/axiaoxin-com/pink-lady/generate> 创建你的项目
+
 ## 特性
 
 - 使用 viper 加载配置，支持配置热更新，服务所有特性都通过配置文件控制
