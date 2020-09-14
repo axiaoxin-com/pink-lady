@@ -42,8 +42,8 @@ main() {
     read initgit
     if [ "${initgit}" == "y" ] || [ "${rmdemo}" == "Y" ]; then
         cd ${gopath}/src/${projname} && git init && git add . && git commit -m "init project with pink-lady"
-        cp ${gopath}/src/${projname}/misc/scripts/pre-commit.githook ${gopath}/src/${projname}/.git/hooks/pre-commit
-        chmod +x ${gopath}/src/${projname}/.git/hooks/pre-commit
+        cp ${gopath}/src/${projname}/misc/scripts/pre-push.githook ${gopath}/src/${projname}/.git/hooks/pre-push
+        chmod +x ${gopath}/src/${projname}/.git/hooks/pre-push
     fi
 }
 main
