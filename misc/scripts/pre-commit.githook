@@ -14,5 +14,5 @@ hooks_path=$(dirname "`realpath $0`")
 git_path=$(dirname "$hooks_path")
 project_path=$(dirname "$git_path")
 
-cd $project_path/app
-go fmt ./... && go vet ./... && go test ./...
+cd $project_path/src
+go fmt ./... && go vet ./... && go test -race ./...

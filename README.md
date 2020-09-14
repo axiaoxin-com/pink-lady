@@ -20,7 +20,13 @@ pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/g
 
 ## 使用 pink-lady 模板创建项目
 
-点击 <https://github.com/axiaoxin-com/pink-lady/generate> 创建你的项目
+点击 <https://github.com/axiaoxin-com/pink-lady/generate> 创建你的 github 项目
+
+或者手动本地创建：
+
+```
+bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/misc/scripts/new_project.sh)
+```
 
 ## 特性
 
