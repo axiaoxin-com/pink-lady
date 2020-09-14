@@ -41,6 +41,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 - 内置 GinTimeout 中间件，可以为请求处理设置超时时间，超时时间到达后返回 503 JSON 错误信息
 - 使用 logging 打印日志，支持 trace id，error 以上级别自动上报到 sentry
 - 支持 prometheus metrics exporter
+- 支持 ratelimiter 请求限频
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
