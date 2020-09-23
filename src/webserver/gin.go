@@ -8,8 +8,14 @@ import (
 	"github.com/axiaoxin-com/pink-lady/response"
 	"github.com/axiaoxin-com/ratelimiter"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"github.com/spf13/viper"
 )
+
+// 替换 gin 默认的 validator，更加友好的错误信息
+func init() {
+	binding.Validator = &goutils.GinStructValidator{}
+}
 
 // NewGinEngine 根据参数创建 gin 的 router engine
 // middlewares 需要使用到的中间件列表，默认不为 engine 添加任何中间件
