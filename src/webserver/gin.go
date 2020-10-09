@@ -49,8 +49,9 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 		}),
 		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500 JSON
 		GinRecovery(response.Respond),
-		// handler 超过指定时间没有处理完成直接返回 503
-		GinTimeout(),
+		// TODO: goroutine 中的 panic 上抛后会掩盖原始发生异常的位置，导致无法定位问题
+		// // handler 超过指定时间没有处理完成直接返回 503
+		// GinTimeout(),
 	}
 
 	// 是否开启请求限频
