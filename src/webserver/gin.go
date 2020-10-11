@@ -12,9 +12,12 @@ import (
 	"github.com/spf13/viper"
 )
 
-// 替换 gin 默认的 validator，更加友好的错误信息
 func init() {
+	// 替换 gin 默认的 validator，更加友好的错误信息
 	binding.Validator = &goutils.GinStructValidator{}
+	// causes the json binding Decoder to unmarshal a number into an interface{} as a Number instead of as a float64.
+	binding.EnableDecoderUseNumber = true
+
 }
 
 // NewGinEngine 根据参数创建 gin 的 router engine
