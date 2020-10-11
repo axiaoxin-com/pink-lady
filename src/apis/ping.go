@@ -3,8 +3,8 @@
 package apis
 
 import (
-	"github.com/axiaoxin-com/pink-lady/handlers"
 	"github.com/axiaoxin-com/pink-lady/response"
+	"github.com/axiaoxin-com/pink-lady/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,9 +23,9 @@ import (
 func Ping(c *gin.Context) {
 	data := gin.H{
 		"version":             Version,
-		"mysql":               handlers.CheckMySQL(c),
-		"redis":               handlers.CheckRedis(c),
-		"atomic_level_server": handlers.CheckAtomicLevelServer(c),
+		"mysql":               services.CheckMySQL(c),
+		"redis":               services.CheckRedis(c),
+		"atomic_level_server": services.CheckAtomicLevelServer(c),
 	}
 	response.JSON(c, data)
 	return

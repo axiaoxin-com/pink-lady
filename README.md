@@ -53,7 +53,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 
 实现代码在`src`路径下，在 pink-lady 模板项目下，你只需关注如何实现你的业务逻辑，不用考虑如何组织项目结构和集成一些通用功能，比如数据库的连接封装，配置文件的读取，swagger 文档生成，统一的 JSON 返回结果，错误码定义，集成 Sentry 等等。
 
-你可以在`apis`路径下实现你的 api，并在 `apis/routes.go` 的 `Routes` 函数中注册 URL 即可。可复用的业务代码可以放到 `handlers` 包中，便于比如定时任务复用业务逻辑代码。数据库模型相关定义放到 `models` 包中便于复用。
+你可以在`apis`路径下实现你的 api，并在 `apis/routes.go` 的 `Routes` 函数中注册 URL 即可。外部第三方服务放在 `services` 包中进行加载或初始化。数据库模型相关定义放到 `models` 包中便于复用。
 
 ## 关于 gin
 

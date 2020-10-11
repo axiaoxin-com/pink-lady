@@ -1,6 +1,6 @@
 // 服务健康度检查
 
-package handlers
+package services
 
 import (
 	"context"
