@@ -27,6 +27,8 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	gin.SetMode(viper.GetString("server.mode"))
 
 	engine := gin.New()
+	// ///a///b -> /a/b
+	engine.RemoveExtraSlash = true
 
 	// use middlewares
 	for _, middleware := range middlewares {
