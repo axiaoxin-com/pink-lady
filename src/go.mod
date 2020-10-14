@@ -4,8 +4,8 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v1.0.2-0.20201014022720-7e47a9e2170e
-	github.com/axiaoxin-com/logging v1.2.5
+	github.com/axiaoxin-com/goutils v0.0.0-20201014075644-05a5c2138cdd
+	github.com/axiaoxin-com/logging v1.2.6-0.20201014075412-3270dd302b70
 	github.com/axiaoxin-com/ratelimiter v1.0.0
 	github.com/denisenkom/go-mssqldb v0.0.0-20200910202707-1e08a3fab204 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
@@ -22,7 +22,8 @@ require (
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/pelletier/go-toml v1.8.1 // indirect
-	github.com/prometheus/common v0.13.0 // indirect
+	github.com/prometheus/common v0.14.0 // indirect
+	github.com/prometheus/procfs v0.2.0 // indirect
 	github.com/spf13/afero v1.4.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect

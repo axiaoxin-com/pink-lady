@@ -19,14 +19,14 @@ const (
 
 // 错误码对象定义
 var (
-	CodeSuccess       = goutils.NewErrCode(success, "成功")
-	CodeFailure       = goutils.NewErrCode(failure, "失败")
-	CodeInvalidParam  = goutils.NewErrCode(invalidParam, "参数错误")
-	CodeNotFound      = goutils.NewErrCode(notFound, "资源不存在")
-	CodeInternalError = goutils.NewErrCode(unknownError, "未知错误")
+	CodeSuccess       = goutils.NewErrCode(success, "Success")
+	CodeFailure       = goutils.NewErrCode(failure, "Failure")
+	CodeInvalidParam  = goutils.NewErrCode(invalidParam, "Invalid Param")
+	CodeNotFound      = goutils.NewErrCode(notFound, "Not Fount")
+	CodeInternalError = goutils.NewErrCode(unknownError, "Unknown Error")
 )
 
 // IsInvalidParamError 判断错误信息中是否包含:参数错误
 func IsInvalidParamError(err error) bool {
-	return strings.Contains(err.Error(), "参数错误")
+	return strings.Contains(err.Error(), "Invalid Param")
 }
