@@ -139,8 +139,8 @@ max_open_conns = 20
 conn_max_life_minutes = 10
 disable_ssl = true
 
-########## MsSQL 相关配置
-[mssql.localhost]
+########## Sqlserver 相关配置
+[sqlserver.localhost]
 host = "localhost"
 port = 1433
 username = "root"

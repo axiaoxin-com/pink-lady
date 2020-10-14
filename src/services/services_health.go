@@ -19,7 +19,9 @@ func CheckMySQL(ctx context.Context) map[string]string {
 	localhostMySQLStatus := "ok"
 	if localhostMySQL, err := goutils.GormMySQL("localhost"); err != nil {
 		localhostMySQLStatus = err.Error()
-	} else if err := localhostMySQL.DB().Ping(); err != nil {
+	} else if sqlDB, err := localhostMySQL.DB(); err != nil {
+		localhostMySQLStatus = err.Error()
+	} else if err := sqlDB.Ping(); err != nil {
 		localhostMySQLStatus = err.Error()
 	}
 	return map[string]string{
