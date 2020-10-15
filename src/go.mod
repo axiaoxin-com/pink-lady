@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v0.0.0-20201014075644-05a5c2138cdd
+	github.com/axiaoxin-com/goutils v1.0.3-0.20201015005214-bfc28b52e3e9
 	github.com/axiaoxin-com/logging v1.2.6-0.20201014075412-3270dd302b70
 	github.com/axiaoxin-com/ratelimiter v1.0.0
 	github.com/denisenkom/go-mssqldb v0.0.0-20200910202707-1e08a3fab204 // indirect
@@ -33,13 +33,13 @@ require (
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.7
-	github.com/ugorji/go v1.1.11 // indirect
+	github.com/ugorji/go v1.1.12 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0 // indirect
 	golang.org/x/crypto v0.0.0-20201012173705-84dcc777aaee // indirect
 	golang.org/x/mod v0.3.1-0.20200828183125-ce943fd02449 // indirect
 	golang.org/x/net v0.0.0-20200813134508-3edf25e44fcc // indirect
-	golang.org/x/sys v0.0.0-20201013132646-2da7054afaeb // indirect
+	golang.org/x/sys v0.0.0-20201015000850-e3ed0017c211 // indirect
 	golang.org/x/tools v0.0.0-20200821200730-1e23e48ab93b // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/ini.v1 v1.62.0 // indirect
