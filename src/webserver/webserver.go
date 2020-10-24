@@ -59,12 +59,9 @@ func InitWithConfigFile(configPath, configName, configType string) {
 	if sentryDSN == "" {
 		sentryDSN = os.Getenv(logging.SentryDSNEnvKey)
 	}
-	sentryDebug := true
+	sentryDebug := viper.GetBool("sentry.debug")
 	if viper.GetString("server.mode") == "release" {
 		sentryDebug = false
-	}
-	if viper.GetBool("sentry.debug") {
-		sentryDebug = true
 	}
 	logging.Debug(nil, "Sentry use dns: "+sentryDSN)
 	sentry, err := logging.NewSentryClient(sentryDSN, sentryDebug)
