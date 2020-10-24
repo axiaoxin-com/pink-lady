@@ -9,6 +9,7 @@ import (
 	"github.com/axiaoxin-com/ratelimiter"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/json-iterator/go/extra"
 	"github.com/spf13/viper"
 )
 
@@ -18,6 +19,10 @@ func init() {
 	// causes the json binding Decoder to unmarshal a number into an interface{} as a Number instead of as a float64.
 	binding.EnableDecoderUseNumber = true
 
+	// jsoniter 启动模糊模式来支持 PHP 传递过来的 JSON。容忍字符串和数字互转
+	extra.RegisterFuzzyDecoders()
+	// jsoniter 设置支持 private 的 field
+	extra.SupportPrivateFields()
 }
 
 // NewGinEngine 根据参数创建 gin 的 router engine
