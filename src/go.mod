@@ -16,7 +16,7 @@ require (
 	github.com/go-openapi/swag v0.19.9 // indirect
 	github.com/go-playground/validator/v10 v10.4.0 // indirect
 	github.com/go-redis/redis/v8 v8.3.1 // indirect
-	github.com/jinzhu/gorm v1.9.16 // indirect
+	github.com/json-iterator/go v1.1.10
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
