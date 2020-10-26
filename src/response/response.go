@@ -54,6 +54,7 @@ func Respond(c *gin.Context, status int, data interface{}, errcode error, extraM
 		Msg:  msg,
 		Data: data,
 	}
+	c.Header("x-response-code", fmt.Sprint(code))
 	if gin.Mode() == gin.ReleaseMode {
 		c.JSON(status, resp)
 	} else {
