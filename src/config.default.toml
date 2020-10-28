@@ -16,8 +16,6 @@ addr = ":4869"
 mode = "debug"
 # 开启 pprof
 pprof = true
-# 请求处理超时时间（秒）
-handler_timeout = 5
 # 开启 prometheus metrics
 metrics = true
 # 开启 ratelimiter 请求频率限制

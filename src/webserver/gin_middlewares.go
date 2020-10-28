@@ -1,7 +1,6 @@
 package webserver
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"net"
@@ -9,7 +8,6 @@ import (
 	"os"
 	"runtime/debug"
 	"strings"
-	"time"
 
 	"github.com/axiaoxin-com/logging"
 	"github.com/gin-gonic/gin"
@@ -80,51 +78,5 @@ func GinRecovery(recoveryHandler ...func(c *gin.Context, status int, data interf
 			}
 		}()
 		c.Next()
-	}
-}
-
-// GinTimeout 设置 gin handler 请求处理超时时间，超时时间到达直接返回 503
-func GinTimeout(timeoutSec ...int) gin.HandlerFunc {
-	// 使用 goroutine 运行 Next() 处理请求，同时 select 监听 timeout context 的超时
-	// 由于在 goroutine 中发生 panic 会导致进程退出，所以需要在 goroutine 中进行 recover 避免进程退出
-	// 使用 channel 的方式将 goroutine 中的 panic 抛到外层 panic ，统一由 GinRecovery 中间件处理
-
-	timeout := viper.GetDuration("server.handler_timeout") * time.Second
-	if len(timeoutSec) > 0 {
-		timeout = time.Duration(timeoutSec[0]) * time.Second
-	}
-	return func(c *gin.Context) {
-		// 设置超时 context
-		ctx, cancel := context.WithTimeout(c.Request.Context(), timeout)
-		defer cancel()
-		c.Request = c.Request.WithContext(ctx)
-
-		// 处理请求
-		// 超时发生时，由于先返回了超时的信息，而 Next 仍然在继续执行
-		// 当 goroutine 的 Next() 执行完成后返回结果时会 panic -> http: wrote more than the declared Content-Length
-		// 但因为在发生超时逻辑已进入 select 之后的逻辑，此时发生 panic 只会保存到 panicChan 中而不会被抛到上层
-		done := make(chan struct{})
-		panicChan := make(chan interface{}, 1)
-		go func() {
-			defer func() {
-				if p := recover(); p != nil {
-					panicChan <- p
-				}
-			}()
-			c.Next()
-			close(done) // 关闭 done channel 通知 select 任务已完成
-		}()
-
-		// 阻塞监听 channel
-		select {
-		case p := <-panicChan:
-			// 上抛异常
-			panic(p)
-		case <-ctx.Done():
-			// 超时返回 503
-			c.AbortWithStatus(http.StatusServiceUnavailable)
-		case <-done:
-			// 正常完成处理无需其他操作
-		}
 	}
 }

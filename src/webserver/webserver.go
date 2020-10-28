@@ -43,7 +43,6 @@ func InitWithConfigFile(configPath, configName, configType string) {
 	viper.SetDefault("server.addr", ":4869")
 	viper.SetDefault("server.mode", gin.ReleaseMode)
 	viper.SetDefault("server.pprof", true)
-	viper.SetDefault("server.handler_timeout", 5)
 
 	viper.SetDefault("apidocs.title", "pink-lady swagger apidocs")
 	viper.SetDefault("apidocs.desc", "Using pink-lady to develop gin app on fly.")
@@ -110,7 +109,7 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	srv := &http.Server{
 		Addr:         addr,
 		Handler:      app,
-		ReadTimeout:  10 * time.Minute,
+		ReadTimeout:  5 * time.Minute,
 		WriteTimeout: 10 * time.Minute,
 	}
 	// Shutdown 时关闭 db 和 redis 连接
@@ -149,9 +148,8 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	<-quit
 	logging.Infof(nil, "Server is shutting down.")
 
-	// 创建一个 context 用于通知 server handlerTimeout 秒后结束当前正在处理的请求
-	handlerTimeout := viper.GetDuration("server.handler_timeout") * time.Second
-	ctx, cancel := context.WithTimeout(context.Background(), handlerTimeout)
+	// 创建一个 context 用于通知 server 3 秒后结束当前正在处理的请求
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		logging.Fatal(nil, "Server shutdown with error: "+err.Error())
