@@ -26,9 +26,9 @@ ratelimiter = false
 # 限频方式： mem->进程内存； redis.<WHICH>->使用用配置文件中对应的 redis 配置，如 redis.localhost
 type = "mem"
 # 速率限制：每隔多少微秒填充 1 个 token
-bucket_fill_every_microsecond = 1000000
+bucket_fill_interval_microsecond = 1000000
 # 允许的最大突增量： bucket 容量
-bucket_capacity = 1
+bucket_size = 1
 # bucket 过期时间（秒）
 bucket_expire_second = 3600
 

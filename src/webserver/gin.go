@@ -2,6 +2,7 @@ package webserver
 
 import (
 	"strings"
+	"time"
 
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
@@ -63,20 +64,26 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 
 	// 是否开启请求限频
 	if viper.GetBool("server.ratelimiter") {
-		fillInterval := viper.GetInt("ratelimiter.bucket_fill_every_microsecond")
-		bucketCapacity := viper.GetInt("ratelimiter.bucket_capacity")
+		fillInterval := viper.GetDuration("ratelimiter.bucket_fill_interval_microsecond")
+		bucketSize := viper.GetInt("ratelimiter.bucket_size")
+		limiterConf := ratelimiter.GinRatelimiterConfig{
+			// config: return ratelimiter token fill interval and bucket size
+			TokenBucketConfig: func(*gin.Context) (time.Duration, int) {
+				return time.Microsecond * fillInterval, bucketSize
+			},
+		}
 		// 添加限频中间件到中间件列表
 		limiterType := strings.ToLower(viper.GetString("ratelimiter.type"))
-		logging.Debugf(nil, "%s ratelimiter with bucket_fill_every_microsecond=%d bucket_capacity=%d", limiterType, fillInterval, bucketCapacity)
+		logging.Debugf(nil, "%s ratelimiter with bucket_fill_interval_microsecond=%d bucket_size=%d", limiterType, fillInterval, bucketSize)
 		if strings.HasPrefix(limiterType, "redis.") {
 			which := strings.TrimPrefix(limiterType, "redis.")
 			if rdb, err := goutils.RedisClient(which); err != nil {
 				logging.Error(nil, "redis ratelimiter does not work. get redis client error:"+err.Error())
 			} else {
-				m = append(m, ratelimiter.GinRedisRatelimiter(rdb, fillInterval, bucketCapacity))
+				m = append(m, ratelimiter.GinRedisRatelimiter(rdb, limiterConf))
 			}
 		} else {
-			m = append(m, ratelimiter.GinMemRatelimiter(fillInterval, bucketCapacity))
+			m = append(m, ratelimiter.GinMemRatelimiter(limiterConf))
 		}
 	}
 	return m
