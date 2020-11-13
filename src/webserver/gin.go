@@ -45,6 +45,10 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 
 // DefaultGinMiddlewares 默认的 gin server 使用的中间件列表
 func DefaultGinMiddlewares() []gin.HandlerFunc {
+	logging.CtxLoggerName = logging.Ctxkey("ctx_logger")
+	logging.TraceIDKeyname = logging.Ctxkey("trace_id")
+	logging.TraceIDPrefix = "logging_"
+
 	m := []gin.HandlerFunc{
 		// 记录请求处理日志，最顶层执行
 		logging.GinLoggerWithConfig(logging.GinLoggerConfig{
@@ -56,6 +60,8 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 			EnableRequestForm:   viper.GetBool("logging.access_logger.enable_request_form"),
 			EnableRequestBody:   viper.GetBool("logging.access_logger.enable_request_body"),
 			EnableResponseBody:  viper.GetBool("logging.access_logger.enable_response_body"),
+			TraceIDFunc:         nil,
+			InitFieldsFunc:      nil,
 		}),
 		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500 JSON
 		GinRecovery(response.Respond),
