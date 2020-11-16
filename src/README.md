@@ -52,6 +52,22 @@ go get -u github.com/pressly/goose/cmd/goose
 go get -u github.com/axiaoxin-com/table2struct
 ```
 
+## 依赖的外部 HTTP 服务的 Mock 工具： [httplive](https://github.com/gencebay/httplive)
+
+安装：
+
+```
+go get github.com/gencebay/httplive
+```
+
+启动：
+
+```
+httplive -d `pwd`/httplive.db -p 5003
+```
+
+打开浏览器访问： `http://localhost:5003` 页面上编辑 url 和对应的返回结果保存，请求对应地址就会返回你设置的返回结果
+
 # 配置文件
 
 服务通过 [viper](https://github.com/spf13/viper) 加载配置文件， viper 支持的配置文件格式都可以使用。
