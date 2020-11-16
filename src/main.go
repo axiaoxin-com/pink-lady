@@ -6,6 +6,7 @@ import (
 
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/apis"
+	"github.com/axiaoxin-com/pink-lady/services"
 	"github.com/axiaoxin-com/pink-lady/webserver"
 )
 
@@ -21,6 +22,11 @@ func main() {
 	configType := flag.String("t", "toml", "type of config file format")
 	flag.Parse()
 	webserver.InitWithConfigFile(*configPath, *configName, *configType)
+
+	// 初始化或加载外部依赖服务
+	if err := services.Init(); err != nil {
+		logging.Error(nil, "services init error:"+err.Error())
+	}
 
 	// 创建 gin app
 	middlewares := webserver.DefaultGinMiddlewares()
