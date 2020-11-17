@@ -17,7 +17,7 @@ import (
 func CheckMySQL(ctx context.Context) map[string]string {
 	// 检查本地 mysql
 	localhostMySQLStatus := "ok"
-	if localhostMySQL, err := goutils.GormMySQL("localhost"); err != nil {
+	if localhostMySQL, err := GormMySQL("localhost"); err != nil {
 		localhostMySQLStatus = err.Error()
 	} else if sqlDB, err := localhostMySQL.DB(); err != nil {
 		localhostMySQLStatus = err.Error()

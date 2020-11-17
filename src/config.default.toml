@@ -6,7 +6,7 @@
 
 
 ########## 环境配置
-env = "dev"
+env = "localhost"
 
 ########## server 相关配置
 [server]
