@@ -2,6 +2,7 @@ package webserver
 
 import (
 	"strings"
+	"time"
 
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
@@ -62,6 +63,7 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 			EnableResponseBody:  viper.GetBool("logging.access_logger.enable_response_body"),
 			TraceIDFunc:         nil,
 			InitFieldsFunc:      nil,
+			SlowThreshold:       viper.GetDuration("logging.access_logger.slow_threshold") * time.Millisecond,
 		}),
 		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500 JSON
 		GinRecovery(response.Respond),

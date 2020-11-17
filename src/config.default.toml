@@ -67,6 +67,8 @@ skip_path_regexps = [
     "/x/apidocs/.+\\.js",
     "/x/apidocs/.+\\.css",
 ]
+# 慢请求阈值（毫秒）请求处理时间大于该值使用 WARN 级别打印请求日志
+slow_threshold = 200
 
 ########## sentry 相关配置
 [sentry]
