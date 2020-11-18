@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"time"
 
 	"github.com/axiaoxin-com/goutils"
@@ -10,14 +11,15 @@ import (
 	"gorm.io/gorm"
 )
 
-// DB 获取带有自定义 logger 的 gorm db 实例
-func DB() *gorm.DB {
+// DB 获取带有ctx 和自定义 logger 的 gorm db 实例
+func DB(ctx context.Context) *gorm.DB {
 	env := viper.GetString("env")
 	db, err := goutils.GormMySQL(env)
 	if err != nil {
 		panic(env + " get gorm mysql instance error:" + err.Error())
 	}
-	return db.Session(&gorm.Session{
+	db = db.Session(&gorm.Session{
 		Logger: logging.NewGormLogger(zap.InfoLevel, viper.GetDuration("logging.access_logger.slow_threshold")*time.Millisecond),
 	})
+	return db.WithContext(ctx)
 }
