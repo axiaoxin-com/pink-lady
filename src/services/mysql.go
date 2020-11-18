@@ -10,6 +10,9 @@ import (
 	"gorm.io/gorm"
 )
 
+// DB 全局数据库对象
+var DB *gorm.DB
+
 // GormLogger 自定义 gorm logger
 var GormLogger = logging.NewGormLogger(zap.InfoLevel, viper.GetDuration("logging.access_logger.slow_threshold")*time.Millisecond)
 
