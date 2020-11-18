@@ -10,20 +10,14 @@ import (
 	"gorm.io/gorm"
 )
 
-// DB 全局数据库对象
-var DB *gorm.DB
-
-// GormLogger 自定义 gorm logger
-var GormLogger = logging.NewGormLogger(zap.InfoLevel, viper.GetDuration("logging.access_logger.slow_threshold")*time.Millisecond)
-
-// GormMySQL 获取带有自定义 logger 的 gorm db 实例
-func GormMySQL(which string) (*gorm.DB, error) {
-	db, err := goutils.GormMySQL(which)
+// DB 获取带有自定义 logger 的 gorm db 实例
+func DB() *gorm.DB {
+	env := viper.GetString("env")
+	db, err := goutils.GormMySQL(env)
 	if err != nil {
-		return nil, err
+		panic(env + " get gorm mysql instance error:" + err.Error())
 	}
-	db = db.Session(&gorm.Session{
-		Logger: GormLogger,
+	return db.Session(&gorm.Session{
+		Logger: logging.NewGormLogger(zap.InfoLevel, viper.GetDuration("logging.access_logger.slow_threshold")*time.Millisecond),
 	})
-	return db, nil
 }
