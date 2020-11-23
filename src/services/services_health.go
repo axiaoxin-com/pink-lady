@@ -15,15 +15,17 @@ import (
 
 // CheckMySQL 检查 mysql 服务状态
 func CheckMySQL(ctx context.Context) map[string]string {
-	// 检查默认 mysql
-	defaultMySQLStatus := "ok"
-	if sqlDB, err := DB(ctx).DB(); err != nil {
-		defaultMySQLStatus = err.Error()
+	// 检查本地 mysql
+	localhostMySQLStatus := "ok"
+	if localhostMySQL, err := goutils.GormMySQL("localhost"); err != nil {
+		localhostMySQLStatus = err.Error()
+	} else if sqlDB, err := localhostMySQL.DB(); err != nil {
+		localhostMySQLStatus = err.Error()
 	} else if err := sqlDB.Ping(); err != nil {
-		defaultMySQLStatus = err.Error()
+		localhostMySQLStatus = err.Error()
 	}
 	return map[string]string{
-		"default DB": defaultMySQLStatus,
+		"localhost": localhostMySQLStatus,
 	}
 }
 
