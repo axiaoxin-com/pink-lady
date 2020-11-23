@@ -22,5 +22,8 @@ services:
 before_install:
   - cd src
 
+install:
+  - go mod tidy
+
 script:
   - go test -race -coverprofile=coverage.txt -covermode=atomic -v ./...
