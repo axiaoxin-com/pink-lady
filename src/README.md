@@ -29,21 +29,6 @@ go get -u github.com/cosmtrek/air
 
 在 `src` 目录中执行 `air -c .air.toml` 即可运行服务，代码修改后会自动更新 api 文档并重新编译运行
 
-## 数据库迁移工具: [goose](https://github.com/pressly/goose)
-
-安装：
-
-```
-go get -u github.com/pressly/goose/cmd/goose
-```
-
-数据库操作所有的 SQL 文件使用 goose 来管理，数据库变更步骤：
-
-1. 先使用 goose 创建 SQL 文件
-2. 编写 SQL 文件内容并 review、验证
-3. 使用 goose 根据 SQL 文件操作数据库
-4. 根据数据表生成 golang 的 orm model
-
 ## 根据 mysql 表自动生成结构体：[table2struct](https://github.com/axiaoxin-com/table2struct)
 
 安装：
