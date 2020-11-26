@@ -6,6 +6,8 @@
 
 
 ########## 环境配置
+# 涉及框架逻辑的值: localhost, unittest
+# unittest 时 services.DB 返回 sqlite3
 env = "localhost"
 
 ########## server 相关配置
