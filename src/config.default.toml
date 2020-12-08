@@ -34,7 +34,7 @@ type = "mem"
 level = "debug"
 # 日志格式，可选值： json console
 format = "json"
-# 日志输出路径
+# 日志输出路径： stdout, stderr, logrotate:///path/to/logfile
 output_paths = ["stdout"]
 # 是否关闭打印 caller 字段
 disable_caller = false
@@ -71,6 +71,23 @@ skip_path_regexps = [
 ]
 # 慢请求阈值（毫秒）请求处理时间大于该值使用 WARN 级别打印请求日志
 slow_threshold = 200
+
+
+## 日志输出到文件时的 rotate 配置
+# 示例： 若 logging.output_paths 配置为： logrotate:///tmp/x.log
+# 日志会输出到文件 /tmp/x.log 并按以下策略进行 rotate
+[logging.logrotate]
+# 备份文件最大保存天数
+max_age = 30
+# 最大保存的备份文件数
+max_backups = 10
+# 最大日志文件大小 单位： M
+max_size = 100
+# 是否压缩备份文件
+compress = true
+# 压缩文件名是否使用 localtime
+localtime = true
+
 
 ########## sentry 相关配置
 [sentry]
