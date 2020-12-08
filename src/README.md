@@ -86,3 +86,9 @@ api 中使用 `c.Error(err)` 会将 err 保存到 context 中，打印访问日�
 ```
 go run main.go -p . -c config.default -t toml
 ```
+
+编译：
+
+```
+env GOOS=linux go build -o app -tags=jsoniter
+```
