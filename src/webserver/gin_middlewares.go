@@ -8,8 +8,11 @@ import (
 	"os"
 	"runtime/debug"
 	"strings"
+	"time"
 
+	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
+	"github.com/axiaoxin-com/ratelimiter"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
@@ -79,4 +82,57 @@ func GinRecovery(recoveryHandler ...func(c *gin.Context, status int, data interf
 		}()
 		c.Next()
 	}
+}
+
+// GinLogMiddleware 日志中间件
+// 可根据实际需求自行修改定制
+func GinLogMiddleware() gin.HandlerFunc {
+	logging.CtxLoggerName = logging.Ctxkey("ctx_logger")
+	logging.TraceIDKeyname = logging.Ctxkey("trace_id")
+	logging.TraceIDPrefix = "logging_"
+	loggerMiddleware := logging.GinLoggerWithConfig(logging.GinLoggerConfig{
+		SkipPaths:           viper.GetStringSlice("logging.access_logger.skip_paths"),
+		SkipPathRegexps:     viper.GetStringSlice("logging.access_logger.skip_path_regexps"),
+		EnableDetails:       viper.GetBool("logging.access_logger.enable_details"),
+		EnableContextKeys:   viper.GetBool("logging.access_logger.enable_context_keys"),
+		EnableRequestHeader: viper.GetBool("logging.access_logger.enable_request_header"),
+		EnableRequestForm:   viper.GetBool("logging.access_logger.enable_request_form"),
+		EnableRequestBody:   viper.GetBool("logging.access_logger.enable_request_body"),
+		EnableResponseBody:  viper.GetBool("logging.access_logger.enable_response_body"),
+		SlowThreshold:       viper.GetDuration("logging.access_logger.slow_threshold") * time.Millisecond,
+		TraceIDFunc:         nil,
+		InitFieldsFunc:      nil,
+		Formatter:           nil,
+	})
+	return loggerMiddleware
+}
+
+// GinRatelimitMiddleware 限频中间件
+// 需先实现对应的 TODO ，可根据实际需求自行修改定制
+func GinRatelimitMiddleware() gin.HandlerFunc {
+	limiterConf := ratelimiter.GinRatelimiterConfig{
+		// TODO: 需自行实现限频 key 的生成函数
+		LimitKey: nil,
+		// TODO: 需自行实现限频的具体令牌桶配置信息
+		TokenBucketConfig: nil,
+	}
+	if limiterConf.LimitKey == nil || limiterConf.TokenBucketConfig == nil {
+		panic("Must implement the LimitKey and TokenBucketConfig functions")
+	}
+
+	// 根据 viper 中的配置信息选择限流类型
+	var limiterMiddleware gin.HandlerFunc
+	limiterType := strings.ToLower(viper.GetString("ratelimiter.type"))
+	logging.Info(nil, "enable ratelimiter with type: "+limiterType)
+	if strings.HasPrefix(limiterType, "redis.") {
+		which := strings.TrimPrefix(limiterType, "redis.")
+		if rdb, err := goutils.RedisClient(which); err != nil {
+			panic("redis ratelimiter does not work. get redis client error:" + err.Error())
+		} else {
+			limiterMiddleware = ratelimiter.GinRedisRatelimiter(rdb, limiterConf)
+		}
+	} else {
+		limiterMiddleware = ratelimiter.GinMemRatelimiter(limiterConf)
+	}
+	return limiterMiddleware
 }
