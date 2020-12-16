@@ -15,30 +15,32 @@ import (
 
 // CheckMySQL 检查 mysql 服务状态
 func CheckMySQL(ctx context.Context) map[string]string {
-	// 检查本地 mysql
-	localhostMySQLStatus := "ok"
-	if localhostMySQL, err := goutils.GormMySQL("localhost"); err != nil {
-		localhostMySQLStatus = err.Error()
-	} else if sqlDB, err := localhostMySQL.DB(); err != nil {
-		localhostMySQLStatus = err.Error()
+	// 检查 mysql
+	env := viper.GetString("env")
+	envMySQLStatus := "ok"
+	if envMySQL, err := goutils.GormMySQL(env); err != nil {
+		envMySQLStatus = err.Error()
+	} else if sqlDB, err := envMySQL.DB(); err != nil {
+		envMySQLStatus = err.Error()
 	} else if err := sqlDB.Ping(); err != nil {
-		localhostMySQLStatus = err.Error()
+		envMySQLStatus = err.Error()
 	}
 	return map[string]string{
-		"localhost": localhostMySQLStatus,
+		env: envMySQLStatus,
 	}
 }
 
 // CheckRedis 检查 redis 服务状态
 func CheckRedis(ctx context.Context) map[string]string {
-	localhostRedisStatus := "ok"
-	if localhostRedis, err := goutils.RedisClient("localhost"); err != nil {
-		localhostRedisStatus = err.Error()
-	} else if _, err := localhostRedis.Ping(context.TODO()).Result(); err != nil {
-		localhostRedisStatus = err.Error()
+	env := viper.GetString("env")
+	envRedisStatus := "ok"
+	if envRedis, err := goutils.RedisClient(env); err != nil {
+		envRedisStatus = err.Error()
+	} else if _, err := envRedis.Ping(context.TODO()).Result(); err != nil {
+		envRedisStatus = err.Error()
 	}
 	return map[string]string{
-		"localhost": localhostRedisStatus,
+		env: envRedisStatus,
 	}
 
 }
