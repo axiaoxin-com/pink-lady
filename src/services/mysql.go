@@ -35,7 +35,7 @@ func DB(ctx context.Context) *gorm.DB {
 	}
 	logging.Debug(ctx, "using gorm mysql:"+env)
 	db = db.Session(&gorm.Session{
-		Logger: logging.NewGormLogger(zap.InfoLevel, viper.GetDuration("logging.access_logger.slow_threshold")*time.Millisecond),
+		Logger: logging.NewGormLogger(zap.InfoLevel, zap.DebugLevel, viper.GetDuration("logging.access_logger.slow_threshold")*time.Millisecond),
 	})
 	return db.WithContext(ctx)
 }
