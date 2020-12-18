@@ -26,6 +26,18 @@ env = "localhost"
 
 
 
+########## 静态文件相关配置
+[static]
+    # 批量加载 html 模板 pattern，如： "./statics/templates/**/*"
+    # 如需加载指定 html，无需配置
+    html_glob_pattern = ""
+    # 静态文件 URL
+    url = "/statics"
+    # 静态文件路径
+    path = "./statics"
+
+
+
 ########## token bucket 请求频率限制配置
 [ratelimiter]
     # 是否开启 ratelimiter 请求频率限制

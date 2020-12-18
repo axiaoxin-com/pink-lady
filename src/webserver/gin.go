@@ -2,6 +2,7 @@ package webserver
 
 import (
 	"github.com/axiaoxin-com/goutils"
+	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/response"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -34,6 +35,20 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	// use middlewares
 	for _, middleware := range middlewares {
 		engine.Use(middleware)
+	}
+
+	// load html template
+	htmlGlobPattern := viper.GetString("static.html_glob_pattern")
+	if htmlGlobPattern != "" {
+		logging.Debug(nil, "LoadHTMLGlob:"+htmlGlobPattern)
+		engine.LoadHTMLGlob(htmlGlobPattern)
+	}
+	// register static
+	staticURL := viper.GetString("static.url")
+	staticPath := viper.GetString("static.path")
+	if staticURL != "" && staticPath != "" {
+		logging.Debugf(nil, "Static url: %s path:%s", staticURL, staticPath)
+		engine.Static(staticURL, staticPath)
 	}
 
 	return engine
