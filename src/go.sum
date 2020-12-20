@@ -61,6 +61,8 @@ github.com/axiaoxin-com/goutils v1.0.3-0.20201019024427-66fe97b27be4 h1:+tyBjMo5
 github.com/axiaoxin-com/goutils v1.0.3-0.20201019024427-66fe97b27be4/go.mod h1:ZuL0c9e5Nw6b6eirSmB9VaOeojiHS3BrmzGyKiKYLD0=
 github.com/axiaoxin-com/goutils v1.0.3-0.20201220112040-d80df9e90585 h1:awMPc0jxxxNtBECCMQwP6D6eKsYxnmRql4/dW1jbJ6o=
 github.com/axiaoxin-com/goutils v1.0.3-0.20201220112040-d80df9e90585/go.mod h1:EZjbLxxR1/iwaZr4Hs8zG0HooZnOxOHhB34fdp76f10=
+github.com/axiaoxin-com/goutils v1.0.3-0.20201220115754-d296c95dff8e h1:c4MA18oRCFHu8I9jQK6oKyRB/7FXekvPmDljsbbdp7A=
+github.com/axiaoxin-com/goutils v1.0.3-0.20201220115754-d296c95dff8e/go.mod h1:EZjbLxxR1/iwaZr4Hs8zG0HooZnOxOHhB34fdp76f10=
 github.com/axiaoxin-com/logging v1.2.3/go.mod h1:WM8Q9JLUi1jDh51XirUBDn8QXkxc8AO2oApFXHiEXf4=
 github.com/axiaoxin-com/logging v1.2.7-0.20201119094314-1f6e904bab66 h1:RLPH4k85jpeJow2AIQ5xYeEtB2bh9Duz8nLKctq0Yw4=
 github.com/axiaoxin-com/logging v1.2.7-0.20201119094314-1f6e904bab66/go.mod h1:Jx322YD47doa/j9kn3pNPntze8b9bOVxf3So0LmdRMg=

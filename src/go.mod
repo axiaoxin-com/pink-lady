@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v1.0.3-0.20201220112040-d80df9e90585
+	github.com/axiaoxin-com/goutils v1.0.3-0.20201220115754-d296c95dff8e
 	github.com/axiaoxin-com/logging v1.2.9
 	github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8
 	github.com/denisenkom/go-mssqldb v0.9.0 // indirect

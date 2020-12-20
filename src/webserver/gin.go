@@ -37,6 +37,8 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 		engine.Use(middleware)
 	}
 
+	// set template funcmap, must befor load templates
+	engine.SetFuncMap(goutils.StringsFuncs)
 	// load html template
 	htmlGlobPattern := viper.GetString("static.html_glob_pattern")
 	if htmlGlobPattern != "" {
@@ -50,9 +52,6 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 		logging.Debugf(nil, "Static url: %s path:%s", staticURL, staticPath)
 		engine.Static(staticURL, staticPath)
 	}
-
-	// set template funcmap
-	engine.SetFuncMap(goutils.StringsFuncs)
 
 	return engine
 }
