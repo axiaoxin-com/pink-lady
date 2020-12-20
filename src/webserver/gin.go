@@ -51,6 +51,9 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 		engine.Static(staticURL, staticPath)
 	}
 
+	// set template funcmap
+	engine.SetFuncMap(goutils.StringsFuncs)
+
 	return engine
 }
 

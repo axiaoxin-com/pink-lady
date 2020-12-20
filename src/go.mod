@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v1.0.3-0.20201019024427-66fe97b27be4
+	github.com/axiaoxin-com/goutils v1.0.3-0.20201220112040-d80df9e90585
 	github.com/axiaoxin-com/logging v1.2.9
 	github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8
 	github.com/denisenkom/go-mssqldb v0.9.0 // indirect
@@ -15,7 +15,7 @@ require (
 	github.com/go-openapi/spec v0.19.9 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect
 	github.com/go-redis/redis/v8 v8.4.4 // indirect
-	github.com/jackc/pgx/v4 v4.10.0 // indirect
+	github.com/jackc/pgx/v4 v4.10.1 // indirect
 	github.com/json-iterator/go v1.1.10
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lib/pq v1.8.0 // indirect
@@ -33,6 +33,7 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.16.0
 	golang.org/x/crypto v0.0.0-20201217014255-9d1352758620 // indirect
+	golang.org/x/sys v0.0.0-20201218084310-7d0127a74742 // indirect
 	golang.org/x/text v0.3.4 // indirect
 	golang.org/x/tools v0.0.0-20200821200730-1e23e48ab93b // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
