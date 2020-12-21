@@ -42,7 +42,7 @@ go get -u github.com/axiaoxin-com/table2struct
 安装：
 
 ```
-go get github.com/gencebay/httplive
+go get -u github.com/gencebay/httplive
 ```
 
 启动：
@@ -56,7 +56,7 @@ httplive -d `pwd`/httplive.db -p 5003
 ## 使用 [statik](https://github.com/rakyll/statik) 将静态资源编译进二进制文件中
 
 ```
-go get github.com/rakyll/statik
+go get -u github.com/rakyll/statik
 ```
 
 # 配置文件
