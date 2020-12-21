@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/axiaoxin-com/goutils"
-	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/response"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -47,7 +46,7 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	engine.SetFuncMap(TemplFuncs)
 
 	// load html template
-	tmplPath := viper.GetString("static.tmpl_statik_path")
+	tmplPath := viper.GetString("statics.tmpl_statik_path")
 	if tmplPath != "" {
 		t, err := GinLoadHTMLTemplate(tmplPath)
 		if err != nil {
@@ -56,11 +55,10 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 		engine.SetHTMLTemplate(t)
 	}
 
-	// register static
-	staticURL := viper.GetString("static.url")
-	if staticURL != "" {
-		logging.Debugf(nil, "Static url: %s", staticURL)
-		engine.StaticFS(staticURL, StatikFS)
+	// register statics
+	staticsURL := viper.GetString("statics.url")
+	if staticsURL != "" {
+		engine.StaticFS(staticsURL, StatikFS)
 	}
 
 	return engine
@@ -95,7 +93,7 @@ func GinLoadHTMLTemplate(tmplPath string) (*template.Template, error) {
 			return nil
 		}
 		filename := info.Name()
-		if strings.HasSuffix(filename, ".tmpl") || strings.HasSuffix(filename, ".html") || strings.HasSuffix(filename, ".gohtml") || strings.HasSuffix(filename, ".gotmpl") {
+		if strings.HasSuffix(filename, ".tmpl") || strings.HasSuffix(filename, ".html") || strings.HasSuffix(filename, ".tpl") || strings.HasSuffix(filename, ".gohtml") || strings.HasSuffix(filename, ".gotmpl") || strings.HasSuffix(filename, ".gotpl") {
 			content, err := fs.ReadFile(StatikFS, filepath)
 			if err != nil {
 				return errors.Wrap(err, "statik fs ReadFile error")
