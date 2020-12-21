@@ -53,6 +53,12 @@ httplive -d `pwd`/httplive.db -p 5003
 
 打开浏览器访问： `http://localhost:5003` 页面上编辑 url 和对应的返回结果保存，请求对应地址就会返回你设置的返回结果
 
+## 使用 [statik](https://github.com/rakyll/statik) 将静态资源编译进二进制文件中
+
+```
+go get github.com/rakyll/statik
+```
+
 # 配置文件
 
 服务通过 [viper](https://github.com/spf13/viper) 加载配置文件， viper 支持的配置文件格式都可以使用。
@@ -90,5 +96,6 @@ go run main.go -p . -c config.default -t toml
 编译：
 
 ```
+go generate
 env GOOS=linux go build -o app -tags=jsoniter
 ```

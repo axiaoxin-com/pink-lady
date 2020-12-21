@@ -1,12 +1,18 @@
 package webserver
 
 import (
+	"html/template"
+	"os"
+	"strings"
+
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/response"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/json-iterator/go/extra"
+	"github.com/pkg/errors"
+	"github.com/rakyll/statik/fs"
 	"github.com/spf13/viper"
 )
 
@@ -38,19 +44,23 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	}
 
 	// set template funcmap, must befor load templates
-	engine.SetFuncMap(goutils.StringsFuncs)
+	engine.SetFuncMap(TemplFuncs)
+
 	// load html template
-	htmlGlobPattern := viper.GetString("static.html_glob_pattern")
-	if htmlGlobPattern != "" {
-		logging.Debug(nil, "LoadHTMLGlob:"+htmlGlobPattern)
-		engine.LoadHTMLGlob(htmlGlobPattern)
+	tmplPath := viper.GetString("static.tmpl_statik_path")
+	if tmplPath != "" {
+		t, err := GinLoadHTMLTemplate(tmplPath)
+		if err != nil {
+			panic(err)
+		}
+		engine.SetHTMLTemplate(t)
 	}
+
 	// register static
 	staticURL := viper.GetString("static.url")
-	staticPath := viper.GetString("static.path")
-	if staticURL != "" && staticPath != "" {
-		logging.Debugf(nil, "Static url: %s path:%s", staticURL, staticPath)
-		engine.Static(staticURL, staticPath)
+	if staticURL != "" {
+		logging.Debugf(nil, "Static url: %s", staticURL)
+		engine.StaticFS(staticURL, StatikFS)
 	}
 
 	return engine
@@ -70,4 +80,32 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 		m = append(m, GinRatelimitMiddleware())
 	}
 	return m
+}
+
+// GinLoadHTMLTemplate 获取 gin 的 template
+// tmplPath 是以 statik 的目录为根路径，以绝对路径表示
+func GinLoadHTMLTemplate(tmplPath string) (*template.Template, error) {
+	t := template.New("")
+	// type WalkFunc func(path string, info os.FileInfo, err error) error
+	err := fs.Walk(StatikFS, tmplPath, func(filepath string, info os.FileInfo, err error) error {
+		if err != nil {
+			return errors.Wrap(err, "statik fs Walk error")
+		}
+		if info.IsDir() {
+			return nil
+		}
+		filename := info.Name()
+		if strings.HasSuffix(filename, ".tmpl") || strings.HasSuffix(filename, ".html") || strings.HasSuffix(filename, ".gohtml") || strings.HasSuffix(filename, ".gotmpl") {
+			content, err := fs.ReadFile(StatikFS, filepath)
+			if err != nil {
+				return errors.Wrap(err, "statik fs ReadFile error")
+			}
+			t, err = t.New(filepath).Parse(string(content))
+			if err != nil {
+				return errors.Wrap(err, "template parse error")
+			}
+		}
+		return nil
+	})
+	return t, err
 }

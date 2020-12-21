@@ -28,13 +28,11 @@ env = "localhost"
 
 ########## 静态文件相关配置
 [static]
-    # 批量加载 html 模板 pattern，如： "./statics/templates/**/*"
-    # 如需加载指定 html，无需配置
-    html_glob_pattern = ""
-    # 静态文件 URL
+    # 使用statik将静态文件打包到二进制文件中，指定 statik 中的 html 模板文件路径
+    # 以 statik 的目录为根路径，以绝对路径表示，如以 statik -src=./statics，则使用 /xxx 表示 ./statics/xxx
+    tmpl_statik_path = "/html"
+    # 静态文件 URL 路径，网页中通过 /statics/js/xx.js 访问资源，
     url = "/statics"
-    # 静态文件路径
-    path = "./statics"
 
 
 

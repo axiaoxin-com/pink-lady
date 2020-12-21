@@ -21,7 +21,9 @@ require (
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.9.0 // indirect
+	github.com/rakyll/statik v0.1.7
 	github.com/spf13/afero v1.5.1 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.6.1
