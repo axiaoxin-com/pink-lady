@@ -41,6 +41,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 - 使用 logging 打印日志，支持 trace id，error 以上级别自动上报到 sentry
 - 支持 prometheus metrics exporter
 - 支持 ratelimiter 请求限频
+- 通过配置集成 go html template，可自由注册 template funcs map
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
