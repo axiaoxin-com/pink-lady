@@ -15,7 +15,7 @@ import (
 )
 
 func TestViperConfig(t *testing.T) {
-	InitWithConfigFile("..", "config.default", "toml")
+	InitWithConfigFile("../config.default.toml")
 	defer viper.Reset()
 	if !goutils.IsInitedViper() {
 		t.Error("init viper failed")
@@ -23,7 +23,7 @@ func TestViperConfig(t *testing.T) {
 }
 
 func TestRun(t *testing.T) {
-	InitWithConfigFile("..", "config.default", "toml")
+	InitWithConfigFile("../config.default.toml")
 	defer viper.Reset()
 	viper.Set("server.mode", "release")
 	viper.Set("logging.level", "error")
@@ -49,7 +49,7 @@ func TestRun(t *testing.T) {
 }
 
 func TestUnixRun(t *testing.T) {
-	InitWithConfigFile("..", "config.default", "toml")
+	InitWithConfigFile("../config.default.toml")
 	defer viper.Reset()
 	socketFilename := "/tmp/webserver_test.socket"
 	defer os.Remove(socketFilename)

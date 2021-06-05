@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"path"
 	"strings"
 	"syscall"
 	"time"
@@ -17,15 +18,15 @@ import (
 	"github.com/spf13/viper"
 )
 
-var (
-	configFile string = ""
-)
-
 // InitWithConfigFile 根据 webserver 配置文件初始化 webserver
-func InitWithConfigFile(configPath, configName, configType string) {
-	configFile = configPath + "/" + configName + "." + configType
-
+func InitWithConfigFile(configFile string) {
 	// 加载配置文件内容到 viper 中以便使用
+	configPath, file := path.Split(configFile)
+	ext := path.Ext(file)
+	configType := strings.Trim(ext, ".")
+	configName := strings.TrimSuffix(file, ext)
+	logging.Infof(nil, "load %s type config file %s from %s", configType, configName, configPath)
+
 	if err := goutils.InitViper(configPath, configName, configType, func(e fsnotify.Event) {
 		logging.Warn(nil, "Config file changed:"+e.Name)
 		logging.SetLevel(viper.GetString("logging.level"))
@@ -151,7 +152,7 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 			logging.Fatal(nil, err.Error())
 		}
 	}()
-	logging.Infof(nil, "Server is running on %s with config file %s", srv.Addr, configFile)
+	logging.Infof(nil, "Server is running on %s", srv.Addr)
 
 	// 监听中断信号， WriteTimeout 时间后优雅关闭服务
 	// syscall.SIGTERM 不带参数的 kill 命令
