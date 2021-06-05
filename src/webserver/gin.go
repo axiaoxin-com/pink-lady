@@ -2,16 +2,14 @@ package webserver
 
 import (
 	"html/template"
-	"os"
-	"strings"
+	"net/http"
 
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/pink-lady/response"
+	"github.com/axiaoxin-com/pink-lady/statics"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/json-iterator/go/extra"
-	"github.com/pkg/errors"
-	"github.com/rakyll/statik/fs"
 	"github.com/spf13/viper"
 )
 
@@ -46,9 +44,9 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	engine.SetFuncMap(TemplFuncs)
 
 	// load html template
-	tmplPath := viper.GetString("statics.tmpl_statik_path")
+	tmplPath := viper.GetString("statics.tmplpath")
 	if tmplPath != "" {
-		t, err := GinLoadHTMLTemplate(tmplPath)
+		t, err := template.ParseFS(statics.Files, tmplPath)
 		if err != nil {
 			panic(err)
 		}
@@ -58,7 +56,7 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	// register statics
 	staticsURL := viper.GetString("statics.url")
 	if staticsURL != "" {
-		engine.StaticFS(staticsURL, StatikFS)
+		engine.StaticFS(staticsURL, http.FS(statics.Files))
 	}
 
 	return engine
@@ -78,32 +76,4 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 		m = append(m, GinRatelimitMiddleware())
 	}
 	return m
-}
-
-// GinLoadHTMLTemplate 获取 gin 的 template
-// tmplPath 是以 statik 的目录为根路径，以绝对路径表示
-func GinLoadHTMLTemplate(tmplPath string) (*template.Template, error) {
-	t := template.New("")
-	// type WalkFunc func(path string, info os.FileInfo, err error) error
-	err := fs.Walk(StatikFS, tmplPath, func(filepath string, info os.FileInfo, err error) error {
-		if err != nil {
-			return errors.Wrap(err, "statik fs Walk error")
-		}
-		if info.IsDir() {
-			return nil
-		}
-		filename := info.Name()
-		if strings.HasSuffix(filename, ".tmpl") || strings.HasSuffix(filename, ".html") || strings.HasSuffix(filename, ".tpl") || strings.HasSuffix(filename, ".gohtml") || strings.HasSuffix(filename, ".gotmpl") || strings.HasSuffix(filename, ".gotpl") {
-			content, err := fs.ReadFile(StatikFS, filepath)
-			if err != nil {
-				return errors.Wrap(err, "statik fs ReadFile error")
-			}
-			t, err = t.New(filepath).Parse(string(content))
-			if err != nil {
-				return errors.Wrap(err, "template parse error")
-			}
-		}
-		return nil
-	})
-	return t, err
 }

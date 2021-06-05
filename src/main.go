@@ -1,4 +1,3 @@
-//go:generate statik -src=./statics
 //go:generate swag init --dir ./ --generalInfo apis/apis.go --propertyStrategy snakecase --output ./apis/docs
 
 package main
