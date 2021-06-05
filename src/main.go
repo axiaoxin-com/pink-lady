@@ -44,6 +44,8 @@ func main() {
 	// 创建 gin app
 	middlewares := DefaultGinMiddlewares()
 	app := webserver.NewGinEngine(&statics.Files, middlewares...)
+	// 注册路由
+	apis.Register(app)
 	// 运行服务
-	webserver.Run(app, apis.Register)
+	webserver.Run(app)
 }

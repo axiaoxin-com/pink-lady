@@ -7,7 +7,7 @@ require (
 	github.com/axiaoxin-com/goutils v1.0.16
 	github.com/axiaoxin-com/logging v1.2.9
 	github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605080030-7ecedccb0e40
-	github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8 // indirect
+	github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201123043109-7057d78a09dc // indirect
 	github.com/denisenkom/go-mssqldb v0.10.0 // indirect
 	github.com/getsentry/sentry-go v0.11.0 // indirect
 	github.com/gin-contrib/pprof v1.3.0
