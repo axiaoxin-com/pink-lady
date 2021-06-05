@@ -15,32 +15,12 @@ import (
 var (
 	// prometheus namespace
 	promNamespace = "webserver"
-	// gin prometheus labels
-	promLabels = []string{
-		"status_code",
-		"path",
-		"method",
-	}
-	promUptime = promauto.NewCounterVec(
+	promUptime    = promauto.NewCounterVec(
 		prometheus.CounterOpts{
 			Namespace: promNamespace,
 			Name:      "server_uptime",
 			Help:      "gin server uptime in seconds",
 		}, nil,
-	)
-	promReqCount = promauto.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: promNamespace,
-			Name:      "req_count",
-			Help:      "gin server request count",
-		}, promLabels,
-	)
-	promReqLatency = promauto.NewHistogramVec(
-		prometheus.HistogramOpts{
-			Namespace: promNamespace,
-			Name:      "req_latency",
-			Help:      "gin server request latency in seconds",
-		}, promLabels,
 	)
 )
 
