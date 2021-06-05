@@ -3,7 +3,7 @@
 package apis
 
 import (
-	"github.com/axiaoxin-com/pink-lady/response"
+	"github.com/axiaoxin-com/pink-lady/apis/response"
 	"github.com/axiaoxin-com/pink-lady/services"
 
 	"github.com/gin-gonic/gin"
