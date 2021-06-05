@@ -6,9 +6,9 @@ require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/axiaoxin-com/goutils v1.0.3-0.20201221011103-1fcdafcc4e47
 	github.com/axiaoxin-com/logging v1.2.9
-	github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8
+	github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605075644-87bd48bbd465
+	github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8 // indirect
 	github.com/denisenkom/go-mssqldb v0.9.0 // indirect
-	github.com/fsnotify/fsnotify v1.4.9
 	github.com/getsentry/sentry-go v0.9.0 // indirect
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-gonic/gin v1.6.3
@@ -16,7 +16,6 @@ require (
 	github.com/go-openapi/swag v0.19.9 // indirect
 	github.com/go-redis/redis/v8 v8.4.4 // indirect
 	github.com/jackc/pgx/v4 v4.10.1 // indirect
-	github.com/json-iterator/go v1.1.10
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lib/pq v1.8.0 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect

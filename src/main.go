@@ -7,9 +7,29 @@ import (
 
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/apis"
+	"github.com/axiaoxin-com/pink-lady/response"
 	"github.com/axiaoxin-com/pink-lady/services"
-	"github.com/axiaoxin-com/pink-lady/webserver"
+	"github.com/axiaoxin-com/pink-lady/src/webserver"
+	"github.com/axiaoxin-com/pink-lady/statics"
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
+
+// DefaultGinMiddlewares 默认的 gin server 使用的中间件列表
+func DefaultGinMiddlewares() []gin.HandlerFunc {
+	m := []gin.HandlerFunc{
+		// 记录请求处理日志，最顶层执行
+		webserver.GinLogMiddleware(),
+		// 捕获 panic 保存到 context 中由 GinLogger 统一打印， panic 时返回 500 JSON
+		webserver.GinRecovery(response.Respond),
+	}
+
+	// 配置开启请求限频则添加限频中间件
+	if viper.GetBool("ratelimiter.enable") {
+		m = append(m, webserver.GinRatelimitMiddleware())
+	}
+	return m
+}
 
 func main() {
 	configFile := flag.String("c", "./config.default.toml", "name of config file without format suffix)")
@@ -22,8 +42,8 @@ func main() {
 	}
 
 	// 创建 gin app
-	middlewares := webserver.DefaultGinMiddlewares()
-	app := webserver.NewGinEngine(middlewares...)
+	middlewares := DefaultGinMiddlewares()
+	app := webserver.NewGinEngine(&statics.Files, middlewares...)
 	// 运行服务
 	webserver.Run(app, apis.Register)
 }

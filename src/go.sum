@@ -59,6 +59,8 @@ github.com/axiaoxin-com/goutils v1.0.3-0.20201221011103-1fcdafcc4e47/go.mod h1:E
 github.com/axiaoxin-com/logging v1.2.3/go.mod h1:WM8Q9JLUi1jDh51XirUBDn8QXkxc8AO2oApFXHiEXf4=
 github.com/axiaoxin-com/logging v1.2.9 h1:DkoLMqVwRNZHETaaz0NRnx7TnyDYQeKJL7A2YXCroe4=
 github.com/axiaoxin-com/logging v1.2.9/go.mod h1:Jx322YD47doa/j9kn3pNPntze8b9bOVxf3So0LmdRMg=
+github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605075644-87bd48bbd465 h1:v2KlSj8B4MfjCgvv2bFQaAQ5jscCps4g/U62PsIFJEg=
+github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605075644-87bd48bbd465/go.mod h1:JGeBIgKiNwNtQwuxk+eJ8otW2TXt9N1cLNUUBzMl+no=
 github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8 h1:NmDtkmm1xiACrDpTIjTDbNej3hzOgB4MVndjEWcmX3E=
 github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8/go.mod h1:Ttgo3FDcjCphOrAfdZTIzYKZogR68oRxTqL+aGKW5fI=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
