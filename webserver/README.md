@@ -1,6 +1,6 @@
 # webserver 包的使用方法
 
-大致流程如下，具体参考 [src/main.go](../main.go)
+大致流程如下，具体参考 [main.go](./main.go)
 
 1. 加载配置文件，根据配置信息个性化 web server
 

@@ -7,7 +7,7 @@ realpath() {
 
 # PATHS
 PROJECT_PATH=$(dirname $(dirname $(dirname $(realpath $0))))
-SRC_PATH=${PROJECT_PATH}/src
+SRC_PATH=${PROJECT_PATH}
 DIST_PATH=${PROJECT_PATH}/dist
 NOW=$(date "+%Y%m%d-%H%M%S")
 

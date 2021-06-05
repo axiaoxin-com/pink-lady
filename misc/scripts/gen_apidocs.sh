@@ -6,7 +6,7 @@ realpath() {
 }
 
 PROJECT_PATH=$(dirname $(dirname $(dirname $(realpath $0))))
-SRC_PATH=${PROJECT_PATH}/src
+SRC_PATH=${PROJECT_PATH}
 
 # swag init必须在main.go所在的目录下执行，否则必须用--dir参数指定main.go的路径
 swag init --dir ${SRC_PATH}/ --generalInfo apis/apis.go --propertyStrategy snakecase --output ${SRC_PATH}/apis/docs
