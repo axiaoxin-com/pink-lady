@@ -107,7 +107,7 @@ func InitWithConfigFile(configFile string) {
 
 // Run 以 viper 加载的 app 配置启动运行 http.Handler 的 app
 // 注意：这里依赖 viper ，必须在外部先对 viper 配置进行加载
-func Run(app http.Handler, routesRegister func(http.Handler)) {
+func Run(app http.Handler) {
 	// 结束时关闭 db 连接
 	defer goutils.CloseGormInstances()
 
@@ -115,9 +115,6 @@ func Run(app http.Handler, routesRegister func(http.Handler)) {
 	if !goutils.IsInitedViper() {
 		panic("Running server must init viper by config file first!")
 	}
-
-	// 注册 api 路由
-	routesRegister(app)
 
 	// 创建 server
 	addr := viper.GetString("server.addr")
