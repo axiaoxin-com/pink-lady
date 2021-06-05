@@ -4,9 +4,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
 
-	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/apis"
 	"github.com/axiaoxin-com/pink-lady/apis/response"
@@ -38,8 +36,6 @@ func main() {
 	flag.Parse()
 	webserver.InitWithConfigFile(*configFile)
 
-	db, err := goutils.GormMySQL("localhost")
-	fmt.Println("=====>", db, err)
 	// 初始化或加载外部依赖服务
 	if err := services.Init(); err != nil {
 		logging.Error(nil, "services init error:"+err.Error())
