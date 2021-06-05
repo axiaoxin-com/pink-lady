@@ -17,7 +17,6 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/apis/docs"
 	"github.com/axiaoxin-com/pink-lady/src/webserver"
 	"github.com/gin-contrib/pprof"
@@ -65,7 +64,7 @@ func Register(httpHandler http.Handler) {
 			pprof.RouteRegister(x, "/pprof")
 		}
 		if viper.GetBool("server.metrics") {
-			x.GET("/metrics", logging.WrapGinPromExporter())
+			x.GET("/metrics", webserver.PromExporterHandler())
 		}
 		// ginSwagger 生成的在线 API 文档路由
 		x.GET("/apidocs/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, DisableGinSwaggerEnvkey))
