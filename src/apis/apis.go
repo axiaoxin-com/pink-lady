@@ -14,7 +14,6 @@
 package apis
 
 import (
-	"html/template"
 	"net/http"
 
 	"github.com/axiaoxin-com/pink-lady/apis/docs"
@@ -34,13 +33,6 @@ const (
 	// DisableGinSwaggerEnvkey 设置该环境变量时关闭 swagger 文档
 	DisableGinSwaggerEnvkey = "DISABLE_GIN_SWAGGER"
 )
-
-// SetHTMLTemplate 设置 HTML 模板
-func SetHTMLTemplate(app *gin.Engine, tmpls ...string) gin.HandlerFunc {
-	return func(*gin.Context) {
-		app.SetHTMLTemplate(template.Must(template.ParseFiles(tmpls...)))
-	}
-}
 
 // Register 在 gin engine 上注册 url 对应的 HandlerFunc
 func Register(httpHandler http.Handler) {

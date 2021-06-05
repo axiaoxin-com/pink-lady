@@ -6,7 +6,7 @@ require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/axiaoxin-com/goutils v1.0.16
 	github.com/axiaoxin-com/logging v1.2.9
-	github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605084610-c42e14cfd8e2
+	github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605090903-f70ac9befd12
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-openapi/spec v0.19.9 // indirect
