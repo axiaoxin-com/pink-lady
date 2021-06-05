@@ -84,13 +84,8 @@ github.com/axiaoxin-com/goutils v1.0.16/go.mod h1:OL6N2EvQqPpU08lu7MboM59ej8tUrw
 github.com/axiaoxin-com/logging v1.2.3/go.mod h1:WM8Q9JLUi1jDh51XirUBDn8QXkxc8AO2oApFXHiEXf4=
 github.com/axiaoxin-com/logging v1.2.9 h1:DkoLMqVwRNZHETaaz0NRnx7TnyDYQeKJL7A2YXCroe4=
 github.com/axiaoxin-com/logging v1.2.9/go.mod h1:Jx322YD47doa/j9kn3pNPntze8b9bOVxf3So0LmdRMg=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605080030-7ecedccb0e40 h1:vun4GXBgjuhquSUYHG+uinfpASF70mlmOF53p0HTkzw=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605080030-7ecedccb0e40/go.mod h1:FDyTHUH9UZdw5m2e6PFDonBb/T38FEX3kU6aG9hny7Q=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605080511-8e76216271c8 h1:3RcTIdaLRKuzcH3nzN6Zj26aFIiPXDxOZLa7X31BWOY=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605080511-8e76216271c8/go.mod h1:D21zUZN/oPZGK/MDB6LL3+nbv7P0wvk04S5WESlKMGY=
-github.com/axiaoxin-com/ratelimiter v1.0.0/go.mod h1:fQkIY4ReY3Oufm15vSJCwOOn60maZ0SFChHpM37C+OE=
-github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8 h1:NmDtkmm1xiACrDpTIjTDbNej3hzOgB4MVndjEWcmX3E=
-github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201111073343-ee4211cc00d8/go.mod h1:Ttgo3FDcjCphOrAfdZTIzYKZogR68oRxTqL+aGKW5fI=
+github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605084610-c42e14cfd8e2 h1:C6gL7JGA23tzGs8FmqP2IXeFY1V4PB2nw4Dbx7kg2Uk=
+github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605084610-c42e14cfd8e2/go.mod h1:D21zUZN/oPZGK/MDB6LL3+nbv7P0wvk04S5WESlKMGY=
 github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201123043109-7057d78a09dc h1:n2ZxLJ79y+hCxgKdX7qpJbjZQsVXv8e2uz5/xfZRHno=
 github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201123043109-7057d78a09dc/go.mod h1:Ttgo3FDcjCphOrAfdZTIzYKZogR68oRxTqL+aGKW5fI=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
