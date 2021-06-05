@@ -82,12 +82,8 @@ github.com/axiaoxin-com/goutils v1.0.3-0.20201019024427-66fe97b27be4/go.mod h1:Z
 github.com/axiaoxin-com/goutils v1.0.16 h1:VilXCXDPYD+e/1WQ5VmpDZ3Cgf/HEbafYUjTqjlcD+U=
 github.com/axiaoxin-com/goutils v1.0.16/go.mod h1:OL6N2EvQqPpU08lu7MboM59ej8tUrw5b+bowliU6ekw=
 github.com/axiaoxin-com/logging v1.2.3/go.mod h1:WM8Q9JLUi1jDh51XirUBDn8QXkxc8AO2oApFXHiEXf4=
-github.com/axiaoxin-com/logging v1.2.9 h1:DkoLMqVwRNZHETaaz0NRnx7TnyDYQeKJL7A2YXCroe4=
-github.com/axiaoxin-com/logging v1.2.9/go.mod h1:Jx322YD47doa/j9kn3pNPntze8b9bOVxf3So0LmdRMg=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605084610-c42e14cfd8e2 h1:C6gL7JGA23tzGs8FmqP2IXeFY1V4PB2nw4Dbx7kg2Uk=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605084610-c42e14cfd8e2/go.mod h1:D21zUZN/oPZGK/MDB6LL3+nbv7P0wvk04S5WESlKMGY=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605090903-f70ac9befd12 h1:Jai7wAGrRZmkHIaUcyx23C0znYiR5mcVJJvvJNt7ruE=
-github.com/axiaoxin-com/pink-lady/src/webserver v0.0.0-20210605090903-f70ac9befd12/go.mod h1:Y9uX1sX7C/Uns4LMZDGYknR2KPWy1n6nFRoiauhD3Hs=
+github.com/axiaoxin-com/logging v1.2.10 h1:6O/BERqjzwiRzusg4qXqimu/iFHa3PGaZZb4A4hzETA=
+github.com/axiaoxin-com/logging v1.2.10/go.mod h1:Jx322YD47doa/j9kn3pNPntze8b9bOVxf3So0LmdRMg=
 github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201123043109-7057d78a09dc h1:n2ZxLJ79y+hCxgKdX7qpJbjZQsVXv8e2uz5/xfZRHno=
 github.com/axiaoxin-com/ratelimiter v1.0.1-0.20201123043109-7057d78a09dc/go.mod h1:Ttgo3FDcjCphOrAfdZTIzYKZogR68oRxTqL+aGKW5fI=
 github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible/go.mod h1:osfaiScAUVup+UC9Nfq76eWqDhXlp+4UYaA8uhTBO6g=
