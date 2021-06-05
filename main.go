@@ -7,7 +7,7 @@ import (
 
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/pink-lady/apis"
-	"github.com/axiaoxin-com/pink-lady/response"
+	"github.com/axiaoxin-com/pink-lady/apis/response"
 	"github.com/axiaoxin-com/pink-lady/services"
 	"github.com/axiaoxin-com/pink-lady/statics"
 	"github.com/axiaoxin-com/pink-lady/webserver"
