@@ -13,7 +13,7 @@ import (
 func TestNewGinEngine(t *testing.T) {
 	viper.SetDefault("server.mode", "release")
 	defer viper.Reset()
-	app := NewGinEngine()
+	app := NewGinEngine(nil)
 	assert.NotNil(t, app)
 }
 

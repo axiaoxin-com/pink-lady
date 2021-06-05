@@ -27,13 +27,11 @@ func TestRun(t *testing.T) {
 	defer viper.Reset()
 	viper.Set("server.mode", "release")
 	viper.Set("logging.level", "error")
-	app := NewGinEngine()
-	register := func(g http.Handler) {
-		g.(*gin.Engine).GET("/666", func(c *gin.Context) {
-			c.JSON(200, 666)
-		})
-	}
-	go Run(app, register)
+	app := NewGinEngine(nil)
+	app.GET("/666", func(c *gin.Context) {
+		c.JSON(200, 666)
+	})
+	go Run(app)
 	time.Sleep(100 * time.Millisecond)
 
 	rsp, err := http.Get("http://localhost" + viper.GetString("server.addr") + "/666")
@@ -56,13 +54,11 @@ func TestUnixRun(t *testing.T) {
 	viper.Set("server.addr", "unix:"+socketFilename)
 	viper.Set("server.mode", "release")
 	viper.Set("logging.level", "error")
-	app := NewGinEngine()
-	register := func(g http.Handler) {
-		g.(*gin.Engine).GET("/666", func(c *gin.Context) {
-			c.JSON(200, 666)
-		})
-	}
-	go Run(app, register)
+	app := NewGinEngine(nil)
+	app.GET("/666", func(c *gin.Context) {
+		c.JSON(200, 666)
+	})
+	go Run(app)
 	time.Sleep(100 * time.Millisecond)
 
 	client := http.Client{
