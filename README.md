@@ -6,10 +6,10 @@
 go get -u github.com/swaggo/swag/cmd/swag
 ```
 
-在项目根目录中执行以下命令会在 `apis` 目录中生成 api 文档
+在项目根目录中执行以下命令会在 `routes` 目录中生成 api 文档
 
 ```
-swag init --dir ./ --generalInfo apis/apis.go --propertyStrategy snakecase --output ./apis/docs
+swag init --dir ./ --generalInfo routes/routes.go --propertyStrategy snakecase --output ./routes/docs
 ```
 
 api 文档地址： <http://localhost:4869/x/apidocs/index.html>
@@ -77,7 +77,7 @@ httplive -d `pwd`/httplive.db -p 5003
 
 # API 开发
 
-使用 [pink-lady](http://github.com/axiaoxin-com/pink-lady) 开发 web api 服务，你只需实现 gin 的 `HandlerFunc` 并在 `apis/routes.go` 的 `Routes` 函数中注册到对应的 URL 上即可。
+使用 [pink-lady](http://github.com/axiaoxin-com/pink-lady) 开发 web api 服务，你只需实现 gin 的 `HandlerFunc` 并在 `routes/routes.go` 的 `Routes` 函数中注册到对应的 URL 上即可。
 
 api 中使用 `c.Error(err)` 会将 err 保存到 context 中，打印访问日志时会以 `Error` 级别自动打印错误信息。避免同一类错误打印多次日志影响问题定位效率。
 

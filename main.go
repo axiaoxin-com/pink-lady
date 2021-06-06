@@ -1,4 +1,4 @@
-//go:generate swag init --dir ./ --generalInfo apis/apis.go --propertyStrategy snakecase --output ./apis/docs
+//go:generate swag init --dir ./ --generalInfo routes/routes.go --propertyStrategy snakecase --output ./routes/docs
 
 package main
 
@@ -6,8 +6,8 @@ import (
 	"flag"
 
 	"github.com/axiaoxin-com/logging"
-	"github.com/axiaoxin-com/pink-lady/apis"
-	"github.com/axiaoxin-com/pink-lady/apis/response"
+	"github.com/axiaoxin-com/pink-lady/routes"
+	"github.com/axiaoxin-com/pink-lady/routes/response"
 	"github.com/axiaoxin-com/pink-lady/services"
 	"github.com/axiaoxin-com/pink-lady/statics"
 	"github.com/axiaoxin-com/pink-lady/webserver"
@@ -45,7 +45,7 @@ func main() {
 	middlewares := DefaultGinMiddlewares()
 	app := webserver.NewGinEngine(&statics.Files, middlewares...)
 	// 注册路由
-	apis.Register(app)
+	routes.Register(app)
 	// 运行服务
 	webserver.Run(app)
 }

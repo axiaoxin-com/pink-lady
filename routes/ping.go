@@ -1,9 +1,9 @@
 // 默认实现的 ping api
 
-package apis
+package routes
 
 import (
-	"github.com/axiaoxin-com/pink-lady/apis/response"
+	"github.com/axiaoxin-com/pink-lady/routes/response"
 	"github.com/axiaoxin-com/pink-lady/services"
 
 	"github.com/gin-gonic/gin"
