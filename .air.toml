@@ -3,9 +3,9 @@ tmp_dir = "tmp"
 
 [build]
   bin = "./tmp/main -c config.default.toml"
-  cmd = "go build -o ./tmp/main ."
+  cmd = "swag init --dir ./ --generalInfo routes/routes.go --propertyStrategy snakecase --output ./routes/docs && go build -o ./tmp/main ."
   delay = 1000
-  exclude_dir = ["assets", "tmp", "vendor"]
+  exclude_dir = ["assets", "tmp", "vendor", "routes/docs"]
   exclude_file = []
   exclude_regex = []
   exclude_unchanged = false

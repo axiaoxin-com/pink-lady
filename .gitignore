@@ -14,5 +14,6 @@
 
 # custom
 .DS_Store
-./dist/*
+dist/
 *.log
+tmp/
