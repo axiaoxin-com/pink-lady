@@ -1,10 +1,8 @@
-// Package statics 静态文件嵌入
+// Package statics embed 静态文件
 package statics
 
 import "embed"
 
-var (
-	// Files 静态文件嵌入
-	//go:embed files/*
-	Files embed.FS
-)
+// Files 静态文件资源
+//go:embed css/* font/* html/* img/* js/*
+var Files embed.FS
