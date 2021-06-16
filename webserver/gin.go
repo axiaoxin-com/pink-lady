@@ -44,7 +44,7 @@ func NewGinEngine(staticsFiles *embed.FS, middlewares ...gin.HandlerFunc) *gin.E
 
 	// load html template
 	if staticsFiles != nil {
-		tmplPath := viper.GetString("statics.tmplpath")
+		tmplPath := viper.GetString("statics.tmpl_path")
 		if tmplPath != "" {
 			t, err := template.ParseFS(*staticsFiles, tmplPath)
 			if err != nil {
