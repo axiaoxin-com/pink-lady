@@ -9,7 +9,6 @@ import (
 	"github.com/axiaoxin-com/pink-lady/routes"
 	"github.com/axiaoxin-com/pink-lady/routes/response"
 	"github.com/axiaoxin-com/pink-lady/services"
-	"github.com/axiaoxin-com/pink-lady/statics"
 	"github.com/axiaoxin-com/pink-lady/webserver"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -43,7 +42,7 @@ func main() {
 
 	// 创建 gin app
 	middlewares := DefaultGinMiddlewares()
-	app := webserver.NewGinEngine(&statics.Files, middlewares...)
+	app := webserver.NewGinEngine(middlewares...)
 	// 注册路由
 	routes.Register(app)
 	// 运行服务
