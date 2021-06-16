@@ -37,7 +37,7 @@ env = "localhost"
 
 ########## token bucket 请求频率限制配置
 [ratelimiter]
-    # 是否开启 ratelimiter 请求频率限制
+    # 是否开启 ratelimiter 请求频率限制，需修改webserver/gin_middlewares.go 中的 TODO 按自身需求实现
     enable = false
     # 限频方式： mem->进程内存； redis.<WHICH>->使用用配置文件中对应的 redis 配置，如 redis.localhost
     type = "mem"
