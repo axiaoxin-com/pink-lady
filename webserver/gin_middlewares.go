@@ -120,8 +120,8 @@ func GinRatelimitMiddleware() gin.HandlerFunc {
 		LimitedHandler: ratelimiter.DefaultGinLimitedHandler,
 		// TODO: you should implement this function by yourself
 		TokenBucketConfig: func(*gin.Context) (time.Duration, int) {
-			// 每1秒填充1个token，桶容量为5（1秒最多5次请求）
-			return time.Second * 1, 5
+			// 每1秒填充1个token，桶容量为10（1秒最多10次请求）
+			return time.Second * 1, 10
 		},
 	}
 
