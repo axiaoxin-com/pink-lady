@@ -11,11 +11,12 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/getsentry/sentry-go v0.11.0 // indirect
 	github.com/gin-contrib/pprof v1.3.0
-	github.com/gin-gonic/gin v1.7.2
+	github.com/gin-gonic/gin v1.7.2-0.20210603121251-34ce2104cad3
 	github.com/go-openapi/spec v0.20.3 // indirect
 	github.com/go-openapi/swag v0.19.15 // indirect
 	github.com/go-playground/validator/v10 v10.6.1 // indirect
 	github.com/go-redis/redis/v8 v8.10.0 // indirect
+	github.com/goccy/go-json v0.7.1 // indirect
 	github.com/jackc/pgproto3/v2 v2.1.0 // indirect
 	github.com/jmoiron/sqlx v1.3.4 // indirect
 	github.com/json-iterator/go v1.1.11
