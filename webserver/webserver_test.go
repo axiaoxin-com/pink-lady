@@ -27,7 +27,7 @@ func TestRun(t *testing.T) {
 	defer viper.Reset()
 	viper.Set("server.mode", "release")
 	viper.Set("logging.level", "error")
-	app := NewGinEngine(nil)
+	app := NewGinEngine()
 	app.GET("/666", func(c *gin.Context) {
 		c.JSON(200, 666)
 	})
@@ -54,7 +54,7 @@ func TestUnixRun(t *testing.T) {
 	viper.Set("server.addr", "unix:"+socketFilename)
 	viper.Set("server.mode", "release")
 	viper.Set("logging.level", "error")
-	app := NewGinEngine(nil)
+	app := NewGinEngine()
 	app.GET("/666", func(c *gin.Context) {
 		c.JSON(200, 666)
 	})
