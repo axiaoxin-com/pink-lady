@@ -30,7 +30,7 @@ env = "localhost"
     # 指定读取客户端 IP 的 RemoteIPHeaders
     remote_ip_headers = ["X-Forwarded-For", "X-Real-IP"]
     # 指定可信代理
-    trusted_proxies = ["127.0.0.0/8", "192.168.0.0/16", "172.16.0.0/12", "10.0.0.0/8"]
+    trusted_proxies = ["127.0.0.0/8", "192.168.0.0/16", "172.16.0.0/12", "10.0.0.0/8", "::1/128"]
 
 
 
