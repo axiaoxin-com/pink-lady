@@ -40,7 +40,7 @@ main() {
     # init a git repo
     echo -ne "Do you want to init a git repo[N/y]: "
     read initgit
-    if [ "${initgit}" == "y" ] || [ "${rmdemo}" == "Y" ]; then
+    if [ "${initgit}" == "y" ] || [ "${initgit}" == "Y" ]; then
         cd ${gopath}/src/${projname} && git init && git add . && git commit -m "init project with pink-lady"
         cp ${gopath}/src/${projname}/misc/scripts/pre-push.githook ${gopath}/src/${projname}/.git/hooks/pre-push
         chmod +x ${gopath}/src/${projname}/.git/hooks/pre-push
