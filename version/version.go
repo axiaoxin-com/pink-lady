@@ -3,5 +3,5 @@ package version
 
 const (
 	// Version api 版本号
-	Version string = "1.4.0"
+	Version string = "1.4.1"
 )
