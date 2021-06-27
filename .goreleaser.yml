@@ -3,8 +3,8 @@
 before:
   hooks:
     - go mod tidy
-    - bash ./misc/scripts/bumpversion.sh
     - go test -v -race ./...
+    - bash ./misc/scripts/bumpversion.sh
 builds:
   - env:
       - CGO_ENABLED=0
