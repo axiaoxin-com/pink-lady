@@ -7,13 +7,11 @@ main() {
         exit -1
     fi
     echo -e "New project will be create in ${gopath}/src/"
-    echo -ne "Enter your new project full name: "
+    echo -ne "Enter your new project full name (eg. github.com/my_username/my_projname): "
     read projname
 
     # get template project
     echo -e "Downloading the template..."
-    # git clone https://github.com/axiaoxin-com/pink-lady.git ${gopath}/src/${projname}
-    rm -
     if !(curl https://codeload.github.com/axiaoxin-com/pink-lady/zip/master -o /tmp/pink-lady.zip && unzip /tmp/pink-lady.zip -d /tmp)
     then
         echo "Downloading failed."
