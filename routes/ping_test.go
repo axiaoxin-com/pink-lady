@@ -15,7 +15,7 @@ func TestPing(t *testing.T) {
 	viper.Set("basic_auth.username", "admin")
 	viper.Set("basic_auth.password", "admin")
 	defer viper.Reset()
-	Register(r)
+	InitRouter(r)
 	recorder, err := goutils.RequestHTTPHandler(
 		r,
 		"GET",

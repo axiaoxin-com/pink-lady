@@ -44,7 +44,7 @@ func main() {
 	middlewares := DefaultGinMiddlewares()
 	app := webserver.NewGinEngine(middlewares...)
 	// 注册路由
-	routes.Register(app)
+	routes.InitRouter(app)
 	// 运行服务
 	webserver.Run(app)
 }
