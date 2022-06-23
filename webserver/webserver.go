@@ -170,7 +170,7 @@ func Run(app http.Handler) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
-		logging.Fatal(nil, "Server shutdown with error: "+err.Error())
+		logging.Error(nil, "Server shutdown with error: "+err.Error())
 	}
 	logging.Info(nil, "Server exit.")
 }
