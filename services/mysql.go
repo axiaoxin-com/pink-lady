@@ -20,7 +20,7 @@ func DB(ctx context.Context) *gorm.DB {
 		if dbname == "" {
 			dbname = "/tmp/pinklady_test.db"
 		}
-		db, err := goutils.NewGormSQLite3(goutils.DBConfig{DBName: dbname, GormConfig: &gorm.Config{
+		db, err := goutils.NewGormSQLite(goutils.DBConfig{DBName: dbname, GormConfig: &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Info),
 		}})
 		if err != nil {

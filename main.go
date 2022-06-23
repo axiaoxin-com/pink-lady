@@ -12,6 +12,7 @@ import (
 	"github.com/axiaoxin-com/pink-lady/webserver"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"golang.org/x/text/language"
 )
 
 // DefaultGinMiddlewares 默认的 gin server 使用的中间件列表
@@ -27,6 +28,11 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 	if viper.GetBool("ratelimiter.enable") {
 		m = append(m, webserver.GinRatelimitMiddleware())
 	}
+	// i18n多语言
+	if viper.GetBool("i18n.enable") {
+		m = append(m, webserver.GinSetLanguage([]language.Tag{language.Chinese, language.English}))
+	}
+
 	return m
 }
 

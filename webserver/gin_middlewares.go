@@ -13,8 +13,10 @@ import (
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
 	"github.com/axiaoxin-com/ratelimiter"
+	"github.com/chai2010/gettext-go"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"golang.org/x/text/language"
 )
 
 // GinBasicAuth gin 的基础认证中间件
@@ -140,4 +142,66 @@ func GinRatelimitMiddleware() gin.HandlerFunc {
 		limiterMiddleware = ratelimiter.GinMemRatelimiter(limiterConf)
 	}
 	return limiterMiddleware
+}
+
+// GinSetLanguage 设置i18n语言
+func GinSetLanguage(supportedLangTags []language.Tag) gin.HandlerFunc {
+	gettext.BindLocale(gettext.New(viper.GetString("i18n.domain"), viper.GetString("i18n.path")))
+	return func(c *gin.Context) {
+		var err error
+		var langTags []language.Tag
+		var saveLangInCookie = false
+		var cookieName = "lang"
+
+		if !strings.HasPrefix(c.Request.RequestURI, viper.GetString("statics.url")) {
+			// 尝试从url获取lang参数
+			lang := c.Query("lang")
+			if lang != "" {
+				langTags, _, err = language.ParseAcceptLanguage(lang)
+				if err != nil {
+					logging.Warn(c, "GinSetLanguage ParseAcceptLanguage from query error:"+err.Error())
+				} else {
+					saveLangInCookie = true
+				}
+			}
+
+			// 尝试从cookie获取lang
+			if langTags == nil {
+				cookieLang, err := c.Cookie(cookieName)
+				if err != nil {
+					logging.Warn(c, "GinSetLanguage get cookieLang error:"+err.Error())
+				} else {
+					langTags, _, err = language.ParseAcceptLanguage(cookieLang)
+					if err != nil {
+						logging.Warn(c, "GinSetLanguage ParseAcceptLanguage from cookieLang error:"+err.Error())
+					}
+				}
+			}
+
+			// 从请求头获取accept-language
+			if langTags == nil {
+				langTags, _, err = language.ParseAcceptLanguage(c.Request.Header.Get("Accept-Language"))
+				if err != nil {
+					logging.Warn(c, "GinSetLanguage ParseAcceptLanguage from header error:"+err.Error())
+				}
+			}
+
+			matcher := language.NewMatcher(supportedLangTags)
+			code, _, _ := matcher.Match(langTags...)
+			base, _ := code.Base()
+			lang = base.String()
+
+			if saveLangInCookie {
+				c.SetCookie(cookieName, lang, 60*60*24*30, "", "", false, true)
+				logging.Debug(c, "GinSetLanguage set lang to cookie")
+			}
+
+			// 设置gettext lang
+			lang = gettext.SetLanguage(lang)
+			logging.Debug(c, "GinSetLanguage set lang="+lang)
+		}
+
+		c.Next()
+	}
+
 }

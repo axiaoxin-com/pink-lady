@@ -43,6 +43,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 - 支持 ratelimiter 请求限频
 - 通过配置集成 go html template，可自由注册 template funcs map
 - embed 静态资源编译进二进制文件中
+- i18n国际化支持
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
@@ -160,4 +161,22 @@ go run main.go -p . -c config.default -t toml
 ```
 go generate
 env GOOS=linux go build -o app -tags=jsoniter
+```
+
+## i18n国际化支持集成方法
+对golang代码中需要进行翻译的文字使用`gettext.Gettext("")`包裹，对网页模板中的翻译文字使用 `{{ _text "" }}`包裹后，进入 `statics/i18n` 目录下提取并编译对应的mo文件
+
+```
+cd ./statics/i18n
+
+# 提取翻译文字生成模板
+./pot_extract.sh
+
+# 初始化英文模板，增加其他语言可以修改脚本，创建对应的目录即可
+./po_init.sh
+
+# 打开对应路径下的po文件进行翻译，msgid对应的msgstr改为对应语言即可，可以使用`poedit`进行操作。
+
+# 完成翻译后编译po文件生成mo文件
+./po2mo.sh
 ```

@@ -43,6 +43,20 @@ env = "localhost"
 
 
 
+########## 国际化多语言i18n配置
+# pink-lady的i18n方法采用GNU的xgettext从代码中提取要翻译的文字生成翻译模板pot
+# 使用多语言需要先执行生成并编译po文件，相关脚本在statics/i18n下
+# 通过注册中间件动态设置gettext的语言
+[i18n]
+    # 开启i18n
+    enable = true
+    # gettext的domain参数，必须和mo文件的文件名相同
+    domain = "messages"
+    # gettext的path参数，指定mo文件所在路径，mo文件路径*必须*为 path/en(对应翻译语言名称)/LC_MESSAGES/domain(domain指定的名称).mo
+    path = "statics/i18n"
+
+
+
 ########## token bucket 请求频率限制配置
 [ratelimiter]
     # 是否开启 ratelimiter 请求频率限制，需修改webserver/gin_middlewares.go 中的 TODO 按自身需求实现

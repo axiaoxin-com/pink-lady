@@ -30,7 +30,7 @@ func InitWithConfigFile(configFile string) {
 	configName := strings.TrimSuffix(file, ext)
 	logging.Infof(nil, "load %s type config file %s from %s", configType, configName, configPath)
 
-	if err := goutils.InitViper(configPath, configName, configType, func(e fsnotify.Event) {
+	if err := goutils.InitViper(configFile, func(e fsnotify.Event) {
 		logging.Warn(nil, "Config file changed:"+e.Name)
 		logging.SetLevel(viper.GetString("logging.level"))
 	}); err != nil {

@@ -2,10 +2,15 @@
 
 package webserver
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/chai2010/gettext-go"
+)
 
 // TemplFuncs is a template.FuncMap with functions that can be used as template actions.
 var TemplFuncs = map[string]interface{}{
+	"_text": gettext.Gettext,
 	"_int_sum": func(ints ...int) int {
 		sum := 0
 		for _, i := range ints {

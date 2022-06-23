@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/axiaoxin-com/goutils"
+	"github.com/chai2010/gettext-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -51,7 +52,7 @@ func Respond(c *gin.Context, status int, data interface{}, errcode error, extraM
 
 	resp := Response{
 		Code: code,
-		Msg:  msg,
+		Msg:  gettext.Gettext(msg),
 		Data: data,
 	}
 	c.Header("x-response-code", fmt.Sprint(code))
