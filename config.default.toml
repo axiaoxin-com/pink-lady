@@ -24,14 +24,6 @@ env = "localhost"
     # 开启 prometheus metrics
     metrics = true
 
-    # 反向代理时客户端 IP 相关配置：只有来自 trusted_proxies 的 remote_ip_headers 中指定的头信息中的IP才被获取
-    # 开启从反向代理的 RemoteIPHeaders 中获取客户端 IP
-    forwarded_by_client_ip = true
-    # 指定读取客户端 IP 的 RemoteIPHeaders
-    remote_ip_headers = ["X-Forwarded-For", "X-Real-IP"]
-    # 指定可信代理
-    trusted_proxies = ["0.0.0.0/0", "::/0"]
-
 
 
 ########## 静态文件相关配置

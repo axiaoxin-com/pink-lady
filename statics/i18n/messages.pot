@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-23 21:24+0800\n"
+"POT-Creation-Date: 2022-06-29 12:19+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "成功"
-msgstr ""
+msgstr "Success"
 
 msgid "失败"
-msgstr ""
+msgstr "Failure"
 
 msgid "参数错误"
-msgstr ""
+msgstr "Invalid Params"
 
 msgid "未找到"
-msgstr ""
+msgstr "Not Found"
 
 msgid "未知错误"
-msgstr ""
-
-msgid "主页"
-msgstr ""
+msgstr "Unknown Error"

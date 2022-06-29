@@ -33,10 +33,6 @@ func NewGinEngine(middlewares ...gin.HandlerFunc) *gin.Engine {
 	engine := gin.New()
 	// ///a///b -> /a/b
 	engine.RemoveExtraSlash = true
-	// client ip
-	engine.ForwardedByClientIP = viper.GetBool("server.forwarded_by_client_ip")
-	engine.SetTrustedProxies(viper.GetStringSlice("server.trusted_proxies"))
-	engine.RemoteIPHeaders = viper.GetStringSlice("server.RemoteIPHeaders")
 
 	// use middlewares
 	for _, middleware := range middlewares {
