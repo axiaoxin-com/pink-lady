@@ -3,5 +3,7 @@ package services
 
 // Init 相关依赖服务的初始化或加载操作
 func Init() error {
+	// init your services
+	// InitDB()
 	return nil
 }
