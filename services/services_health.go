@@ -16,18 +16,16 @@ import (
 // CheckMySQL 检查 mysql 服务状态
 func CheckMySQL(ctx context.Context) map[string]string {
 	// 检查 mysql
-	env := viper.GetString("env")
-	envMySQLStatus := "ok"
-	if envMySQL, err := goutils.GormMySQL(env); err != nil {
-		envMySQLStatus = err.Error()
-	} else if sqlDB, err := envMySQL.DB(); err != nil {
-		envMySQLStatus = err.Error()
-	} else if err := sqlDB.Ping(); err != nil {
-		envMySQLStatus = err.Error()
+	result := map[string]string{
+		"db": "ok",
 	}
-	return map[string]string{
-		env: envMySQLStatus,
+	db, err := DB.DB()
+	if err != nil {
+		result["db"] = err.Error()
+	} else if err := db.Ping(); err != nil {
+		result["db"] = err.Error()
 	}
+	return result
 }
 
 // CheckRedis 检查 redis 服务状态

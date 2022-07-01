@@ -114,9 +114,6 @@ func InitWithConfigFile(configFile string) {
 // Run 以 viper 加载的 app 配置启动运行 http.Handler 的 app
 // 注意：这里依赖 viper ，必须在外部先对 viper 配置进行加载
 func Run(app http.Handler) {
-	// 结束时关闭 db 连接
-	defer goutils.CloseGormInstances()
-
 	// 判断是否加载 viper 配置
 	if !goutils.IsInitedViper() {
 		panic("Running server must init viper by config file first!")
@@ -130,10 +127,9 @@ func Run(app http.Handler) {
 		ReadTimeout:  5 * time.Minute,
 		WriteTimeout: 10 * time.Minute,
 	}
-	// Shutdown 时关闭 db 和 redis 连接
+	// Shutdown 时需要调用的方法
 	srv.RegisterOnShutdown(func() {
-		goutils.CloseGormInstances()
-		goutils.CloseRedisInstances()
+		// TODO
 	})
 
 	// 启动 http server

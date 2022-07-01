@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v1.0.31
+	github.com/axiaoxin-com/goutils v1.0.33
 	github.com/axiaoxin-com/logging v1.2.10
 	github.com/axiaoxin-com/ratelimiter v1.0.3
 	github.com/chai2010/gettext-go v1.0.2
@@ -16,6 +16,7 @@ require (
 	github.com/go-openapi/swag v0.19.15 // indirect
 	github.com/json-iterator/go v1.1.12
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
 	github.com/prometheus/common v0.29.0 // indirect
 	github.com/rs/xid v1.3.0 // indirect
@@ -29,5 +30,6 @@ require (
 	go.uber.org/zap v1.17.0
 	golang.org/x/text v0.3.7
 	golang.org/x/time v0.0.0-20210611083556-38a9dc6acbc6 // indirect
+	gorm.io/driver/mysql v1.0.2
 	gorm.io/gorm v1.23.4
 )

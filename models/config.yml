@@ -1,0 +1,34 @@
+# gormt 配置文件
+# go get -u -v github.com/xxjwxc/gormt@master
+# cd .; gormt
+base:
+    is_dev: false
+db_info:
+    host: localhost
+    port: 3306
+    username: user
+    password: pwd
+    database: dbname
+    type: 0
+out_dir: .
+url_tag: json
+language: 中 文
+db_tag: gorm
+user_gorm_model: false
+simple: false
+is_web_tag: false
+is_web_tag_pk_hidden: false
+is_foreign_key: true
+is_out_sql: false
+is_out_func: true
+is_gui: true
+is_table_name: true
+is_null_to_point: false
+table_prefix: ""
+self_type_define: {}
+out_file_name: ""
+web_tag_type: 0
+table_names: ""
+is_column_name: false
+is_out_file_by_table_name: true
+is_out_page: false
