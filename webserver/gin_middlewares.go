@@ -188,8 +188,7 @@ func GinSetLanguage(supportedLangTags []language.Tag) gin.HandlerFunc {
 
 			matcher := language.NewMatcher(supportedLangTags)
 			code, _, _ := matcher.Match(langTags...)
-			base, _ := code.Base()
-			lang = base.String()
+			lang = code.String()
 
 			if saveLangInCookie {
 				c.SetCookie(cookieName, lang, 60*60*24*30, "", "", false, true)
