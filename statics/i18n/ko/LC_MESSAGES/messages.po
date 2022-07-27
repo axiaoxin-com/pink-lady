@@ -1,0 +1,118 @@
+# Korean translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "赞赏记录"
+msgstr "감사기록"
+
+msgid "首页"
+msgstr "첫 장"
+
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "pink-lady는 golang gin 웹 개발 템플릿입니다."
+
+msgid "留言板"
+msgstr "메세지 보드"
+
+msgid "关于网站"
+msgstr "웹사이트에 대하여"
+
+msgid "秒钟前"
+msgstr "초 전"
+
+msgid "分钟前"
+msgstr "몇분 전에"
+
+msgid "小时前"
+msgstr "한 시간 전에"
+
+msgid "天前"
+msgstr "며칠 전에"
+
+msgid "pink-lady"
+msgstr "핑크레이디"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr ""
+"현재 본 사이트는 아직 테스트 버전이므로 점검, 다운타임, 업데이트 등 불안정한 상황이 있을 수 있으나, 이러한 상황의 발생을 줄이기 "
+"위해 최선을 다하겠습니다."
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"웹사이트가 귀하에게 도움이 되고 자격을 갖춘 친구들이 귀하에게 보상해 줄 의향이 있다면 아래 QR 코드를 스캔하여 이 웹사이트를 후원할 "
+"수 있습니다. 감사금은 서버, 도메인네임 등 고정비로 사용되며, 정기적으로 감사의 기록을 업데이트해 드립니다."
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr "또한 웹페이지에서 광고를 클릭하여 무료로 생존할 수 있도록 도와주어 더 높은 품질의 콘텐츠를 계속해서 만들 수 있습니다!"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr ""
+"더 많은 사람들이 혜택을 누릴 수 있도록 이 웹사이트를 친구들에게 공유하고 추천해 주세요. 이 웹사이트에 기여해 주셔서 감사합니다. 모두"
+" 감사합니다!"
+
+msgid "微信"
+msgstr "위챗"
+
+msgid "支付宝"
+msgstr "알리페이"
+
+msgid "源码"
+msgstr "소스 코드"
+
+msgid "关于"
+msgstr "~에 대한"
+
+msgid "感谢"
+msgstr "고마워하는"
+
+msgid "金额"
+msgstr "양"
+
+msgid "留言"
+msgstr "메시지"
+
+msgid "时间"
+msgstr "시간"
+
+msgid "展开"
+msgstr "확장하다"
+
+msgid "收起"
+msgstr "닫다"
+
+msgid "导航菜单"
+msgstr "탐색 메뉴"
+
+msgid "主页"
+msgstr "홈페이지"
+
+msgid "语言"
+msgstr "언어"
+
+msgid "系统公告"
+msgstr "시스템 알림"
+
+msgid "关于我们"
+msgstr "회사 소개"
+
+msgid "更多"
+msgstr "더"
+
+msgid "搜索"
+msgstr "찾다"

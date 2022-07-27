@@ -23,11 +23,18 @@ env = "localhost"
     pprof = true
     # 开启 prometheus metrics
     metrics = true
+    # 谷歌adsense client id: ca-pub-ddddd
+    adsense_id = ""
+    # 备案号
+    beian = ""
+    # host url
+    host_url = ""
 
 
 
 ########## 静态文件相关配置
 [statics]
+    selfhost = false
     # 网页模板路径
     tmpl_path = "html/*"
     # 静态文件 URL 路径，网页中通过 /statics/js/xx.js 访问资源，
@@ -99,6 +106,7 @@ env = "localhost"
             "/x/apidocs/.+\\.json",
             "/x/apidocs/.+\\.js",
             "/x/apidocs/.+\\.css",
+            "/statics/.*",
         ]
         # 慢请求阈值（毫秒）请求处理时间大于该值使用 WARN 级别打印请求日志
         slow_threshold = 200
@@ -158,7 +166,7 @@ env = "localhost"
 
     # mysql localhost 环境
     [mysql.localhost.dbname]
-        dsn = "user:pwd@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=UTC"
+        dsn = "root:roooooot@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=UTC"
 
     # mysql other 环境
     [mysql.other.dbname]
@@ -228,3 +236,8 @@ env = "localhost"
             read_timeout = 3
             # 写超时（秒）
             write_timeout = 3
+
+
+[author]
+    name = "axiaoxin"
+    url = "https://axiaoxin.com/profile"

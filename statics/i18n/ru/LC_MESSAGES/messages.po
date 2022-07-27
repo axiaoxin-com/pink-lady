@@ -1,0 +1,126 @@
+# Russian translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "赞赏记录"
+msgstr "Благодарность"
+
+msgid "首页"
+msgstr "титульная страница"
+
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "Pink-lady — это шаблон веб-разработки Golang Gin"
+
+msgid "留言板"
+msgstr "доска объявлений"
+
+msgid "关于网站"
+msgstr "О сайте"
+
+msgid "秒钟前"
+msgstr "секунды назад"
+
+msgid "分钟前"
+msgstr "минут назад"
+
+msgid "小时前"
+msgstr "Час назад"
+
+msgid "天前"
+msgstr "Дней назад"
+
+msgid "pink-lady"
+msgstr "розовая леди"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr ""
+"В настоящее время этот сайт все еще является тестовой версией, и могут "
+"возникать нестабильные ситуации, такие как обслуживание, простои и "
+"обновления, но мы постараемся сделать все возможное, чтобы уменьшить "
+"возникновение таких ситуаций."
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"Если веб-сайт полезен для вас и квалифицированные друзья готовы вас "
+"вознаградить, вы можете отсканировать QR-код ниже, чтобы спонсировать этот "
+"веб-сайт. Фонды благодарности будут использоваться для покрытия "
+"фиксированных расходов, таких как серверы и доменные имена. Мы будем "
+"регулярно обновлять вашу оценку в отчете о благодарности."
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr ""
+"Вы также можете бесплатно помочь нам выжить, нажимая на рекламу на веб-"
+"странице, чтобы мы могли продолжать создавать более качественный контент!"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr ""
+"Вы можете поделиться этим сайтом и порекомендовать его своим друзьям, чтобы "
+"больше людей могли получить от него пользу. Спасибо за ваш вклад в этот "
+"сайт, спасибо всем!"
+
+msgid "微信"
+msgstr "Вичат"
+
+msgid "支付宝"
+msgstr "Алипей"
+
+msgid "源码"
+msgstr "Исходный код"
+
+msgid "关于"
+msgstr "о"
+
+msgid "感谢"
+msgstr "благодарный"
+
+msgid "金额"
+msgstr "Количество"
+
+msgid "留言"
+msgstr "сообщение"
+
+msgid "时间"
+msgstr "время"
+
+msgid "展开"
+msgstr "Расширять"
+
+msgid "收起"
+msgstr "закрывать"
+
+msgid "导航菜单"
+msgstr "Меню навигации"
+
+msgid "主页"
+msgstr "Домашняя страница"
+
+msgid "语言"
+msgstr "язык"
+
+msgid "系统公告"
+msgstr "системное уведомление"
+
+msgid "关于我们"
+msgstr "о нас"
+
+msgid "更多"
+msgstr "Более"
+
+msgid "搜索"
+msgstr "поиск"

@@ -148,7 +148,7 @@ func Run(app http.Handler) {
 			}
 		}
 		if err := srv.Serve(ln); err != nil {
-			logging.Fatal(nil, err.Error())
+			logging.Error(nil, err.Error())
 		}
 	}()
 	logging.Infof(nil, "Server is running on %s", srv.Addr)

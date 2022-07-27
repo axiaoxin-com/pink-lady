@@ -68,7 +68,25 @@ func InitRouter(httpHandler http.Handler) {
 	}
 	// 注册 favicon.ico 和 robots.txt
 	app.GET("/favicon.ico", func(c *gin.Context) {
-		file, err := statics.Files.ReadFile("favicon.ico")
+		file, err := statics.Files.ReadFile("img/logo.webp")
+		if err != nil {
+			logging.Error(c, "read favicon file error:"+err.Error())
+		}
+		c.Data(http.StatusOK, "image/x-icon", file)
+		return
+	})
+
+	app.GET("/apple-touch-icon.png", func(c *gin.Context) {
+		file, err := statics.Files.ReadFile("img/logo.webp")
+		if err != nil {
+			logging.Error(c, "read favicon file error:"+err.Error())
+		}
+		c.Data(http.StatusOK, "image/x-icon", file)
+		return
+	})
+
+	app.GET("/apple-touch-icon-precomposed.png", func(c *gin.Context) {
+		file, err := statics.Files.ReadFile("img/logo.webp")
 		if err != nil {
 			logging.Error(c, "read favicon file error:"+err.Error())
 		}
@@ -91,5 +109,10 @@ func InitRouter(httpHandler http.Handler) {
 
 // Routes 注册 API URL 路由
 func Routes(app *gin.Engine) {
+	page := app.Group("/")
+	page.GET("/", PageHome)
+	page.GET("/about/", PageAbout)
+	page.GET("/award-records/", PageAwardRecords)
+	page.GET("/msg-board/", PageMsgBoard)
 	// TODO: 在这里注册你的 gin API，如： app.GET("/", HandlerFunc)
 }

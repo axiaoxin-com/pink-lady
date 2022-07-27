@@ -5,14 +5,13 @@ package main
 import (
 	"flag"
 
-	"github.com/axiaoxin-com/logging"
+	"github.com/axiaoxin-com/pink-lady/models"
 	"github.com/axiaoxin-com/pink-lady/routes"
 	"github.com/axiaoxin-com/pink-lady/routes/response"
 	"github.com/axiaoxin-com/pink-lady/services"
 	"github.com/axiaoxin-com/pink-lady/webserver"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"golang.org/x/text/language"
 )
 
 // DefaultGinMiddlewares 默认的 gin server 使用的中间件列表
@@ -30,9 +29,11 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 	}
 	// i18n多语言
 	if viper.GetBool("i18n.enable") {
-		m = append(m, webserver.GinSetLanguage([]language.Tag{language.Chinese, language.English}))
+		m = append(
+			m,
+			webserver.GinSetLanguage(),
+		)
 	}
-
 	return m
 }
 
@@ -41,10 +42,9 @@ func main() {
 	flag.Parse()
 	webserver.InitWithConfigFile(*configFile)
 
-	// 初始化或加载外部依赖服务
-	if err := services.Init(); err != nil {
-		logging.Error(nil, "services init error:"+err.Error())
-	}
+	// 依赖初始化
+	models.Init()
+	services.Init()
 
 	// 创建 gin app
 	middlewares := DefaultGinMiddlewares()

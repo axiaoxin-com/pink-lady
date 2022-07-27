@@ -1,0 +1,350 @@
+{{ define "page_top" }}
+{{ $hosturl := "" }}
+{{ $lang := "zh-Hans" }}
+{{ $sitename := "pink-lady" }}
+{{ if .meta }}
+    {{ $hosturl = .meta.HostURL }}
+    {{ $lang = .meta.Lang }}
+    {{ $sitename = .meta.SiteName }}
+{{ end }}
+
+<!DOCTYPE html>
+<html lang="{{ $lang }}" {{ if eq $lang "ar" }}dir="rtl"{{ end }}>
+    <head>
+        <meta charset="utf-8">
+        <title>{{ with .meta.Title }}{{.}}-{{ end }}{{ $sitename }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="applicable-device" content="pc,mobile">
+        <meta name="keywords" content="{{ if .meta }}{{ if .meta.Keywords }}{{ _str_slice_join .meta.Keywords "," }},{{ end }}{{ end }}{{ _i18n $lang "golang web开发框架" }}" />
+        <meta name="description" content="{{ .meta.BaseDesc }}" />
+        <meta name="referrer" content="no-referrer" />
+        <meta name="format-detection" content="telephone=no" />
+
+        {{ if .meta.AdsenseID }}
+        <link rel="preconnect" href="//pagead2.googlesyndication.com">
+        {{ end }}
+
+        {{ if not .meta.StaticsSelfhost }}
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+        {{ end }}
+
+        <link rel="preload" as="image" href="{{ .meta.StaticsURL }}/img/logo.webp">
+        {{ if .meta.AdsenseID }}
+        <link rel="preload" as="script" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .meta.AdsenseID }}">
+        {{ end }}
+        <link rel="preload" as="script" href="//cpro.baidustatic.com/cpro/ui/cm.js">
+
+        {{ if .meta.StaticsSelfhost }}
+            <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/bootswatch/5.3.2/{{ .meta.BootswatchTheme }}/bootstrap.min.css">
+            <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/bootstrap-icons.min.css">
+            <link rel="preload" as="font" href="{{ .meta.StaticsURL }}/font/bootstrap-icons.woff2">
+            <link rel="preload" as="script" href="{{ .meta.StaticsURL }}/js/jquery.min.js">
+
+            <link rel="prefetch" as="script" href="{{ .meta.StaticsURL }}/js/bootstrap.bundle.min.js">
+
+            <link rel="stylesheet" href="{{ .meta.StaticsURL }}/css/bootswatch/5.3.2/{{ .meta.BootswatchTheme }}/bootstrap.min.css">
+            <link rel="stylesheet" href="{{ .meta.StaticsURL }}/css/bootstrap-icons.min.css">
+            {{ if eq $lang "ar" }}
+            <link href="{{ .meta.StaticsURL }}/css/bootswatch/5.3.2/{{ .meta.BootswatchTheme }}/bootstrap.rtl.min.css" rel="stylesheet">
+            {{ end }}
+
+            <script src="{{ .meta.StaticsURL }}/js/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"><\/script>')</script>
+        {{ else }}
+            <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/{{ .meta.BootswatchTheme }}/bootstrap.min.css">
+            <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+            <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js">
+
+            <link rel="prefetch" as="script" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/{{ .meta.BootswatchTheme }}/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+            {{ if eq $lang "ar" }}
+            <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/{{ .meta.BootswatchTheme }}/bootstrap.rtl.min.css" rel="stylesheet">
+            {{ end }}
+
+            <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="{{ .meta.StaticsURL }}/js/jquery.min.js"><\/script>')</script>
+        {{ end }}
+
+        {{ if .meta.AdsenseID }}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .meta.AdsenseID }}" crossorigin="anonymous"></script>
+        {{ end }}
+        <script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/cm.js" async="async" defer="defer" ></script>
+
+        <style>
+            html,
+            body {
+                -webkit-overflow-scrolling: touch;
+                height: 100%;
+                overflow: auto;
+                font-size: 16px;
+                scrollbar-width: none;
+            }
+            body::-webkit-scrollbar {
+                display: none;
+            }
+            /* float to top button */
+            #to-top-btn {
+                position: fixed;
+                width: 30px;
+                height: 30px;
+                bottom: 30px;
+                right: 30px;
+                background-color: var(--bs-primary);
+                border-radius: 8px;
+                display: none;
+                text-align: center;
+                color: #fff;
+            }
+            /* 点击后颜色不变 */
+            #to-top-btn:visited {
+                color: #fff;
+            }
+            #to-top-btn>i{
+                margin: auto;
+            }
+        </style>
+    </head>
+
+    <body class="d-flex flex-column min-vh-100">
+        <div id="top"></div>
+        <nav id="site-nav" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{{ $hosturl }}" {{ with .meta }}{{ if eq .BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>
+                    <img loading="lazy" class="rounded-circle logo-spin" alt="Logo" src="{{ .meta.StaticsURL }}/img/logo.webp" width="24" height="24"/>
+                    <strong>{{ $sitename }}</strong>
+                </a>
+                <button class="navbar-toggler position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#base_navbar_offcanvas" aria-controls="base_navbar_offcanvas" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <!--导航栏折叠时，展开按钮红点-->
+                    <span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger p-1"><span class="visually-hidden">{{ _i18n $lang "导航菜单" }}</span></span>
+                    <!--导航栏折叠时，展开按钮红点 end-->
+                </button>
+
+                <div class="offcanvas offcanvas-end bg-primary" id="base_navbar_offcanvas" aria-labelledby="base_navbar_offcanvas_label" data-bs-scroll="true" tabindex="-1">
+                    <div class="offcanvas-header navbar-brand pt-4 pb-0">
+                        <a class="offcanvas-title text-wrap text-decoration-none" id="base_navbar_offcanvas_label" href="{{ $hosturl }}">
+                            <h5 class="text-white mb-0">{{ $sitename }}</h5>
+                        </a>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+
+                    <div class="offcanvas-body pt-1">
+                        <hr class="d-lg-none text-opacity-50">
+                        <ul class="navbar-nav flex-row flex-wrap me-auto text-center text-capitalize">
+                            <li class="nav-item col-4 col-lg-auto">
+                                <a class="nav-link py-3" href="{{ $hosturl }}" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "主页" }}</a>
+                            </li>
+                            <li class="nav-item col-4 col-lg-auto">
+                                <a class="nav-link py-3" href="{{ $hosturl }}/about/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "关于" }}</a>
+                            </li>
+                            {{ if .meta.I18n }}
+                            <script>
+                                function change_lang(lang) {
+                                    var params = new URLSearchParams(window.location.search);
+                                    params.set("lang", lang);
+                                    var href = "?" + params.toString();
+                                    window.location.href = href;
+                                    return false;
+                                }
+                            </script>
+                            <li class="nav-item col-4 col-lg-auto dropdown">
+                                <a class="nav-link dropdown-toggle py-3" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ _i18n $lang "语言" }} <i class="bi bi-globe"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('zh-Hans');">中文简体</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('en');">English</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('zh-Hant');">中文繁體</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('de');">Deutsch</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('es');">Español</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('fr');">Français</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('it');">Italiano</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ja');">日本語</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ko');">한국인</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('pt');">Português</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ru');">Русский</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('tr');">Türkçe</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('vi');">Tiếng Việt</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ar');">عربي</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('hi');">हिंदी</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('bn');">বাংলা</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('id');">Indonesia</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="change_lang('th');">ภาษาไทย</a></li>
+                                </ul>
+                            </li>
+                            {{ end }}
+                        </ul>
+                        <hr class="d-lg-none text-opacity-50">
+                        <div class="hstack gap-1 m-4 m-lg-0">
+                            <form class="w-auto input-group me-auto" action="#" method="get">
+                                <input class="form-control" style="font-size: 1rem;" type="text" name="keyword" placeholder="{{ _i18n $lang `搜索` }}..." aria-label="{{ _i18n $lang `搜索` }}..." aria-describedby="search" list="recent_search_options" id="nav_search_form" required maxlength="18">
+                                <button class="btn btn-sm btn-secondary hvr-icon-bounce" type="submit" id="nav_search_btn" aria-label="search">
+                                    <i class="bi bi-search-heart" style="font-size: 1rem;"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <noscript>
+            您需要开启Javascript功能
+        </noscript>
+
+        <!--页面主内容-->
+        <main id="main" class="container col-xl-8">
+        {{ if .meta }}
+            {{ if .meta.SysNotice }}
+            <!--顶部公共内容-->
+            <div class="alert alert-primary alert-dismissible fade show text-break mb-3" style="z-index:1025;" role="alert">
+                <p class="alert-heading h4">{{ _i18n $lang "系统公告" }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ _md2html (_i18n $lang .meta.SysNotice) false }}
+
+                {{ if .meta.SysNoticeQRText }}
+                <picture id="SysNoticeQR"></picture>
+                <script src="{{ .meta.StaticsURL }}/js/jquery.qrcode.min.js"></script>
+                <script type="text/javascript">
+                    $("#SysNoticeQR").qrcode({
+                        text: "{{ .meta.SysNoticeQRText }}",
+                        width: 80,
+                        height: 80,
+                        background: "#ffffff",
+                        foreground: "#000000",
+                        src: "{{ .meta.StaticsURL }}/img/logo.webp",
+                        toImg: true,
+                    });
+                </script>
+                {{ end }}
+            </div>
+            {{ end }}
+        {{ end }} <!--系统公告-->
+
+        {{ with .alert }}
+            <div class="alert alert-{{ .Color }} alert-dismissible fade show text-break mb-3" style="z-index:1025;" role="alert">
+                <p class="alert-heading h4">{{ _i18n $lang .Heading }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <p>{{ _i18n $lang .Text }}</p>
+            </div>
+        {{ end }} <!--提示信息-->
+{{ end }}
+<!--page_top end-->
+
+    <!-- main content -->
+
+<!--page_bottom start-->
+{{ define "page_bottom" }}
+    {{ $hosturl := "" }}
+    {{ $lang := "zh" }}
+    {{ $sitename := "pink-lady" }}
+    {{ if .meta }}
+        {{ $hosturl = .meta.HostURL }}
+        {{ $lang = .meta.Lang }}
+        {{ $sitename = .meta.SiteName }}
+    {{ end }}
+        </main>
+
+        <footer class="mt-auto">
+            <div class="container mt-5 border-top">
+                <div class="row small text-capitalize">
+                    <div class="col-12 col-lg-8 mt-4">
+                        <div class="row">
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item mb-2">
+                                        <a href="{{ $hosturl }}/about/" class="nav-link p-0 text-body">{{ _i18n $lang "关于我们" }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 mt-4 text-lg-end">
+                    </div>
+                </div>
+                <div class="text-center border-top border-1 pt-3 my-3" style="font-size:13px;">
+                    <div>
+                        © {{ $sitename }} <span class="copyright adsbygoogle">2023-</span><script type="text/javascript">document.write(new Date().getFullYear());</script>
+                    </div>
+                    <div>
+                        {{ if .meta.Beian }}
+                        <a class="text-muted text-decoration-none" href="https://beian.miit.gov.cn" target="_blank">{{ .meta.Beian }}</a>
+                        {{ end }}
+                        {{ if .meta.AuthorName }}
+                        <a href="{{ .meta.AuthorURL }}" target="_blank" class="">{{ .meta.AuthorName }}</a>
+                        {{ end }}
+                        {{ if .meta.BuildID }}BuildID:{{ .meta.BuildID }}{{ end }}
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <a href="#top" id="to-top-btn"><i class="bi bi-arrow-up"></i></a>
+
+        <script>
+            function updateMainMargin() {
+                // 获取id为site-nav的元素
+                var siteNav = document.getElementById("site-nav");
+                // 获取main元素
+                var main = document.getElementById("main");
+                // 设置main的margin-top样式
+                var mainOffset = siteNav.offsetHeight;
+                main.style.marginTop = mainOffset + "px";
+                // sub navtabs
+                var subnav = document.getElementsByClassName("sticky-top")[0];
+                if (subnav !== undefined) {
+                    subnav.style.top = siteNav.offsetHeight + "px";
+                }
+            }
+            updateMainMargin();
+            window.addEventListener("resize", updateMainMargin);
+
+            // scroll-margin
+            var scrollMargins = document.querySelectorAll(".scroll-margin");
+            scrollMargins.forEach(scrollMargin => {
+                scrollMargin.style.scrollMarginTop = document.documentElement.clientHeight/4 + "px" ;
+            });
+
+            $("body").scroll(function () {
+                if ($("body").scrollTop() > 200) {
+                    $("#to-top-btn").css("display", "flex");
+                } else {
+                    $("#to-top-btn").css("display", "none");
+                }
+            });
+        </script>
+
+
+        {{ if .meta.StaticsSelfhost }}
+        <script src="{{ .meta.StaticsURL }}/js/bootstrap.bundle.min.js"></script>
+        {{ else }}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        {{ end }}
+
+        <script src="{{ .meta.StaticsURL }}/js/adview_pic_cpc_cpm_cpa_guanggao_gg_ads_300x250.js"></script>
+        <script type="text/javascript">
+            if (window.ads_ok !== undefined){
+                if (ads_ok !== true) {
+                    window.location.href="https://axiaoxin.com/letter?from=nook"
+                } else if (document.getElementsByClassName("copyright")[0].offsetHeight === 0) {
+                    window.location.href="https://axiaoxin.com/letter?from=nocr"
+                }
+            }
+        </script>
+    </body>
+</html>
+{{ end }} <!--page_bottom end-->

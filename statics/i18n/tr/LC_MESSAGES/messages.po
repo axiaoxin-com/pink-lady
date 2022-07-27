@@ -1,0 +1,126 @@
+# Turkish translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "赞赏记录"
+msgstr "Takdir kaydı"
+
+msgid "首页"
+msgstr "ön Sayfa"
+
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "pembe-lady bir golang cin web geliştirme şablonudur"
+
+msgid "留言板"
+msgstr "duyuru panosu"
+
+msgid "关于网站"
+msgstr "Web sitesi hakkında"
+
+msgid "秒钟前"
+msgstr "saniyeler önce"
+
+msgid "分钟前"
+msgstr "dakika önce"
+
+msgid "小时前"
+msgstr "Bir saat önce"
+
+msgid "天前"
+msgstr "Günler önce"
+
+msgid "pink-lady"
+msgstr "pembe Kadın"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr ""
+"Şu anda bu site hala test sürümü olup bakım, kesinti, güncelleme gibi "
+"dengesiz durumlar olabilir ancak bu tür durumların oluşmasını azaltmak için "
+"elimizden geleni yapacağız."
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"Web sitesi size yardımcı olduysa ve nitelikli arkadaşlar sizi ödüllendirmeye"
+" istekliyse, bu web sitesine sponsor olmak için aşağıdaki QR kodunu "
+"tarayabilirsiniz. Takdir fonları sunucular ve alan adları gibi sabit "
+"harcamalar için kullanılacaktır.Takdirinizi düzenli olarak takdir kaydına "
+"güncelleyeceğiz."
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr ""
+"Ayrıca, daha kaliteli içerik oluşturmaya devam edebilmemiz için web "
+"sayfasındaki reklamlara tıklayarak ücretsiz bir şekilde hayatta kalmamıza "
+"yardımcı olabilirsiniz!"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr ""
+"Daha fazla kişinin faydalanabilmesi için siteyi paylaşabilir ve "
+"arkadaşlarınıza önerebilirsiniz.Bu siteye katkılarınızdan dolayı hepinize "
+"teşekkür ederim!"
+
+msgid "微信"
+msgstr "WeChat"
+
+msgid "支付宝"
+msgstr "Alipay"
+
+msgid "源码"
+msgstr "Kaynak kodu"
+
+msgid "关于"
+msgstr "hakkında"
+
+msgid "感谢"
+msgstr "minnettar"
+
+msgid "金额"
+msgstr "Miktar"
+
+msgid "留言"
+msgstr "İleti"
+
+msgid "时间"
+msgstr "zaman"
+
+msgid "展开"
+msgstr "Genişletmek"
+
+msgid "收起"
+msgstr "kapalı"
+
+msgid "导航菜单"
+msgstr "Gezinme menüsü"
+
+msgid "主页"
+msgstr "Ana sayfa"
+
+msgid "语言"
+msgstr "dil"
+
+msgid "系统公告"
+msgstr "sistem bildirimi"
+
+msgid "关于我们"
+msgstr "Hakkımızda"
+
+msgid "更多"
+msgstr "Daha"
+
+msgid "搜索"
+msgstr "aramak"

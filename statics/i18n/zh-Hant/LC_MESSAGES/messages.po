@@ -1,0 +1,112 @@
+# Language zh-Hant translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: zh-Hant\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "赞赏记录"
+msgstr "讚賞記錄"
+
+msgid "首页"
+msgstr "首頁"
+
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "pink-lady是一個golang gin的web開發模板"
+
+msgid "留言板"
+msgstr "留言板"
+
+msgid "关于网站"
+msgstr "關於網站"
+
+msgid "秒钟前"
+msgstr "秒鐘前"
+
+msgid "分钟前"
+msgstr "分鐘前"
+
+msgid "小时前"
+msgstr "小時前"
+
+msgid "天前"
+msgstr "天前"
+
+msgid "pink-lady"
+msgstr "粉紅女郎"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr "目前本站仍為測試版本，可能會出現維護、停機更新等不穩定的情況，但我們會盡量減少這樣的情況發生。"
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"如果網站對您有幫助，有條件的朋友願意打賞，可以掃描下方二維碼贊助本站。讚賞款項將用於伺服器、網域等固定支出，我們會定期將您的讚賞更新到讚賞記錄中。"
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr "您也可以透過點擊網頁上的廣告這種免費的方式來幫助我們存活下去，讓我們能夠持續創作更多優質內容！"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr "歡迎您將網站分享推薦給您的朋友，讓更多的人受益，感謝您為本站出一份力，謝謝大家！"
+
+msgid "微信"
+msgstr "微信"
+
+msgid "支付宝"
+msgstr "支付寶"
+
+msgid "源码"
+msgstr "原始碼"
+
+msgid "关于"
+msgstr "關於"
+
+msgid "感谢"
+msgstr "感謝"
+
+msgid "金额"
+msgstr "金額"
+
+msgid "留言"
+msgstr "留言"
+
+msgid "时间"
+msgstr "時間"
+
+msgid "展开"
+msgstr "展開"
+
+msgid "收起"
+msgstr "收起"
+
+msgid "导航菜单"
+msgstr "導航選單"
+
+msgid "主页"
+msgstr "首頁"
+
+msgid "语言"
+msgstr "語言"
+
+msgid "系统公告"
+msgstr "系統公告"
+
+msgid "关于我们"
+msgstr "關於我們"
+
+msgid "更多"
+msgstr "更多"
+
+msgid "搜索"
+msgstr "搜尋"

@@ -1,0 +1,62 @@
+{{ template "page_top" . }}
+
+{{ $lang := .meta.Lang }}
+
+{{ template "about_subnav" . }}
+
+<div class="mt-4">
+    <h1>{{ _i18n $lang "赞赏记录" }}</h1>
+    <table id="award-table" class="table table-sm caption-top">
+        <thead>
+            <tr>
+                <th scope="col" width="20%">{{ _i18n $lang "感谢" }}</th>
+                <th scope="col" width="15%">{{ _i18n $lang "金额" }}</th>
+                <th scope="col" width="50%">{{ _i18n $lang "留言" }}</th>
+                <th scope="col" width="15%">{{ _i18n $lang "时间" }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">-</th>
+                <td>0</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td colspan="4">
+                    <span id="award-table-btn" class="btn btn-sm btn-light float-end">{{ _i18n $lang "展开" }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </p>
+</div>
+
+<script>
+    var shownDefault = 10;
+    var numShown = shownDefault; // Initial rows shown & index
+    var $table = $('#award-table').find('tbody');  // tbody containing all the rows
+    var numRows = $table.find('tr').length; // Total # rows
+
+    var moretext = {{ _i18n $lang "展开" }};
+    var lesstext = {{ _i18n $lang "收起" }};
+
+    $(document).ready(function () {
+        $table.find('tr:gt(' + (numShown - 1) + ')').hide()
+        $('#award-table-btn').click(function() {
+            if (numShown === numRows) {
+                // since we show all rows node, hiding some
+                numShown = shownDefault;
+                $table.find('tr:gt(' + (numShown - 1) + ')').hide()
+                $('#award-table-btn').text(moretext)
+            } else {
+                numShown = numRows;
+                $('#award-table-btn').text(lesstext)
+            }
+            $table.find('tr:lt(' + numShown + ')').show();
+        });
+    });
+</script>
+{{ template "page_bottom" . }}
