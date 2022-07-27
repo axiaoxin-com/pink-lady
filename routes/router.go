@@ -76,6 +76,24 @@ func InitRouter(httpHandler http.Handler) {
 		return
 	})
 
+	app.GET("/apple-touch-icon.png", func(c *gin.Context) {
+		file, err := statics.Files.ReadFile("favicon.ico")
+		if err != nil {
+			logging.Error(c, "read favicon file error:"+err.Error())
+		}
+		c.Data(http.StatusOK, "image/x-icon", file)
+		return
+	})
+
+	app.GET("/apple-touch-icon-precomposed.png", func(c *gin.Context) {
+		file, err := statics.Files.ReadFile("favicon.ico")
+		if err != nil {
+			logging.Error(c, "read favicon file error:"+err.Error())
+		}
+		c.Data(http.StatusOK, "image/x-icon", file)
+		return
+	})
+
 	app.GET("/robots.txt", func(c *gin.Context) {
 		file, err := statics.Files.ReadFile("robots.txt")
 		if err != nil {
