@@ -1,0 +1,118 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "赞赏记录"
+msgstr "鑑賞記録"
+
+msgid "首页"
+msgstr "表紙"
+
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "Pink-Lady は Golang ジンの Web 開発テンプレートです"
+
+msgid "留言板"
+msgstr "伝言板"
+
+msgid "关于网站"
+msgstr "ウェブサイトについて"
+
+msgid "秒钟前"
+msgstr "数秒前"
+
+msgid "分钟前"
+msgstr "数分前"
+
+msgid "小时前"
+msgstr "1時間前"
+
+msgid "天前"
+msgstr "数日前"
+
+msgid "pink-lady"
+msgstr "ピンクレディー"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr ""
+"現在、当サイトはまだテスト版のため、メンテナンスやダウンタイム、更新など不安定な状況が発生する可能性がありますが、そのような事態が発生しないように最善を尽くしてまいります。"
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"この Web サイトが役に立ち、資格のある友人が喜んで報酬をくれる場合は、以下の QR コードをスキャンしてこの Web "
+"サイトのスポンサーになることができます。感謝資金はサーバーやドメイン名などの固定費に充てさせていただき、感謝の気持ちを感謝記録として定期的に更新してまいります。"
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr ""
+"また、Web ページ上の広告をクリックすることで、無料で存続できるようご協力ください。これにより、より高品質のコンテンツを作成し続けることができます。"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr ""
+"より多くの人が恩恵を受けることができるように、この Web サイトを友達に共有したり勧めたりすることは歓迎です。この Web "
+"サイトへの貢献に感謝します。皆さんに感謝します。"
+
+msgid "微信"
+msgstr "微信"
+
+msgid "支付宝"
+msgstr "アリペイ"
+
+msgid "源码"
+msgstr "ソースコード"
+
+msgid "关于"
+msgstr "について"
+
+msgid "感谢"
+msgstr "ありがたい"
+
+msgid "金额"
+msgstr "額"
+
+msgid "留言"
+msgstr "メッセージ"
+
+msgid "时间"
+msgstr "時間"
+
+msgid "展开"
+msgstr "拡大する"
+
+msgid "收起"
+msgstr "近い"
+
+msgid "导航菜单"
+msgstr "ナビゲーションメニュー"
+
+msgid "主页"
+msgstr "ホームページ"
+
+msgid "语言"
+msgstr "言語"
+
+msgid "系统公告"
+msgstr "システム通知"
+
+msgid "关于我们"
+msgstr "私たちについて"
+
+msgid "更多"
+msgstr "もっと"
+
+msgid "搜索"
+msgstr "検索"

@@ -23,15 +23,42 @@ env = "localhost"
     pprof = true
     # 开启 prometheus metrics
     metrics = true
+    # 谷歌adsense client id: ca-pub-ddddd
+    adsense_id = ""
+    # 备案号
+    beian = ""
+    # 是否展示关于页面
+    show_about = true
+    # 开始年份
+    since_year = 2024
+    # host url
+    host_url = ""
+    # 百度统计id
+    baidu_tongji_id = ""
+    # 谷歌分析id
+    gtag_id = ""
+    # 微软clarity id
+    clarity_id = ""
 
 
 
 ########## 静态文件相关配置
 [statics]
+    selfhost = false
     # 网页模板路径
     tmpl_path = "html/*"
-    # 静态文件 URL 路径，网页中通过 /statics/js/xx.js 访问资源，
-    url = "/statics"
+    # 静态文件路径
+    url = "statics"
+    # 是否启用flatpages
+
+
+
+########## flagpages配置
+[flatpages]
+    enable = true
+    nav_name = "flatpages"
+    nav_path = "fp"
+    file_path = "statics/flatpages"
 
 
 
@@ -53,7 +80,7 @@ env = "localhost"
 [ratelimiter]
     # 是否开启 ratelimiter 请求频率限制，需修改webserver/gin_middlewares.go 中的 TODO 按自身需求实现
     enable = false
-    # 限频方式： mem->进程内存； redis.<WHICH>->使用用配置文件中对应的 redis 配置，如 redis.localhost
+    # 限频方式： mem->进程内存； redis->配置文件中 env 对应的 redis
     type = "mem"
 
 
@@ -99,6 +126,7 @@ env = "localhost"
             "/x/apidocs/.+\\.json",
             "/x/apidocs/.+\\.js",
             "/x/apidocs/.+\\.css",
+            "/statics/.*",
         ]
         # 慢请求阈值（毫秒）请求处理时间大于该值使用 WARN 级别打印请求日志
         slow_threshold = 200
@@ -158,7 +186,7 @@ env = "localhost"
 
     # mysql localhost 环境
     [mysql.localhost.dbname]
-        dsn = "user:pwd@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=UTC"
+        dsn = "" # example: "root:roooooot@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=UTC"
 
     # mysql other 环境
     [mysql.other.dbname]
@@ -174,7 +202,7 @@ env = "localhost"
     # Redis Client localhost 环境
     [redis.localhost]
         # redis 地址
-        addr = "localhost:6379"
+        addr = ""
         # 密码
         password = ""
         # 使用的 db 索引
@@ -228,3 +256,42 @@ env = "localhost"
             read_timeout = 3
             # 写超时（秒）
             write_timeout = 3
+
+
+
+[author]
+    name = "axiaoxin"
+    url = "https://axiaoxin.com/profile/"
+
+
+
+[friend_link]
+    "阿小信的博客" = "https://blog.axiaoxin.com/"
+
+
+
+[sys_notice]
+     md = "markdown格式的系统通知内容"
+     qrtext = "这里添加二维码链接（可选）"
+     start = "2024-03-01 00:00:00"
+     end = "2024-03-01 09:00:00"
+
+
+
+[waline]
+    server_url = "<your-server-url>"
+    reaction_title = "本站内容对你有帮助吗？"
+    reaction = [
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_heart_eyes.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_thumbsup.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_zhoumei.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_grievance.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_dizzy_face.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_slap.png",
+    ]
+    reaction0 = "非常有用"
+    reaction1 = "有帮助"
+    reaction2 = "一般"
+    reaction3 = "无帮助"
+    reaction4 = "看不懂"
+    reaction5 = "有错误"

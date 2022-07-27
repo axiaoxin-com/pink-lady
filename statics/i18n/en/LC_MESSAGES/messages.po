@@ -1,14 +1,14 @@
 # English translations for PACKAGE package.
-# Copyright (C) 2022 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Automatically generated, 2022.
+# Automatically generated, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-29 12:19+0800\n"
-"PO-Revision-Date: 2022-06-29 12:19+0800\n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -17,17 +17,108 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "成功"
-msgstr "Success"
+msgid "赞赏记录"
+msgstr "Appreciation record"
 
-msgid "失败"
-msgstr "Failure"
+msgid "首页"
+msgstr "front page"
 
-msgid "参数错误"
-msgstr "Invalid Params"
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "pink-lady is a golang gin web development template"
 
-msgid "未找到"
-msgstr "Not Found"
+msgid "留言板"
+msgstr "message board"
 
-msgid "未知错误"
-msgstr "Unknown Error"
+msgid "关于网站"
+msgstr "About the website"
+
+msgid "秒钟前"
+msgstr "seconds ago"
+
+msgid "分钟前"
+msgstr "minutes ago"
+
+msgid "小时前"
+msgstr "An hour ago"
+
+msgid "天前"
+msgstr "Days ago"
+
+msgid "pink-lady"
+msgstr "pink-lady"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr ""
+"At present, this site is still a test version, and there may be unstable "
+"situations such as maintenance, downtime and updates, but we will try our "
+"best to reduce the occurrence of such situations."
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"If the website is helpful to you and qualified friends are willing to reward"
+" you, you can scan the QR code below to sponsor this website. Appreciation "
+"funds will be used for fixed expenses such as servers and domain names. We "
+"will regularly update your appreciation to the appreciation record."
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr ""
+"You can also help us survive as a free way by clicking on ads on the "
+"webpage, so that we can continue to create more high-quality content!"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr ""
+"You are welcome to share and recommend the website to your friends so that "
+"more people can benefit. Thank you for your contribution to this website, "
+"thank you all!"
+
+msgid "微信"
+msgstr "WeChat"
+
+msgid "支付宝"
+msgstr "Alipay"
+
+msgid "源码"
+msgstr "Source code"
+
+msgid "关于"
+msgstr "about"
+
+msgid "感谢"
+msgstr "grateful"
+
+msgid "金额"
+msgstr "Amount"
+
+msgid "留言"
+msgstr "message"
+
+msgid "时间"
+msgstr "time"
+
+msgid "展开"
+msgstr "Expand"
+
+msgid "收起"
+msgstr "close"
+
+msgid "导航菜单"
+msgstr "Navigation menu"
+
+msgid "主页"
+msgstr "Home page"
+
+msgid "语言"
+msgstr "language"
+
+msgid "系统公告"
+msgstr "system notification"
+
+msgid "关于我们"
+msgstr "about Us"
+
+msgid "更多"
+msgstr "More"
+
+msgid "搜索"
+msgstr "search"

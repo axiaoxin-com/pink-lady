@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/axiaoxin-com/goutils"
-	"github.com/axiaoxin-com/pink-lady/services"
+	"github.com/axiaoxin-com/pink-lady/models"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -17,9 +17,10 @@ func TestInitRouter(t *testing.T) {
 	viper.Set("basic_auth.username", "admin")
 	viper.Set("basic_auth.password", "admin")
 	viper.Set("env", "localhost")
+	viper.Set("mysql.localhost.dbname.dsn", "root:roooooot@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=UTC")
 	defer viper.Reset()
 
-	services.Init()
+	models.Init()
 
 	InitRouter(r)
 	recorder, err := goutils.RequestHTTPHandler(

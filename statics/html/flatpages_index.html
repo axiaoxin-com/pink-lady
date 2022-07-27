@@ -1,0 +1,27 @@
+{{ template "page_top" . }}
+
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.HostURL }}
+{{ $fp_path := .meta.FlatpagesNavPath }}
+
+<style>
+.flatpages-index h2 {
+    font-size:20px;
+    margin-bottom:0px;
+    padding:0.5rem 0;
+}
+</style>
+
+<h1 class="mt-4">{{ .meta.FlatpagesNavName }}</h1>
+
+<div class="flatpages-index mt-2">
+    {{ range .fileNames }}
+    <a href="{{ $hosturl }}/{{ $fp_path }}/{{ . }}/" class="text-decoration-none py-2 border-bottom d-block">
+        <h2>{{ . }}</h2>
+    </a>
+    {{ end }}
+</div>
+
+{{ template "pagi" . }}
+
+{{ template "page_bottom" . }}

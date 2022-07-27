@@ -1,0 +1,24 @@
+{{ template "page_top" . }}
+
+{{ $lang := .meta.Lang }}
+
+{{ template "about_subnav" . }}
+
+<div class="mt-4">
+    <h1>{{ _i18n $lang "关于网站" }}</h1>
+    <p>{{ _i18n $lang "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。" }}</p>
+    <p>{{ _i18n $lang "如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。" }}</p>
+    <p>{{ _i18n $lang "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！" }}</p>
+    <p>{{ _i18n $lang "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！" }}</p>
+    <div class="d-flex flex-row">
+        <div class="card" style="max-width:18rem;">
+            <div class="card-header text-center">{{ _i18n $lang "微信" }}</div>
+            <img loading="lazy" src="https://i0.wp.com/wx2.sinaimg.cn/large/67ac78cfgy1hbliadx0g5j20b40b4406.jpg" class="card-img-top" alt="微信">
+        </div>
+        <div class="card ms-2" style="max-width:18rem;">
+            <div class="card-header text-center">{{ _i18n $lang "支付宝" }}</div>
+            <img loading="lazy" src="https://i0.wp.com/wx3.sinaimg.cn/large/67ac78cfgy1hbliaeapncj20b40b4go2.jpg" class="card-img-top" alt="支付宝">
+        </div>
+    </div>
+</div>
+{{ template "page_bottom" . }}

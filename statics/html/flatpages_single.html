@@ -1,0 +1,53 @@
+{{ template "page_top" . }}
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.Lang }}
+{{ $fp_path := .meta.FlatpagesNavPath }}
+<style>
+    /* flatpages */
+    .flatpages-single article img {
+        width:100%;
+        height:auto;
+    }
+    .flatpages-single article h1 {
+        padding-bottom:1rem;
+    }
+    .flatpages-single article h2 {
+        margin-top:1rem;
+    }
+</style>
+
+<nav class="mt-4 px-2 py-3 bg-body-tertiary" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{{ $hosturl }}/">{{ _i18n $lang "主页" }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ $hosturl }}/{{ .meta.FlatpagesNavPath }}/">{{ .meta.FlatpagesNavName }}</a></li>
+        <li class="breadcrumb-item active text-truncate" aria-current="page"><a href="{{ $hosturl }}/{{ .meta.FlatpagesNavPath }}/{{ .meta.Title }}/" class="text-decoration-none">{{ .meta.Title }}</a></li>
+    </ol>
+</nav>
+
+<div class="mt-4 flatpages-single">
+    <article>
+        {{ $content := _i18n $lang .content }}
+        {{ _md2html $content false }}
+    </article>
+</div>
+
+<div class="mt-4 d-flex justify-content-between gap-4 py-2">
+    <span>
+        {{ _i18n $lang "上一篇" }}:
+        {{ if .prevFileName }}
+        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ .prevFileName }}/" class="text-decoration-none">{{ .prevFileName }}</a>
+        {{ else }}
+        {{ _i18n $lang "没有了" }}
+        {{ end }}
+    </span>
+    <span>
+        {{ _i18n $lang "下一篇" }}:
+        {{ if .nextFileName }}
+        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ .nextFileName }}/" class="text-decoration-none">{{ .nextFileName }}</a>
+        {{ else }}
+        {{ _i18n $lang "没有了" }}
+        {{ end }}
+    </span>
+</div>
+
+{{ template "page_bottom" . }}

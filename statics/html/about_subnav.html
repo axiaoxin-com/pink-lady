@@ -1,0 +1,17 @@
+{{ define "about_subnav" }}
+
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.Lang }}
+
+<ul class="toPrioritize text-capitalize sticky-top bg-body border-bottom border-primary-subtle" style="display:none;">
+    <li data-priority="1">
+        <a href="{{ $hosturl }}/about/">{{ _i18n $lang "关于网站" }}</a>
+    </li>
+    <li data-priority="2">
+        <a href="{{ $hosturl }}/award-records/">{{ _i18n $lang "赞赏记录" }}</a>
+    </li>
+    <li data-priority="3">
+        <a href="{{ $hosturl }}/msg-board/">{{ _i18n $lang "留言板" }}</a>
+    </li>
+</ul>
+{{ end }}

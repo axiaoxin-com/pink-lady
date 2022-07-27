@@ -1,0 +1,43 @@
+{{ define "waline" }}
+{{ if .waline }}
+<div id="waline" class="waline-container"></div>
+<script type="module">
+    import { init } from '{{ .meta.StaticsURL }}/js/waline.js';
+
+    const url = new URL(window.location.href);
+    const path = {{ .waline.Path }};
+
+    init({
+        el: '#waline',
+        serverURL: {{ .waline.ServerURL }},
+        path: path,  // 当前文章页路径，用于区分不同的文章页
+        meta: ['nick'],  // 评论者相关属性。
+        login: 'disable',  // 禁用登录，用户只能填写信息评论
+        copyright: false,  // 是否显示页脚版权信息：本站评论功能使用 waline 实现！
+        reaction: {{ .waline.Reaction }}, // 为文章增加表情互动功能，设置为 true 提供默认表情，也可以通过设置表情地址数组来自定义表情图片，最大支持 8 个表情。
+        locale: {
+            "placeholder":"请注意：提交{{ .waline.Type }}后，内容需审核通过后才会展示，请勿重复发布。",
+            "reaction0":{{ .waline.Reaction0 }},
+            "reaction1":{{ .waline.Reaction1 }},
+            "reaction2":{{ .waline.Reaction2 }},
+            "reaction3":{{ .waline.Reaction3 }},
+            "reaction4":{{ .waline.Reaction4 }},
+            "reaction5":{{ .waline.Reaction5 }},
+            "reactionTitle": {{ .waline.ReactionTitle }},
+            "sofa":"还没有人{{ .waline.Type }}哦！快来抢沙发吧~",
+            "comment": {{ .waline.Type }},
+        },
+        emoji: [
+            "https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji",
+            "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili",
+            "https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo",
+        ],
+        imageUploader: false,  // 自定义图片上传方法。默认行为是将图片 Base 64 编码嵌入，你可以设置为 false 以禁用图片上传功能。
+        search: false,  // 禁用gif表情包搜索
+        wordLimit: 1024,  // 评论字数限制。填入单个数字时为最大字数限制。设置为 0 时无限制。
+        comment: {{ .waline.WithCommentCount }},  // 文章评论数统计，填入字符串时会作为 CSS 选择器。
+        pageview: {{ .waline.WithPageviewCount }},  // 文章浏览量统计，填入字符串时会作为 CSS 选择器。
+    });
+</script>
+{{ end }}
+{{ end }}

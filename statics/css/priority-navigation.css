@@ -1,0 +1,88 @@
+/* base Priority-Navigation styling */
+.toPrioritize {
+    font-size: 0;
+    padding: 2px 0;
+    white-space: nowrap;
+    list-style-type: none;
+    margin-bottom: 0;
+}
+
+@media (max-width:575.98px) {
+    .toPrioritize {
+        left: 0;
+        right: 0;
+        position: absolute;
+    }
+    main {
+        padding-top: 50px;
+    }
+}
+
+.toPrioritize > li {
+    font-size: 1rem;
+    display: inline-block;
+    white-space: nowrap;
+    list-style-type: none;
+    text-align: center;
+	vertical-align: middle;
+}
+
+.toPrioritize > li a{
+    display: block;
+    text-decoration: none;
+    padding: .75em;
+    position: relative;
+    line-height: 1em;
+}
+
+.toPrioritize > li a:focus,
+.toPrioritize > li a:hover{
+    text-decoration: underline;
+}
+
+.toPrioritize li[data-priority="more"],
+.toPrioritize li[data-priority="more"],
+.toPrioritize.prioritized:not(.opened) > li[data-priority="less"],
+.toPrioritize.prioritized:not(.opened) > li[data-priority="0"]{
+	display: none;
+}
+
+.toPrioritize.prioritized.truncated > li[data-priority="more"]{
+	display: inline-block;
+}
+
+.toPrioritize:not(.opened) > li[data-priority="0"],
+.toPrioritize.prioritized:not(.opened) > li.demoted,
+.toPrioritize.prioritized:not(.opened) > li[data-priority="less"] {
+	position: absolute;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+}
+
+.toPrioritize.prioritized.opened,
+.toPrioritize:not(.prioritized){
+	white-space: normal;
+}
+
+.toPrioritize.prioritized.opened li,
+.toPrioritize:not(.prioritized) li{
+	white-space: normal;
+}
+
+.toPrioritize.prioritized.opened > li,
+.toPrioritize.prioritized.opened > li.demoted,
+.toPrioritize:not(.prioritized) > li {
+	width: 50%;
+	height: auto;
+	position: static;
+}
+
+.toPrioritize.prioritized.opened > li[data-priority="more"]{
+	position: absolute;
+	display: none !important;
+}

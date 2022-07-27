@@ -1,0 +1,126 @@
+# Portuguese translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "赞赏记录"
+msgstr "Registro de apreciação"
+
+msgid "首页"
+msgstr "primeira página"
+
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "pink-lady é um modelo de desenvolvimento web golang gin"
+
+msgid "留言板"
+msgstr "quadro de mensagens"
+
+msgid "关于网站"
+msgstr "Sobre o site"
+
+msgid "秒钟前"
+msgstr "segundos atrás"
+
+msgid "分钟前"
+msgstr "minutos atrás"
+
+msgid "小时前"
+msgstr "Uma hora atrás"
+
+msgid "天前"
+msgstr "Dias atrás"
+
+msgid "pink-lady"
+msgstr "senhora rosa"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr ""
+"No momento, este site ainda é uma versão de teste, podendo haver situações "
+"instáveis ​​como manutenção, indisponibilidade e atualizações, mas faremos o"
+" possível para reduzir a ocorrência de tais situações."
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"Se o site for útil para você e amigos qualificados estiverem dispostos a "
+"recompensá-lo, você pode digitalizar o código QR abaixo para patrocinar este"
+" site. Os fundos de agradecimento serão usados ​​para despesas fixas, como "
+"servidores e nomes de domínio. Atualizaremos regularmente seu agradecimento "
+"no registro de agradecimentos."
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr ""
+"Você também pode nos ajudar a sobreviver de forma gratuita clicando nos "
+"anúncios da página da web, para que possamos continuar a criar mais conteúdo"
+" de alta qualidade!"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr ""
+"Você está convidado a compartilhar e recomendar o site a seus amigos para "
+"que mais pessoas possam se beneficiar. Obrigado por sua contribuição para "
+"este site, obrigado a todos!"
+
+msgid "微信"
+msgstr "WeChat"
+
+msgid "支付宝"
+msgstr "Alipay"
+
+msgid "源码"
+msgstr "Código fonte"
+
+msgid "关于"
+msgstr "sobre"
+
+msgid "感谢"
+msgstr "grato"
+
+msgid "金额"
+msgstr "Quantia"
+
+msgid "留言"
+msgstr "mensagem"
+
+msgid "时间"
+msgstr "tempo"
+
+msgid "展开"
+msgstr "Expandir"
+
+msgid "收起"
+msgstr "fechar"
+
+msgid "导航菜单"
+msgstr "Menu de navegação"
+
+msgid "主页"
+msgstr "Pagina inicial"
+
+msgid "语言"
+msgstr "linguagem"
+
+msgid "系统公告"
+msgstr "notificação do sistema"
+
+msgid "关于我们"
+msgstr "sobre nós"
+
+msgid "更多"
+msgstr "Mais"
+
+msgid "搜索"
+msgstr "procurar"

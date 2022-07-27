@@ -1,0 +1,123 @@
+# Arabic translations for PACKAGE package.
+# Copyright (C) 2023 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-25 19:11+0800\n"
+"PO-Revision-Date: 2023-12-25 19:11+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "赞赏记录"
+msgstr "سجل التقدير"
+
+msgid "首页"
+msgstr "الصفحة الأمامية"
+
+msgid "pink-lady是一个golang gin的web开发模板"
+msgstr "Pink-lady هو قالب تطوير ويب لـ golang gin"
+
+msgid "留言板"
+msgstr "رسالة المجلس"
+
+msgid "关于网站"
+msgstr "حول الموقع"
+
+msgid "秒钟前"
+msgstr "منذ ثوانى"
+
+msgid "分钟前"
+msgstr "دقائق مضت"
+
+msgid "小时前"
+msgstr "منذ ساعة"
+
+msgid "天前"
+msgstr "أيام مضت"
+
+msgid "pink-lady"
+msgstr "سيدة الوردي"
+
+msgid "目前本站仍为测试版本，可能会出现维护、停机更新等不稳定的情况，但我们会尽量减少这样的情况发生。"
+msgstr ""
+"في الوقت الحالي، لا يزال هذا الموقع نسخة تجريبية، وقد تكون هناك حالات غير "
+"مستقرة مثل الصيانة والتوقف عن العمل والتحديثات، ولكننا سنبذل قصارى جهدنا "
+"لتقليل حدوث مثل هذه المواقف."
+
+msgid ""
+"如果网站对您有所帮助，有条件的朋友愿意打赏，可以扫描下方二维码赞助本站。赞赏款项将用于服务器、域名等固定支出，我们会定期将您的赞赏更新到赞赏记录中。"
+msgstr ""
+"إذا كان الموقع مفيدًا لك وكان الأصدقاء المؤهلون على استعداد لمكافأتك، فيمكنك"
+" مسح رمز الاستجابة السريعة أدناه لرعاية هذا الموقع. سيتم استخدام أموال "
+"التقدير في النفقات الثابتة مثل الخوادم وأسماء النطاقات، وسنقوم بتحديث تقديرك"
+" بانتظام لسجل التقدير."
+
+msgid "您也可以通过点击网页上的广告这种免费的方式来帮助我们存活下去，让我们能够持续创作更多优质内容！"
+msgstr ""
+"يمكنك أيضًا مساعدتنا على البقاء كوسيلة مجانية من خلال النقر على الإعلانات "
+"الموجودة على صفحة الويب، حتى نتمكن من الاستمرار في إنشاء المزيد من المحتوى "
+"عالي الجودة!"
+
+msgid "欢迎您将网站分享推荐给您的朋友，让更多的人受益，感谢您为本站出一份力，谢谢大家！"
+msgstr ""
+"نرحب بمشاركة الموقع والتوصية به لأصدقائك حتى يتمكن المزيد من الأشخاص من "
+"الاستفادة، شكرًا لك على مساهمتك في هذا الموقع، شكرًا لكم جميعًا!"
+
+msgid "微信"
+msgstr "وي شات"
+
+msgid "支付宝"
+msgstr "أليباي"
+
+msgid "源码"
+msgstr "مصدر الرمز"
+
+msgid "关于"
+msgstr "عن"
+
+msgid "感谢"
+msgstr "شاكر"
+
+msgid "金额"
+msgstr "كمية"
+
+msgid "留言"
+msgstr "رسالة"
+
+msgid "时间"
+msgstr "وقت"
+
+msgid "展开"
+msgstr "يوسع"
+
+msgid "收起"
+msgstr "يغلق"
+
+msgid "导航菜单"
+msgstr "قائمة الإبحار"
+
+msgid "主页"
+msgstr "الصفحة الرئيسية"
+
+msgid "语言"
+msgstr "لغة"
+
+msgid "系统公告"
+msgstr "إشعار النظام"
+
+msgid "关于我们"
+msgstr "معلومات عنا"
+
+msgid "更多"
+msgstr "أكثر"
+
+msgid "搜索"
+msgstr "يبحث"

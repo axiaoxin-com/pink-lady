@@ -2,7 +2,6 @@
 
 ![proj-icon](./misc/pics/logo.png)
 
-[![Build Status](https://travis-ci.org/axiaoxin-com/pink-lady.svg?branch=master)](https://travis-ci.org/axiaoxin-com/pink-lady)
 [![go report card](https://goreportcard.com/badge/github.com/axiaoxin-com/pink-lady)](https://goreportcard.com/report/github.com/axiaoxin-com/pink-lady)
 [![version-badge](https://img.shields.io/github/release/axiaoxin-com/pink-lady.svg)](https://github.com/axiaoxin-com/pink-lady/releases)
 [![license](https://img.shields.io/github/license/axiaoxin-com/pink-lady.svg)](https://github.com/axiaoxin-com/pink-lady/blob/master/LICENSE)
@@ -12,9 +11,9 @@
 > Pinklady is a template project of gin app, which encapsulates mysql, redis, logging, viper, swagger, middlewares and other common components.
 
 pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/gin)
-来进行 HTTP API 开发的示例项目，新建项目时可以使用它作为项目模板。
+来进行 **API服务/WEB网站** 开发的示例项目，新建项目时可以使用它作为项目模板。
 
-之所以叫 pink-lady 首先字面意思就是红粉佳人或则粉红女郎，有这个性感的名字相信你更会好好对你的代码负责。
+之所以叫 pink-lady 首先字面意思就是红粉佳人或粉红女郎，有这个性感的名字相信你更会好好对你的代码负责。
 其次，因为 gin 就是国外六大类烈酒之一的金酒，是近百年来调制鸡尾酒时最常使用的基酒，其配方多达千种以上，
 而 pink lady 是以 gin 作 base 的国标鸡尾酒之一，在这里 pink-lady 则是以 gin 作 base 的代码骨架模板之一
 
@@ -44,11 +43,13 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 - 通过配置集成 go html template，可自由注册 template funcs map
 - embed 静态资源编译进二进制文件中
 - i18n国际化支持
+- 支持类似django的flatpages
+- SEO良好支持
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
 1. 确认配置文件正确。
-   配置文件必须满足能解析出指定的内容，复制或修改 [config.default.toml](./src/config.default.toml) 中的配置项
+   配置文件必须满足能解析出指定的内容，复制或修改 [config.default.toml](https://github.com/axiaoxin-com/pink-lady/blob/master/config.default.toml) 中的配置项
 2. 创建自定义中间件的 gin app `NewGinEngine` （可选）
 3. 运行 web 应用服务器 `Run`。
    需传入 gin app 和在该 app 上注册 URL 路由注册函数
@@ -61,7 +62,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 
 ### gin 框架源码图解
 
-![gin arch](./misc/pics/gin_arch.svg)
+![gin arch](https://github.com/axiaoxin-com/pink-lady/blob/master/misc/pics/gin_arch.svg)
 
 ### gin 中间件原理解析
 
@@ -88,45 +89,11 @@ api 文档地址： <http://localhost:4869/x/apidocs/index.html>
 
 swag 中文文档: <https://github.com/swaggo/swag/blob/master/README_zh-CN.md>
 
-### 使用 [air](https://github.com/cosmtrek/air) 可以根据文件变化自动编译运行服务
-
-安装：
-
-```
-go get -u github.com/cosmtrek/air
-```
-
-在项目根目录中执行 `air -c .air.toml` 即可运行服务，代码修改后会自动更新 api 文档并重新编译运行
-
-### 根据 mysql 表自动生成结构体：[table2struct](https://github.com/axiaoxin-com/table2struct)
-
-安装：
-
-```
-go get -u github.com/axiaoxin-com/table2struct
-```
-
-### 依赖的外部 HTTP 服务的 Mock 工具： [httplive](https://github.com/gencebay/httplive)
-
-安装：
-
-```
-go get -u github.com/gencebay/httplive
-```
-
-启动：
-
-```
-httplive -d `pwd`/httplive.db -p 5003
-```
-
-打开浏览器访问： `http://localhost:5003` 页面上编辑 url 和对应的返回结果保存，请求对应地址就会返回你设置的返回结果
-
 ## 配置文件
 
 服务通过 [viper](https://github.com/spf13/viper) 加载配置文件， viper 支持的配置文件格式都可以使用。
 
-服务启动时默认加载当前目录的 [config.default.toml](./config.default.toml) 作为配置。其中包含了服务支持的全部配置项。
+服务启动时默认加载当前目录的 `config.default.toml`
 
 服务启动时可以通过以下参数指定其他配置文件：
 
@@ -160,23 +127,16 @@ go run main.go -p . -c config.default -t toml
 
 ```
 go generate
-env GOOS=linux go build -o app -tags=jsoniter
+CGO_ENABLED=0 GOOS=linux go build -ldflags "-X github.com/axiaoxin-com/pink-lady/routes.BuildID=${buildid}" -o pink-lady
 ```
 
 ## i18n国际化支持集成方法
-对golang代码中需要进行翻译的文字使用`gettext.Gettext("")`包裹，对网页模板中的翻译文字使用 `{{ _text "" }}`包裹后，进入 `statics/i18n` 目录下提取并编译对应的mo文件
+
+对golang代码中需要进行翻译的文字使用`webserver.CtxI18n(c, "文字")`或`I18nString("文字")`包裹，对网页模板中的翻译文字使用 `{{ _i18n $lang "文字" }}`包裹。具体的使用示例可以参考[demo主页代码](https://github.com/axiaoxin-com/pink-lady/blob/master/routes/page_home.go)
 
 ```
-cd ./statics/i18n
+# 自动提取需要翻译文字生成翻译模板
+./i18n.sh
 
-# 提取翻译文字生成模板
-./pot_extract.sh
-
-# 初始化英文模板，增加其他语言可以修改脚本，创建对应的目录即可
-./po_init.sh
-
-# 打开对应路径下的po文件进行翻译，msgid对应的msgstr改为对应语言即可，可以使用`poedit`进行操作。
-
-# 完成翻译后编译po文件生成mo文件
-./po2mo.sh
+# 打开对应路径（默认为`statics/i18n`）下的po文件进行翻译，msgid对应的msgstr改为对应语言即可
 ```

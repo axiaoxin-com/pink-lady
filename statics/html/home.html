@@ -1,0 +1,130 @@
+{{ template "page_top" . }}
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.Lang }}
+
+<div class="text-center mt-5">
+    <h1>{{ .meta.Title }}</h1>
+    <p class="my-4">{{ .meta.BaseDesc }}</p>
+    <div class="gap-2 d-flex justify-content-center">
+        <a href="https://github.com/axiaoxin-com/pink-lady" class="btn btn-primary" target="_blank">{{ _i18n $lang "源码" }}</a>
+        <a href="{{ $hosturl }}/about/" class="btn btn-outline-primary">{{ _i18n $lang "关于" }}</a>
+    </div>
+</div>
+
+<ins class="adsbygoogle mt-5"
+     style="display:block"
+     data-ad-client="ca-pub-3022214826355647"
+     data-ad-slot="8700285936"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<div class="mt-5 text-break">
+    <h2 id="pink-lady">pink-lady</h2>
+    <p><img src="{{ .meta.StaticsURL }}/img/logo.webp" alt="proj-icon"></p>
+    <p><a href="https://goreportcard.com/report/github.com/axiaoxin-com/pink-lady"><img src="https://goreportcard.com/badge/github.com/axiaoxin-com/pink-lady" alt="go report card"></a>
+    <a href="https://github.com/axiaoxin-com/pink-lady/releases"><img src="https://img.shields.io/github/release/axiaoxin-com/pink-lady.svg" alt="version-badge"></a>
+    <a href="https://github.com/axiaoxin-com/pink-lady/blob/master/LICENSE"><img src="https://img.shields.io/github/license/axiaoxin-com/pink-lady.svg" alt="license"></a>
+    <a href="https://github.com/axiaoxin-com/pink-lady/issues"><img src="https://img.shields.io/github/issues/axiaoxin-com/pink-lady.svg" alt="issues"></a>
+    <a href="https://github.com/axiaoxin-com/pink-lady/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a></p>
+    <blockquote>
+        <p>Pinklady is a template project of gin app, which encapsulates mysql, redis, logging, viper, swagger, middlewares and other common components.</p>
+    </blockquote>
+    <p>pink-lady 是基于 Golang web 开发框架 <a href="https://github.com/gin-gonic/gin">gin</a>
+    来进行 <strong>API服务/WEB网站</strong> 开发的示例项目，新建项目时可以使用它作为项目模板。</p>
+    <p>之所以叫 pink-lady 首先字面意思就是红粉佳人或粉红女郎，有这个性感的名字相信你更会好好对你的代码负责。
+    其次，因为 gin 就是国外六大类烈酒之一的金酒，是近百年来调制鸡尾酒时最常使用的基酒，其配方多达千种以上，
+    而 pink lady 是以 gin 作 base 的国标鸡尾酒之一，在这里 pink-lady 则是以 gin 作 base 的代码骨架模板之一</p>
+    <h2 id="使用-pink-lady-模板创建项目">使用 pink-lady 模板创建项目</h2>
+    <p>点击 <a href="https://github.com/axiaoxin-com/pink-lady/generate">https://github.com/axiaoxin-com/pink-lady/generate</a> 创建你的 github 项目（使用该方式创建项目时，如需修改项目名称需手动修改）</p>
+    <p>或者手动本地创建（如想自定义项目名，推荐使用该方式）：</p>
+    <pre><code>bash &lt;(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/misc/scripts/new_project.sh)
+    </code></pre>
+    <h2 id="特性">特性</h2>
+    <ul>
+        <li>使用 viper 加载配置，支持配置热更新，服务所有特性都通过配置文件控制</li>
+        <li>支持生成 swagger api 文档</li>
+        <li>封装数据库连接实例池，通过读取配置文件可以直接在代码中使用 gorm 和 sqlx 快速连接 mysql、sqlite3、postgresql、sqlserver</li>
+        <li>封装 redis， redis sentinel， redis cluster 连接实例池</li>
+        <li>封装统一的 JSON 返回结构</li>
+        <li>集成 sentry 搜集错误</li>
+        <li>内置 GinLogger 中间件打印详细的访问日志，支持不同的 http 状态码使用不同的日志级别，通过配置开关打印请求头，请求餐宿，响应体等调试信息</li>
+        <li>内置 GinRecovery 中间件，异常服务默认按状态码返回 JSON 错误信息，panic 错误统一交由 GinLogger 打印，支持自定义输出格式</li>
+        <li>使用 logging 打印日志，支持 trace id，error 以上级别自动上报到 sentry</li>
+        <li>支持 prometheus metrics exporter</li>
+        <li>支持 ratelimiter 请求限频</li>
+        <li>通过配置集成 go html template，可自由注册 template funcs map</li>
+        <li>embed 静态资源编译进二进制文件中</li>
+        <li>i18n国际化支持</li>
+        <li>SEO良好支持</li>
+    </ul>
+    <h2 id="使用-pink-ladywebserver-3-步组装一个-web-应用">使用 <code>pink-lady/webserver</code> 3 步组装一个 WEB 应用</h2>
+    <ol>
+        <li>确认配置文件正确。
+            配置文件必须满足能解析出指定的内容，复制或修改 <a href="https://github.com/axiaoxin-com/pink-lady/blob/master/config.default.toml">config.default.toml</a> 中的配置项</li>
+        <li>创建自定义中间件的 gin app <code>NewGinEngine</code> （可选）</li>
+        <li>运行 web 应用服务器 <code>Run</code>。
+            需传入 gin app 和在该 app 上注册 URL 路由注册函数</li>
+    </ol>
+    <p>实现代码在<code>src</code>路径下，在 pink-lady 模板项目下，你只需关注如何实现你的业务逻辑，不用考虑如何组织项目结构和集成一些通用功能，比如数据库的连接封装，配置文件的读取，swagger 文档生成，统一的 JSON 返回结果，错误码定义，集成 Sentry 等等。</p>
+    <p>你可以在<code>routes</code>路径下实现你的 api，并在 <code>routes/routes.go</code> 的 <code>Routes</code> 函数中注册 URL 即可。外部第三方服务放在 <code>services</code> 包中进行加载或初始化。数据库模型相关定义放到 <code>models</code> 包中便于复用。</p>
+    <h2 id="关于-gin">关于 gin</h2>
+    <h3 id="gin-框架源码图解">gin 框架源码图解</h3>
+    <a target="_blank" href="https://github.com/axiaoxin-com/pink-lady/blob/master/misc/pics/gin_arch.svg" alt="gin arch">gin_arch.svg</a>
+    <h3 id="gin-中间件原理解析">gin 中间件原理解析</h3>
+    <p><a href="https://github.com/axiaoxin/axiaoxin/issues/17">https://github.com/axiaoxin/axiaoxin/issues/17</a></p>
+    <h2 id="开发环境搭建">开发环境搭建</h2>
+    <h3 id="安装-swagger-api-文档生成工具-swag">安装 swagger api 文档生成工具 <a href="https://github.com/swaggo/swag">swag</a></h3>
+    <pre><code>go get -u github.com/swaggo/swag/cmd/swag
+    </code></pre>
+    <p>在项目根目录中执行以下命令会在 <code>routes</code> 目录中生成 api 文档</p>
+    <pre><code>swag init --dir ./ --generalInfo routes/routes.go --propertyStrategy snakecase --output ./routes/docs
+    </code></pre>
+    <p>api 文档地址： <a href="http://localhost:4869/x/apidocs/index.html">http://localhost:4869/x/apidocs/index.html</a></p>
+    <p>服务启动时如果环境变量设置了 <code>DISABLE_GIN_SWAGGER</code> 会关闭 api 文档。
+    首次访问需经过 Basic 认证登录，登录账号密码可通过配置修改，默认为 <code>admin</code> <code>admin</code></p>
+    <p>swag 中文文档: <a href="https://github.com/swaggo/swag/blob/master/README_zh-CN.md">https://github.com/swaggo/swag/blob/master/README_zh-CN.md</a></p>
+    <h2 id="配置文件">配置文件</h2>
+    <p>服务通过 <a href="https://github.com/spf13/viper">viper</a> 加载配置文件， viper 支持的配置文件格式都可以使用。</p>
+    <p>服务启动时默认加载当前目录的 <code>config.default.toml</code></p>
+    <p>服务启动时可以通过以下参数指定其他配置文件：</p>
+    <ul>
+        <li><code>-p</code> 指定配置文件的所在目录</li>
+        <li><code>-c</code> 指定配置文件的不带格式后缀的文件名</li>
+        <li><code>-t</code> 指定配置文件的文件格式名</li>
+    </ul>
+    <p>只支持从<code>1</code>个目录读取<code>1</code>个配置文件。</p>
+    <p><strong>建议</strong>：在开发自己的服务时，复制当前目录的 toml 配置创建一份新的配置，再在其上进行修改或新增配置，然后通过指定参数加载自己的配置。</p>
+    <h2 id="日志打印">日志打印</h2>
+    <p>使用 <a href="https://github.com/axiaoxin-com/logging">logging</a> 的方法打印带 trace id 的日志，可通过配置文件中 <code>[logging]</code> 下的配置项进行相关设置。</p>
+    <p>配置 sentry dsn 后，<code>Error</code> 级别以上的日志会被自动采集到 Sentry 便于错误发现与定位。</p>
+    <h2 id="api-开发">API 开发</h2>
+    <p>使用 <a href="http://github.com/axiaoxin-com/pink-lady">pink-lady</a> 开发 web api 服务，你只需实现 gin 的 <code>HandlerFunc</code> 并在 <code>routes/routes.go</code> 的 <code>Routes</code> 函数中注册到对应的 URL 上即可。</p>
+    <p>api 中使用 <code>c.Error(err)</code> 会将 err 保存到 context 中，打印访问日志时会以 <code>Error</code> 级别自动打印错误信息。避免同一类错误打印多次日志影响问题定位效率。</p>
+    <p>手动完整的启动服务命令：</p>
+    <pre><code>go run main.go -p . -c config.default -t toml
+    </code></pre>
+    <p>编译：</p>
+    <pre><code>go generate
+CGO_ENABLED=0 GOOS=linux go build -ldflags &quot;-X github.com/axiaoxin-com/pink-lady/routes.BuildID=${buildid}&quot; -o pink-lady
+    </code></pre>
+    <h2 id="i18n国际化支持集成方法">i18n国际化支持集成方法</h2>
+    <p>对golang代码中需要进行翻译的文字使用<code>webserver.CtxI18n(c, "文字")</code>或<code>I18nString("文字")</code>包裹，对网页模板中的翻译文字使用 <code>{{ _i18n $lang "文字" }}</code>包裹。具体的使用示例可以参考<a href="https://github.com/axiaoxin-com/pink-lady/blob/master/routes/page_home.go">demo主页代码</a></p>
+    <pre><code># 自动提取需要翻译文字生成翻译模板
+./i18n.sh
+
+# 打开对应路径（默认为`statics/i18n`）下的po文件进行翻译，msgid对应的msgstr改为对应语言即可
+    </code></pre>
+</div>
+
+<div class="_ccef883g44w mt-5"></div>
+<script type="text/javascript">
+    (window.slotbydup = window.slotbydup || []).push({
+        id: "u6948370",
+        container: "_ccef883g44w",
+        async: true
+    });
+</script>
+{{ template "page_bottom" . }}
