@@ -129,7 +129,7 @@ var TemplFuncs = map[string]interface{}{
 		if len(r) < cut {
 			return s
 		}
-		return string(r[:cut])
+		return string(r[:cut]) + "..."
 	},
 	"_pbts_format": func(pbts *timestamp.Timestamp, format string) string {
 		gotime, err := ptypes.Timestamp(pbts)

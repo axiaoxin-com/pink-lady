@@ -57,8 +57,9 @@ func GinRecovery(
 					}
 				}
 				if brokenPipe {
-					// save err in context
-					c.Error(fmt.Errorf("Broken pipe: %v\n%s", err, string(debug.Stack())))
+					status = 499
+					// log warning
+					logging.Warnf(c, "Broken pipe: %v\n%s", err, string(debug.Stack()))
 					if len(recoveryHandler) > 0 {
 						c.Abort()
 						recoveryHandler[0](c, status, nil, errors.New(http.StatusText(status)))
