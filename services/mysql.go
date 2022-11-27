@@ -24,7 +24,7 @@ var (
 // DBConfig doris相关的配置
 type DBConfig struct {
 	// 参考 https://github.com/go-sql-driver/mysql#dsn-data-source-name 获取详情
-	// "user:pwd@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=UTC"
+	// "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
 	DSN             string
 	MaxIdleConns    int
 	MaxOpenConns    int
@@ -77,11 +77,19 @@ var DB *gorm.DB
 
 // InitDB 初始化数据库连接
 func InitDB() {
+	if DB != nil {
+		logging.Warn(nil, "DB has already inited")
+		return
+	}
 	var err error
 	DB, err = NewMySQLDB(DBConfig{
 		DSN: viper.GetString(fmt.Sprintf("mysql.%s.dbname.dsn", viper.GetString("env"))),
 	})
 	if err != nil {
 		logging.Fatal(nil, "InitDB NewMySQLDB error:"+err.Error())
+	}
+	logging.Info(nil, "InitDB success")
+	if viper.GetString("server.mode") == "debug" {
+		DB = DB.Debug()
 	}
 }
