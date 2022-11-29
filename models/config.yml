@@ -15,13 +15,13 @@ url_tag: json
 language: 中 文
 db_tag: gorm
 user_gorm_model: false
-simple: false
+simple: true
 is_web_tag: false
 is_web_tag_pk_hidden: false
-is_foreign_key: true
+is_foreign_key: false
 is_out_sql: false
-is_out_func: true
-is_gui: true
+is_out_func: false
+is_gui: false
 is_table_name: true
 is_null_to_point: false
 table_prefix: ""

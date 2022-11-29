@@ -3,6 +3,7 @@
 package routes
 
 import (
+	"github.com/axiaoxin-com/pink-lady/models"
 	"github.com/axiaoxin-com/pink-lady/routes/response"
 	"github.com/axiaoxin-com/pink-lady/services"
 	"github.com/axiaoxin-com/pink-lady/version"
@@ -24,8 +25,8 @@ import (
 func Ping(c *gin.Context) {
 	data := gin.H{
 		"version":             version.Version,
-		"mysql":               services.CheckMySQL(c),
-		"redis":               services.CheckRedis(c),
+		"mysql":               models.CheckMySQL(c),
+		"redis":               models.CheckRedis(c),
 		"atomic_level_server": services.CheckAtomicLevelServer(c),
 	}
 	response.JSON(c, data)

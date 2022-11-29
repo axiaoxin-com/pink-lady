@@ -158,7 +158,7 @@ env = "localhost"
 
     # mysql localhost 环境
     [mysql.localhost.dbname]
-        dsn = "user:pwd@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=UTC"
+        dsn = "root:roooooot@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=UTC"
 
     # mysql other 环境
     [mysql.other.dbname]

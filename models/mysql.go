@@ -1,7 +1,7 @@
-package services
+package models
 
 import (
-	"fmt"
+	"context"
 	"time"
 
 	"github.com/axiaoxin-com/logging"
@@ -72,24 +72,17 @@ func NewMySQLDB(c DBConfig) (*gorm.DB, error) {
 	return gormdb, nil
 }
 
-// DB 主库
-var DB *gorm.DB
-
-// InitDB 初始化数据库连接
-func InitDB() {
-	if DB != nil {
-		logging.Warn(nil, "DB has already inited")
-		return
+// CheckMySQL 检查 mysql 服务状态
+func CheckMySQL(ctx context.Context) map[string]string {
+	// 检查 mysql
+	result := map[string]string{
+		"db": "ok",
 	}
-	var err error
-	DB, err = NewMySQLDB(DBConfig{
-		DSN: viper.GetString(fmt.Sprintf("mysql.%s.dbname.dsn", viper.GetString("env"))),
-	})
+	db, err := DB.DB()
 	if err != nil {
-		logging.Fatal(nil, "InitDB NewMySQLDB error:"+err.Error())
+		result["db"] = err.Error()
+	} else if err := db.Ping(); err != nil {
+		result["db"] = err.Error()
 	}
-	logging.Info(nil, "InitDB success")
-	if viper.GetString("server.mode") == "debug" {
-		DB = DB.Debug()
-	}
+	return result
 }
