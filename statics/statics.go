@@ -7,4 +7,5 @@ import "embed"
 //
 //go:embed robots.txt
 //go:embed css/* font/* html/* img/* js/*
+//go:embed flatpages/*
 var Files embed.FS

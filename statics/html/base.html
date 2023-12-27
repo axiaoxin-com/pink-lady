@@ -136,6 +136,11 @@
                             <li class="nav-item col-4 col-lg-auto">
                                 <a class="nav-link py-3" href="{{ $hosturl }}" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "主页" }}</a>
                             </li>
+                            {{ if .meta.FlatpagesEnable }}
+                            <li class="nav-item col-4 col-lg-auto">
+                                <a class="nav-link py-3" href="{{ $hosturl }}{{ .meta.FlatpagesNavPath }}/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang .meta.FlatpagesNavName }}</a>
+                            </li>
+                            {{ end }}
                             <li class="nav-item col-4 col-lg-auto">
                                 <a class="nav-link py-3" href="{{ $hosturl }}/about/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "关于" }}</a>
                             </li>

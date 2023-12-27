@@ -39,6 +39,15 @@ env = "localhost"
     tmpl_path = "html/*"
     # 静态文件 URL 路径，网页中通过 /statics/js/xx.js 访问资源，
     url = "/statics"
+    # 是否启用flatpages
+
+
+
+########## flagpages配置
+[flatpages]
+    enable = true
+    nav_name = "flatpages"
+    nav_path = "/fp"
 
 
 

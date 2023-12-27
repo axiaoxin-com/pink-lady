@@ -43,6 +43,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 - 通过配置集成 go html template，可自由注册 template funcs map
 - embed 静态资源编译进二进制文件中
 - i18n国际化支持
+- 支持类似django的flatpages
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 

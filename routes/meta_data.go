@@ -16,7 +16,7 @@ const (
 	// AppID common.app id
 	AppID = 0
 
-	// TODO: set your site name
+	// SiteName TODO: set your site name
 	SiteName = webserver.I18nString("pink-lady")
 )
 
@@ -25,26 +25,29 @@ var BuildID = ""
 
 // MetaData 元数据
 type MetaData struct {
-	SiteName        string
-	HostURL         string
-	BuildID         string
-	Env             string
-	AppID           int
-	AdsenseID       string
-	SysNotice       string
-	SysNoticeQRText string
-	Title           string
-	IsCrawler       bool
-	Lang            string
-	Keywords        []string
-	BaseDesc        string
-	BootswatchTheme string
-	I18n            bool
-	Beian           string
-	AuthorName      string
-	AuthorURL       string
-	StaticsURL      string
-	StaticsSelfhost bool
+	SiteName         string
+	HostURL          string
+	BuildID          string
+	Env              string
+	AppID            int
+	AdsenseID        string
+	SysNotice        string
+	SysNoticeQRText  string
+	Title            string
+	IsCrawler        bool
+	Lang             string
+	Keywords         []string
+	BaseDesc         string
+	BootswatchTheme  string
+	I18n             bool
+	Beian            string
+	AuthorName       string
+	AuthorURL        string
+	StaticsURL       string
+	StaticsSelfhost  bool
+	FlatpagesEnable  bool
+	FlatpagesNavName string
+	FlatpagesNavPath string
 }
 
 // NewMetaData 返回页面元数据
@@ -66,23 +69,26 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 	}
 
 	m = &MetaData{
-		SiteName:        webserver.CtxI18n(c, SiteName),
-		HostURL:         hostURL,
-		BuildID:         BuildID,
-		Env:             viper.GetString("env"),
-		AppID:           AppID,
-		AdsenseID:       viper.GetString("server.adsense_id"),
-		Title:           title,
-		IsCrawler:       isCrawler,
-		Lang:            c.GetString("lang"),
-		BaseDesc:        webserver.CtxI18n(c, "pink-lady是一个golang gin的web开发模板"),
-		BootswatchTheme: "cosmo",
-		I18n:            viper.GetBool("i18n.enable"),
-		Beian:           viper.GetString("server.beian"),
-		AuthorName:      viper.GetString("author.name"),
-		AuthorURL:       viper.GetString("author.url"),
-		StaticsURL:      viper.GetString("statics.url"),
-		StaticsSelfhost: viper.GetBool("statics.selfhost"),
+		SiteName:         webserver.CtxI18n(c, SiteName),
+		HostURL:          hostURL,
+		BuildID:          BuildID,
+		Env:              viper.GetString("env"),
+		AppID:            AppID,
+		AdsenseID:        viper.GetString("server.adsense_id"),
+		Title:            title,
+		IsCrawler:        isCrawler,
+		Lang:             c.GetString("lang"),
+		BaseDesc:         webserver.CtxI18n(c, "pink-lady是一个golang gin的web开发模板"),
+		BootswatchTheme:  "cosmo",
+		I18n:             viper.GetBool("i18n.enable"),
+		Beian:            viper.GetString("server.beian"),
+		AuthorName:       viper.GetString("author.name"),
+		AuthorURL:        viper.GetString("author.url"),
+		StaticsURL:       viper.GetString("statics.url"),
+		StaticsSelfhost:  viper.GetBool("statics.selfhost"),
+		FlatpagesEnable:  viper.GetBool("flatpages.enable"),
+		FlatpagesNavName: viper.GetString("flatpages.nav_name"),
+		FlatpagesNavPath: viper.GetString("flatpages.nav_path"),
 	}
 
 	logging.Debugf(ctx, "NewMetaData MetaData:%+v", *m)

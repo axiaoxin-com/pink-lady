@@ -1,0 +1,16 @@
+{{ template "page_top" . }}
+
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.HostURL }}
+{{ $fp_path := .meta.FlatpagesNavPath }}
+
+<div class="mt-4">
+    <h1>{{ .meta.FlatpagesNavName }}</h1>
+    {{ range .entries }}
+    <div class="py-2 border-bottom">
+        <a href="{{ $hosturl }}{{ $fp_path }}/{{ .Name }}/">{{ .Name }}</a>
+    </div>
+    {{ end }}
+</div>
+
+{{ template "page_bottom" . }}
