@@ -12,7 +12,7 @@
 <html lang="{{ $lang }}" {{ if eq $lang "ar" }}dir="rtl"{{ end }}>
     <head>
         <meta charset="utf-8">
-        <title>{{ with .meta.Title }}{{.}}-{{ end }}{{ $sitename }}</title>
+        <title>{{ with .meta.Title }}{{.}}-{{ end }}{{ $sitename }}{{ with .meta.Slogan }}-{{.}}{{ end }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="applicable-device" content="pc,mobile">
         <meta name="keywords" content="{{ if .meta }}{{ if .meta.Keywords }}{{ _str_slice_join .meta.Keywords "," }},{{ end }}{{ end }}{{ _i18n $lang "golang web开发框架" }}" />

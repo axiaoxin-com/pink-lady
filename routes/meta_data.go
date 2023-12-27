@@ -18,6 +18,7 @@ const (
 
 	// SiteName TODO: set your site name
 	SiteName = webserver.I18nString("pink-lady")
+	Slogan   = webserver.I18nString("")
 )
 
 // BuildID ..
@@ -26,6 +27,7 @@ var BuildID = ""
 // MetaData 元数据
 type MetaData struct {
 	SiteName         string
+	Slogan           string
 	HostURL          string
 	BuildID          string
 	Env              string
@@ -70,6 +72,7 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 
 	m = &MetaData{
 		SiteName:         webserver.CtxI18n(c, SiteName),
+		Slogan:           webserver.CtxI18n(c, Slogan),
 		HostURL:          hostURL,
 		BuildID:          BuildID,
 		Env:              viper.GetString("env"),
