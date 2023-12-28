@@ -29,6 +29,10 @@ env = "localhost"
     beian = ""
     # host url
     host_url = ""
+    # 百度统计id
+    baidu_tongji_id = ""
+    # 谷歌分析id
+    gtag_id = ""
 
 
 
@@ -37,8 +41,8 @@ env = "localhost"
     selfhost = false
     # 网页模板路径
     tmpl_path = "html/*"
-    # 静态文件 URL 路径，网页中通过 /statics/js/xx.js 访问资源，
-    url = "/statics"
+    # 静态文件路径
+    url = "statics"
     # 是否启用flatpages
 
 

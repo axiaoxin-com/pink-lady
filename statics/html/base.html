@@ -17,6 +17,17 @@
         <meta name="applicable-device" content="pc,mobile">
         <meta name="keywords" content="{{ if .meta }}{{ if .meta.Keywords }}{{ _str_slice_join .meta.Keywords "," }},{{ end }}{{ end }}{{ _i18n $lang "golang web开发框架" }}" />
         <meta name="description" content="{{ .meta.BaseDesc }}" />
+        {{ if .meta.BaiduTongJiID }}
+        <script>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?{{ .meta.BaiduTongJiID }}";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        {{ end }}
         <meta name="referrer" content="no-referrer" />
         <meta name="format-detection" content="telephone=no" />
 
@@ -338,6 +349,16 @@
         <script src="{{ .meta.StaticsURL }}/js/bootstrap.bundle.min.js"></script>
         {{ else }}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        {{ end }}
+
+        {{ if .meta.GtagID }}
+       <script async src="https://www.googletagmanager.com/gtag/js?id={{ .meta.GtagID }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '{{ .meta.GtagID }}');
+        </script>
         {{ end }}
 
         <script src="{{ .meta.StaticsURL }}/js/adview_pic_cpc_cpm_cpa_guanggao_gg_ads_300x250.js"></script>

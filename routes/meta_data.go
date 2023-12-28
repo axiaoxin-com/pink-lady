@@ -50,6 +50,8 @@ type MetaData struct {
 	FlatpagesEnable  bool
 	FlatpagesNavName string
 	FlatpagesNavPath string
+	BaiduTongJiID    string
+	GtagID           string
 }
 
 // NewMetaData 返回页面元数据
@@ -87,11 +89,13 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		Beian:            viper.GetString("server.beian"),
 		AuthorName:       viper.GetString("author.name"),
 		AuthorURL:        viper.GetString("author.url"),
-		StaticsURL:       viper.GetString("statics.url"),
+		StaticsURL:       hostURL + "/" + viper.GetString("statics.url"),
 		StaticsSelfhost:  viper.GetBool("statics.selfhost"),
 		FlatpagesEnable:  viper.GetBool("flatpages.enable"),
 		FlatpagesNavName: viper.GetString("flatpages.nav_name"),
 		FlatpagesNavPath: viper.GetString("flatpages.nav_path"),
+		BaiduTongJiID:    viper.GetString("server.baidu_tongji_id"),
+		GtagID:           viper.GetString("server.gtag_id"),
 	}
 
 	logging.Debugf(ctx, "NewMetaData MetaData:%+v", *m)
