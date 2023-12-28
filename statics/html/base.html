@@ -40,6 +40,8 @@
         {{ end }}
 
         <link rel="preload" as="image" href="{{ .meta.StaticsURL }}/img/logo.webp">
+        <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/app.css?buildid={{ .meta.BuildID }}">
+        <link rel="preload" as="script" href="{{ .meta.StaticsURL }}/js/app.js?buildid={{ .meta.BuildID }}">
         {{ if .meta.AdsenseID }}
         <link rel="preload" as="script" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .meta.AdsenseID }}">
         {{ end }}
@@ -116,13 +118,14 @@
                 margin: auto;
             }
         </style>
+        <link rel="stylesheet" href="{{ .meta.StaticsURL }}/css/app.css?buildid={{ .meta.BuildID }}">
     </head>
 
     <body class="d-flex flex-column min-vh-100">
         <div id="top"></div>
         <nav id="site-nav" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ $hosturl }}" {{ with .meta }}{{ if eq .BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>
+                <a class="navbar-brand" href="{{ $hosturl }}/" {{ with .meta }}{{ if eq .BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>
                     <img loading="lazy" class="rounded-circle logo-spin" alt="Logo" src="{{ .meta.StaticsURL }}/img/logo.webp" width="24" height="24"/>
                     <strong>{{ $sitename }}</strong>
                 </a>
@@ -135,7 +138,7 @@
 
                 <div class="offcanvas offcanvas-end bg-primary" id="base_navbar_offcanvas" aria-labelledby="base_navbar_offcanvas_label" data-bs-scroll="true" tabindex="-1">
                     <div class="offcanvas-header navbar-brand pt-4 pb-0">
-                        <a class="offcanvas-title text-wrap text-decoration-none" id="base_navbar_offcanvas_label" href="{{ $hosturl }}">
+                        <a class="offcanvas-title text-wrap text-decoration-none" id="base_navbar_offcanvas_label" href="{{ $hosturl }}/">
                             <h5 class="text-white mb-0">{{ $sitename }}</h5>
                         </a>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -145,11 +148,11 @@
                         <hr class="d-lg-none text-opacity-50">
                         <ul class="navbar-nav flex-row flex-wrap me-auto text-center text-capitalize">
                             <li class="nav-item col-4 col-lg-auto">
-                                <a class="nav-link py-3" href="{{ $hosturl }}" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "主页" }}</a>
+                                <a class="nav-link py-3" href="{{ $hosturl }}/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "主页" }}</a>
                             </li>
                             {{ if .meta.FlatpagesEnable }}
                             <li class="nav-item col-4 col-lg-auto">
-                                <a class="nav-link py-3" href="{{ $hosturl }}{{ .meta.FlatpagesNavPath }}/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang .meta.FlatpagesNavName }}</a>
+                                <a class="nav-link py-3" href="{{ $hosturl }}/{{ .meta.FlatpagesNavPath }}/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang .meta.FlatpagesNavName }}</a>
                             </li>
                             {{ end }}
                             <li class="nav-item col-4 col-lg-auto">
@@ -343,6 +346,7 @@
                 }
             });
         </script>
+        <script src="{{ .meta.StaticsURL }}/js/app.js?buildid={{ .meta.BuildID }}"></script>
 
 
         {{ if .meta.StaticsSelfhost }}

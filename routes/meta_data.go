@@ -68,7 +68,7 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		hostURL = "http://" + c.Request.Host
 	}
 
-	if hosturl := viper.GetString("server.host_url"); hosturl != "" {
+	if hosturl := viper.GetString("server.host_url"); hosturl != "" && viper.GetString("env") == "prod" {
 		hostURL = hosturl
 	}
 

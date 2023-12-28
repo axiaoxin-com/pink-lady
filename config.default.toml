@@ -51,7 +51,7 @@ env = "localhost"
 [flatpages]
     enable = true
     nav_name = "flatpages"
-    nav_path = "/fp"
+    nav_path = "fp"
 
 
 

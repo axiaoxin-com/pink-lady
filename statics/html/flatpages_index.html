@@ -8,7 +8,7 @@
     <h1>{{ .meta.FlatpagesNavName }}</h1>
     {{ range .entries }}
     <div class="py-2 border-bottom">
-        <a href="{{ $hosturl }}{{ $fp_path }}/{{ .Name }}/">{{ .Name }}</a>
+        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ .Name }}/">{{ .Name }}</a>
     </div>
     {{ end }}
 </div>
