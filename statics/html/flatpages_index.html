@@ -6,11 +6,15 @@
 
 <div class="mt-4">
     <h1>{{ .meta.FlatpagesNavName }}</h1>
-    {{ range .entries }}
+    {{ range .fileNames }}
     <div class="py-2 border-bottom">
-        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ .Name }}/">{{ .Name }}</a>
+        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ . }}/" class="text-decoration-none">
+            <h2>{{ . }}</h2>
+        </a>
     </div>
     {{ end }}
+
+    {{ template "pagi" . }}
 </div>
 
 {{ template "page_bottom" . }}

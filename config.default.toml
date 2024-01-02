@@ -52,6 +52,7 @@ env = "localhost"
     enable = true
     nav_name = "flatpages"
     nav_path = "fp"
+    file_path = "statics/flatpages"
 
 
 

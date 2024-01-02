@@ -59,18 +59,9 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 	ctx, cancel := context.WithTimeout(c, 5*time.Second)
 	defer cancel()
 
+	hostURL := GetHostURL(c)
 	ua := c.GetHeader("User-Agent")
 	isCrawler := crawlerdetect.IsCrawler(ua)
-
-	hostURL := "https://" + c.Request.Host
-	host := strings.Split(c.Request.Host, ":")
-	if len(host) == 2 && host[1] != "443" {
-		hostURL = "http://" + c.Request.Host
-	}
-
-	if hosturl := viper.GetString("server.host_url"); hosturl != "" && viper.GetString("env") == "prod" {
-		hostURL = hosturl
-	}
 
 	m = &MetaData{
 		SiteName:         webserver.CtxI18n(c, SiteName),
@@ -107,4 +98,17 @@ func (m *MetaData) SetKeywords(c *gin.Context, keywords []string) {
 	for _, kw := range keywords {
 		m.Keywords = append(m.Keywords, webserver.CtxI18n(c, kw))
 	}
+}
+
+func GetHostURL(c *gin.Context) string {
+	hostURL := "https://" + c.Request.Host
+	host := strings.Split(c.Request.Host, ":")
+	if len(host) == 2 && host[1] != "443" {
+		hostURL = "http://" + c.Request.Host
+	}
+
+	if hosturl := viper.GetString("server.host_url"); hosturl != "" && viper.GetString("env") == "prod" {
+		hostURL = hosturl
+	}
+	return hostURL
 }

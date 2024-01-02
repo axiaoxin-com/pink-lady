@@ -1,0 +1,46 @@
+{{ define "pagi" }}
+{{ if .pagi }}
+{{ if and (.pagi.TotalCount) (gt .pagi.TotalCount .pagi.PageSize) }}
+<div class="my-5">
+    <ul class="pagination justify-content-center">
+        {{ if gt .pagi.PagesCount 2 }}
+        <li class="page-item">
+            <a id="first_page_link" class="page-link px-2" href="?offset=0&limit={{ .pagi.PageSize }}"><i class="bi bi-chevron-bar-left"></i></a>
+        </li>
+        {{ end }}
+        <li class="page-item{{ if not .pagi.HasPrev }} disabled{{ end }}">
+            <a id="prev_page_link" class="page-link px-3{{ if not .pagi.HasPrev }} text-muted{{ end }}" href="?offset={{ _int_sub .pagi.PageOffset .pagi.PageSize }}&limit={{ .pagi.PageSize }}"><i class="bi bi-chevron-left"></i></a>
+        </li>
+        <li class="page-item disabled" disabled>
+            <a class="page-link position-relative text-muted" href="#!"> {{ .pagi.PageNum }} / {{ .pagi.PagesCount }} </a>
+        </li>
+        <li class="page-item{{ if not .pagi.HasNext }} disabled{{ end }}">
+            <a id="next_page_link" class="page-link px-3{{ if not .pagi.HasNext }} text-muted{{ end }}" href="?offset={{ _int_sum .pagi.PageOffset .pagi.PageSize }}&limit={{ .pagi.PageSize }}"><i class="bi bi-chevron-right"></i></a>
+        </li>
+        {{ if gt .pagi.PagesCount 2 }}
+        <li class="page-item">
+            <a id="last_page_link" class="page-link px-2" href="?offset={{ _last_page_offset .pagi.TotalCount .pagi.PageSize }}&limit={{ .pagi.PageSize }}"><i class="bi bi-chevron-bar-right"></i></a>
+        </li>
+        {{ end }}
+    </ul>
+</div>
+
+<script>
+    function get_page_link(offset, limit) {
+        var params = new URLSearchParams(window.location.search);
+        params.set("offset", offset);
+        params.set("limit", limit);
+        var link = "?"+params.toString();
+        {{ if .pagi_anchor }}
+        link = link + {{ .pagi_anchor }};
+        {{ end }}
+        return link;
+    }
+$('#first_page_link').attr("href", get_page_link(0, {{ .pagi.PageSize }}));
+$('#prev_page_link').attr("href", get_page_link({{ _int_sub .pagi.PageOffset .pagi.PageSize }}, {{ .pagi.PageSize }}));
+$('#next_page_link').attr("href", get_page_link({{ _int_sum .pagi.PageOffset .pagi.PageSize }}, {{ .pagi.PageSize }}));
+$('#last_page_link').attr("href", get_page_link({{ _last_page_offset .pagi.TotalCount .pagi.PageSize }}, {{ .pagi.PageSize }}));
+</script>
+{{ end }} <!-- have data for pagi end-->
+{{ end }} <!-- nil pagi end-->
+{{ end }} <!-- template end-->
