@@ -31,6 +31,17 @@
         <meta name="referrer" content="no-referrer" />
         <meta name="format-detection" content="telephone=no" />
 
+        <meta property="og:site_name" content="{{ $sitename }}"/>
+        <meta property="og:locale" content="{{ $lang }}"/>
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="{{ with .meta.Title }}{{.}}-{{ end }}{{ $sitename }}{{ with .meta.Slogan }}-{{.}}{{ end }}" />
+        <meta property="og:url" content="{{ .meta.CanonicalURL }}" />
+        <meta property="og:author" content="{{ .meta.AuthorName }}" />
+        <meta property="og:image" content="{{ .meta.StaticsURL }}/img/logo.webp" />
+        <meta property="og:description" content="{{ .meta.BaseDesc }}" />
+
+        {{ .meta.CanonicalLinkTag }}
+
         {{ if .meta.AdsenseID }}
         <link rel="preconnect" href="//pagead2.googlesyndication.com">
         {{ end }}

@@ -11,7 +11,7 @@
 > Pinklady is a template project of gin app, which encapsulates mysql, redis, logging, viper, swagger, middlewares and other common components.
 
 pink-lady 是基于 Golang web 开发框架 [gin](https://github.com/gin-gonic/gin)
-来进行 HTTP API 开发的示例项目，新建项目时可以使用它作为项目模板。
+来进行 **API服务/WEB网站** 开发的示例项目，新建项目时可以使用它作为项目模板。
 
 之所以叫 pink-lady 首先字面意思就是红粉佳人或粉红女郎，有这个性感的名字相信你更会好好对你的代码负责。
 其次，因为 gin 就是国外六大类烈酒之一的金酒，是近百年来调制鸡尾酒时最常使用的基酒，其配方多达千种以上，
@@ -44,6 +44,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 - embed 静态资源编译进二进制文件中
 - i18n国际化支持
 - 支持类似django的flatpages
+- SEO良好支持
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
 
