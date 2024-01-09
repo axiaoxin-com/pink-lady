@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"net/url"
 	"os"
@@ -31,7 +30,13 @@ func Flatpages(app *gin.Engine) {
 		logging.Error(nil, "LoadFlatpageFiles error:"+err.Error())
 		return
 	}
+
 	totalCount := len(fileNames)
+
+	fileNameIndexMap := map[string]int{}
+	for idx, fileName := range fileNames {
+		fileNameIndexMap[fileName] = idx
+	}
 
 	fp := app.Group(navPath)
 	fp.GET("/", func(c *gin.Context) {
@@ -86,6 +91,15 @@ func Flatpages(app *gin.Engine) {
 			"meta":    meta,
 			"content": string(content),
 		}
+
+		index := fileNameIndexMap[fileName]
+		if index > 0 {
+			data["nextFileName"] = fileNames[index-1]
+		}
+		if index < totalCount-1 {
+			data["prevFileName"] = fileNames[index+1]
+		}
+
 		c.HTML(http.StatusOK, "flatpages_single.html", data)
 		return
 	})
@@ -120,7 +134,6 @@ func LoadFlatpageFileNames(rootDir string) ([]string, error) {
 	for _, f := range files {
 		fileName := f.Name()
 		ext := path.Ext(fileName)
-		fmt.Println("ext:", ext)
 		if strings.ToLower(ext) != ".md" {
 			continue
 		}

@@ -1,7 +1,45 @@
 {{ template "page_top" . }}
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.Lang }}
+{{ $fp_path := .meta.FlatpagesNavPath }}
+<style>
+    /* flatpages */
+    .flatpages-single article img {
+        width:100%;
+        height:auto;
+    }
+    .flatpages-single article h1 {
+        padding-bottom:1rem;
+    }
+    .flatpages-single article h2 {
+        margin-top:1rem;
+    }
+</style>
 
-<div class="mt-4">
-    {{ _md2html .content false }}
+<div class="mt-4 flatpages-single">
+    <article>
+        {{ $content := _i18n $lang .content }}
+        {{ _md2html $content false }}
+    </article>
+</div>
+
+<div class="mt-4 d-flex justify-content-between gap-4 py-2">
+    <span>
+        {{ _i18n $lang "上一篇" }}:
+        {{ if .prevFileName }}
+        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ .prevFileName }}/" class="text-decoration-none">{{ .prevFileName }}</a>
+        {{ else }}
+        {{ _i18n $lang "没有了" }}
+        {{ end }}
+    </span>
+    <span>
+        {{ _i18n $lang "下一篇" }}:
+        {{ if .nextFileName }}
+        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ .nextFileName }}/" class="text-decoration-none">{{ .nextFileName }}</a>
+        {{ else }}
+        {{ _i18n $lang "没有了" }}
+        {{ end }}
+    </span>
 </div>
 
 {{ template "page_bottom" . }}

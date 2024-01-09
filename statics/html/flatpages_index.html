@@ -4,17 +4,24 @@
 {{ $lang := .meta.HostURL }}
 {{ $fp_path := .meta.FlatpagesNavPath }}
 
-<div class="mt-4">
-    <h1>{{ .meta.FlatpagesNavName }}</h1>
-    {{ range .fileNames }}
-    <div class="py-2 border-bottom">
-        <a href="{{ $hosturl }}/{{ $fp_path }}/{{ . }}/" class="text-decoration-none">
-            <h2>{{ . }}</h2>
-        </a>
-    </div>
-    {{ end }}
+<style>
+.flatpages-index h2 {
+    font-size:20px;
+    margin-bottom:0px;
+    padding:0.5rem 0;
+}
+</style>
 
-    {{ template "pagi" . }}
+<h1 class="mt-4">{{ .meta.FlatpagesNavName }}</h1>
+
+<div class="flatpages-index mt-2">
+    {{ range .fileNames }}
+    <a href="{{ $hosturl }}/{{ $fp_path }}/{{ . }}/" class="text-decoration-none py-2 border-bottom d-block">
+        <h2>{{ . }}</h2>
+    </a>
+    {{ end }}
 </div>
+
+{{ template "pagi" . }}
 
 {{ template "page_bottom" . }}
