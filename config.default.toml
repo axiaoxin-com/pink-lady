@@ -27,6 +27,8 @@ env = "localhost"
     adsense_id = ""
     # 备案号
     beian = ""
+    # 是否展示关于页面
+    show_about = true
     # host url
     host_url = ""
     # 百度统计id

@@ -55,6 +55,7 @@ type MetaData struct {
 	GtagID           string
 	CanonicalURL     template.HTML
 	CanonicalLinkTag template.HTML
+	ShowAbout        bool
 }
 
 // NewMetaData 返回页面元数据
@@ -94,6 +95,7 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		GtagID:           viper.GetString("server.gtag_id"),
 		CanonicalURL:     template.HTML(canonicalURL),
 		CanonicalLinkTag: template.HTML(`<link rel="canonical" href="` + canonicalURL + `">`),
+		ShowAbout:        viper.GetBool("server.show_about"),
 	}
 
 	logging.Debugf(ctx, "NewMetaData MetaData:%+v", *m)

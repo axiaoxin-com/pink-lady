@@ -169,9 +169,11 @@
                                 <a class="nav-link py-3" href="{{ $hosturl }}/{{ .meta.FlatpagesNavPath }}/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang .meta.FlatpagesNavName }}</a>
                             </li>
                             {{ end }}
+                            {{ if .meta.ShowAbout }}
                             <li class="nav-item col-4 col-lg-auto">
                                 <a class="nav-link py-3" href="{{ $hosturl }}/about/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "关于" }}</a>
                             </li>
+                            {{ end }}
                             {{ if .meta.I18n }}
                             <script>
                                 function change_lang(lang) {
@@ -344,9 +346,11 @@
                         <div class="row">
                             <div class="col-6 col-lg-3">
                                 <ul class="nav flex-column">
+                                    {{ if .meta.ShowAbout }}
                                     <li class="nav-item mb-2">
                                         <a href="{{ $hosturl }}/about/" class="nav-link p-0 text-body">{{ _i18n $lang "关于我们" }}</a>
                                     </li>
+                                    {{ end }}
                                 </ul>
                             </div>
                             <div class="col-6 col-lg-3">
