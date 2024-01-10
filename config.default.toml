@@ -256,6 +256,12 @@ env = "localhost"
             write_timeout = 3
 
 
+
 [author]
     name = "axiaoxin"
     url = "https://axiaoxin.com/profile"
+
+
+
+[friend_link]
+    "阿小信的博客" = "https://blog.axiaoxin.com"

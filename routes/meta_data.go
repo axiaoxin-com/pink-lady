@@ -57,6 +57,7 @@ type MetaData struct {
 	CanonicalLinkTag template.HTML
 	ShowAbout        bool
 	SinceYear        string
+	FriendLinkMap    map[string]string
 }
 
 // NewMetaData 返回页面元数据
@@ -98,6 +99,7 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		CanonicalLinkTag: template.HTML(`<link rel="canonical" href="` + canonicalURL + `">`),
 		ShowAbout:        viper.GetBool("server.show_about"),
 		SinceYear:        viper.GetString("server.since_year"),
+		FriendLinkMap:    viper.GetStringMapString("friend_link"),
 	}
 
 	logging.Debugf(ctx, "NewMetaData MetaData:%+v", *m)
