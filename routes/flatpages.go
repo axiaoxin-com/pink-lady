@@ -40,7 +40,7 @@ func Flatpages(app *gin.Engine) {
 
 	fp := app.Group(navPath)
 	fp.GET("/", func(c *gin.Context) {
-		meta := NewMetaData(c, viper.GetString("flatpages.nav_name"))
+		meta := NewMetaData(c, webserver.CtxI18n(c, viper.GetString("flatpages.nav_name")))
 		offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
 		if err != nil {
 			logging.Warn(c, "parse offset error:"+err.Error())
