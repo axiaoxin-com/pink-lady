@@ -339,56 +339,58 @@
             });
         </script>
 
-        <footer class="container mt-auto py-4 border-top">
-            <div class="row small text-capitalize">
-                <div class="col-12 col-lg-8 mt-4">
-                    <div class="row">
-                        <div class="col-6 col-lg-3">
-                            <ul class="nav flex-column">
-                                {{ if .meta.ShowAbout }}
-                                <li class="nav-item mb-2">
-                                    <a href="{{ $hosturl }}/about/" class="nav-link p-0 text-body">{{ _i18n $lang "关于我们" }}</a>
-                                </li>
-                                {{ end }}
-                            </ul>
-                        </div>
-                        <div class="col-6 col-lg-3">
-                            <ul class="nav flex-column">
-                            </ul>
-                        </div>
-                        <div class="col-6 col-lg-3">
-                            <ul class="nav flex-column">
-                            </ul>
-                        </div>
-                        <div class="col-6 col-lg-3">
-                            <ul class="nav flex-column">
-                            </ul>
+        <footer class="container mt-auto">
+            <div class="mt-5 py-4 border-top">
+                <div class="row small text-capitalize">
+                    <div class="col-12 col-lg-8 mt-4">
+                        <div class="row">
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                    {{ if .meta.ShowAbout }}
+                                    <li class="nav-item mb-2">
+                                        <a href="{{ $hosturl }}/about/" class="nav-link p-0 text-body">{{ _i18n $lang "关于我们" }}</a>
+                                    </li>
+                                    {{ end }}
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <ul class="nav flex-column">
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-12 col-lg-4 mt-4 text-lg-end">
+                        <img src="{{ .meta.StaticsURL }}/img/logo.webp" loading="lazy" class="img-fluid">
+                    </div>
                 </div>
-                <div class="col-12 col-lg-4 mt-4 text-lg-end">
-                    <img src="{{ .meta.StaticsURL }}/img/logo.webp" loading="lazy" class="img-fluid">
+                {{ if .meta.FriendLinkMap }}
+                <div class="d-flex flex-wrap gap-2 small text-capitalize mt-4 py-3 bg-body-tertiary rounded-2 justify-content-center">
+                    {{ range $title, $href := .meta.FriendLinkMap }}
+                    <a href="{{ $href }}" class="nav-link p-0 text-body">{{ $title }}</a>
+                    {{ end }}
                 </div>
-            </div>
-            {{ if .meta.FriendLinkMap }}
-            <div class="d-flex flex-wrap gap-2 small text-capitalize mt-4 py-3 bg-body-tertiary rounded-2 justify-content-center">
-                {{ range $title, $href := .meta.FriendLinkMap }}
-                <a href="{{ $href }}" class="nav-link p-0 text-body">{{ $title }}</a>
                 {{ end }}
-            </div>
-            {{ end }}
-            <div class="text-center border-1 pt-3 my-3" style="font-size:13px;">
-                <div>
-                    © {{ $sitename }} <span class="copyright adsbygoogle">{{ if .meta.SinceYear }}{{ .meta.SinceYear }}-{{ end }}</span><script type="text/javascript">document.write(new Date().getFullYear());</script>
-                </div>
-                <div>
-                    {{ if .meta.Beian }}
-                    <a class="text-muted text-decoration-none" href="https://beian.miit.gov.cn" target="_blank">{{ .meta.Beian }}</a>
-                    {{ end }}
-                    {{ if .meta.AuthorName }}
-                    <a href="{{ .meta.AuthorURL }}" target="_blank" class="">{{ .meta.AuthorName }}</a>
-                    {{ end }}
-                    {{ if .meta.BuildID }}BuildID:{{ .meta.BuildID }}{{ end }}
+                <div class="text-center border-1 pt-3 my-3" style="font-size:13px;">
+                    <div>
+                        © {{ $sitename }} <span class="copyright adsbygoogle">{{ if .meta.SinceYear }}{{ .meta.SinceYear }}-{{ end }}</span><script type="text/javascript">document.write(new Date().getFullYear());</script>
+                    </div>
+                    <div>
+                        {{ if .meta.Beian }}
+                        <a class="text-muted text-decoration-none" href="https://beian.miit.gov.cn" target="_blank">{{ .meta.Beian }}</a>
+                        {{ end }}
+                        {{ if .meta.AuthorName }}
+                        <a href="{{ .meta.AuthorURL }}" target="_blank" class="">{{ .meta.AuthorName }}</a>
+                        {{ end }}
+                        {{ if .meta.BuildID }}BuildID:{{ .meta.BuildID }}{{ end }}
+                    </div>
                 </div>
             </div>
         </footer>
