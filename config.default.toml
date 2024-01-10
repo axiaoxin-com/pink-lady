@@ -29,6 +29,8 @@ env = "localhost"
     beian = ""
     # 是否展示关于页面
     show_about = true
+    # 开始年份
+    since_year = 2024
     # host url
     host_url = ""
     # 百度统计id

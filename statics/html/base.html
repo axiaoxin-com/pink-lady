@@ -372,7 +372,7 @@
                 </div>
                 <div class="text-center border-top border-1 pt-3 my-3" style="font-size:13px;">
                     <div>
-                        © {{ $sitename }} <span class="copyright adsbygoogle">2023-</span><script type="text/javascript">document.write(new Date().getFullYear());</script>
+                        © {{ $sitename }} <span class="copyright adsbygoogle">{{ if .meta.SinceYear }}{{ .meta.SinceYear }}-{{ end }}</span><script type="text/javascript">document.write(new Date().getFullYear());</script>
                     </div>
                     <div>
                         {{ if .meta.Beian }}
