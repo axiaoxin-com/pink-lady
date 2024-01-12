@@ -3,9 +3,6 @@
 {{ $hosturl := .meta.HostURL }}
 {{ $lang := .meta.Lang }}
 
-<link rel="stylesheet" href="{{ .meta.StaticsURL }}/css/priority-navigation.css">
-<script src="{{ .meta.StaticsURL }}/js/priority-navigation.js"></script>
-
 <ul class="toPrioritize text-capitalize sticky-top bg-body border-bottom border-primary-subtle" style="display:none;">
     <li data-priority="1">
         <a href="{{ $hosturl }}/about/">{{ _i18n $lang "关于网站" }}</a>
@@ -17,17 +14,4 @@
         <a href="{{ $hosturl }}/msg-board/">{{ _i18n $lang "留言板" }}</a>
     </li>
 </ul>
-<script>
-$(function() {
-    $(".toPrioritize").prioritize({
-        more: {{ _i18n $lang "更多" }} + '<i class="bi bi-caret-down-fill"></i>',
-        less: {{ _i18n $lang "收起" }} + '<i class="bi bi-caret-up-fill"></i>'
-    });
-    $(".toPrioritize").show();
-    $(".toPrioritize").prioritize({
-        more: {{ _i18n $lang "更多" }} + '<i class="bi bi-caret-down-fill"></i>',
-        less: {{ _i18n $lang "收起" }} + '<i class="bi bi-caret-up-fill"></i>'
-    });
-});
-</script>
 {{ end }}
