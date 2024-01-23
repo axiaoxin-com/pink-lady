@@ -12,6 +12,8 @@ type AlertData struct {
 }
 
 const (
+	// AlertWarningCommon 系统提示通用提示
+	AlertInfoCommon = "sys-info"
 	// AlertWarningCommon 系统警告通用提示
 	AlertWarningCommon = "sys-warning"
 	// AlertErrorCommon 系统错误通用提示
@@ -26,17 +28,23 @@ func Alert(c *gin.Context, alert, text string) *AlertData {
 		alert = c.Query("alert")
 	}
 	switch alert {
+	case AlertInfoCommon:
+		return &AlertData{
+			Color:   "info",
+			Heading: "温馨提示！",
+			Text:    text,
+		}
 	case AlertWarningCommon:
 		return &AlertData{
 			Color:   "warning",
 			Heading: "操作失败！",
-			Text:    "操作失败！" + text,
+			Text:    text,
 		}
 	case AlertErrorCommon:
 		return &AlertData{
 			Color:   "danger",
-			Heading: "系统错误！",
-			Text:    "系统错误，请稍后重试！" + text,
+			Heading: "系统错误，请稍后重试！",
+			Text:    text,
 		}
 	case AlertOK:
 		return &AlertData{
