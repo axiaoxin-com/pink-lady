@@ -22,12 +22,13 @@ var (
 func Init() {
 	var err error
 	// 初始化 gorm db
-	if DB == nil {
+	dsn := viper.GetString(fmt.Sprintf("mysql.%s.dbname.dsn", viper.GetString("env")))
+	if dsn != "" && DB == nil {
 		DB, err = NewMySQLDB(DBConfig{
-			DSN: viper.GetString(fmt.Sprintf("mysql.%s.dbname.dsn", viper.GetString("env"))),
+			DSN: dsn,
 		})
 		if err != nil {
-			logging.Error(nil, "Init DB NewMySQLDB error:"+err.Error())
+			logging.Fatal(nil, "Init DB NewMySQLDB error:"+err.Error())
 		} else {
 			if viper.GetString("server.mode") == "debug" {
 				DB = DB.Debug()
@@ -37,10 +38,11 @@ func Init() {
 	}
 
 	// 初始化 redis
-	if Redis == nil {
-		Redis, err = goutils.RedisClient(fmt.Sprintf("%s", viper.GetString("env")))
+	redisAddr := viper.GetString(fmt.Sprintf("redis.%s.addr", viper.GetString("env")))
+	if redisAddr != "" && Redis == nil {
+		Redis, err = goutils.RedisClient(viper.GetString("env"))
 		if err != nil {
-			logging.Error(nil, "Init Redis get client error:"+err.Error())
+			logging.Fatal(nil, "Init Redis get client error:"+err.Error())
 		}
 		logging.Info(nil, "Init Redis success")
 	}
