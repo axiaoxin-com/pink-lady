@@ -377,7 +377,7 @@
                 {{ if .meta.FriendLinkMap }}
                 <div class="d-flex flex-wrap gap-2 small text-capitalize mt-4 py-3 bg-body-tertiary rounded-2 justify-content-center">
                     {{ range $title, $href := .meta.FriendLinkMap }}
-                    <a href="{{ $href }}" class="nav-link p-0 text-body">{{ $title }}</a>
+                    <a href="{{ $href }}" class="nav-link p-0 text-body" target="_blank">{{ $title }}</a>
                     {{ end }}
                 </div>
                 {{ end }}
