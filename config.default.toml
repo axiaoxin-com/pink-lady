@@ -265,3 +265,11 @@ env = "localhost"
 
 [friend_link]
     "阿小信的博客" = "https://blog.axiaoxin.com"
+
+
+
+[sys_notice]
+     md = "markdown格式的系统通知内容"
+     qrtext = "这里添加二维码链接（可选）"
+     start = "2024-03-01 00:00:00"
+     end = "2024-03-01 09:00:00"

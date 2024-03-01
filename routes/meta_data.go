@@ -22,8 +22,11 @@ const (
 	Slogan   = webserver.I18nString("")
 )
 
-// BuildID ..
+// BuildID 编译ID -ldflags添加当前时间
 var BuildID = ""
+
+// TimeLocationBeijing 北京时区
+var TimeLocationBeijing = time.FixedZone("BeijingTime", int((time.Hour * 8).Seconds()))
 
 // MetaData 元数据
 type MetaData struct {
@@ -102,6 +105,8 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		FriendLinkMap:    viper.GetStringMapString("friend_link"),
 	}
 
+	m.SetSysNotice(c)
+
 	logging.Debugf(ctx, "NewMetaData MetaData:%+v", *m)
 	return m
 }
@@ -110,6 +115,31 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 func (m *MetaData) SetKeywords(c *gin.Context, keywords []string) {
 	for _, kw := range keywords {
 		m.Keywords = append(m.Keywords, webserver.CtxI18n(c, kw))
+	}
+}
+
+// SetSysNotice 设置系统公告
+func (m *MetaData) SetSysNotice(ctx context.Context) {
+	notice := viper.GetString("sys_notice.md")
+	if notice == "" {
+		return
+	}
+
+	startTime, err := time.ParseInLocation(time.DateTime, viper.GetString("sys_notice.start"), TimeLocationBeijing)
+	if err != nil {
+		logging.Errorw(ctx, "SetSysNotice ParseInLocation error", "error", err)
+		return
+	}
+	endTime, err := time.ParseInLocation(time.DateTime, viper.GetString("sys_notice.end"), TimeLocationBeijing)
+	if err != nil {
+		logging.Errorw(ctx, "SetSysNotice ParseInLocation error", "error", err)
+		return
+	}
+
+	nowTs := time.Now().Unix()
+	if nowTs >= startTime.Unix() && nowTs <= endTime.Unix() {
+		m.SysNotice = notice
+		m.SysNoticeQRText = viper.GetString("sys_notice.qrtext")
 	}
 }
 
