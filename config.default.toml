@@ -37,6 +37,8 @@ env = "localhost"
     baidu_tongji_id = ""
     # 谷歌分析id
     gtag_id = ""
+    # 微软clarity id
+    clarity_id = ""
 
 
 
