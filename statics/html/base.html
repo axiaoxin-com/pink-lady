@@ -427,15 +427,51 @@
         {{ end }}
 
 
-        <script src="{{ .meta.StaticsURL }}/js/adview_pic_cpc_cpm_cpa_guanggao_gg_ads_300x250.js"></script>
         <script type="text/javascript">
-            if (window.ads_ok !== undefined){
-                if (ads_ok !== true) {
-                    window.location.href="https://axiaoxin.com/letter?from=nook"
-                } else if (document.getElementsByClassName("copyright")[0].offsetHeight === 0) {
-                    window.location.href="https://axiaoxin.com/letter?from=nocr"
+            const maxWaitTime = 60*1000;
+            const checkInterval = 3*1000;
+            const redirectUrl = "https://axiaoxin.com/letter/"
+
+            function checkAdsbygoogleElements() {
+                const adsElements = document.querySelectorAll('ins.adsbygoogle:not(.adsbygoogle-noablate)');
+                if (adsElements.length === 0) {
+                    console.log("adsElements clean page")
+                    return
+                }
+
+
+                let allEmpty = true;
+
+                adsElements.forEach((el, index) => {
+                    if (el.children.length > 0) {
+                        allEmpty = false;
+                    } else {
+                        console.log(`Element at index ${index} is empty.`);
+                    }
+                });
+
+                console.log("adsElements length:", adsElements.length, "allEmpty:", allEmpty)
+                if (allEmpty) {
+                    window.location.href = redirectUrl;
                 }
             }
+
+            function startPeriodicCheck() {
+                const startTime = Date.now();
+
+                const intervalId = setInterval(() => {
+                    checkAdsbygoogleElements();
+
+                    if (Date.now() - startTime > maxWaitTime) {
+                        clearInterval(intervalId);
+                        console.log("clear interval");
+                    }
+                }, checkInterval);
+            }
+
+            window.addEventListener('load', () => {
+                startPeriodicCheck();
+            });
         </script>
     </body>
 </html>
