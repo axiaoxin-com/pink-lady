@@ -426,53 +426,6 @@
         </script>
         {{ end }}
 
-
-        <script type="text/javascript">
-            const maxWaitTime = 60*1000;
-            const checkInterval = 3*1000;
-            const redirectUrl = "https://axiaoxin.com/letter/"
-
-            function checkAdsbygoogleElements() {
-                const adsElements = document.querySelectorAll('ins.adsbygoogle:not(.adsbygoogle-noablate)');
-                if (adsElements.length === 0) {
-                    console.log("adsElements clean page")
-                    return
-                }
-
-
-                let allEmpty = true;
-
-                adsElements.forEach((el, index) => {
-                    if (el.children.length > 0) {
-                        allEmpty = false;
-                    } else {
-                        console.log(`Element at index ${index} is empty.`);
-                    }
-                });
-
-                console.log("adsElements length:", adsElements.length, "allEmpty:", allEmpty)
-                if (allEmpty) {
-                    window.location.href = redirectUrl;
-                }
-            }
-
-            function startPeriodicCheck() {
-                const startTime = Date.now();
-
-                const intervalId = setInterval(() => {
-                    checkAdsbygoogleElements();
-
-                    if (Date.now() - startTime > maxWaitTime) {
-                        clearInterval(intervalId);
-                        console.log("clear interval");
-                    }
-                }, checkInterval);
-            }
-
-            window.addEventListener('load', () => {
-                startPeriodicCheck();
-            });
-        </script>
     </body>
 </html>
 {{ end }} <!--page_bottom end-->
