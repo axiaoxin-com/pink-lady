@@ -55,16 +55,16 @@
         <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/app.css?buildid={{ .meta.BuildID }}">
         <link rel="preload" as="script" href="{{ .meta.StaticsURL }}/js/app.js?buildid={{ .meta.BuildID }}">
         {{ if .meta.AdsenseID }}
-        <link rel="preload" as="script" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .meta.AdsenseID }}">
+        <link rel="preload" as="script" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .meta.AdsenseID }}" crossorigin="anonymous">
         {{ end }}
-        <link rel="preload" as="script" href="//cpro.baidustatic.com/cpro/ui/cm.js">
+        <link rel="preload" as="script" href="//cpro.baidustatic.com/cpro/ui/cm.js" crossorigin="anonymous">
 
         <link rel="prefetch" as="script" href="{{ .meta.StaticsURL }}/js/priority-navigation.js">
         <link rel="prefetch" as="style" href="{{ .meta.StaticsURL }}/css/priority-navigation.css">
         {{ if .meta.StaticsSelfhost }}
             <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/bootswatch/5.3.2/{{ .meta.BootswatchTheme }}/bootstrap.min.css">
             <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/bootstrap-icons.min.css">
-            <link rel="preload" as="font" href="{{ .meta.StaticsURL }}/font/bootstrap-icons.woff2">
+            <link rel="preload" as="font" href="{{ .meta.StaticsURL }}/font/bootstrap-icons.woff2" crossorigin="anonymous">
             <link rel="preload" as="script" href="{{ .meta.StaticsURL }}/js/jquery.min.js">
 
             <link rel="prefetch" as="script" href="{{ .meta.StaticsURL }}/js/bootstrap.bundle.min.js">
@@ -388,7 +388,7 @@
                     </div>
                     <div>
                         {{ if .meta.Beian }}
-                        <a class="text-muted text-decoration-none" href="https://beian.miit.gov.cn" target="_blank">{{ .meta.Beian }}</a>
+                        <a class="text-muted text-decoration-none" rel="nofollow" href="https://beian.miit.gov.cn" target="_blank">{{ .meta.Beian }}</a>
                         {{ end }}
                         {{ if .meta.AuthorName }}
                         <a href="{{ .meta.AuthorURL }}" target="_blank" class="">{{ .meta.AuthorName }}</a>
