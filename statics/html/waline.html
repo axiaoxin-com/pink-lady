@@ -5,7 +5,7 @@
     import { init } from '{{ .meta.StaticsURL }}/js/waline.js';
 
     const url = new URL(window.location.href);
-    const path = `${url.origin}${url.pathname}`;
+    const path = {{ .waline.Path }};
 
     init({
         el: '#waline',
@@ -25,7 +25,7 @@
             "reaction5":{{ .waline.Reaction5 }},
             "reactionTitle": {{ .waline.ReactionTitle }},
             "sofa":"还没有人{{ .waline.Type }}哦！快来抢沙发吧~",
-            "comment": {{ .walineType }},
+            "comment": {{ .waline.Type }},
         },
         emoji: [
             "https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji",

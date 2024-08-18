@@ -2,8 +2,8 @@ package routes
 
 import (
 	"context"
-	"fmt"
 	"html/template"
+	"net/url"
 	"strings"
 	"time"
 
@@ -71,7 +71,14 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 	defer cancel()
 
 	hostURL := GetHostURL(c)
-	canonicalURL := hostURL + c.Request.RequestURI
+	canonicalURL, err := url.JoinPath(hostURL, c.Request.RequestURI)
+	if err != nil {
+		logging.Error(c, "NewMetaData url JoinPath error:"+err.Error())
+	}
+	staticsURL, _ := url.JoinPath(hostURL, viper.GetString("statics.url"))
+	if err != nil {
+		logging.Error(c, "NewMetaData url JoinPath error:"+err.Error())
+	}
 
 	ua := c.GetHeader("User-Agent")
 	isCrawler := crawlerdetect.IsCrawler(ua)
@@ -93,7 +100,7 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		Beian:            viper.GetString("server.beian"),
 		AuthorName:       viper.GetString("author.name"),
 		AuthorURL:        viper.GetString("author.url"),
-		StaticsURL:       hostURL + "/" + viper.GetString("statics.url"),
+		StaticsURL:       staticsURL,
 		StaticsSelfhost:  viper.GetBool("statics.selfhost"),
 		FlatpagesEnable:  viper.GetBool("flatpages.enable"),
 		FlatpagesNavName: webserver.CtxI18n(c, viper.GetString("flatpages.nav_name")),
@@ -187,15 +194,12 @@ func NewWaline(c *gin.Context, wtype WalineType, withCommentCount, withPageviewC
 	if serverURL == "" {
 		return nil
 	}
-	scheme := "http"
-	if c.Request.TLS != nil {
-		scheme = "https"
-	} else if xForwardedProto := c.GetHeader("X-Forwarded-Proto"); xForwardedProto != "" {
-		scheme = xForwardedProto
+
+	fullPath, err := url.JoinPath(GetHostURL(c), c.Request.URL.Path)
+	if err != nil {
+		logging.Error(c, "NewWaline url JoinPath error:"+err.Error())
+		return nil
 	}
-	host := c.Request.Host
-	path := c.Request.URL.Path
-	fullPath := fmt.Sprintf("%s://%s%s", scheme, host, path)
 
 	return &Waline{
 		ServerURL:         serverURL,
