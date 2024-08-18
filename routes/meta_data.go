@@ -2,6 +2,7 @@ package routes
 
 import (
 	"context"
+	"fmt"
 	"html/template"
 	"strings"
 	"time"
@@ -156,4 +157,59 @@ func GetHostURL(c *gin.Context) string {
 		hostURL = hosturl
 	}
 	return hostURL
+}
+
+type Waline struct {
+	ServerURL         string
+	Type              WalineType // 评论|留言
+	Path              string     // 当前页面完整url path
+	WithCommentCount  bool
+	WithPageviewCount bool
+	ReactionTitle     string
+	Reaction          interface{} // 为文章增加表情互动功能，通过设置表情地址数组来自定义表情图片，最大支持 8 个表情。
+	Reaction0         string
+	Reaction1         string
+	Reaction2         string
+	Reaction3         string
+	Reaction4         string
+	Reaction5         string
+}
+
+type WalineType string
+
+const (
+	WalineTypeMessageBoard WalineType = "留言"
+	WalineTypeComment      WalineType = "评论"
+)
+
+func NewWaline(c *gin.Context, wtype WalineType, withCommentCount, withPageviewCount bool) *Waline {
+	serverURL := viper.GetString("waline.server_url")
+	if serverURL == "" {
+		return nil
+	}
+	scheme := "http"
+	if c.Request.TLS != nil {
+		scheme = "https"
+	} else if xForwardedProto := c.GetHeader("X-Forwarded-Proto"); xForwardedProto != "" {
+		scheme = xForwardedProto
+	}
+	host := c.Request.Host
+	path := c.Request.URL.Path
+	fullPath := fmt.Sprintf("%s://%s%s", scheme, host, path)
+
+	return &Waline{
+		ServerURL:         serverURL,
+		Type:              wtype,
+		Path:              fullPath,
+		WithCommentCount:  withCommentCount,
+		WithPageviewCount: withPageviewCount,
+		ReactionTitle:     viper.GetString("waline.reaction_title"),
+		Reaction:          viper.Get("waline.reaction"),
+		Reaction0:         viper.GetString("waline.reaction0"),
+		Reaction1:         viper.GetString("waline.reaction1"),
+		Reaction2:         viper.GetString("waline.reaction2"),
+		Reaction3:         viper.GetString("waline.reaction3"),
+		Reaction4:         viper.GetString("waline.reaction4"),
+		Reaction5:         viper.GetString("waline.reaction5"),
+	}
 }

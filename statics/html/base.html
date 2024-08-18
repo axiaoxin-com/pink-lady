@@ -101,6 +101,10 @@
         {{ end }}
         <script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/cm.js" async="async" defer="defer" ></script>
 
+        {{ if .waline }}
+        <link rel="stylesheet" href="{{ .meta.StaticsURL }}/css/waline.css">
+        {{ end }}
+
         <style>
             html,
             body {

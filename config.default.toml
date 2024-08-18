@@ -186,7 +186,7 @@ env = "localhost"
 
     # mysql localhost 环境
     [mysql.localhost.dbname]
-        dsn = "root:roooooot@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=UTC"
+        dsn = "" # example: "root:roooooot@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=UTC"
 
     # mysql other 环境
     [mysql.other.dbname]
@@ -261,12 +261,12 @@ env = "localhost"
 
 [author]
     name = "axiaoxin"
-    url = "https://axiaoxin.com/profile"
+    url = "https://axiaoxin.com/profile/"
 
 
 
 [friend_link]
-    "阿小信的博客" = "https://blog.axiaoxin.com"
+    "阿小信的博客" = "https://blog.axiaoxin.com/"
 
 
 
@@ -275,3 +275,23 @@ env = "localhost"
      qrtext = "这里添加二维码链接（可选）"
      start = "2024-03-01 00:00:00"
      end = "2024-03-01 09:00:00"
+
+
+
+[waline]
+    server_url = "<your-server-url>"
+    reaction_title = "本站内容对你有帮助吗？"
+    reaction = [
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_heart_eyes.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_thumbsup.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_zhoumei.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_grievance.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_dizzy_face.png",
+        "https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili/bb_slap.png",
+    ]
+    reaction0 = "非常有用"
+    reaction1 = "有帮助"
+    reaction2 = "一般"
+    reaction3 = "无帮助"
+    reaction4 = "看不懂"
+    reaction5 = "有错误"

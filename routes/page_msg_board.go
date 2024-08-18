@@ -10,7 +10,8 @@ import (
 func PageMsgBoard(c *gin.Context) {
 	meta := NewMetaData(c, webserver.CtxI18n(c, "留言板"))
 	data := gin.H{
-		"meta": meta,
+		"meta":   meta,
+		"waline": NewWaline(c, WalineTypeMessageBoard, false, false),
 	}
 
 	c.HTML(http.StatusOK, "msg_board.html", data)
