@@ -133,9 +133,8 @@ func GinRatelimitMiddleware() gin.HandlerFunc {
 	var limiterMiddleware gin.HandlerFunc
 	limiterType := strings.ToLower(viper.GetString("ratelimiter.type"))
 	logging.Info(nil, "enable ratelimiter with type: "+limiterType)
-	if strings.HasPrefix(limiterType, "redis.") {
-		which := strings.TrimPrefix(limiterType, "redis.")
-		if rdb, err := goutils.RedisClient(which); err != nil {
+	if limiterType == "redis" {
+		if rdb, err := goutils.RedisClient(viper.GetString("env")); err != nil {
 			panic("redis ratelimiter does not work. get redis client error:" + err.Error())
 		} else {
 			limiterMiddleware = ratelimiter.GinRedisRatelimiter(rdb, limiterConf)
