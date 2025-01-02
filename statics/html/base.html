@@ -383,7 +383,7 @@
                 {{ if .meta.FriendLinkMap }}
                 <div class="d-flex flex-wrap gap-2 small text-capitalize mt-4 py-3 bg-body-tertiary rounded-2 justify-content-center">
                     {{ range $title, $href := .meta.FriendLinkMap }}
-                    <a href="{{ $href }}" class="nav-link p-0 text-body" rel="nofollow" target="_blank">{{ $title }}</a>
+                    <a href="{{ $href }}" class="nav-link p-0 text-body" rel="nofollow noopener noreferrer" target="_blank">{{ $title }}</a>
                     {{ end }}
                 </div>
                 {{ end }}
@@ -393,7 +393,7 @@
                     </div>
                     <div>
                         {{ if .meta.Beian }}
-                        <a class="text-muted text-decoration-none" rel="nofollow" href="https://beian.miit.gov.cn" target="_blank">{{ .meta.Beian }}</a>
+                        <a class="text-muted text-decoration-none" rel="nofollow noopener noreferrer" href="https://beian.miit.gov.cn" target="_blank">{{ .meta.Beian }}</a>
                         {{ end }}
                         {{ if .meta.AuthorName }}
                         <a href="{{ .meta.AuthorURL }}" target="_blank" class="">{{ .meta.AuthorName }}</a>
