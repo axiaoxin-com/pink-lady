@@ -2,7 +2,7 @@ package routes
 
 import (
 	"context"
-	"html/template"
+	"fmt"
 	"net/url"
 	"strings"
 	"time"
@@ -58,8 +58,7 @@ type MetaData struct {
 	BaiduTongJiID    string
 	GtagID           string
 	ClarityID        string
-	CanonicalURL     template.HTML
-	CanonicalLinkTag template.HTML
+	CanonicalURL     string
 	ShowAbout        bool
 	SinceYear        string
 	FriendLinkMap    map[string]string
@@ -70,23 +69,12 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 	ctx, cancel := context.WithTimeout(c, 5*time.Second)
 	defer cancel()
 
-	hostURL := GetHostURL(c)
-	canonicalURL, err := url.JoinPath(hostURL, c.Request.RequestURI)
-	if err != nil {
-		logging.Error(c, "NewMetaData url JoinPath error:"+err.Error())
-	}
-	staticsURL, _ := url.JoinPath(hostURL, viper.GetString("statics.url"))
-	if err != nil {
-		logging.Error(c, "NewMetaData url JoinPath error:"+err.Error())
-	}
-
 	ua := c.GetHeader("User-Agent")
 	isCrawler := crawlerdetect.IsCrawler(ua)
 
 	m = &MetaData{
 		SiteName:         webserver.CtxI18n(c, SiteName),
 		Slogan:           webserver.CtxI18n(c, Slogan),
-		HostURL:          hostURL,
 		BuildID:          BuildID,
 		Env:              viper.GetString("env"),
 		AppID:            AppID,
@@ -100,7 +88,6 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		Beian:            viper.GetString("server.beian"),
 		AuthorName:       viper.GetString("author.name"),
 		AuthorURL:        viper.GetString("author.url"),
-		StaticsURL:       staticsURL,
 		StaticsSelfhost:  viper.GetBool("statics.selfhost"),
 		FlatpagesEnable:  viper.GetBool("flatpages.enable"),
 		FlatpagesNavName: webserver.CtxI18n(c, viper.GetString("flatpages.nav_name")),
@@ -108,13 +95,12 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		BaiduTongJiID:    viper.GetString("server.baidu_tongji_id"),
 		GtagID:           viper.GetString("server.gtag_id"),
 		ClarityID:        viper.GetString("server.clarity_id"),
-		CanonicalURL:     template.HTML(canonicalURL),
-		CanonicalLinkTag: template.HTML(`<link rel="canonical" href="` + canonicalURL + `">`),
 		ShowAbout:        viper.GetBool("server.show_about"),
 		SinceYear:        viper.GetString("server.since_year"),
 		FriendLinkMap:    viper.GetStringMapString("friend_link"),
 	}
 
+	m.SetCanonicalURL(c)
 	m.SetSysNotice(c)
 
 	logging.Debugf(ctx, "NewMetaData MetaData:%+v", *m)
@@ -151,6 +137,69 @@ func (m *MetaData) SetSysNotice(ctx context.Context) {
 		m.SysNotice = notice
 		m.SysNoticeQRText = viper.GetString("sys_notice.qrtext")
 	}
+}
+
+// SetCanonicalURL 设置典范URL
+func (m *MetaData) SetCanonicalURL(c *gin.Context) {
+	m.HostURL = GetHostURL(c)
+	m.StaticsURL, _ = url.JoinPath(m.HostURL, viper.GetString("statics.url"))
+	baseURL, err := url.Parse(m.HostURL)
+	if err != nil {
+		return
+	}
+	reqPath, err := url.Parse(c.Request.RequestURI)
+	if err != nil {
+		return
+	}
+	fullReqURL := baseURL.ResolveReference(reqPath).String()
+	parsedURL, err := url.Parse(fullReqURL)
+	if err != nil {
+		return
+	}
+	queryParams := parsedURL.Query()
+	// 要删除的查询参数列表
+	paramsToRemove := []string{"from", "hmsr", "utm_source", "utm_medium", "alert"}
+	for _, param := range paramsToRemove {
+		queryParams.Del(param)
+	}
+	parsedURL.RawQuery = queryParams.Encode()
+	m.CanonicalURL = parsedURL.String()
+}
+
+func (m *MetaData) CanonicalLinkTag() string {
+	if m.CanonicalURL == "" {
+		return ""
+	}
+	return fmt.Sprintf(`<link rel="canonical" href="%s">`, m.CanonicalURL)
+}
+
+func (m *MetaData) HreflangLinkTags() string {
+	// x-default:删除CanonicalURL中的lang参数
+	canonicalURL, err := url.Parse(m.CanonicalURL)
+	if err != nil {
+		logging.Error(nil, "HreflangLinkTags parse CanonicalURL error:"+err.Error())
+		return ""
+	}
+	queryParams := canonicalURL.Query()
+	queryParams.Del("lang")
+	canonicalURL.RawQuery = queryParams.Encode()
+	defaultHreflangLink := canonicalURL.String()
+	linkTags := []string{
+		fmt.Sprintf(`<link rel="alternate" hreflang="x-default" href="%s" />`, defaultHreflangLink),
+	}
+	for _, langTag := range webserver.I18nLangTags {
+		hreflangURL, err := url.Parse(defaultHreflangLink)
+		if err != nil {
+			logging.Error(nil, "HreflangLinkTags parse defaultHreflangLink error:"+err.Error())
+			continue
+		}
+		queryParams := hreflangURL.Query()
+		queryParams.Add("lang", langTag.String())
+		hreflangURL.RawQuery = queryParams.Encode()
+		linkTag := fmt.Sprintf(`<link rel="alternate" hreflang="%s" href="%s">`, langTag, hreflangURL.String())
+		linkTags = append(linkTags, linkTag)
+	}
+	return strings.Join(linkTags, "\n")
 }
 
 func GetHostURL(c *gin.Context) string {

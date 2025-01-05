@@ -1,13 +1,12 @@
-{{ define "page_top" }}
-{{ $hosturl := "" }}
-{{ $lang := "zh-Hans" }}
-{{ $sitename := "pink-lady" }}
-{{ if .meta }}
-    {{ $hosturl = .meta.HostURL }}
-    {{ $lang = .meta.Lang }}
-    {{ $sitename = .meta.SiteName }}
-{{ end }}
-
+{{- define "page_top" }}
+{{- $hosturl := "" }}
+{{- $lang := "zh-Hans" }}
+{{- $sitename := "pink-lady" }}
+{{- if .meta }}
+   {{- $hosturl = .meta.HostURL }}
+   {{- $lang = .meta.Lang }}
+   {{- $sitename = .meta.SiteName }}
+{{- end }}
 <!DOCTYPE html>
 <html lang="{{ $lang }}" {{ if eq $lang "ar" }}dir="rtl"{{ end }}>
     <head>
@@ -17,7 +16,7 @@
         <meta name="applicable-device" content="pc,mobile">
         <meta name="keywords" content="{{ if .meta }}{{ if .meta.Keywords }}{{ _str_slice_join .meta.Keywords "," }},{{ end }}{{ end }}{{ _i18n $lang "golang web开发框架" }}" />
         <meta name="description" content="{{ .meta.BaseDesc }}" />
-        {{ if .meta.BaiduTongJiID }}
+        {{- if .meta.BaiduTongJiID }}
         <script>
             var _hmt = _hmt || [];
             (function() {
@@ -27,7 +26,7 @@
                 s.parentNode.insertBefore(hm, s);
             })();
         </script>
-        {{ end }}
+        {{- end }}
         <meta name="referrer" content="no-referrer" />
         <meta name="format-detection" content="telephone=no" />
 
@@ -40,16 +39,20 @@
         <meta property="og:image" content="{{ .meta.StaticsURL }}/img/logo.webp" />
         <meta property="og:description" content="{{ .meta.BaseDesc }}" />
 
-        {{ .meta.CanonicalLinkTag }}
+        {{- if .meta }}
+        {{ .meta.CanonicalLinkTag | _safe_html }}
+        {{ .meta.HreflangLinkTags | _safe_html }}
+        {{- end }}
+
         <link rel="icon" href="{{ .meta.StaticsURL }}/img/logo.webp" type="image/x-icon" />
 
-        {{ if .meta.AdsenseID }}
+        {{- if .meta.AdsenseID }}
         <link rel="preconnect" href="//pagead2.googlesyndication.com">
-        {{ end }}
+        {{- end }}
 
-        {{ if not .meta.StaticsSelfhost }}
+        {{- if not .meta.StaticsSelfhost }}
         <link rel="dns-prefetch" href="//cdn.staticfile.net/">
-        {{ end }}
+        {{- end }}
 
         <link rel="preload" as="image" href="{{ .meta.StaticsURL }}/img/logo.webp">
         <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/app.css?buildid={{ .meta.BuildID }}">
@@ -61,7 +64,7 @@
 
         <link rel="prefetch" as="script" href="{{ .meta.StaticsURL }}/js/priority-navigation.js">
         <link rel="prefetch" as="style" href="{{ .meta.StaticsURL }}/css/priority-navigation.css">
-        {{ if .meta.StaticsSelfhost }}
+        {{- if .meta.StaticsSelfhost }}
             <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/bootswatch/5.3.2/{{ .meta.BootswatchTheme }}/bootstrap.min.css">
             <link rel="preload" as="style" href="{{ .meta.StaticsURL }}/css/bootstrap-icons.min.css">
             <link rel="preload" as="font" href="{{ .meta.StaticsURL }}/font/bootstrap-icons.woff2" crossorigin="anonymous">
@@ -77,7 +80,7 @@
 
             <script src="{{ .meta.StaticsURL }}/js/jquery.min.js"></script>
             <script>window.jQuery || document.write('<script src="https://cdn.staticfile.net/jquery/3.7.1/jquery.min.js')</script>
-        {{ else }}
+        {{- else }}
             <link rel="preload" as="style" href="https://cdn.staticfile.net/bootswatch/5.3.2/{{ .meta.BootswatchTheme }}/bootstrap.min.css">
             <link rel="preload" as="style" href="https://cdn.staticfile.net/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css">
             <link rel="preload" as="font" href="https://cdn.staticfile.net/bootstrap-icons/1.11.2/font/fonts/bootstrap-icons.woff2">
@@ -93,7 +96,7 @@
 
             <script src="https://cdn.staticfile.net/jquery/3.7.1/jquery.min.js"></script>
             <script>window.jQuery || document.write('<script src="{{ .meta.StaticsURL }}/js/jquery.min.js"><\/script>')</script>
-        {{ end }}
+        {{- end }}
         <link rel="stylesheet" href="{{ .meta.StaticsURL }}/css/priority-navigation.css">
 
         {{ if .meta.AdsenseID }}

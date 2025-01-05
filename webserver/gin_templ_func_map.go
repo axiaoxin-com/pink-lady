@@ -39,6 +39,9 @@ var TemplFuncs = map[string]interface{}{
 	"_safe_url": func(s string) template.URL {
 		return template.URL(s)
 	},
+	"_safe_html": func(s string) template.HTML {
+		return template.HTML(s)
+	},
 	"_md2html": func(s string, ugc bool) template.HTML {
 		md := goldmark.New(
 			goldmark.WithParserOptions(
