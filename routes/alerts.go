@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/axiaoxin-com/pink-lady/webserver"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,6 +19,8 @@ const (
 	AlertWarningCommon = "sys-warning"
 	// AlertErrorCommon 系统错误通用提示
 	AlertErrorCommon = "sys-error"
+	// AlertErrorSubmit 表单提交失败
+	AlertErrorSubmit = "submit-error"
 	// AlertOK OK
 	AlertOK = "ok"
 )
@@ -31,21 +34,30 @@ func Alert(c *gin.Context, alert, text string) *AlertData {
 	case AlertInfoCommon:
 		return &AlertData{
 			Color:   "info",
-			Heading: "温馨提示！",
+			Heading: webserver.CtxI18n(c, "温馨提示！"),
 			Text:    text,
 		}
+
 	case AlertWarningCommon:
 		return &AlertData{
 			Color:   "warning",
-			Heading: "操作失败！",
+			Heading: webserver.CtxI18n(c, "操作失败！"),
 			Text:    text,
 		}
+
 	case AlertErrorCommon:
 		return &AlertData{
 			Color:   "danger",
-			Heading: "系统错误，请稍后重试！",
+			Heading: webserver.CtxI18n(c, "系统错误，请稍后重试！"),
 			Text:    text,
 		}
+	case AlertErrorSubmit:
+		return &AlertData{
+			Color:   "danger",
+			Heading: webserver.CtxI18n(c, "系统错误！"),
+			Text:    webserver.CtxI18n(c, "提交失败，请稍后再试！") + text,
+		}
+
 	case AlertOK:
 		return &AlertData{
 			Color:   "success",
