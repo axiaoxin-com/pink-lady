@@ -14,6 +14,7 @@ import (
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
 	"github.com/fsnotify/fsnotify"
+	"github.com/getsentry/sentry-go"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
@@ -61,18 +62,24 @@ func InitWithConfigFile(configFile string) {
 	logging.Infof(nil, "viper load all settings:%v", viper.AllSettings())
 
 	// 初始化 sentry 并创建 sentry 客户端
-	sentryDSN := viper.GetString("sentry.dsn")
-	if sentryDSN == "" {
-		sentryDSN = os.Getenv(logging.SentryDSNEnvKey)
-	}
-	sentryDebug := viper.GetBool("sentry.debug")
-	if viper.GetString("server.mode") == "release" {
-		sentryDebug = false
-	}
-	logging.Debug(nil, "Sentry use dns: "+sentryDSN)
-	sentry, err := logging.NewSentryClient(sentryDSN, sentryDebug)
-	if err != nil {
-		logging.Error(nil, "Sentry client create error:"+err.Error())
+	var sentryCli *sentry.Client
+	if viper.GetBool("sentry.dsn") {
+		sentryOptions := sentry.ClientOptions{
+			Dsn:                viper.GetString("sentry.dsn"),
+			Debug:              viper.GetBool("sentry.debug"),
+			AttachStacktrace:   viper.GetBool("sentry.attach_stacktrace"),
+			EnableTracing:      viper.GetBool("sentry.enable_tracing"),
+			TracesSampleRate:   viper.GetFloat64("sentry.traces_sample_rate"),
+			ProfilesSampleRate: viper.GetFloat64("sentry.profiles_sample_rate"),
+		}
+
+		sc, err := logging.NewSentryClient(sentryOptions)
+		if err != nil {
+			logging.Error(nil, "Sentry client create error:"+err.Error())
+		} else {
+			sentryCli = sc
+			logging.Debug(nil, "Sentry client created ok")
+		}
 	}
 
 	// 根据配置创建 logging 的 logger 并将 logging 的默认 logger 替换为当前创建的 logger
@@ -101,7 +108,7 @@ func InitWithConfigFile(configFile string) {
 			Username: viper.GetString("basic_auth.username"),
 			Password: viper.GetString("basic_auth.password"),
 		},
-		SentryClient:   sentry,
+		SentryClient:   sentryCli,
 		LumberjackSink: lumberjackSink,
 	})
 	if err != nil {

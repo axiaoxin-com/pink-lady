@@ -105,7 +105,7 @@ func InitRouter(httpHandler http.Handler) {
 
 	// 注册flatpages
 	if viper.GetBool("flatpages.enable") {
-		Flatpages(app)
+		InitFlatpages(app)
 	}
 
 	// 注册其他 gin HandlerFunc

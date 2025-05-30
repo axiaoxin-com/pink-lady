@@ -1,14 +1,15 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
-	"net/url"
 	"os"
-	"path"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
@@ -17,129 +18,286 @@ import (
 	"github.com/spf13/viper"
 )
 
-func Flatpages(app *gin.Engine) {
-	navPath := viper.GetString("flatpages.nav_path")
-	if navPath == "" {
-		navPath = "fp"
-	}
+const (
+	// DefaultWordsPerMinute represents average reading speed
+	DefaultWordsPerMinute = 300
+	// DefaultTitle is used when no title is found in markdown
+	DefaultTitle = "Untitled Flatpage"
+)
 
-	rootDir := viper.GetString("flatpages.file_path")
-
-	fileNames, err := LoadFlatpageFileNames(rootDir)
-	if err != nil {
-		logging.Error(nil, "LoadFlatpageFiles error:"+err.Error())
-		return
-	}
-
-	totalCount := len(fileNames)
-
-	fileNameIndexMap := map[string]int{}
-	for idx, fileName := range fileNames {
-		fileNameIndexMap[fileName] = idx
-	}
-
-	fp := app.Group(navPath)
-	fp.GET("/", func(c *gin.Context) {
-		meta := NewMetaData(c, webserver.CtxI18n(c, viper.GetString("flatpages.nav_name")))
-		offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
-		if err != nil {
-			logging.Warn(c, "parse offset error:"+err.Error())
-		}
-		if offset < 0 {
-			offset = 0
-		}
-		limit, err := strconv.Atoi(c.DefaultQuery("limit", "10"))
-		if err != nil {
-			logging.Warn(c, "parse limit error:"+err.Error())
-		}
-		if limit > 100 || limit < 1 {
-			limit = 10
-		}
-		pagi := goutils.PaginateByOffsetLimit(totalCount, offset, limit)
-		data := gin.H{
-			"meta": meta,
-			"pagi": pagi,
-		}
-		if totalCount > 0 {
-			data["fileNames"] = fileNames[pagi.StartIndex:pagi.EndIndex]
-		}
-		c.HTML(http.StatusOK, "flatpages_index.html", data)
-		return
-	})
-
-	fp.GET("/:fileName/", func(c *gin.Context) {
-		fileName, err := url.PathUnescape(c.Param("fileName"))
-		if err != nil {
-			logging.Error(c, "unescape flatpage fileName error:"+err.Error())
-			c.Redirect(302, GetHostURL(c))
-			return
-		}
-
-		fileName = strings.TrimPrefix(filepath.Join(string(filepath.Separator), fileName), string(filepath.Separator))
-		fullFileName := filepath.Join(rootDir, fileName) + ".md"
-
-		file, err := os.ReadFile(fullFileName)
-		if err != nil {
-			logging.Error(c, "read flatpages file error:"+err.Error())
-			c.Redirect(302, GetHostURL(c))
-			return
-		}
-		content := webserver.CtxI18n(c, string(file))
-
-		meta := NewMetaData(c, fileName)
-		data := gin.H{
-			"meta":    meta,
-			"content": string(content),
-		}
-
-		index := fileNameIndexMap[fileName]
-		if index > 0 {
-			data["nextFileName"] = fileNames[index-1]
-		}
-		if index < totalCount-1 {
-			data["prevFileName"] = fileNames[index+1]
-		}
-
-		c.HTML(http.StatusOK, "flatpages_single.html", data)
-		return
-	})
+// FlatpagesConfig holds the root configuration for flatpages
+type FlatpagesConfig struct {
+	Enable bool             `mapstructure:"enable"`
+	Dirs   []FlatpageConfig `mapstructure:"dirs"`
 }
 
-// LoadFlatpageFileNames 加载flatpage文件名称列表（仅加载.md文件）
-// 按最后修改时间降序排序
-func LoadFlatpageFileNames(rootDir string) ([]string, error) {
-	fileNames := []string{}
+// FlatpageConfig holds the configuration for flatpages
+type FlatpageConfig struct {
+	NavName  string `mapstructure:"nav_name"`
+	NavPath  string `mapstructure:"nav_path"`
+	MetaDesc string `mapstructure:"meta_desc"`
+	FilePath string `mapstructure:"file_path"`
+	PageSize int    `mapstructure:"page_size"`
+}
 
-	f, err := os.Open(rootDir)
+// Flatpage represents a markdown flatpage with its metadata
+type Flatpage struct {
+	Title       string
+	Slug        string
+	Description string
+	Content     string
+	UpdatedAt   string
+	ReadTime    int
+	NavPath     string // Added to track which nav path this page belongs to
+}
+
+// FlatpageGroup represents a group of flatpages with their configuration
+type FlatpageGroup struct {
+	Config FlatpageConfig
+	Pages  []*Flatpage
+	Total  int // 总页数
+}
+
+var (
+	// allFlatpageGroups stores all loaded flatpage groups
+	allFlatpageGroups = map[string]*FlatpageGroup{}
+	// wordPattern is used to match Chinese characters and English words
+	wordPattern = regexp.MustCompile(`[a-zA-Z]+|\p{Han}`)
+	// defaultPageSize is the default number of items per page
+	defaultPageSize = 10
+	flatpagesConfig = &FlatpagesConfig{}
+)
+
+// InitFlatpages initializes flatpage routes and loads all markdown documents
+func InitFlatpages(app *gin.Engine) error {
+	if err := viper.UnmarshalKey("flatpages", flatpagesConfig); err != nil {
+		return fmt.Errorf("failed to unmarshal flatpages config: %v", err)
+	}
+
+	if !flatpagesConfig.Enable {
+		logging.Info(nil, "Flatpages is disabled")
+		return nil
+	}
+
+	for _, cfg := range flatpagesConfig.Dirs {
+		// 如果没有指定 NavPath，使用文件夹名称作为默认值
+		if cfg.NavPath == "" {
+			cfg.NavPath = filepath.Base(cfg.FilePath)
+		}
+
+		// 如果没有指定 NavName，使用 NavPath 作为默认值
+		if cfg.NavName == "" {
+			cfg.NavName = cfg.NavPath
+		}
+
+		// 确保 PageSize 有效
+		if cfg.PageSize <= 0 {
+			cfg.PageSize = defaultPageSize
+		}
+
+		pages, err := loadAllFlatpages(cfg.FilePath)
+		if err != nil {
+			logging.Warnf(nil, "Error loading flatpages from %s: %v", cfg.FilePath, err)
+			continue
+		}
+
+		// Set NavPath for each page
+		for _, page := range pages {
+			page.NavPath = cfg.NavPath
+		}
+
+		allFlatpageGroups[cfg.NavPath] = &FlatpageGroup{
+			Config: cfg,
+			Pages:  pages,
+			Total:  len(pages),
+		}
+
+		logging.Infof(nil, "Successfully loaded %d flatpages from %s with nav_path: %s, page_size: %d",
+			len(pages), cfg.FilePath, cfg.NavPath, cfg.PageSize)
+
+		// Register routes for this group
+		fp := app.Group(cfg.NavPath)
+		fp.GET("/", handleFlatpageList)
+		fp.GET("/:slug", handleFlatpageDetail)
+	}
+
+	return nil
+}
+
+// handleFlatpageList handles the flatpage list page request
+func handleFlatpageList(c *gin.Context) {
+	navPath := strings.TrimLeft(c.Request.URL.Path, "/")
+	navPath = strings.TrimRight(navPath, "/")
+
+	group, exists := allFlatpageGroups[navPath]
+	if !exists {
+		c.String(http.StatusNotFound, "Flatpage group not found")
+		return
+	}
+
+	meta := NewMetaData(c, webserver.CtxI18n(c, group.Config.NavName))
+	meta.BaseDesc = webserver.CtxI18n(c, group.Config.MetaDesc)
+
+	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
+	if err != nil {
+		logging.Warn(c, "parse offset error:"+err.Error())
+	}
+	pagi := goutils.PaginateByOffsetLimit(group.Total, offset, group.Config.PageSize)
+
+	var pages []*Flatpage
+	if pagi.StartIndex < len(group.Pages) {
+		endIndex := pagi.EndIndex
+		if endIndex > len(group.Pages) {
+			endIndex = len(group.Pages)
+		}
+		pages = group.Pages[pagi.StartIndex:endIndex]
+	}
+
+	data := gin.H{
+		"meta":         meta,
+		"allFlatpages": pages,
+		"pagi":         pagi,
+		"navName":      group.Config.NavName,
+	}
+
+	c.HTML(http.StatusOK, "flatpages.html", data)
+}
+
+// handleFlatpageDetail handles individual flatpage request
+func handleFlatpageDetail(c *gin.Context) {
+	navPath := strings.Split(strings.TrimLeft(c.Request.URL.Path, "/"), "/")[0]
+	group, exists := allFlatpageGroups[navPath]
+	if !exists {
+		c.String(http.StatusNotFound, "Flatpage group not found")
+		return
+	}
+
+	slug := c.Param("slug")
+	currentPage, prevPage, nextPage := findFlatpageBySlug(group.Pages, slug)
+
+	if currentPage == nil {
+		c.String(http.StatusNotFound, "Flatpage not found")
+		return
+	}
+
+	navName := webserver.CtxI18n(c, group.Config.NavName)
+	meta := NewMetaData(c, webserver.CtxI18n(c, currentPage.Title)+"-"+navName)
+	meta.BaseDesc = webserver.CtxI18n(c, currentPage.Description)
+
+	data := gin.H{
+		"meta":     meta,
+		"flatpage": currentPage,
+		"prev":     prevPage,
+		"next":     nextPage,
+		"navName":  navName,
+	}
+
+	c.HTML(http.StatusOK, "flatpage.html", data)
+}
+
+// findFlatpageBySlug finds a flatpage and its adjacent pages by slug
+func findFlatpageBySlug(pages []*Flatpage, slug string) (current, prev, next *Flatpage) {
+	for i, page := range pages {
+		if page.Slug == slug {
+			current = pages[i]
+			if i > 0 {
+				prev = pages[i-1]
+			}
+			if i < len(pages)-1 {
+				next = pages[i+1]
+			}
+			break
+		}
+	}
+	return
+}
+
+// loadAllFlatpages reads and parses all markdown files from the specified directory
+func loadAllFlatpages(flatpagesPath string) ([]*Flatpage, error) {
+	entries, err := os.ReadDir(flatpagesPath)
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
 
-	files, err := f.ReadDir(-1)
-	sort.Slice(files, func(i, j int) bool {
-		iInfo, err := files[i].Info()
-		if err != nil {
-			logging.Error(nil, "get file info error:"+err.Error())
-			return false
+	var pages []*Flatpage
+	for _, entry := range entries {
+		if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".md") {
+			page, err := loadSingleFlatpage(flatpagesPath, entry)
+			if err != nil {
+				logging.Errorf(nil, "Error loading flatpage %s: %v", entry.Name(), err)
+				continue
+			}
+			pages = append(pages, page)
 		}
-		jInfo, err := files[j].Info()
-		if err != nil {
-			logging.Error(nil, "get file info error:"+err.Error())
-			return false
-		}
-		return iInfo.ModTime().After(jInfo.ModTime())
+	}
+
+	// Sort pages by updated time (newest first)
+	sort.Slice(pages, func(i, j int) bool {
+		timeI, _ := time.Parse(time.DateOnly, pages[i].UpdatedAt)
+		timeJ, _ := time.Parse(time.DateOnly, pages[j].UpdatedAt)
+		return timeI.After(timeJ)
 	})
 
-	for _, f := range files {
-		fileName := f.Name()
-		ext := path.Ext(fileName)
-		if strings.ToLower(ext) != ".md" {
-			continue
-		}
-		fileName = strings.TrimSuffix(fileName, ext)
-		logging.Debug(nil, "LoadFlatpageFileNames:"+fileName)
-		fileNames = append(fileNames, fileName)
+	return pages, nil
+}
+
+// loadSingleFlatpage loads and parses a single markdown file
+func loadSingleFlatpage(basePath string, entry os.DirEntry) (*Flatpage, error) {
+	filePath := filepath.Join(basePath, entry.Name())
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, err
 	}
-	return fileNames, nil
+
+	info, err := entry.Info()
+	if err != nil {
+		return nil, err
+	}
+
+	return parseMarkdownFlatpage(content, entry.Name(), info.ModTime()), nil
+}
+
+// parseMarkdownFlatpage extracts information from markdown content
+func parseMarkdownFlatpage(content []byte, filename string, modTime time.Time) *Flatpage {
+	lines := strings.Split(string(content), "\n")
+	title := DefaultTitle
+	description := ""
+
+	// Extract title from first h1 heading
+	for _, line := range lines {
+		if strings.HasPrefix(line, "# ") {
+			title = strings.TrimPrefix(line, "# ")
+			break
+		}
+	}
+
+	// Extract description from the first blockquote
+	for _, line := range lines {
+		if strings.HasPrefix(line, "> ") {
+			description = strings.TrimPrefix(line, "> ")
+			break
+		}
+	}
+
+	// Generate slug from filename
+	slug := strings.TrimSuffix(filename, filepath.Ext(filename))
+
+	return &Flatpage{
+		Title:       title,
+		Slug:        slug,
+		Description: description,
+		Content:     string(content),
+		UpdatedAt:   modTime.Format(time.DateOnly),
+		ReadTime:    calculateReadTime(string(content)),
+	}
+}
+
+// calculateReadTime estimates reading time in minutes
+func calculateReadTime(content string) int {
+	wordCount := len(wordPattern.FindAllString(content, -1))
+	readTime := wordCount / DefaultWordsPerMinute
+	if readTime < 1 {
+		return 1
+	}
+	return readTime
 }

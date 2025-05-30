@@ -1,0 +1,296 @@
+{{ template "page_top" . }}
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.Lang }}
+<link rel="stylesheet" href="{{ $hosturl }}/statics/css/flatpage.css">
+<link rel="stylesheet" href="{{ $hosturl }}/statics/css/hljs-github.min.css">
+
+<div class="container py-4">
+  <div class="row g-4">
+    <!-- 移动设备上的后退按钮 -->
+    <div class="d-lg-none col-12">
+      <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/" class="text-primary text-decoration-none d-flex align-items-center">
+        <i class="bi bi-arrow-left me-1"></i>
+        <span>{{ _i18n $lang "返回列表" }}</span>
+      </a>
+    </div>
+
+    <!-- 目录侧边栏 - 在手机上显示在前面 -->
+    <div class="col-lg-4 order-1">
+      <div class="card border-light sticky-lg-top" style="top: 1rem;">
+        <div class="card-body">
+          <h2 class="h5 fw-bold mb-3 pb-2 border-bottom">
+            {{_i18n $lang "目录"}}
+          </h2>
+          <nav class="toc">
+            <ul class="list-unstyled mb-0">
+              <!-- 由 JavaScript 填充 -->
+            </ul>
+          </nav>
+
+          <div class="mt-4 pt-3 border-top">
+            <div class="small text-muted">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-calendar text-primary me-2"></i>
+                <span>{{.flatpage.UpdatedAt}}</span>
+              </div>
+              <div class="d-flex align-items-center">
+                <i class="bi bi-clock text-primary me-2"></i>
+                <span>{{.flatpage.ReadTime}} {{_i18n $lang "分钟"}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="col-lg-8 order-2">
+      <article class="card border-light">
+        <!-- 文章内容 -->
+        <div class="card-body article-content">
+          {{  $i18nContent := _i18n $lang .flatpage.Content }}
+          {{ if eq $i18nContent .flatpage.Content }}
+            {{ _md2html $i18nContent false }}
+          {{ else }}
+            {{ _safe_html $i18nContent }}
+          {{ end }}
+        </div>
+
+        <!-- 文章底部 -->
+        <div class="card-footer bg-light text-end">
+          <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/" class="text-primary text-decoration-none d-inline-flex align-items-center">
+            <span>{{_i18n $lang "返回列表"}}</span>
+            <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- 上一篇/下一篇导航 -->
+      <div class="row g-4 mt-4">
+        {{if .prev }}
+        <div class="col-sm-6">
+          <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/{{.prev.Slug}}" class="nav-link p-3 rounded text-decoration-none border hover-shadow">
+            <div class="d-flex align-items-start">
+              <i class="bi bi-chevron-left text-primary me-3 mt-1"></i>
+              <div>
+                <div class="small text-muted text-uppercase fw-bold">{{_i18n $lang "上一篇"}}</div>
+                <div class="text-dark text-truncate-2">{{_i18n $lang .prev.Title}}</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        {{else}}
+        <div class="col-sm-6"></div>
+        {{end}}
+
+        {{if .next}}
+        <div class="col-sm-6">
+          <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/{{.next.Slug}}" class="nav-link p-3 rounded text-decoration-none border hover-shadow">
+            <div class="d-flex align-items-start justify-content-end">
+              <div class="text-end">
+                <div class="small text-muted text-uppercase fw-bold">{{_i18n $lang "下一篇"}}</div>
+                <div class="text-dark text-truncate-2">{{_i18n $lang .next.Title}}</div>
+              </div>
+              <i class="bi bi-chevron-right text-primary ms-3 mt-1"></i>
+            </div>
+          </a>
+        </div>
+        {{else}}
+        <div class="col-sm-6"></div>
+        {{end}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ $hosturl }}/statics/js/highlight.min.js"></script>
+<script>
+  // 生成阅读进度条
+  const progressBar = document.createElement('div');
+  progressBar.className = 'reading-progress';
+  document.body.appendChild(progressBar);
+
+  // 更新进度条
+  function updateProgressBar() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+    progressBar.style.width = `${scrollPercentage}%`;
+  }
+
+  // 监听滚动更新进度条
+  window.addEventListener('scroll', updateProgressBar);
+  updateProgressBar(); // 初始化进度条
+
+  // 生成目录
+  document.addEventListener('DOMContentLoaded', function() {
+    const article = document.querySelector('.article-content');
+    const toc = document.querySelector('.toc ul');
+    const h1 = article.querySelector('h1');  // 查找 H1 标题
+    const headings = article.querySelectorAll('h2, h3, h4');
+
+    // 生成有效的ID
+    function generateValidId(text) {
+      return 'heading-' + text.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-') // 将非字母数字字符替换为连字符
+        .replace(/^-+|-+$/g, '') // 移除首尾连字符
+        .replace(/^[0-9]/, 'h-$&'); // 如果以数字开头，添加前缀
+    }
+
+    // 如果没有 h2-h4 标题，但有 h1，则显示 h1
+    if (headings.length === 0) {
+      if (h1) {
+        // 为 H1 添加 ID
+        if (!h1.id) {
+          h1.id = generateValidId(h1.textContent);
+        }
+
+        // 设置标题的scroll-margin-top
+        h1.style.scrollMarginTop = (document.getElementById('site-nav').offsetHeight + 20) + 'px';
+
+        // 创建目录项
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `#${h1.id}`;
+        a.textContent = h1.textContent;
+        a.className = 'text-dark text-decoration-none d-block mb-2 fw-bold';
+
+        li.appendChild(a);
+        toc.appendChild(li);
+
+        // 点击目录项平滑滚动
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetHeading = document.getElementById(this.getAttribute('href').substring(1));
+          if (targetHeading) {
+            targetHeading.scrollIntoView({
+              behavior: 'smooth'
+            });
+
+            // 高亮目标标题（临时）
+            targetHeading.classList.add('bg-light');
+            setTimeout(() => {
+              targetHeading.classList.remove('bg-light');
+            }, 1500);
+          }
+        });
+      } else {
+        // 如果既没有 h2-h4 也没有 h1，才隐藏目录
+        const tocContainer = document.querySelector('.toc').closest('.card');
+        tocContainer.style.display = 'none';
+      }
+      return;
+    }
+
+    // 创建目录
+    headings.forEach((heading, index) => {
+      // 为标题添加ID（如果不存在）
+      if (!heading.id) {
+        heading.id = generateValidId(heading.textContent);
+      }
+
+      // 设置标题的scroll-margin-top
+      heading.style.scrollMarginTop = (document.getElementById('site-nav').offsetHeight + 20) + 'px';
+
+      // 创建目录项
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${heading.id}`;
+      a.textContent = heading.textContent;
+
+      // 根据标题级别设置样式
+      if (heading.tagName === 'H2') {
+        a.className = 'text-dark text-decoration-none d-block mb-2 fw-medium';
+      } else if (heading.tagName === 'H3') {
+        a.className = 'text-dark text-decoration-none d-block mb-2 ms-3 border-start border-2 ps-2';
+      } else if (heading.tagName === 'H4') {
+        a.className = 'text-dark text-decoration-none d-block mb-2 ms-4 border-start border-2 ps-2 small';
+      }
+
+      li.appendChild(a);
+      toc.appendChild(li);
+
+      // 点击目录项平滑滚动
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetHeading = document.getElementById(this.getAttribute('href').substring(1));
+        if (targetHeading) {
+          targetHeading.scrollIntoView({
+            behavior: 'smooth'
+          });
+
+          // 高亮目标标题（临时）
+          targetHeading.classList.add('bg-light');
+          setTimeout(() => {
+            targetHeading.classList.remove('bg-light');
+          }, 1500);
+        }
+      });
+    });
+
+    // 处理代码块
+    document.querySelectorAll('pre code').forEach((block) => {
+      // 应用代码高亮
+      hljs.highlightElement(block);
+
+      // 添加复制代码按钮
+      const pre = block.parentNode;
+      const copyButton = document.createElement('button');
+      copyButton.className = 'copy-button';
+      copyButton.innerHTML = '<i class="bi bi-copy me-1"></i> {{_i18n $lang "复制"}}';
+
+      copyButton.addEventListener('click', () => {
+        navigator.clipboard.writeText(block.textContent);
+        copyButton.innerHTML = '<i class="bi bi-check-circle me-1"></i> {{_i18n $lang "已复制"}}';
+        setTimeout(() => {
+          copyButton.innerHTML = '<i class="bi bi-copy me-1"></i> {{_i18n $lang "复制"}}';
+        }, 2000);
+      });
+
+      pre.appendChild(copyButton);
+      pre.style.position = 'relative';
+    });
+  });
+
+  // 跟踪活动目录项
+  window.addEventListener('scroll', function() {
+    const headings = document.querySelectorAll('.article-content h2, .article-content h3, .article-content h4');
+    const tocItems = document.querySelectorAll('.toc a');
+
+    if (headings.length === 0 || tocItems.length === 0) return;
+
+    // 找到当前可见的标题
+    let currentActiveIndex = 0;
+    const scrollOffset = 100;
+
+    headings.forEach((heading, index) => {
+      const rect = heading.getBoundingClientRect();
+      if (rect.top <= scrollOffset) {
+        currentActiveIndex = index;
+      }
+    });
+
+    // 更新目录项高亮
+    tocItems.forEach((item, index) => {
+      if (index === currentActiveIndex) {
+        item.classList.add('text-primary', 'fw-bold');
+      } else {
+        item.classList.remove('text-primary', 'fw-bold');
+      }
+    });
+
+    // 当内容滚动到底部时，高亮最后一个目录项
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+      tocItems.forEach((item, index) => {
+        if (index === tocItems.length - 1) {
+          item.classList.add('text-primary', 'fw-bold');
+        } else {
+          item.classList.remove('text-primary', 'fw-bold');
+        }
+      });
+    }
+  });
+</script>
+
+{{ template "page_bottom" . }}

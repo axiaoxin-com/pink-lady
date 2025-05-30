@@ -56,9 +56,16 @@ env = "localhost"
 [flatpages]
     # 是否启用flatpages
     enable = true
-    nav_name = "flatpages"
-    nav_path = "fp"
-    file_path = "statics/flatpages"
+    # 支持配置多个flatpage目录
+    [[flatpages.dirs]]
+        nav_name = "帮助文档"
+        nav_path = "docs"
+        meta_desc = "帮助文档列表页面描述"
+        file_path = "statics/flatpages/docs"
+        # 每页显示的条目数，可选，默认为10
+        page_size = 20
+
+    # 可以继续添加更多目录配置...
 
 
 
@@ -150,9 +157,13 @@ env = "localhost"
 
 ########## sentry 相关配置
 [sentry]
-    # sentry dsn
+    enable = false
     dsn = ""
-    debug = true
+    debug = false
+    attach_stacktrace = false
+    enable_tracing = false
+    traces_sample_rate = 0.1
+    profiles_sample_rate = 0.1
 
 
 

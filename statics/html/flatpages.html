@@ -1,0 +1,62 @@
+{{ template "page_top" . }}
+
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.Lang }}
+
+<h1 class="h4 mt-5">{{ _i18n $lang .meta.Title }}</h1>
+
+<!-- Search box -->
+<div class="mt-4 position-relative">
+    <input type="text" id="searchDocs" placeholder="{{ _i18n $lang "搜索" }}" class="form-control ps-4">
+    <i class="bi bi-search position-absolute top-50 translate-middle-y ms-2 text-muted"></i>
+</div>
+
+<!-- Document list -->
+<div class="document-list mt-5">
+    {{range .allFlatpages}}
+    <div class="doc-item border-bottom pb-4 mb-4">
+        <a href="{{ $hosturl }}/{{.NavPath}}/{{.Slug}}" class="text-decoration-none">
+            <h2 class="h5 mb-2">{{ _i18n $lang .Title }}</h2>
+        </a>
+        <p class="text-muted small mb-2 text-truncate">{{ _i18n $lang .Description }}</p>
+        <div class="d-flex align-items-center small text-muted">
+            <span class="d-flex align-items-center">
+                <i class="bi bi-calendar me-1"></i>
+                {{.UpdatedAt}}
+            </span>
+            <span class="mx-2">•</span>
+            <span>
+                <i class="bi bi-clock me-1"></i>
+                {{.ReadTime}} {{ _i18n $lang "分钟" }}
+            </span>
+            <span class="mx-2">•</span>
+            <span>
+                <i class="bi bi-book me-1"></i>
+                <a href="{{ $hosturl }}/{{.NavPath}}/{{.Slug}}" class="text-decoration-none">{{ _i18n $lang "阅读全文" }}</a>
+            </span>
+        </div>
+    </div>
+    {{end}}
+
+    {{ template "pagi" . }}
+</div>
+
+
+<script>
+    // Simple search functionality
+    document.getElementById('searchDocs').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll('.doc-item').forEach(item => {
+            const title = item.querySelector('h2').textContent.toLowerCase();
+            const description = item.querySelector('p').textContent.toLowerCase();
+
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+{{ template "page_bottom" . }}

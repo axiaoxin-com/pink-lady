@@ -8,17 +8,46 @@
 import re
 import sys
 
+import markdown2
 import polib
 from pygtrans import Translate
 
+CN_SITENAME = "pink-lady"
+EN_SITENAME = "pink-lady"
+
 transcli = Translate()
 
+def is_markdown_content(text: str) -> bool:
+    """Check if the text contains markdown syntax."""
+    markdown_patterns = [
+        r'^#\s',           # 标题
+        r'^>\s',           # 引用
+        r'^\s*[-*]\s',     # 列表
+        r'```',            # 代码块
+        r'\[.*?\]\(.*?\)', # 链接
+        r'\*\*.*?\*\*',    # 粗体
+        r'_.*?_',          # 斜体
+    ]
+    return any(re.search(pattern, text, re.MULTILINE) for pattern in markdown_patterns)
+
+def convert_to_html(text: str) -> str:
+    """Convert markdown to HTML if the text contains markdown syntax."""
+    if is_markdown_content(text):
+        return markdown2.markdown(
+            text,
+            extras=[
+                'fenced-code-blocks',
+                'tables',
+                'header-ids',
+                'target-blank-links',
+            ]
+        )
+    return text
 
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
     for i in range(0, len(lst), n):
         yield lst[i : i + n]
-
 
 def main():
     target = "en"
@@ -35,9 +64,12 @@ def main():
     for entry in pofile:
         if entry.msgid == "%s":
             continue
-        _m = entry.msgid # todo some replace
-        # 删除markdown链接描述
-        _m = re.sub(r"\[(.*?)\]\s?\((.+?)\)", lambda m: "[](" + m.group(2) + ")", _m)
+
+        # 特殊中文品牌词的指定英文名称替换，避免翻译为非特定的英文品牌词
+        _m = entry.msgid.replace(CN_SITENAME, EN_SITENAME)
+
+        # 如果是markdown内容，转换为HTML
+        _m = convert_to_html(_m)
 
         if entry.msgid and not entry.msgstr:
             msgids[_m] = entry.msgid
@@ -56,12 +88,7 @@ def main():
         for idx, rmid in enumerate(rmids):
             if trans[idx].translatedText:
                 mid = msgids[rmid]
-                msgs[mid] = (
-                    trans[idx]
-                    .translatedText.replace("&quot;", '"')
-                    .replace("&#39;", "'")
-                    .replace("&gt;", ">")
-                )
+                msgs[mid] = trans[idx].translatedText
     print("msgs count:", len(msgs))
 
     for entry in pofile:
@@ -77,11 +104,15 @@ def main():
                 continue
 
             entry.msgstr = msgstr
+
+            # 英文品牌词的再次确认覆盖
+            if entry.msgid == CN_SITENAME:
+                entry.msgstr = EN_SITENAME
+
             print("trans:", entry.msgid, "to:", entry.msgstr)
             entry.flags = [f for f in entry.flags if f != "fuzzy"]
 
     pofile.save("../../statics/i18n/" + target + "/LC_MESSAGES/messages.po")
-
 
 if __name__ == "__main__":
     main()

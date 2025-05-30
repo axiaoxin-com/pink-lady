@@ -1,6 +1,6 @@
 module github.com/axiaoxin-com/pink-lady
 
-go 1.20
+go 1.24
 
 require (
 	github.com/abhinav/goldmark-mermaid v0.1.1
@@ -11,10 +11,12 @@ require (
 	github.com/axiaoxin-com/ratelimiter v1.0.3
 	github.com/chai2010/gettext-go v1.0.2
 	github.com/fsnotify/fsnotify v1.7.0
+	github.com/getsentry/sentry-go v0.22.0
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/golang/protobuf v1.5.3
+	github.com/gomarkdown/markdown v0.0.0-20250311123330-531bef5e742b
 	github.com/json-iterator/go v1.1.12
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.12.1
@@ -48,7 +50,6 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dlclark/regexp2 v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
-	github.com/getsentry/sentry-go v0.22.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-openapi/jsonpointer v0.19.5 // indirect
 	github.com/go-openapi/jsonreference v0.19.5 // indirect

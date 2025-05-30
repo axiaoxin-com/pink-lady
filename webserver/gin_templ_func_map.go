@@ -56,7 +56,7 @@ var TemplFuncs = map[string]interface{}{
 				highlighting.NewHighlighting(
 					highlighting.WithStyle("manni"),
 					highlighting.WithFormatOptions(
-						chromav2html.WithLineNumbers(true),
+						chromav2html.WithLineNumbers(false),
 					),
 				),
 				&mermaid.Extender{},
