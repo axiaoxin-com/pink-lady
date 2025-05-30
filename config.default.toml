@@ -150,9 +150,13 @@ env = "localhost"
 
 ########## sentry 相关配置
 [sentry]
-    # sentry dsn
+    enable = false
     dsn = ""
-    debug = true
+    debug = false
+    attach_stacktrace = false
+    enable_tracing = false
+    traces_sample_rate = 0.1
+    profiles_sample_rate = 0.1
 
 
 
