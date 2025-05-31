@@ -23,12 +23,15 @@
 [flatpages]
     # 是否启用flatpages
     enable = true
-    # 导航栏显示名称
-    nav_name = "FlatPages"
-    # 访问路径
-    nav_path = "fp"
-    # Markdown文件存放路径
-    file_path = "statics/flatpages"
+    # 支持配置多个flatpage目录
+    [[flatpages.dirs]]
+        nav_name = "帮助文档"
+        nav_path = "docs"
+        file_path = "statics/flatpages/docs"
+        # 每页显示的条目数，可选，默认为10
+        page_size = 20
+
+    # 可以继续添加更多目录配置...
 ```
 
 ### 2. 创建文章

@@ -1,9 +1,7 @@
 {{ template "page_top" . }}
 
 {{ $hosturl := .meta.HostURL }}
-{{ $lang := .meta.HostURL }}
-{{ $fp_path := .meta.FlatpagesNavPath }}
-
+{{ $lang := .meta.Lang }}
 
 <h1 class="h4 mt-5">{{ _i18n $lang .meta.Title }}</h1>
 
@@ -17,7 +15,7 @@
 <div class="document-list mt-5">
     {{range .allFlatpages}}
     <div class="doc-item border-bottom pb-4 mb-4">
-        <a href="{{ $hosturl }}/{{$fp_path}}/{{.Slug}}" class="text-decoration-none">
+        <a href="{{ $hosturl }}/{{.NavPath}}/{{.Slug}}" class="text-decoration-none">
             <h2 class="h5 mb-2">{{.Title}}</h2>
         </a>
         <p class="text-muted small mb-2 text-truncate">{{.Description}}</p>
@@ -34,7 +32,7 @@
             <span class="mx-2">•</span>
             <span>
                 <i class="bi bi-book me-1"></i>
-                <a href="{{ $hosturl }}/{{$fp_path}}/{{.Slug}}" class="text-decoration-none">{{ _i18n $lang "阅读全文" }}</a>
+                <a href="{{ $hosturl }}/{{.NavPath}}/{{.Slug}}" class="text-decoration-none">{{ _i18n $lang "阅读全文" }}</a>
             </span>
         </div>
     </div>

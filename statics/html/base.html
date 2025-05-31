@@ -174,16 +174,18 @@
                         <hr class="d-lg-none text-opacity-50">
                         <ul class="navbar-nav flex-row flex-wrap me-auto text-center text-capitalize">
                             <li class="nav-item col-4 col-lg-auto">
-                                <a class="nav-link py-3" href="{{ $hosturl }}/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "主页" }}</a>
+                                <a class="nav-link py-3" href="{{ $hosturl }}/">{{ _i18n $lang "主页" }}</a>
                             </li>
-                            {{ if .meta.FlatpagesEnable }}
-                            <li class="nav-item col-4 col-lg-auto">
-                                <a class="nav-link py-3" href="{{ $hosturl }}/{{ .meta.FlatpagesNavPath }}/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang .meta.FlatpagesNavName }}</a>
-                            </li>
+                            {{ if  and .meta.FlatpagesConfig .meta.FlatpagesConfig.Enable }}
+                                {{ range .meta.FlatpagesConfig.Dirs }}
+                                <li class="nav-item col-4 col-lg-auto">
+                                    <a class="nav-link py-3" href="{{ $hosturl }}/{{ .NavPath }}/">{{ _i18n $lang .NavName }}</a>
+                                </li>
+                                {{ end }}
                             {{ end }}
                             {{ if .meta.ShowAbout }}
                             <li class="nav-item col-4 col-lg-auto">
-                                <a class="nav-link py-3" href="{{ $hosturl }}/about/" {{ if .meta }}{{ if eq .meta.BootswatchTheme "slate" }}style="border-style:none;"{{ end }}{{ end }}>{{ _i18n $lang "关于" }}</a>
+                                <a class="nav-link py-3" href="{{ $hosturl }}/about/">{{ _i18n $lang "关于" }}</a>
                             </li>
                             {{ end }}
                             {{ if .meta.I18n }}
@@ -199,24 +201,24 @@
                             <li class="nav-item col-4 col-lg-auto dropdown">
                                 <a class="nav-link dropdown-toggle py-3" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ _i18n $lang "语言" }} <i class="bi bi-globe"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('zh-Hans');">中文简体</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('en');">English</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('zh-Hant');">中文繁體</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('de');">Deutsch</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('es');">Español</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('fr');">Français</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('it');">Italiano</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ja');">日本語</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ko');">한국인</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('pt');">Português</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ru');">Русский</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('tr');">Türkçe</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('vi');">Tiếng Việt</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('ar');">عربي</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('hi');">हिंदी</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('bn');">বাংলা</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('id');">Indonesia</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="change_lang('th');">ภาษาไทย</a></li>
+                                    <li><a class="dropdown-item" href="?lang=zh-Hans" onclick="change_lang('zh-Hans');">中文简体</a></li>
+                                    <li><a class="dropdown-item" href="?lang=en" onclick="change_lang('en');">English</a></li>
+                                    <li><a class="dropdown-item" href="?lang=zh-Hant" onclick="change_lang('zh-Hant');">中文繁體</a></li>
+                                    <li><a class="dropdown-item" href="?lang=de" onclick="change_lang('de');">Deutsch</a></li>
+                                    <li><a class="dropdown-item" href="?lang=es" onclick="change_lang('es');">Español</a></li>
+                                    <li><a class="dropdown-item" href="?lang=fr" onclick="change_lang('fr');">Français</a></li>
+                                    <li><a class="dropdown-item" href="?lang=it" onclick="change_lang('it');">Italiano</a></li>
+                                    <li><a class="dropdown-item" href="?lang=ja" onclick="change_lang('ja');">日本語</a></li>
+                                    <li><a class="dropdown-item" href="?lang=ko" onclick="change_lang('ko');">한국인</a></li>
+                                    <li><a class="dropdown-item" href="?lang=pt" onclick="change_lang('pt');">Português</a></li>
+                                    <li><a class="dropdown-item" href="?lang=ru" onclick="change_lang('ru');">Русский</a></li>
+                                    <li><a class="dropdown-item" href="?lang=tr" onclick="change_lang('tr');">Türkçe</a></li>
+                                    <li><a class="dropdown-item" href="?lang=vi" onclick="change_lang('vi');">Tiếng Việt</a></li>
+                                    <li><a class="dropdown-item" href="?lang=ar" onclick="change_lang('ar');">عربي</a></li>
+                                    <li><a class="dropdown-item" href="?lang=hi" onclick="change_lang('hi');">हिंदी</a></li>
+                                    <li><a class="dropdown-item" href="?lang=bn" onclick="change_lang('bn');">বাংলা</a></li>
+                                    <li><a class="dropdown-item" href="?lang=id" onclick="change_lang('id');">Indonesia</a></li>
+                                    <li><a class="dropdown-item" href="?lang=th" onclick="change_lang('th');">ภาษาไทย</a></li>
                                 </ul>
                             </li>
                             {{ end }}

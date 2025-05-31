@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -24,16 +25,23 @@ import (
 const (
 	// DefaultWordsPerMinute represents average reading speed
 	DefaultWordsPerMinute = 300
-	// DefaultNavPath is the default URL path for flatpages
-	DefaultNavPath = "fp"
 	// DefaultTitle is used when no title is found in markdown
 	DefaultTitle = "Untitled Flatpage"
 )
 
+// FlatpagesConfig holds the root configuration for flatpages
+type FlatpagesConfig struct {
+	Enable bool             `mapstructure:"enable"`
+	Dirs   []FlatpageConfig `mapstructure:"dirs"`
+}
+
 // FlatpageConfig holds the configuration for flatpages
 type FlatpageConfig struct {
-	FilePath string
-	NavPath  string
+	NavName  string `mapstructure:"nav_name"`
+	NavPath  string `mapstructure:"nav_path"`
+	MetaDesc string `mapstructure:"meta_desc"`
+	FilePath string `mapstructure:"file_path"`
+	PageSize int    `mapstructure:"page_size"`
 }
 
 // Flatpage represents a markdown flatpage with its metadata
@@ -44,55 +52,116 @@ type Flatpage struct {
 	Content     template.HTML
 	UpdatedAt   string
 	ReadTime    int
+	NavPath     string // Added to track which nav path this page belongs to
+}
+
+// FlatpageGroup represents a group of flatpages with their configuration
+type FlatpageGroup struct {
+	Config FlatpageConfig
+	Pages  []*Flatpage
+	Total  int // 总页数
 }
 
 var (
-	// allFlatpages stores all loaded flatpage documents
-	allFlatpages = []*Flatpage{}
+	// allFlatpageGroups stores all loaded flatpage groups
+	allFlatpageGroups = map[string]*FlatpageGroup{}
 	// wordPattern is used to match Chinese characters and English words
 	wordPattern = regexp.MustCompile(`[a-zA-Z]+|\p{Han}`)
+	// defaultPageSize is the default number of items per page
+	defaultPageSize = 10
+	flatpagesConfig = &FlatpagesConfig{}
 )
 
 // InitFlatpages initializes flatpage routes and loads all markdown documents
 func InitFlatpages(app *gin.Engine) error {
-	cfg := FlatpageConfig{
-		FilePath: viper.GetString("flatpages.file_path"),
-		NavPath:  viper.GetString("flatpages.nav_path"),
-	}
-	if cfg.NavPath == "" {
-		cfg.NavPath = DefaultNavPath
+	if err := viper.UnmarshalKey("flatpages", flatpagesConfig); err != nil {
+		return fmt.Errorf("failed to unmarshal flatpages config: %v", err)
 	}
 
-	pages, err := loadAllFlatpages(cfg.FilePath)
-	if err != nil {
-		return err
+	if !flatpagesConfig.Enable {
+		logging.Info(nil, "Flatpages is disabled")
+		return nil
 	}
-	allFlatpages = pages
-	logging.Infof(nil, "Successfully loaded %d flatpages from %s", len(pages), cfg.FilePath)
 
-	fp := app.Group(cfg.NavPath)
-	fp.GET("/", handleFlatpageList)
-	fp.GET("/:slug", handleFlatpageDetail)
+	for _, cfg := range flatpagesConfig.Dirs {
+		// 如果没有指定 NavPath，使用文件夹名称作为默认值
+		if cfg.NavPath == "" {
+			cfg.NavPath = filepath.Base(cfg.FilePath)
+		}
+
+		// 如果没有指定 NavName，使用 NavPath 作为默认值
+		if cfg.NavName == "" {
+			cfg.NavName = cfg.NavPath
+		}
+
+		// 确保 PageSize 有效
+		if cfg.PageSize <= 0 {
+			cfg.PageSize = defaultPageSize
+		}
+
+		pages, err := loadAllFlatpages(cfg.FilePath)
+		if err != nil {
+			logging.Warnf(nil, "Error loading flatpages from %s: %v", cfg.FilePath, err)
+			continue
+		}
+
+		// Set NavPath for each page
+		for _, page := range pages {
+			page.NavPath = cfg.NavPath
+		}
+
+		allFlatpageGroups[cfg.NavPath] = &FlatpageGroup{
+			Config: cfg,
+			Pages:  pages,
+			Total:  len(pages),
+		}
+
+		logging.Infof(nil, "Successfully loaded %d flatpages from %s with nav_path: %s, page_size: %d",
+			len(pages), cfg.FilePath, cfg.NavPath, cfg.PageSize)
+
+		// Register routes for this group
+		fp := app.Group(cfg.NavPath)
+		fp.GET("/", handleFlatpageList)
+		fp.GET("/:slug", handleFlatpageDetail)
+	}
+
 	return nil
 }
 
 // handleFlatpageList handles the flatpage list page request
 func handleFlatpageList(c *gin.Context) {
-	meta := NewMetaData(c, webserver.CtxI18n(c, viper.GetString("flatpages.nav_name")))
-	meta.BaseDesc = ""
+	navPath := strings.TrimLeft(c.Request.URL.Path, "/")
+	navPath = strings.TrimRight(navPath, "/")
 
-	total := len(allFlatpages)
-	limit := 10
+	group, exists := allFlatpageGroups[navPath]
+	if !exists {
+		c.String(http.StatusNotFound, "Flatpage group not found")
+		return
+	}
+
+	meta := NewMetaData(c, webserver.CtxI18n(c, group.Config.NavName))
+	meta.BaseDesc = webserver.CtxI18n(c, group.Config.MetaDesc)
 
 	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
 	if err != nil {
 		logging.Warn(c, "parse offset error:"+err.Error())
 	}
-	pagi := goutils.PaginateByOffsetLimit(total, offset, limit)
+	pagi := goutils.PaginateByOffsetLimit(group.Total, offset, group.Config.PageSize)
+
+	var pages []*Flatpage
+	if pagi.StartIndex < len(group.Pages) {
+		endIndex := pagi.EndIndex
+		if endIndex > len(group.Pages) {
+			endIndex = len(group.Pages)
+		}
+		pages = group.Pages[pagi.StartIndex:endIndex]
+	}
+
 	data := gin.H{
 		"meta":         meta,
-		"allFlatpages": allFlatpages[pagi.StartIndex:pagi.EndIndex],
+		"allFlatpages": pages,
 		"pagi":         pagi,
+		"navName":      group.Config.NavName,
 	}
 
 	c.HTML(http.StatusOK, "flatpages.html", data)
@@ -100,15 +169,22 @@ func handleFlatpageList(c *gin.Context) {
 
 // handleFlatpageDetail handles individual flatpage request
 func handleFlatpageDetail(c *gin.Context) {
+	navPath := strings.Split(strings.TrimLeft(c.Request.URL.Path, "/"), "/")[0]
+	group, exists := allFlatpageGroups[navPath]
+	if !exists {
+		c.String(http.StatusNotFound, "Flatpage group not found")
+		return
+	}
+
 	slug := c.Param("slug")
-	currentPage, prevPage, nextPage := findFlatpageBySlug(slug)
+	currentPage, prevPage, nextPage := findFlatpageBySlug(group.Pages, slug)
 
 	if currentPage == nil {
 		c.String(http.StatusNotFound, "Flatpage not found")
 		return
 	}
 
-	meta := NewMetaData(c, webserver.CtxI18n(c, currentPage.Title)+"-"+webserver.CtxI18n(c, viper.GetString("flatpages.nav_name")))
+	meta := NewMetaData(c, webserver.CtxI18n(c, currentPage.Title)+"-"+webserver.CtxI18n(c, group.Config.NavName))
 	meta.BaseDesc = currentPage.Description
 
 	data := gin.H{
@@ -116,21 +192,22 @@ func handleFlatpageDetail(c *gin.Context) {
 		"flatpage": currentPage,
 		"prev":     prevPage,
 		"next":     nextPage,
+		"navName":  group.Config.NavName,
 	}
 
 	c.HTML(http.StatusOK, "flatpage.html", data)
 }
 
 // findFlatpageBySlug finds a flatpage and its adjacent pages by slug
-func findFlatpageBySlug(slug string) (current, prev, next *Flatpage) {
-	for i, page := range allFlatpages {
+func findFlatpageBySlug(pages []*Flatpage, slug string) (current, prev, next *Flatpage) {
+	for i, page := range pages {
 		if page.Slug == slug {
-			current = allFlatpages[i]
+			current = pages[i]
 			if i > 0 {
-				prev = allFlatpages[i-1]
+				prev = pages[i-1]
 			}
-			if i < len(allFlatpages)-1 {
-				next = allFlatpages[i+1]
+			if i < len(pages)-1 {
+				next = pages[i+1]
 			}
 			break
 		}

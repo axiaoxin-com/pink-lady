@@ -1,7 +1,6 @@
 {{ template "page_top" . }}
 {{ $hosturl := .meta.HostURL }}
 {{ $lang := .meta.Lang }}
-{{ $fp_path := .meta.FlatpagesNavPath }}
 <link rel="stylesheet" href="{{ $hosturl }}/statics/css/flatpage.css">
 <link rel="stylesheet" href="{{ $hosturl }}/statics/css/hljs-github.min.css">
 
@@ -9,7 +8,7 @@
   <div class="row g-4">
     <!-- 移动设备上的后退按钮 -->
     <div class="d-lg-none col-12">
-      <a href="{{ $hosturl }}/{{ $fp_path }}/" class="text-primary text-decoration-none d-flex align-items-center">
+      <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/" class="text-primary text-decoration-none d-flex align-items-center">
         <i class="bi bi-arrow-left me-1"></i>
         <span>{{ _i18n $lang "返回列表" }}</span>
       </a>
@@ -54,7 +53,7 @@
 
         <!-- 文章底部 -->
         <div class="card-footer bg-light text-end">
-          <a href="{{ $hosturl }}/{{ $fp_path }}/" class="text-primary text-decoration-none d-inline-flex align-items-center">
+          <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/" class="text-primary text-decoration-none d-inline-flex align-items-center">
             <span>{{_i18n $lang "返回列表"}}</span>
             <i class="bi bi-arrow-right ms-1"></i>
           </a>
@@ -65,7 +64,7 @@
       <div class="row g-4 mt-4">
         {{if .prev }}
         <div class="col-sm-6">
-          <a href="{{ $hosturl }}/{{ $fp_path }}/{{.prev.Slug}}" class="nav-link p-3 rounded text-decoration-none border hover-shadow">
+          <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/{{.prev.Slug}}" class="nav-link p-3 rounded text-decoration-none border hover-shadow">
             <div class="d-flex align-items-start">
               <i class="bi bi-chevron-left text-primary me-3 mt-1"></i>
               <div>
@@ -81,7 +80,7 @@
 
         {{if .next}}
         <div class="col-sm-6">
-          <a href="{{ $hosturl }}/{{ $fp_path }}/{{.next.Slug}}" class="nav-link p-3 rounded text-decoration-none border hover-shadow">
+          <a href="{{ $hosturl }}/{{ .flatpage.NavPath }}/{{.next.Slug}}" class="nav-link p-3 rounded text-decoration-none border hover-shadow">
             <div class="d-flex align-items-start justify-content-end">
               <div class="text-end">
                 <div class="small text-muted text-uppercase fw-bold">{{_i18n $lang "下一篇"}}</div>
