@@ -1,0 +1,43 @@
+name: autoi18n
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '30 18 * * *'
+
+jobs:
+  autoi18n:
+    if: ${{ github.repository == 'axiaoxin-com/pink-lady' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: axiaoxin-com/pink-lady
+        token: ${{ secrets.repo_token }}
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version-file: "./go.mod"
+
+    - name: Set up Python3
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Python venv init
+      run: pip3.11 install -r ./misc/i18n/requirements.txt
+
+    - name: Set up gettext
+      run: |
+        sudo apt-get install -y gettext libgettextpo-dev
+
+    - name: Run i18n script
+      id: i18n_update
+      run: |
+        ./i18n.sh
+
+    - name: Push changes
+      uses: actions-x/commit@v6
+      with:
+        email: 254606826@qq.com
