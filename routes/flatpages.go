@@ -165,7 +165,8 @@ func handleFlatpageList(c *gin.Context) {
 
 // handleFlatpageDetail handles individual flatpage request
 func handleFlatpageDetail(c *gin.Context) {
-	navPath := strings.Split(strings.TrimLeft(c.Request.URL.Path, "/"), "/")[0]
+	pathParts := strings.Split(strings.TrimLeft(c.Request.URL.Path, "/"), "/")
+	navPath := strings.Join(pathParts[:len(pathParts)-1], "/")
 	group, exists := allFlatpageGroups[navPath]
 	if !exists {
 		c.String(http.StatusNotFound, "Flatpage group not found")
