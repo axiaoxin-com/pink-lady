@@ -1,0 +1,35 @@
+{{ template "page_top" . }}
+
+{{ $hosturl := .meta.HostURL }}
+{{ $lang := .meta.Lang }}
+
+<div class="container mt-4 py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">{{ _i18n $lang "搜索结果" }}: {{ .keyword }}</h1>
+
+            {{ if .hasResults }}
+                {{ range $index, $result := .results }}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0">
+                                <a href="{{ $result.URL }}" class="text-decoration-none">{{ $result.Title }}</a>
+                            </h5>
+                            <span class="badge bg-secondary">{{ $result.Type }}</span>
+                        </div>
+                        <p class="card-text text-muted">{{ $result.Description }}</p>
+                        <a href="{{ $result.URL }}" class="btn btn-sm btn-outline-primary">{{ _i18n $lang "查看详情" }}</a>
+                    </div>
+                </div>
+                {{ end }}
+            {{ else }}
+                <div class="alert alert-info">
+                    {{ _i18n $lang "没有找到相关结果" }}
+                </div>
+            {{ end }}
+        </div>
+    </div>
+</div>
+
+{{ template "page_bottom" . }}

@@ -116,6 +116,7 @@ func InitRouter(httpHandler http.Handler) {
 func Routes(app *gin.Engine) {
 	page := app.Group("/")
 	page.GET("/", PageHome)
+	page.GET("/search/", Search)
 	page.GET("/about/", PageAbout)
 	page.GET("/award-records/", PageAwardRecords)
 	page.GET("/msg-board/", PageMsgBoard)
