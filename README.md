@@ -43,7 +43,7 @@ bash <(curl -s https://raw.githubusercontent.com/axiaoxin-com/pink-lady/master/m
 - 通过配置集成 go html template，可自由注册 template funcs map
 - embed 静态资源编译进二进制文件中
 - i18n国际化支持
-- 支持类似django的flatpages
+- 支持类似Django的[flatpages](https://github.com/axiaoxin-com/pink-lady/blob/master/statics/flatpages/docs/README.md)
 - SEO良好支持
 
 ## 使用 `pink-lady/webserver` 3 步组装一个 WEB 应用
@@ -95,13 +95,7 @@ swag 中文文档: <https://github.com/swaggo/swag/blob/master/README_zh-CN.md>
 
 服务启动时默认加载当前目录的 `config.default.toml`
 
-服务启动时可以通过以下参数指定其他配置文件：
-
-- `-p` 指定配置文件的所在目录
-- `-c` 指定配置文件的不带格式后缀的文件名
-- `-t` 指定配置文件的文件格式名
-
-只支持从`1`个目录读取`1`个配置文件。
+服务启动时可以通过以下参数指定其他配置文件： `-c` 指定配置文件的路径
 
 **建议**：在开发自己的服务时，复制当前目录的 toml 配置创建一份新的配置，再在其上进行修改或新增配置，然后通过指定参数加载自己的配置。
 
@@ -120,7 +114,7 @@ api 中使用 `c.Error(err)` 会将 err 保存到 context 中，打印访问日�
 手动完整的启动服务命令：
 
 ```
-go run main.go -p . -c config.default -t toml
+go run main.go -c config.default.toml
 ```
 
 编译：
@@ -132,11 +126,39 @@ CGO_ENABLED=0 GOOS=linux go build -ldflags "-X github.com/axiaoxin-com/pink-lady
 
 ## i18n国际化支持集成方法
 
-对golang代码中需要进行翻译的文字使用`webserver.CtxI18n(c, "文字")`或`I18nString("文字")`包裹，对网页模板中的翻译文字使用 `{{ _i18n $lang "文字" }}`包裹。具体的使用示例可以参考[demo主页代码](https://github.com/axiaoxin-com/pink-lady/blob/master/routes/page_home.go)
+i18n使用gettext方式读取po文件，通过自定义脚本 `i18n.sh` 一键提取翻译文本生成pot模板，自动合并更新po文件，并使用谷歌翻译进行自动翻译。
 
-```
-# 自动提取需要翻译文字生成翻译模板
-./i18n.sh
+谷歌翻译需开代理访问。
 
-# 打开对应路径（默认为`statics/i18n`）下的po文件进行翻译，msgid对应的msgstr改为对应语言即可
+### 标记i18n字符串
+
+1. 对golang代码中需要进行翻译的文字使用`webserver.CtxI18n(c, "文字")`、`webserver.LangI18n("en", "文字")`或`I18nString("文字")`包裹
+2. 对网页模板中的翻译文字使用 `{{ _i18n .meta.Lang "文字" }}`包裹。
+
+具体的使用示例可以参考[demo主页代码](https://github.com/axiaoxin-com/pink-lady/blob/master/routes/page_home.go)
+
+示例代码 `./routes/page_home.go`：
+
+```go
+func PageHome(c *gin.Context) {
+	meta := NewMetaData(c, webserver.CtxI18n(c, "首页"))
+
+	data := gin.H{
+		"meta":  meta,
+		"alert": Alert(c, "", ""),
+	}
+
+	c.HTML(http.StatusOK, "home.html", data)
+	return
+}
 ```
+
+其中文字“首页”将被自动翻译为多语言。
+
+### 自动提取i18n翻译文本并自动翻译
+
+需先安装python脚本依赖：`pip install -r ./misc/i18n/requirements.txt`
+
+自动提取需要翻译文字生成翻译模板并完成自动谷歌翻译：`./i18n.sh`
+
+打开对应路径（默认为`statics/i18n`）下的po文件进行校验修改，msgid为原始字符串，对应的msgstr是翻译后的语言。

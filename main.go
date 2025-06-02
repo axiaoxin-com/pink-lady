@@ -38,7 +38,7 @@ func DefaultGinMiddlewares() []gin.HandlerFunc {
 }
 
 func main() {
-	configFile := flag.String("c", "./config.default.toml", "name of config file without format suffix)")
+	configFile := flag.String("c", "./config.default.toml", "config file path")
 	flag.Parse()
 	webserver.InitWithConfigFile(*configFile)
 
