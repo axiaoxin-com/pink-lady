@@ -44,7 +44,7 @@ env = "localhost"
 
 ########## 静态文件相关配置
 [statics]
-    selfhost = false
+    selfhost = true
     # 网页模板路径
     tmpl_path = "html/*"
     # 静态文件路径
