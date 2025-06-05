@@ -2,6 +2,7 @@ package routes
 
 import (
 	"fmt"
+	"io/fs"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -13,6 +14,7 @@ import (
 
 	"github.com/axiaoxin-com/goutils"
 	"github.com/axiaoxin-com/logging"
+	"github.com/axiaoxin-com/pink-lady/statics"
 	"github.com/axiaoxin-com/pink-lady/webserver"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -215,7 +217,16 @@ func findFlatpageBySlug(pages []*Flatpage, slug string) (current, prev, next *Fl
 
 // loadAllFlatpages reads and parses all markdown files from the specified directory
 func loadAllFlatpages(flatpagesPath string) ([]*Flatpage, error) {
-	entries, err := os.ReadDir(flatpagesPath)
+	var entries []fs.DirEntry
+	var err error
+
+	// 如果路径以 flatpages/ 开头，从 embed 读取
+	if strings.HasPrefix(flatpagesPath, "flatpages/") {
+		entries, err = statics.Files.ReadDir(flatpagesPath)
+	} else {
+		// 否则从本地文件系统读取
+		entries, err = os.ReadDir(flatpagesPath)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -243,9 +254,19 @@ func loadAllFlatpages(flatpagesPath string) ([]*Flatpage, error) {
 }
 
 // loadSingleFlatpage loads and parses a single markdown file
-func loadSingleFlatpage(basePath string, entry os.DirEntry) (*Flatpage, error) {
+func loadSingleFlatpage(basePath string, entry fs.DirEntry) (*Flatpage, error) {
 	filePath := filepath.Join(basePath, entry.Name())
-	content, err := os.ReadFile(filePath)
+
+	var content []byte
+	var err error
+
+	// 如果路径以 flatpages/ 开头，从 embed 读取
+	if strings.HasPrefix(basePath, "flatpages/") {
+		content, err = statics.Files.ReadFile(filePath)
+	} else {
+		// 否则从本地文件系统读取
+		content, err = os.ReadFile(filePath)
+	}
 	if err != nil {
 		return nil, err
 	}

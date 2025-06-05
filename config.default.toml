@@ -61,6 +61,7 @@ env = "localhost"
         nav_name = "帮助文档"
         nav_path = "docs"
         meta_desc = "帮助文档列表页面描述"
+        # 以 flatpages/ 开头file_path设置将默认读取embeded中的文件
         file_path = "statics/flatpages/docs"
         # 每页显示的条目数，可选，默认为10
         page_size = 20
