@@ -433,7 +433,11 @@
             })(window, document, "clarity", "script", "{{ .meta.ClarityID }}");
         </script>
         {{ end }}
-
+        {{ if .meta.CloudflareToken }}
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+            data-cf-beacon='{"token": "{{ .meta.CloudflareToken }}"}'>
+        </script>
+        {{ end }}
     </body>
 </html>
 {{ end }} <!--page_bottom end-->

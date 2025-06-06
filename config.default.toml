@@ -39,6 +39,8 @@ env = "localhost"
     gtag_id = ""
     # 微软clarity id
     clarity_id = ""
+    # Cloudflare Web Analytics
+    cloudflare_token = ""
 
 
 

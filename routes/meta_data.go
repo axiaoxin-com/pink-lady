@@ -56,6 +56,7 @@ type MetaData struct {
 	BaiduTongJiID   string
 	GtagID          string
 	ClarityID       string
+	CloudflareToken string
 	CanonicalURL    string
 	ShowAbout       bool
 	SinceYear       string
@@ -91,6 +92,7 @@ func NewMetaData(c *gin.Context, title string) (m *MetaData) {
 		BaiduTongJiID:   viper.GetString("server.baidu_tongji_id"),
 		GtagID:          viper.GetString("server.gtag_id"),
 		ClarityID:       viper.GetString("server.clarity_id"),
+		CloudflareToken: viper.GetString("server.cloudflare_token"),
 		ShowAbout:       viper.GetBool("server.show_about"),
 		SinceYear:       viper.GetString("server.since_year"),
 		FriendLinkMap:   viper.GetStringMapString("friend_link"),
