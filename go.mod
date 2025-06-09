@@ -6,7 +6,7 @@ require (
 	github.com/abhinav/goldmark-mermaid v0.1.1
 	github.com/alecthomas/chroma/v2 v2.3.0
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/axiaoxin-com/goutils v1.0.39
+	github.com/axiaoxin-com/goutils v1.1.2
 	github.com/axiaoxin-com/logging v1.2.27
 	github.com/axiaoxin-com/ratelimiter v1.0.3
 	github.com/chai2010/gettext-go v1.0.2
@@ -16,7 +16,6 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/golang/protobuf v1.5.3
-	github.com/gomarkdown/markdown v0.0.0-20250311123330-531bef5e742b
 	github.com/json-iterator/go v1.1.12
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.12.1

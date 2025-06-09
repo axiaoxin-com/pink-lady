@@ -146,14 +146,7 @@ func handleFlatpageList(c *gin.Context) {
 	}
 	pagi := goutils.PaginateByOffsetLimit(group.Total, offset, group.Config.PageSize)
 
-	var pages []*Flatpage
-	if pagi.StartIndex < len(group.Pages) {
-		endIndex := pagi.EndIndex
-		if endIndex > len(group.Pages) {
-			endIndex = len(group.Pages)
-		}
-		pages = group.Pages[pagi.StartIndex:endIndex]
-	}
+	pages := group.Pages[pagi.StartIndex:pagi.EndIndex]
 
 	data := gin.H{
 		"meta":         meta,
