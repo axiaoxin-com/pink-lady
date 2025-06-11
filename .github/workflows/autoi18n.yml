@@ -2,6 +2,30 @@ name: autoi18n
 
 on:
   workflow_dispatch:
+    inputs:
+      target_language:
+        description: 'Select target language (select "all" to process all languages)'
+        required: true
+        type: choice
+        options:
+          - all
+          - en
+          - ja
+          - ko
+          - es
+          - pt
+          - fr
+          - de
+          - it
+          - ru
+          - tr
+          - zh-Hant
+          - vi
+          - ar
+          - hi
+          - bn
+          - id
+          - th
   # schedule:
   #   - cron: '30 18 * * *'
 
@@ -35,7 +59,11 @@ jobs:
     - name: Run i18n script
       id: i18n_update
       run: |
-        ./i18n.sh
+        if [ "${{ github.event.inputs.target_language }}" != "all" ]; then
+          ./i18n.sh "${{ github.event.inputs.target_language }}"
+        else
+          ./i18n.sh
+        fi
 
     - name: Push changes
       uses: actions-x/commit@v6

@@ -27,6 +27,16 @@ LANGUAGES=(
     "th"
 )
 
+# 如果指定了语言参数，则只处理该语言
+if [ -n "$1" ]; then
+    # 验证语言是否在支持列表中
+    if [[ ! " ${LANGUAGES[@]} " =~ " $1 " ]]; then
+        echo "Error: Unsupported language '$1'"
+        exit 1
+    fi
+    LANGUAGES=("$1")
+fi
+
 echo "====> 合并pot到po"
 if test ! -e ../../statics/i18n/en/LC_MESSAGES/messages.po; then
     # 首次创建po文件
