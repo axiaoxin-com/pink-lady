@@ -13,10 +13,16 @@ import polib
 from pygtrans import Translate
 import markdown2
 
-# 配置常量
-SITE_NAME_MAPPING = {
-    "raw": "pink-lady",
-    "translated": "pink-lady"
+
+# 术语映射表
+# 用于在翻译过程中处理特定术语的本地化替换
+# 例如：
+# - 某些专有名词在不同语言中有其特定的表达方式，直译可能不准确
+# - 某些品牌名称需要保持一致性，如"pink-lady"在不同语言中保持原名
+# 添加新的映射时，key为源语言中的术语，value为目标语言中的对应术语
+TERM_MAPPING = {
+    "pink-lady": "pink-lady",  # 品牌名称保持一致性
+    # 可以添加更多需要特殊处理的术语映射
 }
 
 MARKDOWN_PATTERNS = [
@@ -53,6 +59,12 @@ class TranslationManager:
         self.translator = Translate()
         self.po_file_path = Path(f"../../statics/i18n/{target_lang}/LC_MESSAGES/messages.po")
 
+    def replace_terms(self, text: str) -> str:
+        """替换文本中的特定术语"""
+        for original, translated in TERM_MAPPING.items():
+            text = text.replace(original, translated)
+        return text
+
     def is_markdown_content(self, text: str) -> bool:
         """检查文本是否包含markdown语法"""
         return any(re.search(pattern, text, re.MULTILINE) for pattern in MARKDOWN_PATTERNS)
@@ -79,10 +91,8 @@ class TranslationManager:
             if entry.msgid == "%s":
                 continue
 
-            processed_msgid = entry.msgid.replace(
-                SITE_NAME_MAPPING["raw"],
-                SITE_NAME_MAPPING["translated"]
-            )
+            # 替换所有特定术语
+            processed_msgid = self.replace_terms(entry.msgid)
             processed_msgid = self.convert_to_html(processed_msgid)
 
             if (entry.msgid and not entry.msgstr) or \
