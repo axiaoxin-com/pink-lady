@@ -50,7 +50,7 @@ if test ! -e ../../statics/i18n/en/LC_MESSAGES/messages.po; then
 else
     # 更新已存在的po文件
     for lang in "${LANGUAGES[@]}"; do
-        if ! msgmerge --no-wrap "../../statics/i18n/${lang}/LC_MESSAGES/messages.po" messages.pot -o "../../statics/i18n/${lang}/LC_MESSAGES/messages.po"; then
+        if ! msgmerge --no-wrap --no-fuzzy-matching "../../statics/i18n/${lang}/LC_MESSAGES/messages.po" messages.pot -o "../../statics/i18n/${lang}/LC_MESSAGES/messages.po"; then
             echo "Error: Failed to merge pot file for $lang"
             exit 1
         fi
