@@ -2,8 +2,10 @@
 
 import os
 import re
+import importlib
+import importlib.util
 from pathlib import Path
-from typing import List, Set
+from typing import List, Set, Dict, Any, Callable
 
 import tomli
 from babel.messages import Catalog, Message
@@ -115,6 +117,36 @@ def write_pot_file(strings: Set[str], output_file: str):
     with open(output_file, 'wb') as f:
         write_po(f, catalog, width=0, no_location=True, omit_header=False)
 
+def load_plugins(plugins_dir: str) -> Dict[str, Callable[[], Set[str]]]:
+    """Load custom string extraction plugins from the plugins directory."""
+    plugins = {}
+    plugins_path = Path(plugins_dir)
+    
+    if not plugins_path.exists():
+        return plugins
+        
+    for plugin_file in plugins_path.glob('*.py'):
+        if plugin_file.name == '__init__.py':
+            continue
+            
+        try:
+            # Load the plugin module
+            spec = importlib.util.spec_from_file_location(plugin_file.stem, plugin_file)
+            if spec is None or spec.loader is None:
+                continue
+                
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            
+            # Check if the module has the required extract_strings function
+            if hasattr(module, 'extract_strings'):
+                plugins[plugin_file.stem] = module.extract_strings
+                print(f"Loaded plugin: {plugin_file.stem}")
+        except Exception as e:
+            print(f"Error loading plugin {plugin_file.name}: {e}")
+            
+    return plugins
+
 def main():
     # Get base directory (two levels up from script location)
     base_dir = str(Path(__file__).parent.parent.parent)
@@ -143,6 +175,17 @@ def main():
     config_filename = 'config.default.toml'
     config_path = os.path.join(base_dir, config_filename)
     strings.update(extract_config_nav_names(config_path))
+
+    # Load and run custom plugins
+    plugins_dir = os.path.join(os.path.dirname(__file__), 'plugins')
+    plugins = load_plugins(plugins_dir)
+    for plugin_name, extract_func in plugins.items():
+        try:
+            plugin_strings = extract_func()
+            strings.update(plugin_strings)
+            print(f"Plugin {plugin_name} extracted {len(plugin_strings)} strings")
+        except Exception as e:
+            print(f"Error running plugin {plugin_name}: {e}")
 
     # Generate messages.pot
     output_file = os.path.join(os.path.dirname(__file__), 'messages.pot')

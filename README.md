@@ -153,7 +153,7 @@ func PageHome(c *gin.Context) {
 }
 ```
 
-其中文字“首页”将被自动翻译为多语言。
+其中文字"首页"将被自动翻译为多语言。
 
 ### 自动提取i18n翻译文本并自动翻译
 
@@ -162,3 +162,53 @@ func PageHome(c *gin.Context) {
 自动提取需要翻译文字生成翻译模板并完成自动谷歌翻译：`./i18n.sh`
 
 打开对应路径（默认为`statics/i18n`）下的po文件进行校验修改，msgid为原始字符串，对应的msgstr是翻译后的语言。
+
+### 自定义数据源提取翻译文本
+
+如果需要从数据库等自定义数据源提取需要翻译的文本，可以通过插件机制实现：
+
+1. 在 `misc/i18n/plugins/` 目录下创建插件文件，例如 `db_strings.py`：
+```python
+#!/usr/bin/env python3
+
+from typing import Set
+import os
+import sys
+
+# 添加项目根目录到 Python 路径
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+sys.path.append(project_root)
+
+# 导入你的数据库模型和连接
+# from your_app.models import YourModel
+
+def extract_strings() -> Set[str]:
+    """
+    从数据库提取需要翻译的字符串
+    返回类型必须是 Set[str]
+    """
+    strings = set()
+    try:
+        # 实现你的数据库查询逻辑
+        # 例如：
+        # db = get_db_connection()
+        # results = db.query(YourModel).all()
+        # for item in results:
+        #     strings.add(item.title)
+        #     strings.add(item.description)
+        pass
+    except Exception as e:
+        print(f"Error extracting strings from database: {e}")
+    return strings
+```
+
+2. 插件文件必须实现 `extract_strings()` 函数，该函数返回一个字符串集合
+3. 运行 `./i18n.sh` 时会自动加载并执行所有插件
+4. 插件执行结果会被合并到最终的翻译模板中
+
+插件系统特点：
+- 模块化：每个数据源可以有自己的插件
+- 可扩展：轻松添加新的数据源
+- 解耦：数据源逻辑与主程序分离
+- 容错：单个插件失败不影响整体运行
+- 灵活：插件可以访问项目的任何模块和依赖
