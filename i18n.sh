@@ -83,11 +83,9 @@ if [ ${#failed_langs[@]} -gt 0 ]; then
 fi
 
 echo "====> po内容清理"
-if [ `uname` = 'Darwin' ]; then
-    sed -i  '' '/^#~ .*/d' `grep "#~ " -rl ../../statics/i18n/*/LC_MESSAGES/messages.po`
-else
-    sed -i '/^#~ .*/d' `grep "#~ " -rl ../../statics/i18n/*/LC_MESSAGES/messages.po`
-fi
+for lang in "${LANGUAGES[@]}"; do
+    msgattrib --no-obsolete -o "../../statics/i18n/${lang}/LC_MESSAGES/messages.po" "../../statics/i18n/${lang}/LC_MESSAGES/messages.po"
+done
 
 # 如果有失败的语言，返回非零状态码，但不中断执行
 if [ ${#failed_langs[@]} -gt 0 ]; then
