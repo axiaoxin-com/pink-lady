@@ -438,6 +438,11 @@
             data-cf-beacon='{"token": "{{ .meta.CloudflareToken }}"}'>
         </script>
         {{ end }}
+        {{ if .meta.UmamiWebsiteID }}
+        <script defer src="https://cloud.umami.is/script.js"
+            data-website-id="{{ .meta.UmamiWebsiteID }}">
+        </script>
+        {{ end }}
     </body>
 </html>
 {{ end }} <!--page_bottom end-->

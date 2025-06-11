@@ -41,6 +41,8 @@ env = "localhost"
     clarity_id = ""
     # Cloudflare Web Analytics
     cloudflare_token = ""
+    # Umami data website id
+    umami_website_id = ""
 
 
 
