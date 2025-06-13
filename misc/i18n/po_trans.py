@@ -192,9 +192,7 @@ class TranslationManager:
                (entry.msgid == entry.msgstr):
 
                 if entry.msgid in translations:
-                    entry.msgstr = translations[entry.msgid]
-                    if entry.msgid == SITE_NAME_MAPPING["raw"]:
-                        entry.msgstr = SITE_NAME_MAPPING["translated"]
+                    entry.msgstr = self.replace_terms(translations[entry.msgid])
                     entry.flags = [f for f in entry.flags if f != "fuzzy"]
 
     def process(self) -> int:

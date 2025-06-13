@@ -38,25 +38,23 @@ if [ -n "$1" ]; then
 fi
 
 echo "====> 合并pot到po"
-if test ! -e ../../statics/i18n/en/LC_MESSAGES/messages.po; then
+
+# 更新已存在的po文件
+for lang in "${LANGUAGES[@]}"; do
     # 首次创建po文件
-    for lang in "${LANGUAGES[@]}"; do
+    if test ! -e ../../statics/i18n/${lang}/LC_MESSAGES/messages.po; then
         mkdir -p "../../statics/i18n/${lang}/LC_MESSAGES"
         if ! msginit --no-translator --no-wrap --input=messages.pot --local="${lang}" -o "../../statics/i18n/${lang}/LC_MESSAGES/messages.po"; then
             echo "Error: Failed to initialize po file for $lang"
             exit 1
         fi
-    done
-else
-    # 更新已存在的po文件
-    for lang in "${LANGUAGES[@]}"; do
-        if ! msgmerge --no-wrap --no-fuzzy-matching "../../statics/i18n/${lang}/LC_MESSAGES/messages.po" messages.pot -o "../../statics/i18n/${lang}/LC_MESSAGES/messages.po"; then
-            echo "Error: Failed to merge pot file for $lang"
-            exit 1
-        fi
-    done
-fi
+    fi
 
+    if ! msgmerge --no-wrap --no-fuzzy-matching "../../statics/i18n/${lang}/LC_MESSAGES/messages.po" messages.pot -o "../../statics/i18n/${lang}/LC_MESSAGES/messages.po"; then
+        echo "Error: Failed to merge pot file for $lang"
+        exit 1
+    fi
+done
 
 echo "====> 谷歌自动翻译"
 failed_langs=()
