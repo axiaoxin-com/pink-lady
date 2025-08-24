@@ -6,13 +6,12 @@ PO文件翻译脚本
 
 import re
 import sys
-from typing import Dict, List, Generator, Optional
 from pathlib import Path
+from typing import Dict, Generator, List, Optional
 
+import markdown2
 import polib
 from pygtrans import Translate
-import markdown2
-
 
 # 术语映射表
 # 用于在翻译过程中处理特定术语的本地化替换
@@ -89,6 +88,9 @@ class TranslationManager:
 
         for entry in po_file:
             if entry.msgid == "%s":
+                continue
+
+            if entry.msgid == TERM_MAPPING.get(entry.msgid):
                 continue
 
             # 替换所有特定术语
