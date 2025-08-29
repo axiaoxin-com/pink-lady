@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import os
-import re
 import importlib
 import importlib.util
+import os
+import re
 from pathlib import Path
-from typing import List, Set, Dict, Any, Callable
+from typing import Any, Callable, Dict, List, Set
 
 import tomli
 from babel.messages import Catalog, Message
@@ -93,8 +93,10 @@ def extract_config_nav_names(config_path: str) -> Set[str]:
             config = tomli.load(f)
             if 'flatpages' in config and 'dirs' in config['flatpages']:
                 for dir_config in config['flatpages']['dirs']:
-                    if 'nav_name' in dir_config:
+                    if dir_config['nav_name']:
                         strings.add(dir_config['nav_name'])
+                    if dir_config['meta_desc']:
+                        strings.add(dir_config['meta_desc'])
     except Exception as e:
         print(f"Error reading config file: {e}")
     return strings
@@ -121,30 +123,30 @@ def load_plugins(plugins_dir: str) -> Dict[str, Callable[[], Set[str]]]:
     """Load custom string extraction plugins from the plugins directory."""
     plugins = {}
     plugins_path = Path(plugins_dir)
-    
+
     if not plugins_path.exists():
         return plugins
-        
+
     for plugin_file in plugins_path.glob('*.py'):
         if plugin_file.name == '__init__.py':
             continue
-            
+
         try:
             # Load the plugin module
             spec = importlib.util.spec_from_file_location(plugin_file.stem, plugin_file)
             if spec is None or spec.loader is None:
                 continue
-                
+
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            
+
             # Check if the module has the required extract_strings function
             if hasattr(module, 'extract_strings'):
                 plugins[plugin_file.stem] = module.extract_strings
                 print(f"Loaded plugin: {plugin_file.stem}")
         except Exception as e:
             print(f"Error loading plugin {plugin_file.name}: {e}")
-            
+
     return plugins
 
 def main():

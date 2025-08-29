@@ -138,7 +138,9 @@ func handleFlatpageList(c *gin.Context) {
 	}
 
 	meta := NewMetaData(c, webserver.CtxI18n(c, group.Config.NavName))
-	meta.BaseDesc = webserver.CtxI18n(c, group.Config.MetaDesc)
+	if group.Config.MetaDesc != "" {
+		meta.BaseDesc = webserver.CtxI18n(c, group.Config.MetaDesc)
+	}
 
 	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
 	if err != nil {
