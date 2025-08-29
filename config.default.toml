@@ -64,6 +64,7 @@ env = "localhost"
     [[flatpages.dirs]]
         nav_name = "帮助文档"
         nav_path = "docs"
+        meta_title = "帮助文档"
         meta_desc = "帮助文档列表页面描述"
         # 以 flatpages/ 开头file_path设置将默认读取embeded中的文件
         file_path = "statics/flatpages/docs"

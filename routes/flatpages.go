@@ -35,11 +35,12 @@ type FlatpagesConfig struct {
 
 // FlatpageConfig holds the configuration for flatpages
 type FlatpageConfig struct {
-	NavName  string `mapstructure:"nav_name"`
-	NavPath  string `mapstructure:"nav_path"`
-	MetaDesc string `mapstructure:"meta_desc"`
-	FilePath string `mapstructure:"file_path"`
-	PageSize int    `mapstructure:"page_size"`
+	NavName   string `mapstructure:"nav_name"`
+	NavPath   string `mapstructure:"nav_path"`
+	MetaTitle string `mapstructure:"meta_title"`
+	MetaDesc  string `mapstructure:"meta_desc"`
+	FilePath  string `mapstructure:"file_path"`
+	PageSize  int    `mapstructure:"page_size"`
 }
 
 // Flatpage represents a markdown flatpage with its metadata
@@ -137,7 +138,11 @@ func handleFlatpageList(c *gin.Context) {
 		return
 	}
 
-	meta := NewMetaData(c, webserver.CtxI18n(c, group.Config.NavName))
+	title := webserver.CtxI18n(c, group.Config.NavName)
+	if group.Config.MetaTitle != "" {
+		title = webserver.CtxI18n(c, group.Config.MetaTitle)
+	}
+	meta := NewMetaData(c, webserver.CtxI18n(c, title))
 	if group.Config.MetaDesc != "" {
 		meta.BaseDesc = webserver.CtxI18n(c, group.Config.MetaDesc)
 	}

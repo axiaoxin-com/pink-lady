@@ -95,6 +95,8 @@ def extract_config_nav_names(config_path: str) -> Set[str]:
                 for dir_config in config['flatpages']['dirs']:
                     if dir_config['nav_name']:
                         strings.add(dir_config['nav_name'])
+                    if dir_config['meta_title']:
+                        strings.add(dir_config['meta_title'])
                     if dir_config['meta_desc']:
                         strings.add(dir_config['meta_desc'])
     except Exception as e:
