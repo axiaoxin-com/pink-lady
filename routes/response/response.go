@@ -30,6 +30,10 @@ func ErrJSON(c *gin.Context, err error, extraMsgs ...interface{}) {
 // Respond encapsulates c.JSON
 // debug mode respond indented json
 func Respond(c *gin.Context, status int, data interface{}, errcode error, extraMsgs ...interface{}) {
+	// 如果响应已经写入，直接返回
+	if c.Writer.Written() {
+		return
+	}
 	// 初始化 code 、 msg 为失败
 	code, msg, _ := CodeFailure.Decode()
 
